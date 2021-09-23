@@ -16,16 +16,4 @@ mix.ts('resources/ts/App.tsx', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css');
 
-mix.browserSync('localhost')
-
-
-/**
- * React 絶対パス
- */
-module.exports ={
-    resolve: {
-        alias: [
-            path.resolve(__dirname,'resources/ts'),
-        ]
-    }
-}
+mix.browserSync('127.0.0.1')
