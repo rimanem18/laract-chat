@@ -2366,34 +2366,22 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
+var typeCheck = Object.prototype.toString;
+
 var Message = function Message() {
   var _a = (0, react_1.useState)([]),
       messages = _a[0],
       setMessages = _a[1];
 
-  var _b = (0, react_1.useState)(""),
-      text = _b[0],
-      setText = _b[1];
-
   (0, react_1.useEffect)(function () {
-    // getChatMessages()
-    setText('a');
-    setMessages([{
-      id: 1,
-      user_id: 1,
-      group_id: 1,
-      content: "ぁぁぁ",
-      create_at: "0000",
-      update_at: "0000"
-    }]);
+    getChatMessages();
     console.log('render');
-    console.log(messages);
-    console.log(text);
-  }, []);
+    console.log(typeCheck.call(messages));
+  }, [messages.length]);
 
   var getChatMessages = function getChatMessages() {
     return __awaiter(void 0, void 0, void 0, function () {
-      var response, msg;
+      var response;
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
@@ -2403,8 +2391,7 @@ var Message = function Message() {
 
           case 1:
             response = _a.sent();
-            console.log("response:" + response.data.chat_messages);
-            msg = response.data.chat_message;
+            setMessages(response.data.chat_messages);
             return [2
             /*return*/
             ];
@@ -2413,11 +2400,11 @@ var Message = function Message() {
     });
   };
 
-  return react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("ul", null, messages.map(function (message) {
-    react_1["default"].createElement("li", {
+  return react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("ul", null, messages.length !== 0 ? messages.map(function (message) {
+    return react_1["default"].createElement("li", {
       key: message.id
     }, message.content);
-  })));
+  }) : "通信中..."));
 };
 
 exports["default"] = Message;
