@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/api/messages', function () {
-    $messages = DB::table('messages')->get();
-    return $messages;
-});
 
 Route::get('/{any}', function () {
     return view('App');

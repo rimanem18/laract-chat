@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 ENV TZ=Asia/Tokyo \
   LANG=ja_JP.UTF-8 \
   LANGUAGE=ja_JP:ja \
-  LC_ALL=ja_JP.UTF-8 \
+  LC_ALL=ja_JP.UTF-8
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 

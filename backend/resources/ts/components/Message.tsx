@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-type MessageState = {
+type ChatMessageState = {
     id: number,
     user_id: number,
     group_id: number,
@@ -12,23 +12,36 @@ type MessageState = {
 }
 
 const Message = ()=>{
-    const [messages, setMessages] = useState<MessageState[]>([]);
+    const [messages, setMessages] = useState<ChatMessageState[]>([]);
+    const [text , setText] = useState("")
 
-    useEffect(()=>{
-        getMessages();
+    useEffect(() => {
+        // getChatMessages()
+        setText('a')
+        setMessages([{
+            id: 1,
+            user_id: 1,
+            group_id: 1,
+            content: "ぁぁぁ",
+            create_at: "0000",
+            update_at: "0000"
+        }
+        ])
+        console.log('render')
         console.log(messages);
+        console.log(text);
 
-    },[])
 
-    const getMessages =async ()=>{
-        await axios.get('/api/messages')
-        .then(response => {
-            return response.data
-        })
-        .catch(()=>{
-            console.log('通信に失敗しました。');
-        })
-    }
+
+      }, [])
+
+      const getChatMessages = async () => {
+        const response = await axios.get('/api/chat_messages')
+        console.log("response:"+response.data.chat_messages);
+        const msg = response.data.chat_message
+
+      }
+
 
 
     return(

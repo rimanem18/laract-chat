@@ -2371,27 +2371,40 @@ var Message = function Message() {
       messages = _a[0],
       setMessages = _a[1];
 
+  var _b = (0, react_1.useState)(""),
+      text = _b[0],
+      setText = _b[1];
+
   (0, react_1.useEffect)(function () {
-    getMessages();
+    // getChatMessages()
+    setText('a');
+    setMessages([{
+      id: 1,
+      user_id: 1,
+      group_id: 1,
+      content: "ぁぁぁ",
+      create_at: "0000",
+      update_at: "0000"
+    }]);
+    console.log('render');
     console.log(messages);
+    console.log(text);
   }, []);
 
-  var getMessages = function getMessages() {
+  var getChatMessages = function getChatMessages() {
     return __awaiter(void 0, void 0, void 0, function () {
+      var response, msg;
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
             return [4
             /*yield*/
-            , axios_1["default"].get('/api/messages').then(function (response) {
-              return response.data;
-            })["catch"](function () {
-              console.log('通信に失敗しました。');
-            })];
+            , axios_1["default"].get('/api/chat_messages')];
 
           case 1:
-            _a.sent();
-
+            response = _a.sent();
+            console.log("response:" + response.data.chat_messages);
+            msg = response.data.chat_message;
             return [2
             /*return*/
             ];
