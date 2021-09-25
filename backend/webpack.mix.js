@@ -12,8 +12,8 @@ const path = require('path')
  |
  */
 
-mix.ts('resources/ts/App.tsx', 'public/js')
-    .react()
-    .sass('resources/sass/app.scss', 'public/css');
+mix.ts('resources/ts/index.tsx', 'public/js')
+  .react()
+  .sass('resources/sass/app.scss', 'public/css');
 
 mix.browserSync('127.0.0.1')
