@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../app/store';
 
-type ChatMessage = {
+export type ChatMessage = {
   id: number,
   user_id: number,
   group_id: number,

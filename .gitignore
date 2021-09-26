@@ -3,3 +3,8 @@
 
 # Docker Compose
 .env
+
+# build file
+backend/public/js/
+backend/public/css/
+

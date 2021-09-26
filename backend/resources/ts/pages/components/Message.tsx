@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import { ChatMessagesSliceState, getChatMessages, selectChatMessages } from '../../features/ChatMessagesSlice'
+import { ChatMessage, ChatMessagesSliceState, getChatMessages, selectChatMessages } from '../../features/ChatMessagesSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { useSelector } from 'react-redux'
 
@@ -41,7 +41,7 @@ const Message = () => {
         {
           chatMessages.ids.length !== 0 ?
             chatMessages.ids.map(id =>
-              <MessageItem key={id} id={id} chatMessages={chatMessages} />
+              <MessageItem key={id} id={id} entries={chatMessages.entities} />
             ) :
             "通信中..."
         }
@@ -52,10 +52,9 @@ const Message = () => {
 
 type MessageItemProps = {
   id: string
-  chatMessages: ChatMessagesSliceState
+  entries: Record<string, ChatMessage>
 }
-const MessageItem = ({ id, chatMessages }: MessageItemProps) => {
-  const entries = chatMessages.entities
+const MessageItem = ({ id, entries }: MessageItemProps) => {
 
   return (
     <>
@@ -63,7 +62,7 @@ const MessageItem = ({ id, chatMessages }: MessageItemProps) => {
         <strong className="mr-1">{id}</strong>
         <small>{entries[id].create_at}</small>
       </div>
-      <div className="toast-body">
+      <div>
         {entries[id].content}
       </div>
     </>
