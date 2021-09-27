@@ -6,46 +6,37 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use \Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * ログイン
-     *
-     * @param Request $request
-     * @return JsonResponse
-     *
-     * @throws ValidationException
-     */
     public function login(Request $request)
     {
         // バリデーション
-        $this->validateLogin($request);
-        $result = false;
-        $status = 401;
-        $message = 'ユーザが見つかりません';
-        $user = null;
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        // バリデーションが通ったらログイン処理
         if (Auth::attempt($credentials)) {
-            // Success
-            $result = true;
-            $status = 200;
-            $message = 'OK';
-            $user = Auth::user();
-            // ※古いトークン削除&新しいトークン生成
-            $user->tokens()->where('name', 'token-name')->delete();
-            $token = $user->createToken('token-name')->plainTextToken;
+            $user = User::whereEmail($request->email)->first();
+
+            // トークンを一旦削除し、再度作成
+            // トークンは personal_access_tokensテーブルに作成される
+            $user->tokens()->delete();
+            $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+
+            // トークンを 200 レスポンスで返す
+            return response()->json(['token' => $token ], Response::HTTP_OK);
         }
 
-        return response()->json([
-          'request'=> $request,
-          'result'=> $result,
-          'status'=> $status,
-          'user'=> $user,
-          'message'=> $message
-        ]);
+        // ログイン出来ない場合は 500 エラー
+        return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function logout(Request $request)

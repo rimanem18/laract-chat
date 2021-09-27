@@ -9,23 +9,25 @@ type User = {
 
 const Auth = () => {
   const [user, setUser] = useState<User | null>(null)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   // ブラウザリロード時にログイン済みか判定
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser()
+  }, [user === null])
 
   const getUser = () => {
-    axios.get('/api/user')
-      .then(res => {
-        console.log("[getUser]ログイン済み");
-        console.log(res.data);
+    axios
+      .get('/api/user')
+      .then((res) => {
+        console.log('[getUser]ログイン済み')
+        console.log(res.data)
         setUser(res.data)
       })
-      .catch(err => {
-        console.log('[getUser]ログインしていません');
+      .catch((err) => {
+        console.log('[getUser]ログインしていません')
       })
   }
 
@@ -33,26 +35,38 @@ const Auth = () => {
     e.preventDefault()
 
     // ログイン時に CSRF トークンを初期化
-    axios.get('/sanctum/csrf-cookie')
-      .then(response => {
-        axios.post('/api/login', {
-          'email': email,
-          'password': password
+    axios.get('/sanctum/csrf-cookie').then((response) => {
+      axios
+        .post('/api/login', {
+          email: email,
+          password: password,
         })
-          .then(res => {
-            console.log(res.data);
-            if (res.data.result) {
-              console.log('[login]ログイン成功');
-              setUser(res.data.user)
-            } else {
-              console.log(res.data.message);
-              console.log('[login]ログイン失敗');
-            }
-          })
-          .catch(err => {
-            console.log(err.response);
-            console.log('[login]ログイン失敗');
-          })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err.response)
+          console.log('[login]ログイン失敗')
+        })
+    })
+  }
+
+  // 登録
+  const register = async (e: any) => {
+    e.preventDefault()
+
+    axios
+      .post('/api/register', {
+        name: name,
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((res) => {
+        console.log(res.data)
+        console.log('[register]登録失敗')
       })
   }
 
@@ -60,29 +74,63 @@ const Auth = () => {
   const logout = () => {
     axios
       .get('/api/logout')
-      .then(res => {
+      .then((res) => {
         setUser(null)
-        console.log(res.data.message);
+        console.log(res.data.message)
       })
-      .catch(err => {
-        console.log(err);
+      .catch((err) => {
+        console.log(err)
       })
   }
+
+  let registerForm = (
+    <form onSubmit={register}>
+      <label htmlFor="name">name</label>
+      <input
+        type="name"
+        name="name"
+        id="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label htmlFor="email">email</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <label htmlFor="password">password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit">Register</button>
+    </form>
+  )
 
   // ログインフォーム
   let form = (
     <form onSubmit={login}>
       <label htmlFor="email">email</label>
       <input
-        type="email" name="email"
-        id="email" value={email}
-        onChange={e => setEmail(e.target.value)}
+        type="email"
+        name="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <label htmlFor="password">password</label>
       <input
-        type="password" name="password"
-        id="password" value={password}
-        onChange={e => setPassword(e.target.value)}
+        type="password"
+        name="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button type="submit">Login</button>
     </form>
@@ -108,6 +156,7 @@ const Auth = () => {
       {form}
       {userInfo}
       <button onClick={getUser}>getUser</button>
+      {registerForm}
     </div>
   )
 }
