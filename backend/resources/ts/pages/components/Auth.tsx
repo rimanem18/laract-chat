@@ -16,7 +16,7 @@ const Auth = () => {
   // ブラウザリロード時にログイン済みか判定
   useEffect(() => {
     getUser()
-  }, [user === null])
+  }, [])
 
   const getUser = () => {
     axios

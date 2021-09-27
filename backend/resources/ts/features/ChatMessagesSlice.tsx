@@ -4,11 +4,9 @@ import { RootState } from '../app/store';
 
 export type ChatMessage = {
   id: number,
-  user_id: number,
-  group_id: number,
+  name: string,
   content: string,
   create_at: string,
-  update_at: string
 }
 
 // 型定義
@@ -23,11 +21,9 @@ const initialState: ChatMessagesSliceState = {
   entities: {
     "message0": {
       id: 0,
-      user_id: 0,
-      group_id: 0,
+      name: "",
       content: "",
       create_at: "0000",
-      update_at: "0000"
     }
   }
 }

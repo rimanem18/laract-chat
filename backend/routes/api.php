@@ -3,6 +3,7 @@
 use App\Models\Chat_message;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\ChatMessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,9 @@ Route::get('/logout', [LoginController::class, 'logout']);
 //     return $login->logout($request);
 // });
 
-Route::get('/chat_messages', function (Request $request) {
-    $chat_messages = Chat_message::all();
-    return response()->json(['chat_messages'=>$chat_messages]);
-});
+// Route::get('/chat_messages', function (Request $request) {
+//     $chat_messages = Chat_message::all();
+//     return response()->json(['chat_messages'=>$chat_messages]);
+// });
+
+Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);

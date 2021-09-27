@@ -32,7 +32,9 @@ class LoginController extends Controller
             $token = $user->createToken("login:user{$user->id}")->plainTextToken;
 
             // トークンを 200 レスポンスで返す
-            return response()->json(['token' => $token ], Response::HTTP_OK);
+            return response()->json([
+              'token' => $token
+            ], Response::HTTP_OK);
         }
 
         // ログイン出来ない場合は 500 エラー
