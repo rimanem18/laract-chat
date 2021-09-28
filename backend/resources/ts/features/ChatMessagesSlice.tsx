@@ -1,17 +1,17 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { RootState } from '../app/store';
+import { RootState } from '../app/store'
 
 export type ChatMessage = {
-  id: number,
-  name: string,
-  content: string,
-  create_at: string,
+  id: number
+  name: string
+  content: string
+  created_at: string
 }
 
 // 型定義
 export interface ChatMessagesSliceState {
-  ids: string[],
+  ids: string[]
   entities: Record<string, ChatMessage>
 }
 
@@ -19,13 +19,13 @@ export interface ChatMessagesSliceState {
 const initialState: ChatMessagesSliceState = {
   ids: [],
   entities: {
-    "message0": {
+    message0: {
       id: 0,
-      name: "",
-      content: "",
-      create_at: "0000",
-    }
-  }
+      name: '',
+      content: '',
+      created_at: '',
+    },
+  },
 }
 
 export const chatMessagesSlice = createSlice({
@@ -34,24 +34,21 @@ export const chatMessagesSlice = createSlice({
   reducers: {
     getChatMessages: (state, payloadAction: PayloadAction<ChatMessage[]>) => {
       const messages = payloadAction.payload
-      state.ids = messages.map(message => `message${message.id.toString()}`);
+      state.ids = messages.map((message) => `message${message.id.toString()}`)
 
-      let i = 0;
-      messages.forEach(message => {
-        i++;
+      let i = 0
+      messages.forEach((message) => {
+        i++
         state.entities[`message${i}`] = message
-      });
-    }
-  }
+      })
+    },
+  },
 })
 
 // 外部からセットできるように
-export const {
-  getChatMessages
-} = chatMessagesSlice.actions
+export const { getChatMessages } = chatMessagesSlice.actions
 
 // 外部から読み取れるように
-export const selectChatMessages = (state: RootState) =>
-  state.chatMessagesSlice
+export const selectChatMessages = (state: RootState) => state.chatMessagesSlice
 
-export default chatMessagesSlice.reducer;
+export default chatMessagesSlice.reducer

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { selectUser, setUser } from '../../features/UsersSlice'
 
 type User = {
   name: string
@@ -8,7 +10,9 @@ type User = {
 }
 
 const Auth = () => {
-  const [user, setUser] = useState<User | null>(null)
+  // const [user, setUser] = useState<User | null>(null)
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(selectUser)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +28,6 @@ const Auth = () => {
       .then((res) => {
         console.log('[getUser]ログイン済み')
         console.log(res.data)
-        setUser(res.data)
       })
       .catch((err) => {
         console.log('[getUser]ログインしていません')
@@ -42,6 +45,7 @@ const Auth = () => {
           password: password,
         })
         .then((res) => {
+          console.log('[login]ログイン成功')
           console.log(res.data)
         })
         .catch((err) => {
@@ -75,7 +79,7 @@ const Auth = () => {
     axios
       .get('/api/logout')
       .then((res) => {
-        setUser(null)
+        dispatch(setUser({ id: 0, name: '', email: '' }))
         console.log(res.data.message)
       })
       .catch((err) => {
@@ -140,7 +144,7 @@ const Auth = () => {
   let userInfo = null
 
   // 認証済みの場合、ログアウトボタンとユーザ情報を表示
-  if (user !== null) {
+  if (user.id !== 0) {
     form = <button onClick={logout}>Logout</button>
     userInfo = (
       <div>

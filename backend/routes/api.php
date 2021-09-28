@@ -52,3 +52,4 @@ Route::get('/logout', [LoginController::class, 'logout']);
 // });
 
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
+Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);

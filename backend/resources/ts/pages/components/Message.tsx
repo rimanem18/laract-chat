@@ -6,14 +6,13 @@ import {
   getChatMessages,
   selectChatMessages,
 } from '../../features/ChatMessagesSlice'
-import { useAppDispatch } from '../../app/hooks'
-import { useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 const typeCheck = Object.prototype.toString
 
 const Message = () => {
   const dispatch = useAppDispatch()
-  const chatMessages = useSelector(selectChatMessages)
+  const chatMessages = useAppSelector(selectChatMessages)
 
   useEffect(() => {
     fetchChatMessages()
@@ -28,13 +27,11 @@ const Message = () => {
 
   return (
     <>
-      <div className="container">
-        {chatMessages.ids.length !== 0
-          ? chatMessages.ids.map((id) => (
+      {chatMessages.ids.length !== 0
+        ? chatMessages.ids.map((id) => (
             <MessageItem key={id} id={id} entries={chatMessages.entities} />
           ))
-          : '通信中...'}
-      </div>
+        : '通信中...'}
     </>
   )
 }
@@ -48,7 +45,7 @@ const MessageItem = ({ id, entries }: MessageItemProps) => {
     <>
       <div>
         <strong className="mr-1">{entries[id].name}</strong>
-        <small>{entries[id].create_at}</small>
+        <small>{entries[id].created_at}</small>
       </div>
       <div>{entries[id].content}</div>
     </>
