@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectChatMessages } from '../../features/ChatMessagesSlice'
-import { selectUser } from '../../features/UsersSlice'
+import { selectUser } from '../../features/UserSlice'
 
 const PostForm = () => {
   const [userId, setUserId] = useState(1)
@@ -32,11 +32,11 @@ const PostForm = () => {
 
   return (
     <>
-      <form onSubmit={postMessage}>
+      <form className="form" onSubmit={postMessage}>
         <div>
-          <p>{user.id}</p>
-          <p>{user.name}</p>
-          <p>{user.email}</p>
+          <p>id: {user.id}</p>
+          <p>name: {user.name}</p>
+          <p>email: {user.email}</p>
         </div>
         <textarea
           name="content"
