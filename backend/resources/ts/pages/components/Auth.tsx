@@ -1,18 +1,12 @@
 import axios from 'axios'
-import React, { Children, useEffect, useState } from 'react'
+import React, { Children, useEffect, useState, useCallback, SetStateAction } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   selectUser,
-  login,
-  setUser,
-  useLoginMutation,
+  fetchUser,
+  UserState,
+  logout
 } from '../../features/UserSlice'
-
-type User = {
-  name: string
-  email: string
-  password: string
-}
 
 const Auth = () => {
   // const [user, setUser] = useState<User | null>(null)
@@ -22,36 +16,35 @@ const Auth = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // ブラウザリロード時にログイン済みか判定
-  useEffect(() => {
-    fetchUser()
-  }, [user.id])
+  const fetchUserHandler = () => {
+    dispatch(fetchUser())
+  }
 
-  const fetchUser = async () => {
-    const res = await axios.get('/api/user')
-    console.log(res.data.name)
 
-    dispatch(
-      setUser({
-        id: res.data.id,
-        email: res.data.email,
-        name: res.data.name,
+  const loginHandler =
+    async (e: any) => {
+      e.preventDefault()
+
+      // dispatch(login({ email: email, password: password }))
+      await axios.get('/sanctum/csrf-cookie').then((response) => {
+        axios
+          .post('/api/login', {
+            email: email,
+            password: password,
+          })
+          .then((response) => {
+            console.log('[login]ログイン成功')
+            fetchUserHandler();
+            console.log(response.data)
+          })
+          .catch((error) => {
+            console.log(error.response)
+            console.log('[login]ログイン失敗')
+          })
       })
-    )
-  }
+      // dispatch(login({email: email, passowrd: password}))
 
-  const [login, { isLoading, isError }] = useLoginMutation()
-
-  const loginHandler = async () => {
-    const data = {
-      email: email,
-      password: password,
     }
-    const res = await login(data)
-      .unwrap()
-      .then((res) => alert('ログイン成功'))
-      .catch((err) => alert('ログイン失敗'))
-  }
 
   // 登録
   const register = async (e: any) => {
@@ -73,50 +66,39 @@ const Auth = () => {
   }
 
   // ログアウト
-  const logout = () => {
-    axios
-      .get('/api/logout')
-      .then((res) => {
-        // dispatch(setUser({ id: 0, name: '', email: '' }))
-        console.log(res.data.message)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  const logoutHandler = async () => {
+    dispatch(logout())
   }
 
-  let registerForm = (
-    <form onSubmit={register}>
-      <label htmlFor="name">name</label>
-      <input
+  const registerForm = (
+    <form className="form" onSubmit={register}>
+      <Input
+        label="Name"
         type="name"
         name="name"
-        id="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <label htmlFor="email">email</label>
-      <input
-        type="email"
+      <Input
+        label="Email"
+        type="text"
         name="email"
-        id="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <label htmlFor="password">password</label>
-      <input
+      <Input
+        label="Password"
         type="password"
         name="password"
-        id="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">Register</button>
+      <button className="btn btn-primary" type="submit">Register</button>
     </form>
   )
 
   // ログインフォーム
-  let form = (
+  let loginForm = (
     <form className="form" onSubmit={loginHandler}>
       <Input
         label="Email"
@@ -135,47 +117,55 @@ const Auth = () => {
       <button className="btn btn-primary" type="submit">
         Login
       </button>
-      <button onClick={logout}>Logout</button>
-    </form>
-  )
-
-  //  ユーザ情報
-  let userInfo = null
-
-  // 認証済みの場合、ログアウトボタンとユーザ情報を表示
-  if (user.id !== 0) {
-    form = <button onClick={logout}>Logout</button>
-    userInfo = (
-      <div>
-        <h2>User</h2>
-        <div>name: {user.name}</div>
-        <div>email: {user.email}</div>
-      </div>
-    )
-  }
-
-  console.log(user)
+    </form>)
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          {form}
-          {userInfo}
-        </div>
-        {/* <div className="col-md-6">
-          <button onClick={getUser}>getUser</button>
-          {registerForm}
-        </div> */}
-      </div>
-      <div>
-        <h2>User</h2>
-        <div>name: {user.name}</div>
-        <div>email: {user.email}</div>
-      </div>
+      {
+        user.promise === 'pending' || user.promise === 'idle' ?
+          <p>通信中</p> :
+          user.id === 0 ?
+            <div className="row">
+              <div className="col-md-6">
+                <h3>ログイン</h3>
+                {loginForm}
+              </div>
+              <div className="col-md-6">
+                <h3>登録</h3>
+                {registerForm}
+              </div>
+            </div>
+            :
+            <>
+              <UserInfo id={user.id} name={user.name} email={user.email} promise={user.promise} />
+              <div className="row mt-1">
+                <button className="btn btn-primary mr-1" onClick={logoutHandler}>Logout</button>
+                <button className="btn btn-primary" onClick={fetchUserHandler}>fetchUser</button>
+              </div>
+            </>
+      }
     </div>
   )
 }
+
+
+/**
+ * Componemts
+ */
+
+const UserInfo = ({ id, name, email, promise }: UserState) => {
+  return (
+    <>
+      <div>
+        <h2>User</h2>
+        <div>name: {id}</div>
+        <div>name: {name}</div>
+        <div>email: {email}</div>
+      </div>
+    </>
+  )
+}
+
 
 type InputProps = {
   label: string

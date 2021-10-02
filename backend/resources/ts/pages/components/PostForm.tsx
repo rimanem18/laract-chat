@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectChatMessages } from '../../features/ChatMessagesSlice'
-import { selectUser } from '../../features/UserSlice'
+import { selectUserId, selectUserName, selectUserEmail, selectUser, fetchUser } from '../../features/UserSlice'
+import { Link } from 'react-router-dom'
 
 const PostForm = () => {
   const [userId, setUserId] = useState(1)
@@ -10,6 +11,7 @@ const PostForm = () => {
   const dispatch = useAppDispatch()
   const chatMessages = useAppSelector(selectChatMessages)
   const user = useAppSelector(selectUser)
+
 
   // 投稿
   const postMessage = async (e: any) => {
@@ -30,21 +32,33 @@ const PostForm = () => {
       })
   }
 
+  useEffect(() => {
+    if (user.promise !== 'fulfilled') {
+      dispatch(fetchUser())
+    }
+  }, [user.id])
+
   return (
     <>
-      <form className="form" onSubmit={postMessage}>
-        <div>
-          <p>id: {user.id}</p>
-          <p>name: {user.name}</p>
-          <p>email: {user.email}</p>
-        </div>
-        <textarea
-          name="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
-        <button type="submit">投稿</button>
-      </form>
+      {
+        user.id === 0 ?
+          <p>書き込みをするには <Link to='/auth'>ログイン</Link> してください。 </p>
+          : <>
+            <form className="form" onSubmit={postMessage}>
+              <div>
+                <p>id: {user.id}</p>
+                <p>name: {user.name}</p>
+                <p>email: {user.email}</p>
+              </div>
+              <textarea
+                name="content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              ></textarea>
+            </form>
+            <button className="btn btn-primary" type="submit">投稿</button>
+          </>
+      }
     </>
   )
 }

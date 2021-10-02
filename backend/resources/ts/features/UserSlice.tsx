@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
 
@@ -8,6 +7,7 @@ export interface UserState {
   id: number
   name: string
   email: string
+  promise: 'idle' | 'fulfilled' | 'pending' | 'rejected'
 }
 
 // 初期値
@@ -15,7 +15,24 @@ const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
+  promise: 'idle'
 }
+
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
+  async () => {
+    const response = await axios.get('/api/user')
+    return response.data
+  }
+)
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async () => {
+    const response = await axios.get('/api/logout')
+    return response.data
+  }
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -44,45 +61,52 @@ export const userSlice = createSlice({
           })
       })
     },
-
-    setUser: (state, payloadAction: PayloadAction<UserState>) => {
-      const user = payloadAction.payload
-      state = user
+    logout: (state) => {
+      state.id = 0
+      state.name = ""
+      state.email = ""
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      authApi.endpoints.login.matchFulfilled,
-      (state, action: PayloadAction<UserState>) => {
-        state = action.payload
-      }
-    )
-  },
+    builder
+      // fetchUser
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        const user = action.payload
+        state.id = user.id
+        state.name = user.name
+        state.email = user.email
+        state.promise = 'fulfilled'
+      })
+      .addCase(fetchUser.pending, (state, action) => {
+        state.promise = 'pending'
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.promise = 'rejected'
+      })
+      // logout
+      .addCase(logout.fulfilled, (state, action) => {
+        state.id = 0
+        state.name = ""
+        state.email = ""
+        state.promise = 'fulfilled'
+      })
+      .addCase(logout.pending, (state, action) => {
+        state.promise = 'pending'
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.promise = 'rejected'
+      })
+  }
 })
 
-interface LoginForm {
-  email: string
-  password: string
-}
-
-export const authApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
-  endpoints: (builder) => ({
-    login: builder.mutation<UserState, LoginForm>({
-      query: (credentials) => ({
-        url: 'login',
-        method: 'POST',
-        body: credentials,
-      }),
-    }),
-  }),
-})
 
 // 外部からセットできるように
-export const { login, setUser } = userSlice.actions
-export const { useLoginMutation } = authApi
+export const { login } = userSlice.actions
 
 // 外部から読み取れるように
 export const selectUser = (state: RootState) => state.userSlice
+export const selectUserId = (state: RootState) => state.userSlice.id
+export const selectUserName = (state: RootState) => state.userSlice.name
+export const selectUserEmail = (state: RootState) => state.userSlice.email
 
 export default userSlice.reducer
