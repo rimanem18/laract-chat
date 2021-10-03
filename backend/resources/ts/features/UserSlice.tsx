@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
+import { promiseState } from '../app/type'
 
 // 型定義
 export interface UserState {
   id: number
   name: string
   email: string
-  promise: 'idle' | 'fulfilled' | 'pending' | 'rejected'
+  promise: promiseState
 }
 
 // 初期値
@@ -75,10 +76,10 @@ export const userSlice = createSlice({
         state.id = user.id
         state.name = user.name
         state.email = user.email
-        state.promise = 'fulfilled'
+        state.promise = 'idle'
       })
       .addCase(fetchUser.pending, (state, action) => {
-        state.promise = 'pending'
+        state.promise = 'loading'
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.promise = 'rejected'
@@ -88,10 +89,10 @@ export const userSlice = createSlice({
         state.id = 0
         state.name = ""
         state.email = ""
-        state.promise = 'fulfilled'
+        state.promise = 'idle'
       })
       .addCase(logout.pending, (state, action) => {
-        state.promise = 'pending'
+        state.promise = 'loading'
       })
       .addCase(logout.rejected, (state, action) => {
         state.promise = 'rejected'

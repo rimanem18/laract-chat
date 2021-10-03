@@ -35,7 +35,7 @@ const Auth = () => {
           .then((response) => {
             console.log('[login]ログイン成功')
             fetchUserHandler();
-            console.log(response.data)
+            console.log(response)
           })
           .catch((error) => {
             console.log(error.response)
@@ -122,27 +122,24 @@ const Auth = () => {
   return (
     <div className="container">
       {
-        user.promise === 'pending' || user.promise === 'idle' ?
-          <p>通信中</p> :
-          user.id === 0 ?
-            <div className="row">
-              <div className="col-md-6">
-                <h3>ログイン</h3>
-                {loginForm}
-              </div>
-              <div className="col-md-6">
-                <h3>登録</h3>
-                {registerForm}
-              </div>
+        user.promise === 'loading' || user.id === 0 ?
+          <div className="row">
+            <div className="col-md-6">
+              <h3>ログイン</h3>
+              {loginForm}
             </div>
-            :
-            <>
-              <UserInfo id={user.id} name={user.name} email={user.email} promise={user.promise} />
-              <div className="row mt-1">
-                <button className="btn btn-primary mr-1" onClick={logoutHandler}>Logout</button>
-                <button className="btn btn-primary" onClick={fetchUserHandler}>fetchUser</button>
-              </div>
-            </>
+            <div className="col-md-6">
+              <h3>登録</h3>
+              {registerForm}
+            </div>
+          </div>
+          : <>
+            <UserInfo id={user.id} name={user.name} email={user.email} promise={user.promise} />
+            <div className="row mt-1">
+              <button className="btn btn-primary mr-1" onClick={logoutHandler}>Logout</button>
+              <button className="btn btn-primary" onClick={fetchUserHandler}>fetchUser</button>
+            </div>
+          </>
       }
     </div>
   )

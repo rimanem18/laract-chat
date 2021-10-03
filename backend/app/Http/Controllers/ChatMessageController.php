@@ -48,6 +48,6 @@ class ChatMessageController extends Controller
           'content'=>$content
         ]);
 
-        return response()->json('投稿完了', Response::HTTP_OK);
+        return response()->json(['promise'=> ''], Response::HTTP_OK);
     }
 }

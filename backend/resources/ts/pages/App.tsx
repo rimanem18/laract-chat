@@ -14,9 +14,7 @@ const App = () => {
 
   // ブラウザリロード時にログイン済みか判定
   useEffect(() => {
-    if (user.promise !== 'fulfilled') {
-      fetchUserHandler()
-    }
+    fetchUserHandler()
   }, [])
 
   const fetchUserHandler = () => {

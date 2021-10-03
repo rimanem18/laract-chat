@@ -7,18 +7,20 @@ import {
   selectChatMessages,
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { selectPost } from '../../features/PostSlise'
 
 const typeCheck = Object.prototype.toString
 
 const Message = () => {
   const dispatch = useAppDispatch()
   const chatMessages = useAppSelector(selectChatMessages)
+  const post = useAppSelector(selectPost)
 
   useEffect(() => {
     fetchChatMessages()
     console.log('render')
     console.log(chatMessages)
-  }, [chatMessages.ids.length])
+  }, [chatMessages.ids.length, post.promise])
 
   const fetchChatMessages = async () => {
     const response = await axios.get('/api/chat_messages')
