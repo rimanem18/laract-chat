@@ -1,17 +1,18 @@
 import axios from 'axios'
 import React, { Children, useEffect, useState, useCallback, SetStateAction } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { login, logout, selectAuth } from '../../features/AuthSlice'
 import {
   selectUser,
   fetchUser,
   UserState,
-  logout
 } from '../../features/UserSlice'
 
 const Auth = () => {
   // const [user, setUser] = useState<User | null>(null)
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
+  const auth = useAppSelector(selectAuth)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,30 +22,10 @@ const Auth = () => {
   }
 
 
-  const loginHandler =
-    async (e: any) => {
-      e.preventDefault()
-
-      // dispatch(login({ email: email, password: password }))
-      await axios.get('/sanctum/csrf-cookie').then((response) => {
-        axios
-          .post('/api/login', {
-            email: email,
-            password: password,
-          })
-          .then((response) => {
-            console.log('[login]ログイン成功')
-            fetchUserHandler();
-            console.log(response)
-          })
-          .catch((error) => {
-            console.log(error.response)
-            console.log('[login]ログイン失敗')
-          })
-      })
-      // dispatch(login({email: email, passowrd: password}))
-
-    }
+  const loginHandler = async (e: any) => {
+    e.preventDefault()
+    dispatch(login({ email: email, password: password }))
+  }
 
   // 登録
   const register = async (e: any) => {

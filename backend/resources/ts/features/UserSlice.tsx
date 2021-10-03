@@ -27,14 +27,6 @@ export const fetchUser = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk(
-  'user/logout',
-  async () => {
-    const response = await axios.get('/api/logout')
-    return response.data
-  }
-)
-
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -62,11 +54,6 @@ export const userSlice = createSlice({
           })
       })
     },
-    logout: (state) => {
-      state.id = 0
-      state.name = ""
-      state.email = ""
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,23 +65,13 @@ export const userSlice = createSlice({
         state.email = user.email
         state.promise = 'idle'
       })
-      .addCase(fetchUser.pending, (state, action) => {
+      .addCase(fetchUser.pending, (state) => {
         state.promise = 'loading'
       })
-      .addCase(fetchUser.rejected, (state, action) => {
-        state.promise = 'rejected'
-      })
-      // logout
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(fetchUser.rejected, (state) => {
         state.id = 0
         state.name = ""
         state.email = ""
-        state.promise = 'idle'
-      })
-      .addCase(logout.pending, (state, action) => {
-        state.promise = 'loading'
-      })
-      .addCase(logout.rejected, (state, action) => {
         state.promise = 'rejected'
       })
   }
@@ -102,7 +79,7 @@ export const userSlice = createSlice({
 
 
 // 外部からセットできるように
-export const { login } = userSlice.actions
+export const { } = userSlice.actions
 
 // 外部から読み取れるように
 export const selectUser = (state: RootState) => state.userSlice

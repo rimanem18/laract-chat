@@ -7,15 +7,19 @@ import About from './components/About'
 import Auth from './components/Auth'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, selectUser } from '../features/UserSlice';
+import { selectAuth } from '../features/AuthSlice';
 
 const App = () => {
   const user = useAppSelector(selectUser)
+  const auth = useAppSelector(selectAuth)
   const dispatch = useAppDispatch()
 
-  // ブラウザリロード時にログイン済みか判定
+  // レンダリング時にログインしているか判定
   useEffect(() => {
-    fetchUserHandler()
-  }, [])
+    if (auth.promise !== 'loading') {
+      fetchUserHandler()
+    }
+  }, [auth.promise])
 
   const fetchUserHandler = () => {
     dispatch(fetchUser())
