@@ -28,18 +28,19 @@ const PostForm = () => {
         user.id === 0 ?
           <p>書き込みをするには <Link to='/auth'>ログイン</Link> してください。 </p>
           : <>
-            <form className="form" onSubmit={postMessageHandler}>
-              <div>
-                <p>id: {user.id}</p>
-                <p>name: {user.name}</p>
-                <p>email: {user.email}</p>
-              </div>
+            <div>
+              <p>id: {user.id}</p>
+              <p>name: {user.name}</p>
+              <p>email: {user.email}</p>
+            </div>
+            <form className="form post-form" onSubmit={postMessageHandler}>
               <textarea
+                className="post-form__input"
                 name="content"
                 value={post.content}
                 onChange={changeContentHandler}
               ></textarea>
-              <button className="d-block btn btn-primary" type="submit">投稿</button>
+              <button className="btn btn-primary mx-1 align-top" type="submit">投稿</button>
             </form>
           </>
       }

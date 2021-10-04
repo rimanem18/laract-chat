@@ -20,3 +20,12 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.7);
 }
+
+.post-form {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+.post-form__input {
+  width: 70%;
+}
