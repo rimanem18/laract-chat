@@ -7,6 +7,7 @@ import {
   fetchUser,
   UserState,
 } from '../../features/UserSlice'
+import Loader from './Loader'
 
 const Auth = () => {
   // const [user, setUser] = useState<User | null>(null)
@@ -104,7 +105,6 @@ const Auth = () => {
 
   return (
     <div className="container">
-      {auth.promise === 'loading' ? <p>{message}</p> : ""}
       {
         user.promise === 'loading' || user.id === 0 ?
           <div className="row">

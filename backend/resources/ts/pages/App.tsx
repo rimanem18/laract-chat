@@ -8,10 +8,13 @@ import Auth from './components/Auth'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchUser, selectUser } from '../features/UserSlice';
 import { selectAuth } from '../features/AuthSlice';
+import Loader from './components/Loader';
+import { selectChatMessages } from '../features/ChatMessagesSlice';
 
 const App = () => {
   const user = useAppSelector(selectUser)
   const auth = useAppSelector(selectAuth)
+  const chatMessages = useAppSelector(selectChatMessages)
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
@@ -35,6 +38,7 @@ const App = () => {
           <Route path="/about" component={About} />
           <Route path="/auth" component={Auth} />
         </Switch>
+        <Loader />
       </React.Fragment>
     </BrowserRouter>
   )
