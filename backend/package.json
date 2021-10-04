@@ -33,6 +33,7 @@
         "typescript": "^4.4.3"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "@reduxjs/toolkit": "^1.6.1",
         "react-redux": "^7.2.5",
         "react-router": "^5.2.1",

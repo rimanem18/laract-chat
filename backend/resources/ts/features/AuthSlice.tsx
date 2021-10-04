@@ -20,6 +20,20 @@ const initialState: AuthState = {
 }
 
 
+type RegisterForm = {
+  name: string
+  email: string
+  password: string
+}
+export const register = createAsyncThunk(
+  'auth/register',
+  async (registerForm: RegisterForm, thunkApi) => {
+
+    const response = await axios.post('/api/register', registerForm)
+    return response.data
+  }
+)
+
 type LoginForm = {
   email: string
   password: string
@@ -51,6 +65,16 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // register
+      .addCase(register.fulfilled, (state) => {
+        state.promise = 'idle'
+      })
+      .addCase(register.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(register.rejected, (state) => {
+        state.promise = 'rejected'
+      })
       // login
       .addCase(login.fulfilled, (state) => {
         state.promise = 'idle'
@@ -63,9 +87,6 @@ export const authSlice = createSlice({
       })
       // logout
       .addCase(logout.fulfilled, (state) => {
-        state.name = ""
-        state.email = ""
-        state.password = ""
         state.promise = 'idle'
       })
       .addCase(logout.pending, (state) => {

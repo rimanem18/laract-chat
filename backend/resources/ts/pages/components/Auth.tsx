@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { Children, useEffect, useState, useCallback, SetStateAction } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { login, logout, selectAuth } from '../../features/AuthSlice'
+import { login, logout, register, selectAuth } from '../../features/AuthSlice'
 import {
   selectUser,
   fetchUser,
@@ -16,43 +16,45 @@ const Auth = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('ここにメッセージ')
 
   const fetchUserHandler = () => {
     dispatch(fetchUser())
   }
 
 
-  const loginHandler = async (e: any) => {
+  const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(login({ email: email, password: password }))
+    setMessage('ログイン中です')
+    dispatch(
+      login({
+        email: email,
+        password: password
+      })
+    )
   }
 
   // 登録
-  const register = async (e: any) => {
+  const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    axios
-      .post('/api/register', {
+    setMessage('登録中です')
+    dispatch(
+      register({
         name: name,
         email: email,
         password: password,
       })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((res) => {
-        console.log(res.data)
-        console.log('[register]登録失敗')
-      })
+    )
   }
 
   // ログアウト
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
+    setMessage('ログアウトしています')
     dispatch(logout())
   }
 
   const registerForm = (
-    <form className="form" onSubmit={register}>
+    <form className="form" onSubmit={registerHandler}>
       <Input
         label="Name"
         type="name"
@@ -102,6 +104,7 @@ const Auth = () => {
 
   return (
     <div className="container">
+      {auth.promise === 'loading' ? <p>{message}</p> : ""}
       {
         user.promise === 'loading' || user.id === 0 ?
           <div className="row">
