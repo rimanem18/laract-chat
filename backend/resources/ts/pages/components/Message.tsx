@@ -30,11 +30,17 @@ const Message = () => {
     }
   }, [postPromise])
 
+  useEffect(() => {
+    if (chatMessagesPromise !== 'loading') {
+      autoScroll()
+    }
+  }, [chatMessagesPromise])
+
   const autoScroll = () => {
     const el = messageList.current
-    console.log('Auto Scroll')
     if (el !== null) {
-      el.scrollTo(0, 1000)
+      console.log('Auto Scroll')
+      el.scrollTo(0, el.scrollHeight)
     }
   }
 
@@ -42,7 +48,12 @@ const Message = () => {
     <div ref={messageList} className="message">
       {chatMessagesPromise !== 'loading' ? (
         chatMessagesIds.map((id) => (
-          <MessageItem key={id} id={id} entities={chatMessagesEntities} />
+          <MessageItem
+            key={id}
+            name={chatMessagesEntities[id].name}
+            content={chatMessagesEntities[id].content}
+            created_at={chatMessagesEntities[id].created_at}
+          />
         ))
       ) : (
         <p>メッセージを取得中</p>
@@ -55,31 +66,28 @@ const Message = () => {
  * Components
  */
 type MessageItemProps = {
-  id: string
-  entities: Record<string, ChatMessage> | undefined
+  name: string
+  content: string
+  created_at: string
 }
-const MessageItem = React.memo(({ id, entities }: MessageItemProps) => {
-  console.log('messageItem')
+const MessageItem = React.memo(
+  ({ name, content, created_at }: MessageItemProps) => {
+    console.log('messageItem')
 
-  return (
-    <>
-      {entities !== undefined ? (
-        <>
-          <div>
-            <strong className="mr-1">{entities[id].name}</strong>
-            <small>{entities[id].created_at}</small>
-          </div>
-          <p>
-            {entities[id].content.split('\n').map((str, index) => (
-              <React.Fragment key={index}>{str}</React.Fragment>
-            ))}
-          </p>
-        </>
-      ) : (
-        ''
-      )}
-    </>
-  )
-})
+    return (
+      <>
+        <div>
+          <strong className="mr-1">{name}</strong>
+          <small>{created_at}</small>
+        </div>
+        <p>
+          {content.split('\n').map((str, index) => (
+            <React.Fragment key={index}>{str}</React.Fragment>
+          ))}
+        </p>
+      </>
+    )
+  }
+)
 
 export default Message

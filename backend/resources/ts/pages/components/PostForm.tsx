@@ -35,7 +35,7 @@ const PostForm = () => {
           書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
         </p>
       ) : (
-        <form className="form post-form" onSubmit={postMessageHandler}>
+        <form className="form post-form mt-1" onSubmit={postMessageHandler}>
           <textarea
             className="post-form__input"
             name="content"
