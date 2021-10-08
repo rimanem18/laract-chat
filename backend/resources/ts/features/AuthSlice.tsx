@@ -16,9 +16,8 @@ const initialState: AuthState = {
   name: '',
   email: '',
   password: '',
-  promise: 'idle'
+  promise: 'idle',
 }
-
 
 type RegisterForm = {
   name: string
@@ -28,7 +27,6 @@ type RegisterForm = {
 export const register = createAsyncThunk(
   'auth/register',
   async (registerForm: RegisterForm, thunkApi) => {
-
     const response = await axios.post('/api/register', registerForm)
     return response.data
   }
@@ -41,23 +39,20 @@ type LoginForm = {
 export const login = createAsyncThunk(
   'auth/login',
   async (loginForm: LoginForm, thunkApi) => {
-
     // ログイン時に CSRF トークンを初期化
-    const response = await axios.get('/sanctum/csrf-cookie').then((response) => {
-      return axios
-        .post('/api/login', loginForm)
-    })
+    const response = await axios
+      .get('/sanctum/csrf-cookie')
+      .then((response) => {
+        return axios.post('/api/login', loginForm)
+      })
     return response.data
   }
 )
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async () => {
-    const response = await axios.get('/api/logout')
-    return response.data
-  }
-)
+export const logout = createAsyncThunk('auth/logout', async () => {
+  const response = await axios.get('/api/logout')
+  return response.data
+})
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -95,14 +90,15 @@ export const authSlice = createSlice({
       .addCase(logout.rejected, (state) => {
         state.promise = 'rejected'
       })
-  }
+  },
 })
 
-
 // 外部からセットできるように
-export const { } = authSlice.actions
+export const {} = authSlice.actions
 
 // 外部から読み取れるように
-export const selectAuth = (state: RootState) => state.authSlice
+export const selectAuthName = (state: RootState) => state.authSlice.name
+export const selectAuthEmail = (state: RootState) => state.authSlice.email
+export const selectAuthPromise = (state: RootState) => state.authSlice.promise
 
 export default authSlice.reducer

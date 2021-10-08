@@ -41,7 +41,7 @@ const PostForm = () => {
     <>
       {user.id === 0 ? (
         <p>
-          書き込みをするには <Link to="/auth">ログイン</Link> してください。{' '}
+          書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
         </p>
       ) : (
         <form className="form post-form" onSubmit={postMessageHandler}>

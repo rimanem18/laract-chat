@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const GlobalNav = () => {
   return (
@@ -11,12 +11,15 @@ const GlobalNav = () => {
         <Link to="/about">
           <li>About</li>
         </Link>
-        <Link to="/auth">
-          <li>Auth</li>
+        <Link to="/login">
+          <li>Login</li>
+        </Link>
+        <Link to="/register">
+          <li>Register</li>
         </Link>
       </ul>
     </nav>
   )
 }
 
-export default GlobalNav;
+export default GlobalNav

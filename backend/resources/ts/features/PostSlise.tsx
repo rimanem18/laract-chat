@@ -3,7 +3,6 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { RootState } from '../app/rootReducer'
 import { promiseState } from '../app/type'
 
-
 export interface PostState {
   userId: number
   content: string
@@ -12,8 +11,8 @@ export interface PostState {
 
 const initialState: PostState = {
   userId: 0,
-  content: "",
-  promise: 'idle'
+  content: '',
+  promise: 'idle',
 }
 
 type PostData = {
@@ -24,10 +23,7 @@ type PostData = {
 export const postMessage = createAsyncThunk(
   'post/postMessage',
   async (postData: PostData, thunkApi) => {
-
-    const response = await axios.post('/api/chat_messages/post',
-      postData,
-    )
+    const response = await axios.post('/api/chat_messages/post', postData)
     return response.data
   }
 )
@@ -38,12 +34,12 @@ export const postSlice = createSlice({
   reducers: {
     getContent: (state, action) => {
       state.content = action.payload
-    }
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(postMessage.fulfilled, (state, aciton) => {
-        state.content = ""
+        state.content = ''
         state.promise = 'idle'
       })
       .addCase(postMessage.pending, (state, aciton) => {
@@ -52,12 +48,14 @@ export const postSlice = createSlice({
       .addCase(postMessage.rejected, (state, aciton) => {
         state.promise = 'rejected'
       })
-  }
+  },
 })
 
 export const { getContent } = postSlice.actions
 
 export const selectPost = (state: RootState) => state.postSlice
-
+export const selectPostUserId = (state: RootState) => state.postSlice.userId
+export const selectPostContent = (state: RootState) => state.postSlice.content
+export const selectPostPromise = (state: RootState) => state.postSlice.promise
 
 export default postSlice.reducer
