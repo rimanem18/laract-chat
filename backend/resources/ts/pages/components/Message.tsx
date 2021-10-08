@@ -24,7 +24,7 @@ const Message = () => {
 
   useEffect(() => {
     if (postPromise !== 'loading') {
-      dispatch(fetchMessages())
+      dispatch(addMessage())
       autoScroll()
       console.log('render')
     }
@@ -91,3 +91,6 @@ const MessageItem = React.memo(
 )
 
 export default Message
+function addMessage(): any {
+  throw new Error('Function not implemented.')
+}

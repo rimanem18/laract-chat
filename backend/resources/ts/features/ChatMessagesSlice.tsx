@@ -39,6 +39,13 @@ export const fetchMessages = createAsyncThunk(
     return response.data.chat_messages
   }
 )
+export const addMessages = createAsyncThunk(
+  'chatMessages/addMessages',
+  async () => {
+    const response = await axios.get('/api/chat_messages')
+    return response.data.chat_messages
+  }
+)
 
 export const chatMessagesSlice = createSlice({
   name: 'chatMessages',
@@ -50,6 +57,13 @@ export const chatMessagesSlice = createSlice({
         fetchMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
+          state.promise = 'idle'
+
+          // メッセージ数が同じならそのまま帰る
+          if (state.ids.length === messages.length) {
+            return
+          }
+
           state.ids = messages.map(
             (message) => `message${message.id.toString()}`
           )
@@ -59,8 +73,6 @@ export const chatMessagesSlice = createSlice({
             i++
             state.entities[`message${i}`] = message
           })
-
-          state.promise = 'idle'
         }
       )
       .addCase(fetchMessages.pending, (state, action) => {
@@ -69,6 +81,23 @@ export const chatMessagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
+      // addMessage
+      .addCase(
+        addMessages.fulfilled,
+        (state, action: PayloadAction<ChatMessage[]>) => {
+          const messages = action.payload
+          state.promise = 'idle'
+
+          // const diff = state.ids.length - messages.length
+
+          // 一番新しいmessageを取得して追加
+          const lastMessage = messages.slice(-1)[0]
+          const id = `message${lastMessage.id.toString()}`
+          const entity = lastMessage
+          state.ids.push(id)
+          state.entities[id] = entity
+        }
+      )
   },
 })
 

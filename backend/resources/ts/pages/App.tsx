@@ -10,21 +10,28 @@ import { selectAuthPromise } from '../features/AuthSlice'
 import Loader from './components/Loader'
 import Login from './components/Login'
 import Register from './components/Register'
+import {
+  fetchMessages,
+  selectChatMessagesPromise,
+} from '../features/ChatMessagesSlice'
 
 const App = () => {
   const authPromise = useAppSelector(selectAuthPromise)
+  const chatMessagesPromise = useAppSelector(selectChatMessagesPromise)
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
   useEffect(() => {
     if (authPromise !== 'loading') {
-      fetchUserHandler()
+      dispatch(fetchUser())
     }
   }, [authPromise])
 
-  const fetchUserHandler = () => {
-    dispatch(fetchUser())
-  }
+  useEffect(() => {
+    if (chatMessagesPromise !== 'loading') {
+      dispatch(fetchMessages())
+    }
+  }, [])
 
   return (
     <BrowserRouter>
