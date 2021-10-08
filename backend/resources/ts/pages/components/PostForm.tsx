@@ -44,25 +44,18 @@ const PostForm = () => {
           書き込みをするには <Link to="/auth">ログイン</Link> してください。{' '}
         </p>
       ) : (
-        <>
-          <div>
-            <p>id: {user.id}</p>
-            <p>name: {user.name}</p>
-            <p>email: {user.email}</p>
-          </div>
-          <form className="form post-form" onSubmit={postMessageHandler}>
-            <textarea
-              className="post-form__input"
-              name="content"
-              value={post.content}
-              onChange={changeContentHandler}
-              onKeyUp={onSubmitKeyUpHandler}
-            ></textarea>
-            <button className="btn btn-primary mx-1 align-top" type="submit">
-              投稿
-            </button>
-          </form>
-        </>
+        <form className="form post-form" onSubmit={postMessageHandler}>
+          <textarea
+            className="post-form__input"
+            name="content"
+            value={post.content}
+            onChange={changeContentHandler}
+            onKeyUp={onSubmitKeyUpHandler}
+          ></textarea>
+          <button className="btn btn-primary mx-1 align-top" type="submit">
+            投稿
+          </button>
+        </form>
       )}
     </>
   )

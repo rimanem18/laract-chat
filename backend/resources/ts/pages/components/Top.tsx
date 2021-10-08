@@ -7,8 +7,8 @@ const Top = () => {
     <>
       <h1>TopPage</h1>
       <div className="container">
-        <PostForm />
         <Message />
+        <PostForm />
       </div>
     </>
   )

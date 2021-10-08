@@ -6,6 +6,13 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import 'message';
+@import 'post-form';
+
+html,
+body {
+  overflow: hidden;
+}
 
 .loader {
   position: absolute;
@@ -19,13 +26,4 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.7);
-}
-
-.post-form {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-.post-form__input {
-  width: 70%;
 }

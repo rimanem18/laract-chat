@@ -30,7 +30,7 @@ const Message = () => {
   }
 
   return (
-    <>
+    <div className="message">
       {chatMessages.ids.length !== 0 ? (
         chatMessages.ids.map((id) => (
           <MessageItem key={id} id={id} entries={chatMessages.entities} />
@@ -38,7 +38,7 @@ const Message = () => {
       ) : (
         <p>メッセージを取得中</p>
       )}
-    </>
+    </div>
   )
 }
 
