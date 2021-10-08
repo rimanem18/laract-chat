@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectChatMessages } from '../../features/ChatMessagesSlice'
-import {
-  selectUserId,
-  selectUserName,
-  selectUserEmail,
-  selectUser,
-  fetchUser,
-} from '../../features/UserSlice'
+import { selectUser } from '../../features/UserSlice'
 import { Link } from 'react-router-dom'
 import { getContent, postMessage, selectPost } from '../../features/PostSlise'
 
 const PostForm = () => {
-  const [content, setContent] = useState('')
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
   const post = useAppSelector(selectPost)

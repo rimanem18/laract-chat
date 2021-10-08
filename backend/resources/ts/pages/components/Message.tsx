@@ -1,51 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 import {
   ChatMessage,
-  getChatMessages,
-  selectChatMessages,
+  fetchMessages,
+  selectChatMessagesIds,
+  selectChatMessagesEntities,
+  selectChatMessagesPromise,
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  selectPost,
-  selectPostContent,
-  selectPostPromise,
-  selectPostUserId,
-} from '../../features/PostSlise'
+import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
 import { selectUser } from '../../features/UserSlice'
 
 const typeCheck = Object.prototype.toString
 
 const Message = () => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
-  const chatMessages = useAppSelector(selectChatMessages)
-  const content = useAppSelector(selectPostContent)
+  const chatMessagesIds = useAppSelector(selectChatMessagesIds)
+  const chatMessagesEntities = useAppSelector(selectChatMessagesEntities)
+  const chatMessagesPromise = useAppSelector(selectChatMessagesPromise)
   const postPromise = useAppSelector(selectPostPromise)
+  const messageList = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (postPromise !== 'loading') {
-      fetchChatMessages()
+      dispatch(fetchMessages())
+      autoScroll()
       console.log('render')
-      console.log(chatMessages)
     }
   }, [postPromise])
 
-  const fetchChatMessages = async () => {
-    const response = await axios.get('/api/chat_messages')
-    dispatch(getChatMessages(response.data.chat_messages))
+  const autoScroll = () => {
+    const el = messageList.current
+    console.log('Auto Scroll')
+    if (el !== null) {
+      el.scrollTo(0, 1000)
+    }
   }
 
-  const entities = React.useMemo(() => {
-    return chatMessages.entities
-  }, [chatMessages.ids.length])
-
   return (
-    <div className="message">
-      {chatMessages.ids.length !== 0 ? (
-        chatMessages.ids.map((id) => (
-          <MessageItem key={id} id={id} entries={entities} />
+    <div ref={messageList} className="message">
+      {chatMessagesPromise !== 'loading' ? (
+        chatMessagesIds.map((id) => (
+          <MessageItem key={id} id={id} entities={chatMessagesEntities} />
         ))
       ) : (
         <p>メッセージを取得中</p>
@@ -59,23 +56,28 @@ const Message = () => {
  */
 type MessageItemProps = {
   id: string
-  entries: Record<string, ChatMessage>
+  entities: Record<string, ChatMessage> | undefined
 }
-const MessageItem = React.memo(({ id, entries }: MessageItemProps) => {
+const MessageItem = React.memo(({ id, entities }: MessageItemProps) => {
   console.log('messageItem')
 
   return (
     <>
-      <div>
-        <strong className="mr-1">{entries[id].name}</strong>
-        <small>{entries[id].created_at}</small>
-      </div>
-      {entries[id].content.split('\n').map((str, index) => (
-        <React.Fragment key={index}>
-          {str}
-          <br />
-        </React.Fragment>
-      ))}
+      {entities !== undefined ? (
+        <>
+          <div>
+            <strong className="mr-1">{entities[id].name}</strong>
+            <small>{entities[id].created_at}</small>
+          </div>
+          <p>
+            {entities[id].content.split('\n').map((str, index) => (
+              <React.Fragment key={index}>{str}</React.Fragment>
+            ))}
+          </p>
+        </>
+      ) : (
+        ''
+      )}
     </>
   )
 })
