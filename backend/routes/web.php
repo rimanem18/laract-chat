@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/{any}', function () {
-    return view('App');
+    return view('app');
 })->where('any', '.*');
