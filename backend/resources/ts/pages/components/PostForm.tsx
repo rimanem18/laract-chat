@@ -19,7 +19,7 @@ const PostForm = () => {
   const post = useAppSelector(selectPost)
 
   // 投稿
-  const postMessageHandler = async (e: any) => {
+  const postMessageHandler = (e: any) => {
     e.preventDefault()
     dispatch(postMessage({ userId: user.id, content: post.content }))
   }
@@ -31,8 +31,9 @@ const PostForm = () => {
   const onSubmitKeyUpHandler = (
     e: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
-    if (e.code === 'Enter' || e.ctrlKey) {
-      dispatch(postMessage({ userId: user.id, content: post.content }))
+    // ctrl+Enter で送信
+    if (e.code === 'Enter' && e.ctrlKey) {
+      postMessageHandler(e)
     }
   }
 
@@ -55,7 +56,7 @@ const PostForm = () => {
               name="content"
               value={post.content}
               onChange={changeContentHandler}
-              onKeyUp={(e) => onSubmitKeyUpHandler}
+              onKeyUp={onSubmitKeyUpHandler}
             ></textarea>
             <button className="btn btn-primary mx-1 align-top" type="submit">
               投稿

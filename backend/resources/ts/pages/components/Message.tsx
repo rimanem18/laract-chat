@@ -8,11 +8,13 @@ import {
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectPost } from '../../features/PostSlise'
+import { selectUser } from '../../features/UserSlice'
 
 const typeCheck = Object.prototype.toString
 
 const Message = () => {
   const dispatch = useAppDispatch()
+  const user = useAppSelector(selectUser)
   const chatMessages = useAppSelector(selectChatMessages)
   const post = useAppSelector(selectPost)
 
@@ -29,11 +31,13 @@ const Message = () => {
 
   return (
     <>
-      {chatMessages.ids.length !== 0
-        ? chatMessages.ids.map((id) => (
+      {chatMessages.ids.length !== 0 ? (
+        chatMessages.ids.map((id) => (
           <MessageItem key={id} id={id} entries={chatMessages.entities} />
         ))
-        : <p>メッセージを取得中</p>}
+      ) : (
+        <p>メッセージを取得中</p>
+      )}
     </>
   )
 }
@@ -49,7 +53,12 @@ const MessageItem = ({ id, entries }: MessageItemProps) => {
         <strong className="mr-1">{entries[id].name}</strong>
         <small>{entries[id].created_at}</small>
       </div>
-      <div>{entries[id].content}</div>
+      {entries[id].content.split('\n').map((str, index) => (
+        <React.Fragment key={index}>
+          {str}
+          <br />
+        </React.Fragment>
+      ))}
     </>
   )
 }

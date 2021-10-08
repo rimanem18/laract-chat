@@ -1,12 +1,14 @@
 import axios from 'axios'
-import React, { Children, useEffect, useState, useCallback, SetStateAction } from 'react'
+import React, {
+  Children,
+  useEffect,
+  useState,
+  useCallback,
+  SetStateAction,
+} from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { login, logout, register, selectAuth } from '../../features/AuthSlice'
-import {
-  selectUser,
-  fetchUser,
-  UserState,
-} from '../../features/UserSlice'
+import { selectUser, fetchUser, UserState } from '../../features/UserSlice'
 import Loader from './Loader'
 
 const Auth = () => {
@@ -23,14 +25,13 @@ const Auth = () => {
     dispatch(fetchUser())
   }
 
-
   const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setMessage('ログイン中です')
     dispatch(
       login({
         email: email,
-        password: password
+        password: password,
       })
     )
   }
@@ -77,7 +78,9 @@ const Auth = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button className="btn btn-primary" type="submit">Register</button>
+      <button className="btn btn-primary" type="submit">
+        Register
+      </button>
     </form>
   )
 
@@ -101,34 +104,43 @@ const Auth = () => {
       <button className="btn btn-primary" type="submit">
         Login
       </button>
-    </form>)
+    </form>
+  )
 
   return (
     <div className="container">
-      {
-        user.promise === 'loading' || user.id === 0 ?
-          <div className="row">
-            <div className="col-md-6">
-              <h3>ログイン</h3>
-              {loginForm}
-            </div>
-            <div className="col-md-6">
-              <h3>登録</h3>
-              {registerForm}
-            </div>
+      {user.promise === 'loading' || user.id === 0 ? (
+        <div className="row">
+          <div className="col-md-6">
+            <h3>ログイン</h3>
+            {loginForm}
           </div>
-          : <>
-            <UserInfo id={user.id} name={user.name} email={user.email} promise={user.promise} />
-            <div className="row mt-1">
-              <button className="btn btn-primary mr-1" onClick={logoutHandler}>Logout</button>
-              <button className="btn btn-primary" onClick={fetchUserHandler}>fetchUser</button>
-            </div>
-          </>
-      }
+          <div className="col-md-6">
+            <h3>登録</h3>
+            {registerForm}
+          </div>
+        </div>
+      ) : (
+        <>
+          <UserInfo
+            id={user.id}
+            name={user.name}
+            email={user.email}
+            promise={user.promise}
+          />
+          <div className="row mt-1">
+            <button className="btn btn-primary mr-1" onClick={logoutHandler}>
+              Logout
+            </button>
+            <button className="btn btn-primary" onClick={fetchUserHandler}>
+              fetchUser
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
-
 
 /**
  * Componemts
@@ -146,7 +158,6 @@ const UserInfo = ({ id, name, email, promise }: UserState) => {
     </>
   )
 }
-
 
 type InputProps = {
   label: string
