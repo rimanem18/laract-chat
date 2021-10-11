@@ -1,8 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import axios from 'axios'
-
+import React, { useCallback, useEffect, useRef } from 'react'
 import {
-  ChatMessage,
   fetchMessages,
   selectChatMessagesIds,
   selectChatMessagesEntities,
@@ -10,8 +7,7 @@ import {
   addMessages,
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
-import { selectUser } from '../../features/UserSlice'
+import { selectPostPromise } from '../../features/PostSlise'
 
 const typeCheck = Object.prototype.toString
 
@@ -33,24 +29,27 @@ const Message = () => {
   useEffect(() => {
     if (postPromise !== 'loading') {
       dispatch(addMessages())
-      autoScroll()
+      scrollToBottom()
       console.log('render')
     }
   }, [postPromise])
 
   useEffect(() => {
     if (chatMessagesPromise !== 'loading') {
-      autoScroll()
+      scrollToBottom()
     }
   }, [chatMessagesPromise])
 
-  const autoScroll = () => {
+  /**
+   * メッセージ一覧を最下部にスクロールさせる
+   */
+  const scrollToBottom = useCallback(() => {
     const el = messageList.current
     if (el !== null) {
-      console.log('Auto Scroll')
+      console.log('Scroll')
       el.scrollTo(0, el.scrollHeight)
     }
-  }
+  }, [messageList])
 
   return (
     <div ref={messageList} className="message">
@@ -62,9 +61,12 @@ const Message = () => {
           created_at={chatMessagesEntities[id].created_at}
         />
       ))}
+      <ScrollButton scrollHandler={scrollToBottom} />
     </div>
   )
 }
+
+export default React.memo(Message)
 
 /**
  * Components
@@ -93,7 +95,10 @@ const MessageItem = React.memo(
         </div>
         <p>
           {content.split('\n').map((str, index) => (
-            <React.Fragment key={index}>{str}</React.Fragment>
+            <React.Fragment key={index}>
+              {str}
+              <br />
+            </React.Fragment>
           ))}
         </p>
       </div>
@@ -101,4 +106,19 @@ const MessageItem = React.memo(
   }
 )
 
-export default React.memo(Message)
+type ScrollButtonProps = {
+  scrollHandler: () => void
+}
+const ScrollButton = React.memo(({ scrollHandler }: ScrollButtonProps) => {
+  return (
+    <div className="scroll-btn">
+      <a
+        href="javascript:(0)"
+        className="scroll-btn__item"
+        onClick={scrollHandler}
+      >
+        <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
+      </a>
+    </div>
+  )
+})
