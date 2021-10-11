@@ -26,8 +26,14 @@ type RegisterForm = {
 }
 export const register = createAsyncThunk(
   'auth/register',
-  async (registerForm: RegisterForm, thunkApi) => {
-    const response = await axios.post('/api/register', registerForm)
+  async ({ name, email, password }: RegisterForm, thunkApi) => {
+    const response = await axios
+      .post('/api/register', { name: name, email: email, password: password })
+      .then((res) => {
+        return axios.get('/sanctum/csrf-cookie').then((response) => {
+          return axios.post('/api/login', { email: email, password: password })
+        })
+      })
     return response.data
   }
 )
@@ -63,6 +69,7 @@ export const authSlice = createSlice({
       // register
       .addCase(register.fulfilled, (state) => {
         state.promise = 'idle'
+        location.href = '/'
       })
       .addCase(register.pending, (state) => {
         state.promise = 'loading'
@@ -73,6 +80,7 @@ export const authSlice = createSlice({
       // login
       .addCase(login.fulfilled, (state) => {
         state.promise = 'idle'
+        location.href = '/'
       })
       .addCase(login.pending, (state) => {
         state.promise = 'loading'

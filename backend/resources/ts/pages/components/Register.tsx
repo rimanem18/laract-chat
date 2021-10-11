@@ -1,9 +1,12 @@
-import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { login, logout, register } from '../../features/AuthSlice'
+import {
+  login,
+  logout,
+  register,
+  selectAuthPromise,
+} from '../../features/AuthSlice'
 import { selectUser, fetchUser, UserState } from '../../features/UserSlice'
-import Loader from './Loader'
 
 const Register = () => {
   const dispatch = useAppDispatch()
@@ -11,7 +14,7 @@ const Register = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('ここにメッセージ')
+  const authPromise = useAppSelector(selectAuthPromise)
 
   const fetchUserHandler = () => {
     dispatch(fetchUser())
@@ -20,7 +23,6 @@ const Register = () => {
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setMessage('登録中です')
     dispatch(
       register({
         name: name,
@@ -32,7 +34,6 @@ const Register = () => {
 
   // ログアウト
   const logoutHandler = () => {
-    setMessage('ログアウトしています')
     dispatch(logout())
   }
 
