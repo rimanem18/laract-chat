@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 
 import {
@@ -7,6 +7,7 @@ import {
   selectChatMessagesIds,
   selectChatMessagesEntities,
   selectChatMessagesPromise,
+  addMessages,
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
@@ -23,8 +24,15 @@ const Message = () => {
   const messageList = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
+    // メッセージが何もフェッチされていないときだけ
+    if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
+      dispatch(fetchMessages())
+    }
+  }, [])
+
+  useEffect(() => {
     if (postPromise !== 'loading') {
-      dispatch(addMessage())
+      dispatch(addMessages())
       autoScroll()
       console.log('render')
     }
@@ -46,18 +54,14 @@ const Message = () => {
 
   return (
     <div ref={messageList} className="message">
-      {chatMessagesPromise !== 'loading' ? (
-        chatMessagesIds.map((id) => (
-          <MessageItem
-            key={id}
-            name={chatMessagesEntities[id].name}
-            content={chatMessagesEntities[id].content}
-            created_at={chatMessagesEntities[id].created_at}
-          />
-        ))
-      ) : (
-        <p>メッセージを取得中</p>
-      )}
+      {chatMessagesIds.map((id) => (
+        <MessageItem
+          key={id}
+          name={chatMessagesEntities[id].name}
+          content={chatMessagesEntities[id].content}
+          created_at={chatMessagesEntities[id].created_at}
+        />
+      ))}
     </div>
   )
 }
@@ -73,24 +77,28 @@ type MessageItemProps = {
 const MessageItem = React.memo(
   ({ name, content, created_at }: MessageItemProps) => {
     console.log('messageItem')
-
+    const date = new Date(created_at)
+    const year = date.getFullYear()
+    const month = date.getMonth() - 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const min = date.getMinutes()
     return (
-      <>
+      <div className="message__item">
         <div>
           <strong className="mr-1">{name}</strong>
-          <small>{created_at}</small>
+          <small>
+            {year}/{month}/{day} {hour}:{min}
+          </small>
         </div>
         <p>
           {content.split('\n').map((str, index) => (
             <React.Fragment key={index}>{str}</React.Fragment>
           ))}
         </p>
-      </>
+      </div>
     )
   }
 )
 
-export default Message
-function addMessage(): any {
-  throw new Error('Function not implemented.')
-}
+export default React.memo(Message)

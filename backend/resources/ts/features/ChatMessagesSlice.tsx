@@ -61,9 +61,11 @@ export const chatMessagesSlice = createSlice({
 
           // メッセージ数が同じならそのまま帰る
           if (state.ids.length === messages.length) {
+            console.log('[fetchMessages]同じ')
             return
           }
 
+          console.log('[fetchMessages]違う')
           state.ids = messages.map(
             (message) => `message${message.id.toString()}`
           )
@@ -88,16 +90,37 @@ export const chatMessagesSlice = createSlice({
           const messages = action.payload
           state.promise = 'idle'
 
-          // const diff = state.ids.length - messages.length
+          const diff = messages.length - state.ids.length
+          if (diff === 0) {
+            console.log('[addMessages]同じ')
+            return
+          }
+
+          console.log(`[addMessages]diff ${diff}`)
 
           // 一番新しいmessageを取得して追加
           const lastMessage = messages.slice(-1)[0]
-          const id = `message${lastMessage.id.toString()}`
-          const entity = lastMessage
-          state.ids.push(id)
-          state.entities[id] = entity
+
+          for (let i = 0; i <= diff; i++) {
+            i++
+            const num_id = state.ids.length + i
+            const id = `message${num_id.toString()}`
+            const entity = messages[num_id - 1]
+            state.ids.push(id)
+            state.entities[id] = entity
+          }
+          // const id = `message${i.toString()}`
+          // const entity = lastMessage
+          // state.ids.push(id)
+          // state.entities[id] = entity
         }
       )
+      .addCase(addMessages.pending, (state, action) => {
+        state.promise = 'loading'
+      })
+      .addCase(addMessages.rejected, (state) => {
+        state.promise = 'rejected'
+      })
   },
 })
 
