@@ -81,7 +81,7 @@ const MessageItem = React.memo(
     console.log('messageItem')
     const date = new Date(created_at)
     const year = date.getFullYear()
-    const month = date.getMonth() - 1
+    const month = date.getMonth() + 1
     const day = date.getDate()
     const hour = date.getHours()
     const min = date.getMinutes()
