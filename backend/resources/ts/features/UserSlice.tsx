@@ -86,5 +86,6 @@ export const selectUser = (state: RootState) => state.userSlice
 export const selectUserId = (state: RootState) => state.userSlice.id
 export const selectUserName = (state: RootState) => state.userSlice.name
 export const selectUserEmail = (state: RootState) => state.userSlice.email
+export const selectUserPromise = (state: RootState) => state.userSlice.promise
 
 export default userSlice.reducer

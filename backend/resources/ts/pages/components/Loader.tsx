@@ -1,17 +1,18 @@
 import React from 'react'
 import { useAppSelector } from '../../app/hooks'
 import { selectAuthPromise } from '../../features/AuthSlice'
-import { selectPost } from '../../features/PostSlise'
-import { selectUser } from '../../features/UserSlice'
+import { selectPost, selectPostContent } from '../../features/PostSlise'
+import { selectUser, selectUserPromise } from '../../features/UserSlice'
 
 const Loader = () => {
   const authPromise = useAppSelector(selectAuthPromise)
-  const user = useAppSelector(selectUser)
-  const post = useAppSelector(selectPost)
+  const userPromise = useAppSelector(selectUserPromise)
+  const postContent = useAppSelector(selectPostContent)
+
 
   return (
     <>
-      {[authPromise, user.promise, post.promise].includes('loading') ? (
+      {[authPromise, userPromise].includes('loading') ? (
         <>
           <div className="loader-overlay"></div>
           <i className="loader fa fa-spinner fa-spin fa-5x"></i>

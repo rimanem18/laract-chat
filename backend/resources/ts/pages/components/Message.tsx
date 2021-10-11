@@ -7,7 +7,7 @@ import {
   addMessages,
 } from '../../features/ChatMessagesSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectPostPromise } from '../../features/PostSlise'
+import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
 
 const typeCheck = Object.prototype.toString
 
@@ -16,6 +16,7 @@ const Message = () => {
   const chatMessagesIds = useAppSelector(selectChatMessagesIds)
   const chatMessagesEntities = useAppSelector(selectChatMessagesEntities)
   const chatMessagesPromise = useAppSelector(selectChatMessagesPromise)
+  const postContent = useAppSelector(selectPostContent)
   const postPromise = useAppSelector(selectPostPromise)
   const messageList = useRef<HTMLDivElement | null>(null)
 
@@ -27,7 +28,7 @@ const Message = () => {
   }, [])
 
   useEffect(() => {
-    if (postPromise !== 'loading') {
+    if (postPromise === 'idle') {
       dispatch(addMessages())
       scrollToBottom()
       console.log('render')
@@ -113,7 +114,6 @@ const ScrollButton = React.memo(({ scrollHandler }: ScrollButtonProps) => {
   return (
     <div className="scroll-btn">
       <a
-        href="javascript:(0)"
         className="scroll-btn__item"
         onClick={scrollHandler}
       >
