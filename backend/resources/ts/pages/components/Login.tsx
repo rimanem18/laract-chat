@@ -23,10 +23,6 @@ const Login = () => {
     )
   }
 
-  // ログアウト
-  const logoutHandler = () => {
-    dispatch(logout())
-  }
 
   // ログインフォーム
   const loginForm = (
@@ -53,29 +49,8 @@ const Login = () => {
 
   return (
     <div className="container">
-      {user.promise === 'loading' || user.id === 0 ? (
-        <>
-          <h3>ログイン</h3>
-          {loginForm}
-        </>
-      ) : (
-        <>
-          <UserInfo
-            id={user.id}
-            name={user.name}
-            email={user.email}
-            promise={user.promise}
-          />
-          <div className="row mt-1">
-            <button className="btn btn-primary mr-1" onClick={logoutHandler}>
-              Logout
-            </button>
-            <button className="btn btn-primary" onClick={fetchUserHandler}>
-              fetchUser
-            </button>
-          </div>
-        </>
-      )}
+      <h3>ログイン</h3>
+      {loginForm}
     </div>
   )
 }

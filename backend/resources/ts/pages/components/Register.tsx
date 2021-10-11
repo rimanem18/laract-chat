@@ -32,11 +32,6 @@ const Register = () => {
     )
   }
 
-  // ログアウト
-  const logoutHandler = () => {
-    dispatch(logout())
-  }
-
   const registerForm = (
     <form className="form" onSubmit={registerHandler}>
       <Input
@@ -68,23 +63,8 @@ const Register = () => {
 
   return (
     <div className="container">
-      {user.promise === 'loading' || user.id === 0 ? (
-        <>
-          <h3>登録</h3>
-          {registerForm}
-        </>
-      ) : (
-        <>
-          <div className="row mt-1">
-            <button className="btn btn-primary mr-1" onClick={logoutHandler}>
-              Logout
-            </button>
-            <button className="btn btn-primary" onClick={fetchUserHandler}>
-              fetchUser
-            </button>
-          </div>
-        </>
-      )}
+      <h3>登録</h3>
+      {registerForm}
     </div>
   )
 }
