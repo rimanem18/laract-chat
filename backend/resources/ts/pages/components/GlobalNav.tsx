@@ -13,6 +13,7 @@ const GlobalNav = () => {
     dispatch(logout())
   }
 
+  console.log(userId)
 
   return (
     <nav>
@@ -23,25 +24,20 @@ const GlobalNav = () => {
         <Link to="/about">
           <li>About</li>
         </Link>
-        {
-          userId === 0 ?
-            <>
-              <Link to="/login">
-                <li>Login</li>
-              </Link>
-              <Link to="/register">
-                <li>Register</li>
-              </Link>
-            </>
-            :
-            <a href="javascript:(0)" onClick={logoutHandler}>
-              <li>
-                Logout
-              </li>
-            </a>
-
-
-        }
+        {userId === 0 ? (
+          <>
+            <Link to="/login">
+              <li>Login</li>
+            </Link>
+            <Link to="/register">
+              <li>Register</li>
+            </Link>
+          </>
+        ) : (
+          <a href="" onClick={logoutHandler}>
+            <li>Logout</li>
+          </a>
+        )}
       </ul>
     </nav>
   )
