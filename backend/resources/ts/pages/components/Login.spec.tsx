@@ -22,30 +22,21 @@ describe('Login', () => {
 
     fireEvent.click(getByTestId('login-btn'))
     expect(mockLoginHandler).toHaveBeenCalled()
-})
+  })
 
-// enzyme
-describe('login button', () => {
-  test('test btn', () => {
-    const testHandler = jest.fn()
-    const { getByText } = render(<Login />)
-    fireEvent.click(getByText('テストボタン'))
-    expect(testHandler).toHaveBeenCalled()
+  it('入力した値がフォームに反映される', () => {
+    const mockSetEmail = jest.fn()
+    const email = "test@example.com"
+
+    const { getByTestId } = render(<Input
+      label="Email"
+      type="text"
+      name="email"
+      value={email}
+      onChange={(e) => mockSetEmail(e.target.value)}
+    />)
+
+    fireEvent.change(input, { target: { value: email } })
+    expect(getByTestId('input')).toEqual(email)
   })
 })
-
-// @testing-library/react
-// describe('click login button', () => {
-//   test('onClick', () => {
-//     const LoginHandler = jest.fn()
-//     const { getByText } = render(
-//       <form className="form" onSubmit={LoginHandler}>
-//         <button className="login btn btn-primary" type="submit">
-//           Login
-//         </button>
-//       </form>
-//     )
-//     fireEvent.click(getByText('Login'))
-//     expect(LoginHandler).toHaveBeenCalledTimes(1)
-//   })
-// })
