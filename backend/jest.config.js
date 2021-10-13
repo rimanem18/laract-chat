@@ -4,6 +4,9 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  setupFiles: [
+    "./setupTests.ts"
+  ],
   globals: {
     'ts-jest': {
       tsconfig: 'tsconfig.json',
