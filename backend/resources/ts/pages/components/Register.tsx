@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  login,
-  logout,
-  register,
-  selectAuthPromise,
-} from '../../features/AuthSlice'
-import { selectUser, fetchUser, UserState } from '../../features/UserSlice'
+import { useAppDispatch } from '../../app/hooks'
+import { register } from '../../features/AuthSlice'
+import Input from './Input'
 
 const Register = () => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
-  const authPromise = useAppSelector(selectAuthPromise)
-
-  const fetchUserHandler = () => {
-    dispatch(fetchUser())
-  }
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,67 +22,71 @@ const Register = () => {
     )
   }
 
-  const registerForm = (
-    <form className="form" onSubmit={registerHandler}>
-      <Input
-        label="Name"
-        type="name"
-        name="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Input
-        label="Email"
-        type="text"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <Input
-        label="Password"
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className="btn btn-primary" type="submit">
-        Register
-      </button>
-    </form>
-  )
+  // Email の正規表現にマッチするかチェック
+  const EmailRegexp =
+    /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+  useEffect(() => {
+    if (email.match(EmailRegexp)) {
+      setEmailError(false)
+    } else {
+      setEmailError(true)
+    }
+  }, [email])
 
   return (
     <div className="container">
       <h3>登録</h3>
-      {registerForm}
-    </div>
-  )
-}
-
-/**
- * Componemts
- */
-type InputProps = {
-  label: string
-  type: string
-  name: string
-  value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-}
-const Input = ({ label, type, name, value, onChange }: InputProps) => {
-  return (
-    <>
-      <div className="form-group">
-        <label className="form-label">{label}</label>
-        <input
-          className="form-control"
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
+      <form className="form" onSubmit={registerHandler}>
+        <Input
+          label="Name"
+          type="text"
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          data-testid="name-input"
         />
-      </div>
-    </>
+        <Input
+          label="Email"
+          type="text"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <div data-testid="email-warning">
+          {emailError ? <p>Email 形式で入力してください。</p> : ''}
+        </div>
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div data-testid="password-warning">
+          {password.length === 0 ? (
+            <p>パスワードを入力してください。</p>
+          ) : password.length <= 7 ? (
+            <p>パスワードは8文字以上である必要があります。</p>
+          ) : (
+            ''
+          )}
+        </div>
+        <button
+          disabled={
+            name.length === 0 ||
+            email.length === 0 ||
+            emailError ||
+            password.length <= 7
+              ? true
+              : false
+          }
+          className="btn btn-primary"
+          type="submit"
+        >
+          Register
+        </button>
+      </form>
+    </div>
   )
 }
 
