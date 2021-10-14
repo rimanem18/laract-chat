@@ -11,7 +11,9 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
   return (
     <>
       <div className="form-group">
-        <label className="form-label">{label}</label>
+        <label htmlFor={label} className="form-label">
+          {label}
+        </label>
         <input
           id={label}
           className="form-control"
