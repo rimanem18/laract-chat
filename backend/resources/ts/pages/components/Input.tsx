@@ -21,6 +21,7 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
           name={name}
           value={value}
           onChange={onChange}
+          data-testid={`${label}-input`}
         />
       </div>
     </>
