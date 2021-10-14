@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import { login } from '../../features/AuthSlice'
 import Input from './Input'
@@ -22,10 +22,31 @@ const Login = () => {
   return (
     <div className="container">
       <h3>ログイン</h3>
-      <LoginForm loginHandler={loginHandler} />
+      <div className="form">
+        <Input
+          label="Email"
+          type="text"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          onClick={loginHandler}
+          className="btn btn-primary"
+          type="button"
+        >
+          Login
+        </button>
+      </div>
     </div>
   )
 }
-
 
 export default Login
