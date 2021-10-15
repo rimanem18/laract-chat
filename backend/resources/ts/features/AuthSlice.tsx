@@ -63,7 +63,14 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    initAuthState: (state) => {
+      state.name = initialState.name
+      state.email = initialState.email
+      state.password = initialState.password
+      state.promise = initialState.promise
+    },
+  },
   extraReducers: (builder) => {
     builder
       // register
@@ -102,7 +109,7 @@ export const authSlice = createSlice({
 })
 
 // 外部からセットできるように
-export const {} = authSlice.actions
+export const { initAuthState } = authSlice.actions
 
 // 外部から読み取れるように
 export const selectAuthName = (state: RootState) => state.authSlice.name

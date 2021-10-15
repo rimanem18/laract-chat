@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../app/hooks'
-import { register } from '../../features/AuthSlice'
+import { initAuthState, register } from '../../features/AuthSlice'
 import Input from './Input'
 
 const Register = () => {
@@ -32,6 +32,10 @@ const Register = () => {
       setEmailError(true)
     }
   }, [email])
+
+  useEffect(() => {
+    dispatch(initAuthState())
+  }, [])
 
   return (
     <div className="container">
