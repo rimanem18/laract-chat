@@ -9,6 +9,7 @@ export interface AuthState {
   email: string
   password: string
   promise: promiseState
+  message: string
 }
 
 // 初期値
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   email: '',
   password: '',
   promise: 'idle',
+  message: ''
 }
 
 type RegisterForm = {
@@ -81,7 +83,8 @@ export const authSlice = createSlice({
       .addCase(register.pending, (state) => {
         state.promise = 'loading'
       })
-      .addCase(register.rejected, (state) => {
+      .addCase(register.rejected, (state, action: any) => {
+        state.message = action.payload
         state.promise = 'rejected'
       })
       // login

@@ -6,6 +6,7 @@ const initialState: AuthState = {
   email: '',
   password: '',
   promise: 'idle',
+  message: ''
 }
 
 describe('authSlice', () => {
