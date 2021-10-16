@@ -2,9 +2,14 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import Register from './Register'
+import { useAppDispatch } from '../../app/hooks';
 
-jest.mock('../../features/AuthSlice')
-jest.mock('../../app/hooks')
+const mockUseAppDispatch = jest.fn()
+const mockUseAppSelector = jest.fn()
+jest.mock('../../app/hooks', () => ({
+  useAppDispatch: () => (...args: any[]) => mockUseAppDispatch(...args),
+  useAppSelector: () => (...args: any[]) => mockUseAppSelector(...args),
+}))
 
 const setup = () => {
   const screen = render(<Register />)
