@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { initAuthState, register, selectAuthPromise } from '../../features/AuthSlice'
+import { initAuthState, register, selectAuthMessage, selectAuthPromise } from '../../features/AuthSlice'
 import Input from './Input'
 
 const Register = () => {
@@ -10,6 +10,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
   const authPromise = useAppSelector(selectAuthPromise)
+  const authMessage = useAppSelector(selectAuthMessage)
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +44,7 @@ const Register = () => {
       <h3>登録</h3>
       <p>
         {authPromise === 'rejected'
-          ? 'ユーザ登録に失敗しました。'
+          ? `ユーザ登録に失敗しました。${authMessage}`
           : ''}
       </p>
 
