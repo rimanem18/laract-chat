@@ -124,7 +124,7 @@ type ScrollButtonProps = {
 }
 const ScrollButton = React.memo(({ scrollHandler }: ScrollButtonProps) => {
   return (
-    <div className="scroll-btn">
+    <div className="scroll-btn" data-testid="scroll-btn">
       <a className="scroll-btn__item" onClick={scrollHandler}>
         <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
       </a>
