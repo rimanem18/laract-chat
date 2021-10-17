@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
 import { promiseState } from '../app/type'
@@ -9,6 +9,7 @@ export interface AuthState {
   email: string
   password: string
   promise: promiseState
+  message: string
 }
 
 // 初期値
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   email: '',
   password: '',
   promise: 'idle',
+  message: ''
 }
 
 type RegisterForm = {
@@ -27,15 +29,23 @@ type RegisterForm = {
 export const register = createAsyncThunk(
   'auth/register',
   async ({ name, email, password }: RegisterForm, thunkApi) => {
-    const response = await axios
-      .post('/api/register', { name: name, email: email, password: password })
+    const response = await axios.post('/api/register', { name: name, email: email, password: password })
       .then((res) => {
-        return axios.get('/sanctum/csrf-cookie').then((response) => {
-          return axios.post('/api/login', { email: email, password: password })
-        })
+        // 登録に成功したらそのままログインする
+        return axios.get('/sanctum/csrf-cookie')
+          .then((response) => {
+            return axios.post('/api/login', { email: email, password: password })
+              .then(res => {
+                return res
+              })
+          })
       })
-    return response.data
+      .catch(err => {
+        return thunkApi.rejectWithValue(err)
+      })
+    return response
   }
+
 )
 
 type LoginForm = {
@@ -51,6 +61,7 @@ export const login = createAsyncThunk(
       .then((response) => {
         return axios.post('/api/login', loginForm)
       })
+
     return response.data
   }
 )
@@ -63,7 +74,14 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    initAuthState: (state) => {
+      state.name = initialState.name
+      state.email = initialState.email
+      state.password = initialState.password
+      state.promise = initialState.promise
+    },
+  },
   extraReducers: (builder) => {
     builder
       // register
@@ -74,7 +92,10 @@ export const authSlice = createSlice({
       .addCase(register.pending, (state) => {
         state.promise = 'loading'
       })
-      .addCase(register.rejected, (state) => {
+      .addCase(register.rejected, (state, action: any) => {
+        console.log(action);
+
+        state.message = action.payload.response.data.message
         state.promise = 'rejected'
       })
       // login
@@ -102,11 +123,12 @@ export const authSlice = createSlice({
 })
 
 // 外部からセットできるように
-export const {} = authSlice.actions
+export const { initAuthState } = authSlice.actions
 
 // 外部から読み取れるように
 export const selectAuthName = (state: RootState) => state.authSlice.name
 export const selectAuthEmail = (state: RootState) => state.authSlice.email
 export const selectAuthPromise = (state: RootState) => state.authSlice.promise
+export const selectAuthMessage = (state: RootState) => state.authSlice.message
 
 export default authSlice.reducer

@@ -1,11 +1,11 @@
 import { authSlice, AuthState, login, logout, register } from './AuthSlice'
-import { RootState } from '../app/store'
 
 const initialState: AuthState = {
   name: '',
   email: '',
   password: '',
   promise: 'idle',
+  message: ''
 }
 
 describe('authSlice', () => {
@@ -27,9 +27,17 @@ describe('authSlice', () => {
     it('register rejected', () => {
       const action = {
         type: register.rejected.type,
+        payload: {
+          response: {
+            data: {
+              message: "すでに登録済みのメールアドレスです。"
+            }
+          }
+        }
       }
       const state = authSlice.reducer(initialState, action)
       expect(state.promise).toEqual("rejected")
+      expect(state.message).toEqual(action.payload.response.data.message)
     })
   })
 

@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch } from '../../app/hooks'
-import { login } from '../../features/AuthSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import {
+  initAuthState,
+  login,
+  selectAuthPromise,
+} from '../../features/AuthSlice'
 import Input from './Input'
-import LoginForm from './LoginForm'
 
 const Login = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const authPromise = useAppSelector(selectAuthPromise)
 
-  const loginHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(
       login({
@@ -19,10 +23,19 @@ const Login = () => {
     )
   }
 
+  useEffect(() => {
+    dispatch(initAuthState())
+  }, [])
+
   return (
     <div className="container">
       <h3>ログイン</h3>
-      <div className="form">
+      <p>
+        {authPromise === 'rejected'
+          ? 'ログインに失敗しました。ユーザ名とパスワードが正しいか確認してください。'
+          : ''}
+      </p>
+      <form className="form" onSubmit={loginHandler}>
         <Input
           label="Email"
           type="text"
@@ -37,14 +50,10 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button
-          onClick={loginHandler}
-          className="btn btn-primary"
-          type="button"
-        >
+        <button className="btn btn-primary" type="submit">
           Login
         </button>
-      </div>
+      </form>
     </div>
   )
 }

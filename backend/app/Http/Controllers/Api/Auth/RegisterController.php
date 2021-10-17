@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserCreateRequest;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +26,15 @@ class RegisterController extends Controller
             return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        // すでに登録されていないか探す
+        $count = User::select('email')->where('email', $request->email)->count();
+        if ($count != 0) {
+            return response()->json([
+              "message"=>"すでに登録されているメールアドレスです。",
+              "data"=> $count
+            ], Response::HTTP_CONFLICT);
+        }
+
         // ユーザ作成
         User::create([
           'name' =>  $request->name,
@@ -36,6 +42,8 @@ class RegisterController extends Controller
           'password' => Hash::make($request->password),
       ]);
 
-        return response()->json('User registration completed', Response::HTTP_OK);
+        return response()->json([
+          "message"=> "ユーザ登録に成功しました。"
+        ], Response::HTTP_OK);
     }
 }
