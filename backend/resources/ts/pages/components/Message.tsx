@@ -31,9 +31,9 @@ const Message = () => {
     if (postPromise === 'idle') {
       dispatch(addMessages())
       scrollToBottom()
-      console.log('render')
+      // console.log('render')
     }
-  }, [postPromise])
+  }, [postPromise, chatMessagesIds.length])
 
   useEffect(() => {
     if (chatMessagesPromise !== 'loading') {
@@ -47,7 +47,7 @@ const Message = () => {
   const scrollToBottom = useCallback(() => {
     const el = messageList.current
     if (el !== null) {
-      console.log('Scroll')
+      // console.log('Scroll')
       el.scrollTo(0, el.scrollHeight)
     }
   }, [messageList])
@@ -86,7 +86,7 @@ type MessageItemProps = {
 }
 const MessageItem = React.memo(
   ({ name, content, created_at, zeroPadding }: MessageItemProps) => {
-    console.log('messageItem')
+    // console.log('messageItem')
 
     // 日付フォーマット
     const date = new Date(created_at)

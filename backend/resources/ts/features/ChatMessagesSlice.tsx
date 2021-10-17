@@ -57,23 +57,23 @@ export const chatMessagesSlice = createSlice({
         fetchMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
+          // console.log(messages);
+
           state.promise = 'idle'
 
           // メッセージ数が同じならそのまま帰る
           if (state.ids.length === messages.length) {
-            console.log('[fetchMessages]同じ')
+            // console.log('[fetchMessages]同じ')
             return
           }
 
-          console.log('[fetchMessages]違う')
+          // console.log('[fetchMessages]違う')
           state.ids = messages.map(
             (message) => `message${message.id.toString()}`
           )
 
-          let i = 0
           messages.forEach((message) => {
-            i++
-            state.entities[`message${i}`] = message
+            state.entities[`message${message.id}`] = message
           })
         }
       )
@@ -92,27 +92,14 @@ export const chatMessagesSlice = createSlice({
 
           const diff = messages.length - state.ids.length
           if (diff === 0) {
-            console.log('[addMessages]同じ')
             return
           }
+          console.log(diff);
 
-          console.log(`[addMessages]diff ${diff}`)
-
-          // 一番新しいmessageを取得して追加
-          const lastMessage = messages.slice(-1)[0]
-
-          for (let i = 0; i <= diff; i++) {
-            i++
-            const num_id = state.ids.length + i
-            const id = `message${num_id.toString()}`
-            const entity = messages[num_id - 1]
-            state.ids.push(id)
-            state.entities[id] = entity
-          }
-          // const id = `message${i.toString()}`
-          // const entity = lastMessage
-          // state.ids.push(id)
-          // state.entities[id] = entity
+          const i = 0
+          const lastMessage = messages.slice(-diff)[i]
+          state.ids.push(`message${(lastMessage.id).toString()}`)
+          state.entities[`message${(lastMessage.id).toString()}`] = lastMessage
         }
       )
       .addCase(addMessages.pending, (state, action) => {
@@ -125,7 +112,7 @@ export const chatMessagesSlice = createSlice({
 })
 
 // 外部からセットできるように
-export const {} = chatMessagesSlice.actions
+export const { } = chatMessagesSlice.actions
 
 // 外部から読み取れるように
 export const selectChatMessagesIds = (state: RootState) =>
