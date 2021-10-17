@@ -43,6 +43,7 @@ const PostForm = () => {
             value={postContent}
             onChange={changeContentHandler}
             onKeyUp={onSubmitKeyUpHandler}
+            autoFocus
           ></textarea>
           <button className="btn btn-primary mx-1 align-top" onClick={postMessageHandler} type="button">
             投稿
