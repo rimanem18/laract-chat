@@ -94,12 +94,12 @@ export const chatMessagesSlice = createSlice({
           if (diff === 0) {
             return
           }
-          console.log(diff);
+          console.log(diff)
 
           const i = 0
           const lastMessage = messages.slice(-diff)[i]
-          state.ids.push(`message${(lastMessage.id).toString()}`)
-          state.entities[`message${(lastMessage.id).toString()}`] = lastMessage
+          state.ids.push(`message${lastMessage.id.toString()}`)
+          state.entities[`message${lastMessage.id.toString()}`] = lastMessage
         }
       )
       .addCase(addMessages.pending, (state, action) => {
@@ -112,14 +112,6 @@ export const chatMessagesSlice = createSlice({
 })
 
 // 外部からセットできるように
-export const { } = chatMessagesSlice.actions
-
-// 外部から読み取れるように
-export const selectChatMessagesIds = (state: RootState) =>
-  state.chatMessagesSlice.ids
-export const selectChatMessagesEntities = (state: RootState) =>
-  state.chatMessagesSlice.entities
-export const selectChatMessagesPromise = (state: RootState) =>
-  state.chatMessagesSlice.promise
+export const {} = chatMessagesSlice.actions
 
 export default chatMessagesSlice.reducer

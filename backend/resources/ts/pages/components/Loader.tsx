@@ -1,14 +1,10 @@
 import React from 'react'
-import { useAppSelector } from '../../app/hooks'
+import { useAppSelector, useUserPromise } from '../../app/hooks'
 import { selectAuthPromise } from '../../features/AuthSlice'
-import { selectPost, selectPostContent } from '../../features/PostSlise'
-import { selectUser, selectUserPromise } from '../../features/UserSlice'
 
 const Loader = () => {
   const authPromise = useAppSelector(selectAuthPromise)
-  const userPromise = useAppSelector(selectUserPromise)
-  const postContent = useAppSelector(selectPostContent)
-
+  const userPromise = useUserPromise()
 
   return (
     <>

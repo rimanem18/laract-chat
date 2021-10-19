@@ -5,40 +5,30 @@ export const chatMessagesSelector = (state: RootState) =>
   state.chatMessagesSlice
 
 /**
- * userId を取得する
+ * ids を取得する
  */
-export const userIdSelector = createSelector(
+export const chatMessageIdsSelector = createSelector(
   chatMessagesSelector,
   (chatMessagesSlice) => {
-    return chatMessagesSlice.id
+    return chatMessagesSlice.ids
   }
 )
 
 /**
- * userName を取得する
+ * entities を取得する
  */
-export const userNameSelector = createSelector(
-  userSelector,
+export const chatMessagesEntitiesSelector = createSelector(
+  chatMessagesSelector,
   (chatMessagesSlice) => {
-    return chatMessagesSlice.name
+    return chatMessagesSlice.entities
   }
 )
 
 /**
- * userEmail を取得する
+ * promise を取得する
  */
-export const userEmailSelector = createSelector(
-  userSelector,
-  (chatMessagesSlice) => {
-    return chatMessagesSlice.email
-  }
-)
-
-/**
- * userPromise を取得する
- */
-export const userPromiseSelector = createSelector(
-  userSelector,
+export const chatMessagesPromiseSelector = createSelector(
+  chatMessagesSelector,
   (chatMessagesSlice) => {
     return chatMessagesSlice.promise
   }

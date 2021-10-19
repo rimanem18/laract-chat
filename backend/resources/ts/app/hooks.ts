@@ -1,28 +1,48 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import {
-  addMessages,
-  fetchMessages,
-  selectChatMessagesEntities,
-  selectChatMessagesIds,
-  selectChatMessagesPromise,
-} from '../features/ChatMessagesSlice'
+import { addMessages, fetchMessages } from '../features/ChatMessagesSlice'
 import { selectPostPromise } from '../features/PostSlise'
 import type { RootState, AppDispatch } from './store'
+
+import {
+  chatMessageIdsSelector,
+  chatMessagesEntitiesSelector,
+  chatMessagesPromiseSelector,
+} from '../features/ChatMessagesSelector'
+import {
+  userEmailSelector,
+  userIdSelector,
+  userNameSelector,
+  userPromiseSelector,
+} from '../features/UserSelector'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
+// User Selector
+export const useUserId = () => {
+  return useAppSelector(userIdSelector)
+}
+export const useUserEmail = () => {
+  return useAppSelector(userEmailSelector)
+}
+export const useUserName = () => {
+  return useAppSelector(userNameSelector)
+}
+export const useUserPromise = () => {
+  return useAppSelector(userPromiseSelector)
+}
+
 // ChatMessages Selector
-export function useChatMessageIds() {
-  return useAppSelector(selectChatMessagesIds)
+export const useChatMessageIds = () => {
+  return useAppSelector(chatMessageIdsSelector)
 }
 export const useChatMessagesEntities = () => {
-  return useAppSelector(selectChatMessagesEntities)
+  return useAppSelector(chatMessagesEntitiesSelector)
 }
 export const useChatMessagesPromise = () => {
-  return useAppSelector(selectChatMessagesPromise)
+  return useAppSelector(chatMessagesPromiseSelector)
 }
 
 // Post Selector

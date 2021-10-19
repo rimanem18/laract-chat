@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectUser } from '../../features/UserSlice'
+import { useAppDispatch, useAppSelector, useUserId } from '../../app/hooks'
 import { Link } from 'react-router-dom'
 import {
   getContent,
@@ -10,14 +9,14 @@ import {
 
 const PostForm = () => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
+  const userId = useUserId()
   const postContent = useAppSelector(selectPostContent)
 
   // 投稿
   const postMessageHandler = (e: any) => {
     if (postContent === '') return
     e.preventDefault()
-    dispatch(postMessage({ userId: user.id, content: postContent }))
+    dispatch(postMessage({ userId: userId, content: postContent }))
   }
 
   const changeContentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,7 +34,7 @@ const PostForm = () => {
 
   return (
     <>
-      {user.id === 0 ? (
+      {userId === 0 ? (
         <p>
           書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
         </p>
