@@ -1,56 +1,59 @@
 import React, { useCallback, useEffect, useRef } from 'react'
+import { fetchMessages, addMessages } from '../../features/ChatMessagesSlice'
 import {
-  fetchMessages,
-  selectChatMessagesIds,
-  selectChatMessagesEntities,
-  selectChatMessagesPromise,
-  addMessages,
-} from '../../features/ChatMessagesSlice'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+  useAppDispatch,
+  useAppSelector,
+  useChatMessageIds,
+  useChatMessagesEntities,
+  useChatMessagesPromise,
+  useInitFetchMessages,
+  usePostPromise,
+  useScrollToBottom,
+} from '../../app/hooks'
 import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
 
 const typeCheck = Object.prototype.toString
 
 const Message = () => {
   const dispatch = useAppDispatch()
-  const chatMessagesIds = useAppSelector(selectChatMessagesIds)
-  const chatMessagesEntities = useAppSelector(selectChatMessagesEntities)
-  const chatMessagesPromise = useAppSelector(selectChatMessagesPromise)
-  const postContent = useAppSelector(selectPostContent)
-  const postPromise = useAppSelector(selectPostPromise)
+  const chatMessagesIds = useChatMessageIds()
+  const chatMessagesEntities = useChatMessagesEntities()
+  const chatMessagesPromise = useChatMessagesPromise()
+  const postPromise = usePostPromise()
   const messageList = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    // メッセージが何もフェッチされていないときだけ
-    if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
-    }
-  }, [])
+  // useEffect(() => {
+  //   // メッセージが何もフェッチされていないときだけ
+  //   if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
+  //     dispatch(fetchMessages())
+  //   }
+  // }, [])
+  useInitFetchMessages()
 
   useEffect(() => {
     if (postPromise === 'idle') {
       dispatch(addMessages())
-      scrollToBottom()
+      useScrollToBottom(messageList)
       // console.log('render')
     }
   }, [postPromise, chatMessagesIds.length])
 
   useEffect(() => {
     if (chatMessagesPromise !== 'loading') {
-      scrollToBottom()
+      useScrollToBottom(messageList)
     }
   }, [chatMessagesPromise])
 
   /**
    * メッセージ一覧を最下部にスクロールさせる
    */
-  const scrollToBottom = useCallback(() => {
-    const el = messageList.current
-    if (el !== null) {
-      // console.log('Scroll')
-      el.scrollTo(0, el.scrollHeight)
-    }
-  }, [messageList])
+  // const scrollToBottom = useCallback(() => {
+  //   const el = messageList.current
+  //   if (el !== null) {
+  //     // console.log('Scroll')
+  //     el.scrollTo(0, el.scrollHeight)
+  //   }
+  // }, [messageList])
 
   // ゼロ埋め
   const zeroPadding = useCallback((num: number, len: number) => {
@@ -68,7 +71,7 @@ const Message = () => {
           zeroPadding={zeroPadding}
         />
       ))}
-      <ScrollButton scrollHandler={scrollToBottom} />
+      <ScrollButton refObject={messageList} />
     </div>
   )
 }
@@ -120,12 +123,18 @@ const MessageItem = React.memo(
 )
 
 type ScrollButtonProps = {
-  scrollHandler: () => void
+  refObject: React.MutableRefObject<HTMLElement | null>
 }
-const ScrollButton = React.memo(({ scrollHandler }: ScrollButtonProps) => {
+const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
+  const useScrollHandler = () => useScrollToBottom(refObject)
+
   return (
     <div className="scroll-btn">
-      <a className="scroll-btn__item" onClick={scrollHandler}>
+      <a
+        className="scroll-btn__item"
+        onClick={useScrollHandler}
+        data-testid="scroll-btn"
+      >
         <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
       </a>
     </div>
