@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 // 型定義
 export interface AuthState {
   name: string
   email: string
   password: string
-  promise: promiseState
+  promise: PromiseState
   message: string
 }
 
@@ -18,7 +18,7 @@ const initialState: AuthState = {
   email: '',
   password: '',
   promise: 'idle',
-  message: ''
+  message: '',
 }
 
 type RegisterForm = {
@@ -29,23 +29,23 @@ type RegisterForm = {
 export const register = createAsyncThunk(
   'auth/register',
   async ({ name, email, password }: RegisterForm, thunkApi) => {
-    const response = await axios.post('/api/register', { name: name, email: email, password: password })
+    const response = await axios
+      .post('/api/register', { name: name, email: email, password: password })
       .then((res) => {
         // 登録に成功したらそのままログインする
-        return axios.get('/sanctum/csrf-cookie')
-          .then((response) => {
-            return axios.post('/api/login', { email: email, password: password })
-              .then(res => {
-                return res
-              })
-          })
+        return axios.get('/sanctum/csrf-cookie').then((response) => {
+          return axios
+            .post('/api/login', { email: email, password: password })
+            .then((res) => {
+              return res
+            })
+        })
       })
-      .catch(err => {
+      .catch((err) => {
         return thunkApi.rejectWithValue(err)
       })
     return response
   }
-
 )
 
 type LoginForm = {
@@ -93,7 +93,7 @@ export const authSlice = createSlice({
         state.promise = 'loading'
       })
       .addCase(register.rejected, (state, action: any) => {
-        console.log(action);
+        console.log(action)
 
         state.message = action.payload.response.data.message
         state.promise = 'rejected'

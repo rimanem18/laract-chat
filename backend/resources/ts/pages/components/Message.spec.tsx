@@ -7,7 +7,7 @@ import {
   ChatMessage,
   ChatMessagesSliceState,
 } from '../../features/ChatMessagesSlice'
-import { promiseState } from '../../app/type'
+import { PromiseState } from '../../app/type'
 
 // Mock の State
 const mockState: ChatMessagesSliceState = {

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios, { AxiosRequestConfig } from 'axios'
 import { RootState } from '../app/rootReducer'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 export interface PostState {
   userId: number
   content: string
-  promise: promiseState
+  promise: PromiseState
 }
 
 const initialState: PostState = {

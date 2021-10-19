@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 // 型定義
 export interface UserState {
   id: number
   name: string
   email: string
-  promise: promiseState
+  promise: PromiseState
 }
 
 // 初期値

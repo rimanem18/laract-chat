@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { RootState } from '../app/store'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 export type ChatMessage = {
   id: number
@@ -15,7 +15,7 @@ export type ChatMessage = {
 export interface ChatMessagesSliceState {
   ids: string[]
   entities: Record<string, ChatMessage>
-  promise: promiseState
+  promise: PromiseState
 }
 
 // 初期値
