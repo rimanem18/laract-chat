@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import {
+  addMessages,
   fetchMessages,
   selectChatMessagesEntities,
   selectChatMessagesIds,
@@ -40,6 +41,29 @@ export const useScrollToBottom = (
 }
 
 /**
+ * 日付を 1900-01-01 00:00 形式にして返す
+ * @param created_at
+ * @returns
+ */
+export const useFormatDate = (created_at: string) => {
+  // ゼロ埋め
+  const zeroPadding = useCallback((num: number, len: number) => {
+    return (Array(len).join('0') + num).slice(-len)
+  }, [])
+
+  // 日付フォーマット
+  const date = useMemo(() => new Date(created_at), [])
+  const year = date.getFullYear()
+  const month = zeroPadding(date.getMonth() + 1, 2)
+  const day = zeroPadding(date.getDate(), 2)
+  const hour = zeroPadding(date.getHours(), 2)
+  const min = zeroPadding(date.getMinutes(), 2)
+  const datetime = `${year}/${month}/${day} ${hour}:${min}`
+
+  return datetime
+}
+
+/**
  * メッセージが何もフェッチされていないときだけfetchする
  */
 export const useInitFetchMessages = () => {
@@ -53,4 +77,18 @@ export const useInitFetchMessages = () => {
       dispatch(fetchMessages())
     }
   }, [])
+}
+
+export const useAddMessages = () => {
+  const chatMessagesIds = useChatMessageIds()
+  const chatMessagesPromise = useChatMessagesPromise()
+  const postPromise = usePostPromise()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (postPromise === 'idle' || chatMessagesPromise !== 'loading') {
+      dispatch(addMessages())
+      // console.log('render')
+    }
+  }, [postPromise, chatMessagesIds.length])
 }

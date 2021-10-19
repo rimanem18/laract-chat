@@ -1,64 +1,31 @@
-import React, { useCallback, useEffect, useRef } from 'react'
-import { fetchMessages, addMessages } from '../../features/ChatMessagesSlice'
+import React, { useEffect, useRef } from 'react'
 import {
-  useAppDispatch,
-  useAppSelector,
+  useAddMessages,
   useChatMessageIds,
   useChatMessagesEntities,
   useChatMessagesPromise,
+  useFormatDate,
   useInitFetchMessages,
   usePostPromise,
   useScrollToBottom,
 } from '../../app/hooks'
-import { selectPostContent, selectPostPromise } from '../../features/PostSlise'
-
-const typeCheck = Object.prototype.toString
 
 const Message = () => {
-  const dispatch = useAppDispatch()
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesEntities = useChatMessagesEntities()
   const chatMessagesPromise = useChatMessagesPromise()
   const postPromise = usePostPromise()
   const messageList = useRef<HTMLDivElement | null>(null)
 
-  // useEffect(() => {
-  //   // メッセージが何もフェッチされていないときだけ
-  //   if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
-  //     dispatch(fetchMessages())
-  //   }
-  // }, [])
   useInitFetchMessages()
-
+  useAddMessages()
   useEffect(() => {
-    if (postPromise === 'idle') {
-      dispatch(addMessages())
+    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
       useScrollToBottom(messageList)
-      // console.log('render')
     }
   }, [postPromise, chatMessagesIds.length])
 
-  useEffect(() => {
-    if (chatMessagesPromise !== 'loading') {
-      useScrollToBottom(messageList)
-    }
-  }, [chatMessagesPromise])
-
-  /**
-   * メッセージ一覧を最下部にスクロールさせる
-   */
-  // const scrollToBottom = useCallback(() => {
-  //   const el = messageList.current
-  //   if (el !== null) {
-  //     // console.log('Scroll')
-  //     el.scrollTo(0, el.scrollHeight)
-  //   }
-  // }, [messageList])
-
-  // ゼロ埋め
-  const zeroPadding = useCallback((num: number, len: number) => {
-    return (Array(len).join('0') + num).slice(-len)
-  }, [])
+  console.log('Messages')
 
   return (
     <div ref={messageList} className="message">
@@ -68,7 +35,6 @@ const Message = () => {
           name={chatMessagesEntities[id].name}
           content={chatMessagesEntities[id].content}
           created_at={chatMessagesEntities[id].created_at}
-          zeroPadding={zeroPadding}
         />
       ))}
       <ScrollButton refObject={messageList} />
@@ -85,23 +51,14 @@ type MessageItemProps = {
   name: string
   content: string
   created_at: string
-  zeroPadding: (num: number, len: number) => string
 }
 const MessageItem = React.memo(
-  ({ name, content, created_at, zeroPadding }: MessageItemProps) => {
+  ({ name, content, created_at }: MessageItemProps) => {
     // console.log('messageItem')
-
-    // 日付フォーマット
-    const date = new Date(created_at)
-    const year = date.getFullYear()
-    const month = zeroPadding(date.getMonth() + 1, 2)
-    const day = zeroPadding(date.getDate(), 2)
-    const hour = zeroPadding(date.getHours(), 2)
-    const min = zeroPadding(date.getMinutes(), 2)
-    const datetime = `${year}/${month}/${day} ${hour}:${min}`
 
     // 2個以上の改行を2個改行におさめる
     content = content.replace(/\n{2,}/g, '\n\n')
+    const datetime = useFormatDate(created_at)
 
     return (
       <div className="message__item">

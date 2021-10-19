@@ -47,6 +47,8 @@ jest.mock('../../app/hooks', () => ({
   usePostPromise: () => usePostPromiseMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useInitFetchMessages: () => useInitFetchMessagesMock(),
+  useAddMessages: () => useAddMessagesMock(),
+  useFormatDate: () => useFormatDateMock(),
 }))
 
 // Mock の定義
@@ -58,6 +60,10 @@ const useChatMessagesPromiseMock = jest.fn().mockReturnValue(mockState.promise)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 const useScrollToBottomMock = jest.fn()
 const useInitFetchMessagesMock = jest.fn()
+const useAddMessagesMock = jest.fn()
+const useFormatDateMock = jest
+  .fn()
+  .mockReturnValue(mockState.entities.message1.created_at)
 
 // Setup
 const setup = () => {
