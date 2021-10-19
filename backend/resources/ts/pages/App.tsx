@@ -27,11 +27,13 @@ const App = () => {
     }
   }, [authPromise])
 
-  useEffect(() => {
-    if (chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (chatMessagesPromise !== 'loading') {
+  //     dispatch(fetchMessages())
+  //   }
+  // }, [])
+
+  console.log('GlobalNav')
 
   return (
     <BrowserRouter>

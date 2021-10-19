@@ -16,16 +16,13 @@ const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
-  promise: 'idle'
+  promise: 'idle',
 }
 
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async () => {
-    const response = await axios.get('/api/user')
-    return response.data
-  }
-)
+export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+  const response = await axios.get('/api/user')
+  return response.data
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -70,16 +67,15 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state) => {
         state.id = 0
-        state.name = ""
-        state.email = ""
+        state.name = ''
+        state.email = ''
         state.promise = 'rejected'
       })
-  }
+  },
 })
 
-
 // 外部からセットできるように
-export const { } = userSlice.actions
+export const {} = userSlice.actions
 
 // 外部から読み取れるように
 export const selectUser = (state: RootState) => state.userSlice

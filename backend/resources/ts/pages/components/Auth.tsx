@@ -180,4 +180,4 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
   )
 }
 
-export default Auth
+export default React.memo(Auth)

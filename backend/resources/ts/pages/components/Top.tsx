@@ -3,6 +3,8 @@ import Message from './Message'
 import PostForm from './PostForm'
 
 const Top = () => {
+  console.log('Top')
+
   return (
     <>
       <h1>TopPage</h1>
@@ -14,4 +16,4 @@ const Top = () => {
   )
 }
 
-export default Top
+export default React.memo(Top)

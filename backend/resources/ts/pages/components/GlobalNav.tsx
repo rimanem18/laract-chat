@@ -2,10 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logout } from '../../features/AuthSlice'
+import { userIdSelector } from '../../features/UserSelector'
 import { selectUserId } from '../../features/UserSlice'
 
 const GlobalNav = () => {
-  const userId = useAppSelector(selectUserId)
+  const userId = useAppSelector(userIdSelector)
   const dispatch = useAppDispatch()
 
   // ログアウト
@@ -43,4 +44,4 @@ const GlobalNav = () => {
   )
 }
 
-export default GlobalNav
+export default React.memo(GlobalNav)
