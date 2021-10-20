@@ -28,6 +28,8 @@ const PostForm = () => {
     }
   }
 
+  console.log('PostForm')
+
   return (
     <>
       {userId === 0 ? (

@@ -3,11 +3,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Message from './Message'
 import {} from '../../app/hooks'
-import {
-  ChatMessage,
-  ChatMessagesSliceState,
-} from '../../features/ChatMessagesSlice'
-import { PromiseState } from '../../app/type'
+import { ChatMessagesSliceState } from '../../features/ChatMessagesSlice'
 
 // Mock の State
 const mockState: ChatMessagesSliceState = {
@@ -47,23 +43,22 @@ jest.mock('../../app/hooks', () => ({
   usePostPromise: () => usePostPromiseMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useInitFetchMessages: () => useInitFetchMessagesMock(),
-  useAddMessages: () => useAddMessagesMock(),
+  useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
 }))
 
+const entities = mockState.entities
+const created_at = entities.message1.created_at
+
 // Mock の定義
 const mockChatMessageIds = jest.fn().mockReturnValue(mockState.ids)
-const useChatMessagesEntitiesMock = jest
-  .fn()
-  .mockReturnValue(mockState.entities)
+const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
 const useChatMessagesPromiseMock = jest.fn().mockReturnValue(mockState.promise)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 const useScrollToBottomMock = jest.fn()
 const useInitFetchMessagesMock = jest.fn()
-const useAddMessagesMock = jest.fn()
-const useFormatDateMock = jest
-  .fn()
-  .mockReturnValue(mockState.entities.message1.created_at)
+const useUpdateMessagesMock = jest.fn()
+const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 
 // Setup
 const setup = () => {

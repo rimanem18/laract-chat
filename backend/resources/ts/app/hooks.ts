@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { addMessages, fetchMessages } from '../features/ChatMessagesSlice'
+import { fetchMessages, updateMessages } from '../features/ChatMessagesSlice'
 import type { RootState, AppDispatch } from './store'
 
 import {
@@ -126,23 +126,26 @@ export const useInitFetchMessages = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    // メッセージが何もフェッチされていないときだけ
     if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
       dispatch(fetchMessages())
+      console.log('initFetch')
     }
   }, [])
 }
 
-export const useAddMessages = () => {
+/**
+ * メッセージ一覧の差分を取得して更新する
+ */
+export const useUpdateMessages = () => {
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesPromise = useChatMessagesPromise()
   const postPromise = usePostPromise()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (postPromise === 'idle' || chatMessagesPromise !== 'loading') {
-      dispatch(addMessages())
-      // console.log('render')
+    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
+      dispatch(updateMessages())
+      console.log('updateFetch')
     }
   }, [postPromise, chatMessagesIds.length])
 }

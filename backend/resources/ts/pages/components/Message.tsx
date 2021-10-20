@@ -1,29 +1,25 @@
 import React, { useEffect, useRef } from 'react'
 import {
-  useAddMessages,
   useChatMessageIds,
   useChatMessagesEntities,
-  useChatMessagesPromise,
   useFormatDate,
   useInitFetchMessages,
-  usePostPromise,
   useScrollToBottom,
+  useUpdateMessages,
 } from '../../app/hooks'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesEntities = useChatMessagesEntities()
-  const chatMessagesPromise = useChatMessagesPromise()
-  const postPromise = usePostPromise()
   const messageList = useRef<HTMLDivElement | null>(null)
 
   useInitFetchMessages()
-  useAddMessages()
+  useUpdateMessages()
   useEffect(() => {
-    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      useScrollToBottom(messageList)
-    }
-  }, [postPromise, chatMessagesIds.length])
+    console.log('Auto Scroll')
+
+    useScrollToBottom(messageList)
+  }, [messageList.current?.scrollHeight])
 
   console.log('Messages')
 

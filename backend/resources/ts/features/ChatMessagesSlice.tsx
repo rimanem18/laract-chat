@@ -39,8 +39,8 @@ export const fetchMessages = createAsyncThunk(
     return response.data.chat_messages
   }
 )
-export const addMessages = createAsyncThunk(
-  'chatMessages/addMessages',
+export const updateMessages = createAsyncThunk(
+  'chatMessages/updateMessages',
   async () => {
     const response = await axios.get('/api/chat_messages')
     return response.data.chat_messages
@@ -85,7 +85,7 @@ export const chatMessagesSlice = createSlice({
       })
       // addMessage
       .addCase(
-        addMessages.fulfilled,
+        updateMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
           state.promise = 'idle'
@@ -102,10 +102,10 @@ export const chatMessagesSlice = createSlice({
           state.entities[`message${lastMessage.id.toString()}`] = lastMessage
         }
       )
-      .addCase(addMessages.pending, (state, action) => {
+      .addCase(updateMessages.pending, (state, action) => {
         state.promise = 'loading'
       })
-      .addCase(addMessages.rejected, (state) => {
+      .addCase(updateMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
   },
