@@ -2,8 +2,8 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Message from './Message'
-import {} from '../../app/hooks'
-import { ChatMessagesSliceState } from '../../features/ChatMessagesSlice'
+import {} from '../app/hooks'
+import { ChatMessagesSliceState } from '../slices/ChatMessagesSlice'
 
 // Mock の State
 const mockState: ChatMessagesSliceState = {
@@ -28,7 +28,7 @@ const mockState: ChatMessagesSliceState = {
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../../app/hooks', () => ({
+jest.mock('../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>

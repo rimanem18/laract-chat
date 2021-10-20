@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector, useUserId } from '../../app/hooks'
-import { logout } from '../../features/AuthSlice'
+import { useAppDispatch, useUserId } from '../app/hooks'
+import { logout } from '../slices/AuthSlice'
 
 const GlobalNav = () => {
   const userId = useUserId()

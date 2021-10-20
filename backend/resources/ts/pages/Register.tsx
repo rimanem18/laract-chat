@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAuthMessage, useAuthPromise } from '../../app/hooks'
-import { initAuthState, register } from '../../features/AuthSlice'
-import Input from './Input'
+import { useAppDispatch, useAuthMessage, useAuthPromise } from '../app/hooks'
+import { initAuthState, register } from '../slices/AuthSlice'
+import Input from '../components/Input'
 
 const Register = () => {
   const dispatch = useAppDispatch()
