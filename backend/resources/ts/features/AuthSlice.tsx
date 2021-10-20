@@ -125,10 +125,4 @@ export const authSlice = createSlice({
 // 外部からセットできるように
 export const { initAuthState } = authSlice.actions
 
-// 外部から読み取れるように
-export const selectAuthName = (state: RootState) => state.authSlice.name
-export const selectAuthEmail = (state: RootState) => state.authSlice.email
-export const selectAuthPromise = (state: RootState) => state.authSlice.promise
-export const selectAuthMessage = (state: RootState) => state.authSlice.message
-
 export default authSlice.reducer

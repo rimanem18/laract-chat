@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  initAuthState,
-  login,
-  selectAuthPromise,
-} from '../../features/AuthSlice'
+import { useAppDispatch, useAppSelector, useAuthPromise } from '../../app/hooks'
+import { initAuthState, login } from '../../features/AuthSlice'
 import Input from './Input'
 
 const Login = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const authPromise = useAppSelector(selectAuthPromise)
+  const authPromise = useAuthPromise()
 
   const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

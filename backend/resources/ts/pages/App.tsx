@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { useAppDispatch, useAppSelector, useAuthPromise } from '../app/hooks'
 import { fetchUser } from '../features/UserSlice'
-import { selectAuthPromise } from '../features/AuthSlice'
 
 import GlobalNav from './components/GlobalNav'
 import Top from './components/Top'
@@ -12,7 +11,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 
 const App = () => {
-  const authPromise = useAppSelector(selectAuthPromise)
+  const authPromise = useAuthPromise()
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定

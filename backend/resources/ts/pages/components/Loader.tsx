@@ -1,9 +1,8 @@
 import React from 'react'
-import { useAppSelector, useUserPromise } from '../../app/hooks'
-import { selectAuthPromise } from '../../features/AuthSlice'
+import { useAuthPromise, useUserPromise } from '../../app/hooks'
 
 const Loader = () => {
-  const authPromise = useAppSelector(selectAuthPromise)
+  const authPromise = useAuthPromise()
   const userPromise = useUserPromise()
 
   return (

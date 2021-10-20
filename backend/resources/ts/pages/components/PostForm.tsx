@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector, useUserId } from '../../app/hooks'
+import { useAppDispatch, usePostContent, useUserId } from '../../app/hooks'
 import { Link } from 'react-router-dom'
-import {
-  getContent,
-  postMessage,
-  selectPostContent,
-} from '../../features/PostSlise'
+import { getContent, postMessage } from '../../features/PostSlise'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()
   const userId = useUserId()
-  const postContent = useAppSelector(selectPostContent)
+  const postContent = usePostContent()
 
   // 投稿
   const postMessageHandler = (e: any) => {

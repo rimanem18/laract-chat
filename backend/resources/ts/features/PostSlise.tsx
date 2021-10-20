@@ -53,9 +53,4 @@ export const postSlice = createSlice({
 
 export const { getContent } = postSlice.actions
 
-export const selectPost = (state: RootState) => state.postSlice
-export const selectPostUserId = (state: RootState) => state.postSlice.userId
-export const selectPostContent = (state: RootState) => state.postSlice.content
-export const selectPostPromise = (state: RootState) => state.postSlice.promise
-
 export default postSlice.reducer

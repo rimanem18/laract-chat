@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { addMessages, fetchMessages } from '../features/ChatMessagesSlice'
-import { selectPostPromise } from '../features/PostSlise'
 import type { RootState, AppDispatch } from './store'
 
 import {
@@ -15,10 +14,39 @@ import {
   userNameSelector,
   userPromiseSelector,
 } from '../features/UserSelector'
+import {
+  authEmailSelector,
+  authMessageSelector,
+  authNameSelector,
+  authPasswordSelector,
+  authPromiseSelector,
+} from '../features/AuthSelector'
+import {
+  postContentSelector,
+  postPromiseSelector,
+  postUserIdSelector,
+} from '../features/PostSelector'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+// Auth Selector
+export const useAuthName = () => {
+  return useAppSelector(authNameSelector)
+}
+export const useAuthEmail = () => {
+  return useAppSelector(authEmailSelector)
+}
+export const useAuthPassword = () => {
+  return useAppSelector(authPasswordSelector)
+}
+export const useAuthMessage = () => {
+  return useAppSelector(authMessageSelector)
+}
+export const useAuthPromise = () => {
+  return useAppSelector(authPromiseSelector)
+}
 
 // User Selector
 export const useUserId = () => {
@@ -46,8 +74,14 @@ export const useChatMessagesPromise = () => {
 }
 
 // Post Selector
+export const usePostUserId = () => {
+  return useAppSelector(postUserIdSelector)
+}
+export const usePostContent = () => {
+  return useAppSelector(postContentSelector)
+}
 export const usePostPromise = () => {
-  return useAppSelector(selectPostPromise)
+  return useAppSelector(postPromiseSelector)
 }
 
 // Render
