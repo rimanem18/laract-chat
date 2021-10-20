@@ -6,9 +6,19 @@ import Login from './Login'
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
 jest.mock('../../app/hooks', () => ({
-  useAppDispatch: () => (...args: any[]) => mockUseAppDispatch(...args),
-  useAppSelector: () => (...args: any[]) => mockUseAppSelector(...args),
+  useAppDispatch:
+    () =>
+    (...args: any[]) =>
+      mockUseAppDispatch(...args),
+  useAppSelector:
+    () =>
+    (...args: any[]) =>
+      mockUseAppSelector(...args),
+  useAuthPromise: () => useAuthPromiseMock(),
 }))
+
+// Hooks の Mock
+const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
 
 const setup = () => {
   const screen = render(<Login />)
