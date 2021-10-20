@@ -5,7 +5,7 @@ import Login from './Login'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../../app/hooks', () => ({
+jest.mock('../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>

@@ -1,31 +1,31 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { fetchMessages, updateMessages } from '../features/ChatMessagesSlice'
+import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
 import type { RootState, AppDispatch } from './store'
 
 import {
   chatMessageIdsSelector,
   chatMessagesEntitiesSelector,
   chatMessagesPromiseSelector,
-} from '../features/ChatMessagesSelector'
+} from '../selectors/ChatMessagesSelector'
 import {
   userEmailSelector,
   userIdSelector,
   userNameSelector,
   userPromiseSelector,
-} from '../features/UserSelector'
+} from '../selectors/UserSelector'
 import {
   authEmailSelector,
   authMessageSelector,
   authNameSelector,
   authPasswordSelector,
   authPromiseSelector,
-} from '../features/AuthSelector'
+} from '../selectors/AuthSelector'
 import {
   postContentSelector,
   postPromiseSelector,
   postUserIdSelector,
-} from '../features/PostSelector'
+} from '../selectors/PostSelector'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()

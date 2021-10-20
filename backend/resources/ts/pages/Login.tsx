@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector, useAuthPromise } from '../../app/hooks'
-import { initAuthState, login } from '../../features/AuthSlice'
-import Input from './Input'
+import { useAppDispatch, useAuthPromise } from '../app/hooks'
+import { initAuthState, login } from '../slices/AuthSlice'
+import Input from '../components/Input'
 
 const Login = () => {
   const dispatch = useAppDispatch()

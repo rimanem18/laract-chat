@@ -6,7 +6,7 @@ import {
   useInitFetchMessages,
   useScrollToBottom,
   useUpdateMessages,
-} from '../../app/hooks'
+} from '../app/hooks'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
@@ -25,7 +25,7 @@ const Message = () => {
 
   return (
     <div ref={messageList} className="message">
-      {chatMessagesIds.map((id) => (
+      {chatMessagesIds.map((id: string) => (
         <MessageItem
           key={id}
           name={chatMessagesEntities[id].name}

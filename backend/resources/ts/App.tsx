@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector, useAuthPromise } from '../app/hooks'
-import { fetchUser } from '../features/UserSlice'
+import { useAppDispatch, useAuthPromise } from './app/hooks'
+import { fetchUser } from './slices/UserSlice'
 
 import GlobalNav from './components/GlobalNav'
-import Top from './components/Top'
-import About from './components/About'
-import Login from './components/Login'
-import Register from './components/Register'
+import Top from './pages/Top'
+import About from './pages/About'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 const App = () => {
   const authPromise = useAuthPromise()

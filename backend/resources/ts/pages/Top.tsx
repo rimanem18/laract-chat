@@ -1,6 +1,6 @@
 import React from 'react'
-import Message from './Message'
-import PostForm from './PostForm'
+import Message from '../components/Message'
+import PostForm from '../components/PostForm'
 
 const Top = () => {
   console.log('Top')

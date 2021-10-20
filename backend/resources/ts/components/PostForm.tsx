@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useAppDispatch, usePostContent, useUserId } from '../../app/hooks'
+import { useAppDispatch, usePostContent, useUserId } from '../app/hooks'
 import { Link } from 'react-router-dom'
-import { getContent, postMessage } from '../../features/PostSlise'
+import { getContent, postMessage } from '../slices/PostSlise'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()

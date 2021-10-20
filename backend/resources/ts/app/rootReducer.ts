@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import authSlice from '../features/AuthSlice'
-import chatMessagesSlice from '../features/ChatMessagesSlice'
-import postSlice from '../features/PostSlise'
-import userSlice from '../features/UserSlice'
+import authSlice from '../slices/AuthSlice'
+import chatMessagesSlice from '../slices/ChatMessagesSlice'
+import postSlice from '../slices/PostSlise'
+import userSlice from '../slices/UserSlice'
 
 const rootReducer = combineReducers({
   authSlice,

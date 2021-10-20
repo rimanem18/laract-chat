@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuthPromise, useUserPromise } from '../../app/hooks'
+import { useAuthPromise, useUserPromise } from '../app/hooks'
 
 const Loader = () => {
   const authPromise = useAuthPromise()
