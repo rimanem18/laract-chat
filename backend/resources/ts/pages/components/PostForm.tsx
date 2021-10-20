@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectUser } from '../../features/UserSlice'
+import { useAppDispatch, usePostContent, useUserId } from '../../app/hooks'
 import { Link } from 'react-router-dom'
-import { getContent, postMessage, selectPost, selectPostContent } from '../../features/PostSlise'
+import { getContent, postMessage } from '../../features/PostSlise'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
-  const postContent = useAppSelector(selectPostContent)
+  const userId = useUserId()
+  const postContent = usePostContent()
 
   // 投稿
   const postMessageHandler = (e: any) => {
-    if (postContent === "") return
+    if (postContent === '') return
     e.preventDefault()
-    dispatch(postMessage({ userId: user.id, content: postContent }))
+    dispatch(postMessage({ userId: userId, content: postContent }))
   }
 
   const changeContentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,9 +28,11 @@ const PostForm = () => {
     }
   }
 
+  console.log('PostForm')
+
   return (
     <>
-      {user.id === 0 ? (
+      {userId === 0 ? (
         <p>
           書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
         </p>
@@ -45,7 +46,11 @@ const PostForm = () => {
             onKeyUp={onSubmitKeyUpHandler}
             autoFocus
           ></textarea>
-          <button className="btn btn-primary mx-1 align-top" onClick={postMessageHandler} type="button">
+          <button
+            className="btn btn-primary mx-1 align-top"
+            onClick={postMessageHandler}
+            type="button"
+          >
             投稿
           </button>
         </form>
@@ -54,4 +59,4 @@ const PostForm = () => {
   )
 }
 
-export default PostForm
+export default React.memo(PostForm)

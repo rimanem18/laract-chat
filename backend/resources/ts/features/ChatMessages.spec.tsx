@@ -1,5 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { addMessages, ChatMessage, chatMessagesSlice, ChatMessagesSliceState, fetchMessages } from './ChatMessagesSlice'
+import {
+  ChatMessage,
+  chatMessagesSlice,
+  ChatMessagesSliceState,
+  fetchMessages,
+  updateMessages,
+} from './ChatMessagesSlice'
 
 // 初期値
 const initialState: ChatMessagesSliceState = {
@@ -15,7 +21,6 @@ const initialState: ChatMessagesSliceState = {
   promise: 'idle',
 }
 
-
 describe('ChatMessages', () => {
   describe('fetchMessages', () => {
     it('fetch pending', () => {
@@ -23,21 +28,22 @@ describe('ChatMessages', () => {
         type: fetchMessages.pending.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("loading")
+      expect(state.promise).toEqual('loading')
     })
     it('fetchMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
         type: fetchMessages.fulfilled.type,
-        payload: [{
-          id: 1,
-          name: "hoge",
-          content: "Hello World!",
-          created_at: "1900-01-01"
-        }
-        ]
+        payload: [
+          {
+            id: 1,
+            name: 'hoge',
+            content: 'Hello World!',
+            created_at: '1900-01-01',
+          },
+        ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toEqual('idle')
     })
     it('fetchMessages fulfilled 配列が複数個', () => {
       const action: PayloadAction<ChatMessage[]> = {
@@ -45,79 +51,80 @@ describe('ChatMessages', () => {
         payload: [
           {
             id: 1,
-            name: "hoge",
-            content: "Hello World!",
-            created_at: "1900-01-01"
+            name: 'hoge',
+            content: 'Hello World!',
+            created_at: '1900-01-01',
           },
           {
             id: 2,
-            name: "fuga",
-            content: "Hello Docker",
-            created_at: "1900-01-01"
+            name: 'fuga',
+            content: 'Hello Docker',
+            created_at: '1900-01-01',
           },
-        ]
+        ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toEqual('idle')
     })
     it('fetchMessages rejected', () => {
       const action = {
         type: fetchMessages.rejected.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("rejected")
+      expect(state.promise).toEqual('rejected')
     })
   })
 
-  describe('addMessages', () => {
-    it('addMessages pending', () => {
+  describe('updateMessages', () => {
+    it('updateMessages pending', () => {
       const action = {
-        type: addMessages.pending.type,
+        type: updateMessages.pending.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("loading")
+      expect(state.promise).toEqual('loading')
     })
-    it('addMessages fulfilled 配列が一個', () => {
+    it('updateMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
-        type: addMessages.fulfilled.type,
-        payload: [{
-          id: 1,
-          name: "hoge",
-          content: "Hello World!",
-          created_at: "1900-01-01"
-        }]
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
-    })
-    it('addMessages fulfilled 配列が複数個', () => {
-      const action: PayloadAction<ChatMessage[]> = {
-        type: addMessages.fulfilled.type,
+        type: updateMessages.fulfilled.type,
         payload: [
           {
             id: 1,
-            name: "hoge",
-            content: "Hello World!",
-            created_at: "1900-01-01"
+            name: 'hoge',
+            content: 'Hello World!',
+            created_at: '1900-01-01',
+          },
+        ],
+      }
+      const state = chatMessagesSlice.reducer(initialState, action)
+      expect(state.promise).toEqual('idle')
+    })
+    it('updateMessages fulfilled 配列が複数個', () => {
+      const action: PayloadAction<ChatMessage[]> = {
+        type: updateMessages.fulfilled.type,
+        payload: [
+          {
+            id: 1,
+            name: 'hoge',
+            content: 'Hello World!',
+            created_at: '1900-01-01',
           },
           {
             id: 2,
-            name: "fuga",
-            content: "Hello Docker",
-            created_at: "1900-01-01"
+            name: 'fuga',
+            content: 'Hello Docker',
+            created_at: '1900-01-01',
           },
-        ]
+        ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toEqual('idle')
     })
-    it('addMessages rejected', () => {
+    it('updateMessages rejected', () => {
       const action = {
-        type: addMessages.rejected.type,
+        type: updateMessages.rejected.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("rejected")
+      expect(state.promise).toEqual('rejected')
     })
   })
 })
-

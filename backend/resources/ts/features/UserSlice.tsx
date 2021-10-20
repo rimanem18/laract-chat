@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 // 型定義
 export interface UserState {
   id: number
   name: string
   email: string
-  promise: promiseState
+  promise: PromiseState
 }
 
 // 初期値
@@ -16,16 +16,13 @@ const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
-  promise: 'idle'
+  promise: 'idle',
 }
 
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async () => {
-    const response = await axios.get('/api/user')
-    return response.data
-  }
-)
+export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+  const response = await axios.get('/api/user')
+  return response.data
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -70,22 +67,14 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state) => {
         state.id = 0
-        state.name = ""
-        state.email = ""
+        state.name = ''
+        state.email = ''
         state.promise = 'rejected'
       })
-  }
+  },
 })
 
-
 // 外部からセットできるように
-export const { } = userSlice.actions
-
-// 外部から読み取れるように
-export const selectUser = (state: RootState) => state.userSlice
-export const selectUserId = (state: RootState) => state.userSlice.id
-export const selectUserName = (state: RootState) => state.userSlice.name
-export const selectUserEmail = (state: RootState) => state.userSlice.email
-export const selectUserPromise = (state: RootState) => state.userSlice.promise
+export const {} = userSlice.actions
 
 export default userSlice.reducer

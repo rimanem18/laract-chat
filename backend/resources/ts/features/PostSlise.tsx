@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios, { AxiosRequestConfig } from 'axios'
 import { RootState } from '../app/rootReducer'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 export interface PostState {
   userId: number
   content: string
-  promise: promiseState
+  promise: PromiseState
 }
 
 const initialState: PostState = {
@@ -52,10 +52,5 @@ export const postSlice = createSlice({
 })
 
 export const { getContent } = postSlice.actions
-
-export const selectPost = (state: RootState) => state.postSlice
-export const selectPostUserId = (state: RootState) => state.postSlice.userId
-export const selectPostContent = (state: RootState) => state.postSlice.content
-export const selectPostPromise = (state: RootState) => state.postSlice.promise
 
 export default postSlice.reducer

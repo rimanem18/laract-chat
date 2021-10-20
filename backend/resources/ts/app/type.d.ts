@@ -1,1 +1,1 @@
-export type promiseState = 'idle' | 'loading' | 'rejected'
+export type PromiseState = 'idle' | 'loading' | 'rejected'

@@ -2,14 +2,25 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import Register from './Register'
-import { useAppDispatch } from '../../app/hooks';
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
 jest.mock('../../app/hooks', () => ({
-  useAppDispatch: () => (...args: any[]) => mockUseAppDispatch(...args),
-  useAppSelector: () => (...args: any[]) => mockUseAppSelector(...args),
+  useAppDispatch:
+    () =>
+    (...args: any[]) =>
+      mockUseAppDispatch(...args),
+  useAppSelector:
+    () =>
+    (...args: any[]) =>
+      mockUseAppSelector(...args),
+  useAuthPromise: () => useAuthPromiseMock(),
+  useAuthMessage: () => useAuthMessageMock(),
 }))
+
+// Hooks の Mock
+const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
+const useAuthMessageMock = jest.fn().mockReturnValue('')
 
 const setup = () => {
   const screen = render(<Register />)

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { RootState } from '../app/store'
-import { promiseState } from '../app/type'
+import { PromiseState } from '../app/type'
 
 export type ChatMessage = {
   id: number
@@ -15,7 +15,7 @@ export type ChatMessage = {
 export interface ChatMessagesSliceState {
   ids: string[]
   entities: Record<string, ChatMessage>
-  promise: promiseState
+  promise: PromiseState
 }
 
 // 初期値
@@ -39,8 +39,8 @@ export const fetchMessages = createAsyncThunk(
     return response.data.chat_messages
   }
 )
-export const addMessages = createAsyncThunk(
-  'chatMessages/addMessages',
+export const updateMessages = createAsyncThunk(
+  'chatMessages/updateMessages',
   async () => {
     const response = await axios.get('/api/chat_messages')
     return response.data.chat_messages
@@ -85,7 +85,7 @@ export const chatMessagesSlice = createSlice({
       })
       // addMessage
       .addCase(
-        addMessages.fulfilled,
+        updateMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
           state.promise = 'idle'
@@ -94,32 +94,24 @@ export const chatMessagesSlice = createSlice({
           if (diff === 0) {
             return
           }
-          console.log(diff);
+          console.log(diff)
 
           const i = 0
           const lastMessage = messages.slice(-diff)[i]
-          state.ids.push(`message${(lastMessage.id).toString()}`)
-          state.entities[`message${(lastMessage.id).toString()}`] = lastMessage
+          state.ids.push(`message${lastMessage.id.toString()}`)
+          state.entities[`message${lastMessage.id.toString()}`] = lastMessage
         }
       )
-      .addCase(addMessages.pending, (state, action) => {
+      .addCase(updateMessages.pending, (state, action) => {
         state.promise = 'loading'
       })
-      .addCase(addMessages.rejected, (state) => {
+      .addCase(updateMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
   },
 })
 
 // 外部からセットできるように
-export const { } = chatMessagesSlice.actions
-
-// 外部から読み取れるように
-export const selectChatMessagesIds = (state: RootState) =>
-  state.chatMessagesSlice.ids
-export const selectChatMessagesEntities = (state: RootState) =>
-  state.chatMessagesSlice.entities
-export const selectChatMessagesPromise = (state: RootState) =>
-  state.chatMessagesSlice.promise
+export const {} = chatMessagesSlice.actions
 
 export default chatMessagesSlice.reducer

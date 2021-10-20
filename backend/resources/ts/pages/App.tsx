@@ -1,23 +1,17 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
+import { useAppDispatch, useAppSelector, useAuthPromise } from '../app/hooks'
+import { fetchUser } from '../features/UserSlice'
+
 import GlobalNav from './components/GlobalNav'
 import Top from './components/Top'
 import About from './components/About'
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { fetchUser } from '../features/UserSlice'
-import { selectAuthPromise } from '../features/AuthSlice'
-import Loader from './components/Loader'
 import Login from './components/Login'
 import Register from './components/Register'
-import {
-  fetchMessages,
-  selectChatMessagesPromise,
-} from '../features/ChatMessagesSlice'
 
 const App = () => {
-  const authPromise = useAppSelector(selectAuthPromise)
-  const chatMessagesPromise = useAppSelector(selectChatMessagesPromise)
+  const authPromise = useAuthPromise()
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
@@ -26,12 +20,6 @@ const App = () => {
       dispatch(fetchUser())
     }
   }, [authPromise])
-
-  useEffect(() => {
-    if (chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
-    }
-  }, [])
 
   return (
     <BrowserRouter>
