@@ -1,5 +1,9 @@
-import { postSlice, postMessage, getContent } from './PostSlise'
-import { PostState } from './PostSlise'
+import {
+  postSlice,
+  postMessage,
+  getContent,
+  PostState,
+} from '../../slices/PostSlice'
 
 const initialState: PostState = {
   userId: 0,

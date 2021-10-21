@@ -1,12 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import PostForm from './PostForm'
+import PostForm from '../../components/PostForm'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>

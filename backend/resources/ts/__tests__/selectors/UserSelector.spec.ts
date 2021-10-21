@@ -1,17 +1,17 @@
-import { testState } from './selector-tests-utils'
+import { mockState } from '../../app/mockState'
 import {
   userEmailSelector,
   userIdSelector,
   userNameSelector,
   userPromiseSelector,
-} from './UserSelector'
+} from '../../selectors/UserSelector'
 
 describe('userSelector', () => {
   it('Selector で userState の値を取得できる', () => {
-    const id = userIdSelector(testState)
-    const name = userNameSelector(testState)
-    const email = userEmailSelector(testState)
-    const promise = userPromiseSelector(testState)
+    const id = userIdSelector(mockState)
+    const name = userNameSelector(mockState)
+    const email = userEmailSelector(mockState)
+    const promise = userPromiseSelector(mockState)
 
     expect(id).toBe(1)
     expect(name).toBe('太郎')

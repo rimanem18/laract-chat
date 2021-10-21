@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login snapshot 1`] = `
+<div
+  className="container"
+>
+  <h3>
+    ログイン
+  </h3>
+  <p>
+    
+  </p>
+  <form
+    className="form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label"
+        data-testid="label"
+        htmlFor="Email"
+      >
+        Email
+      </label>
+      <input
+        className="form-control"
+        data-testid="Email-input"
+        id="Email"
+        name="email"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label"
+        data-testid="label"
+        htmlFor="Password"
+      >
+        Password
+      </label>
+      <input
+        className="form-control"
+        data-testid="Password-input"
+        id="Password"
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value=""
+      />
+    </div>
+    <button
+      className="btn btn-primary"
+      type="submit"
+    >
+      Login
+    </button>
+  </form>
+</div>
+`;

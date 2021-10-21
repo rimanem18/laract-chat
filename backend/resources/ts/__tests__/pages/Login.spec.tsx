@@ -1,11 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import Login from './Login'
+import renderer from 'react-test-renderer'
+import Login from '../../pages/Login'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
@@ -46,5 +47,10 @@ describe('Login', () => {
       target: { value: email },
     })
     expect(emailInput.value).toBe(email)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Login />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAppDispatch, usePostContent, useUserId } from '../app/hooks'
 import { Link } from 'react-router-dom'
-import { getContent, postMessage } from '../slices/PostSlise'
+import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()

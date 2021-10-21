@@ -5,7 +5,7 @@ import {
   ChatMessagesSliceState,
   fetchMessages,
   updateMessages,
-} from './ChatMessagesSlice'
+} from '../../slices/ChatMessagesSlice'
 
 // 初期値
 const initialState: ChatMessagesSliceState = {

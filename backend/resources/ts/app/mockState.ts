@@ -1,6 +1,6 @@
-import { RootState } from '../app/store'
+import { RootState } from './store'
 
-export const testState: RootState = {
+export const mockState: RootState = {
   authSlice: {
     name: '太郎',
     email: 'taro@example.com',

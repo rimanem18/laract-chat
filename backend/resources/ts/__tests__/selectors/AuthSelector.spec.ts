@@ -4,16 +4,16 @@ import {
   authNameSelector,
   authPasswordSelector,
   authPromiseSelector,
-} from './AuthSelector'
-import { testState } from './selector-tests-utils'
+} from '../../selectors/AuthSelector'
+import { mockState } from '../../app/mockState'
 
 describe('authSelector', () => {
   it('Selector で authState の値を取得できる', () => {
-    const name = authNameSelector(testState)
-    const email = authEmailSelector(testState)
-    const password = authPasswordSelector(testState)
-    const promise = authPromiseSelector(testState)
-    const message = authMessageSelector(testState)
+    const name = authNameSelector(mockState)
+    const email = authEmailSelector(mockState)
+    const password = authPasswordSelector(mockState)
+    const promise = authPromiseSelector(mockState)
+    const message = authMessageSelector(mockState)
 
     expect(name).toBe('太郎')
     expect(email).toBe('taro@example.com')

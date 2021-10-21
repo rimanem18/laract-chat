@@ -2,14 +2,14 @@ import {
   chatMessageIdsSelector,
   chatMessagesEntitiesSelector,
   chatMessagesPromiseSelector,
-} from './ChatMessagesSelector'
-import { testState } from './selector-tests-utils'
+} from '../../selectors/ChatMessagesSelector'
+import { mockState } from '../../app/mockState'
 
 describe('chatMessagesSelector', () => {
   it('Selector で chatMessagesState の値を取得できる', () => {
-    const ids = chatMessageIdsSelector(testState)
-    const entities = chatMessagesEntitiesSelector(testState)
-    const promise = chatMessagesPromiseSelector(testState)
+    const ids = chatMessageIdsSelector(mockState)
+    const entities = chatMessagesEntitiesSelector(mockState)
+    const promise = chatMessagesPromiseSelector(mockState)
 
     expect(ids).toEqual(['message1', 'message2'])
     expect(entities).toEqual({

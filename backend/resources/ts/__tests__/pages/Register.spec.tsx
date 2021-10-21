@@ -1,11 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import Register from './Register'
+import renderer from 'react-test-renderer'
+import Register from '../../pages/Register'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
@@ -134,5 +135,10 @@ describe('Register Button', () => {
       target: { value: 'helloPass' },
     })
     expect(button.disabled).toBe(false)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Register />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Top snapshot 1`] = `
+Array [
+  <h1>
+    TopPage
+  </h1>,
+  <div
+    className="container"
+  >
+    <div
+      className="message"
+    >
+      <div
+        className="message__item"
+      >
+        <div>
+          <strong
+            className="mr-1"
+          >
+            hoge
+          </strong>
+          <small>
+            1900-01-01
+          </small>
+        </div>
+        <p>
+          fugafuga
+          <br />
+        </p>
+      </div>
+      <div
+        className="message__item"
+      >
+        <div>
+          <strong
+            className="mr-1"
+          >
+            piyo
+          </strong>
+          <small>
+            1900-01-01
+          </small>
+        </div>
+        <p>
+          fugafuga
+          <br />
+        </p>
+      </div>
+      <div
+        className="scroll-btn"
+      >
+        <a
+          className="scroll-btn__item"
+          data-testid="scroll-btn"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+          />
+        </a>
+      </div>
+    </div>
+    <form
+      className="form post-form mt-1"
+      onSubmit={[Function]}
+    >
+      <textarea
+        autoFocus={true}
+        className="post-form__input"
+        data-testid="textarea"
+        name="content"
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        value="Hello"
+      />
+      <button
+        className="btn btn-primary mx-1 align-top"
+        type="button"
+      >
+        投稿
+      </button>
+    </form>
+  </div>,
+]
+`;

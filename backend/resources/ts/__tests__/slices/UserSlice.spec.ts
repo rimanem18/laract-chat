@@ -1,4 +1,4 @@
-import { fetchUser, userSlice, UserState } from './UserSlice'
+import { fetchUser, userSlice, UserState } from '../../slices/UserSlice'
 
 const initialState: UserState = {
   id: 0,

@@ -2,12 +2,12 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { fireEvent, render } from '@testing-library/react'
-import GlobalNav from './GlobalNav'
+import GlobalNav from '../../components/GlobalNav'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
