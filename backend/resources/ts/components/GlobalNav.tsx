@@ -13,10 +13,11 @@ const GlobalNav = () => {
   }
 
   console.log('GlobalNav')
+  console.log(userId)
 
   return (
     <nav>
-      <ul>
+      <ul data-testid="nav">
         <Link to="/">
           <li>Top</li>
         </Link>
