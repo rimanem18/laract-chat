@@ -19,7 +19,7 @@ jest.mock('../../app/hooks', () => ({
 }))
 
 // Mock の定義
-const onChangeMock = jest.fn().mockReturnValue('Hello')
+const onChangeMock = jest.fn()
 
 const InputComponent = (
   <Input
@@ -45,6 +45,11 @@ const setup = () => {
 
 // テスト開始
 describe('Input', () => {
+  it('snapshot', () => {
+    const tree = renderer.create(InputComponent).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
   it('渡されたラベルの値が htmlFor, text に反映されている', () => {
     const { label } = setup()
 
@@ -77,10 +82,5 @@ describe('Input', () => {
       target: { value: 'Hello' },
     })
     expect(onChangeMock).toBeCalled()
-  })
-
-  it('snapshot', () => {
-    const tree = renderer.create(InputComponent).toJSON()
-    expect(tree).toMatchSnapshot()
   })
 })

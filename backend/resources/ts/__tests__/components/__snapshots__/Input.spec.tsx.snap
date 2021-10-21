@@ -16,45 +16,7 @@ exports[`Input snapshot 1`] = `
     data-testid="Name-input"
     id="Name"
     name="name"
-    onChange={
-      [MockFunction] {
-        "calls": Array [
-          Array [
-            SyntheticBaseEvent {
-              "_reactName": "onChange",
-              "_targetInst": null,
-              "bubbles": true,
-              "cancelable": false,
-              "currentTarget": null,
-              "defaultPrevented": false,
-              "eventPhase": 3,
-              "isDefaultPrevented": [Function],
-              "isPropagationStopped": [Function],
-              "isTrusted": false,
-              "nativeEvent": Event {
-                "isTrusted": false,
-              },
-              "target": <input
-                class="form-control"
-                data-testid="Name-input"
-                id="Name"
-                name="name"
-                type="text"
-                value=""
-              />,
-              "timeStamp": 1634798996146,
-              "type": "change",
-            },
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": "Hello",
-          },
-        ],
-      }
-    }
+    onChange={[MockFunction]}
     type="text"
     value=""
   />
