@@ -5,7 +5,7 @@ const initialState: AuthState = {
   email: '',
   password: '',
   promise: 'idle',
-  message: ''
+  message: '',
 }
 
 describe('authSlice', () => {
@@ -15,14 +15,14 @@ describe('authSlice', () => {
         type: register.pending.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("loading")
+      expect(state.promise).toBe('loading')
     })
     it('register fulfilled', () => {
       const action = {
         type: register.fulfilled.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toBe('idle')
     })
     it('register rejected', () => {
       const action = {
@@ -30,14 +30,14 @@ describe('authSlice', () => {
         payload: {
           response: {
             data: {
-              message: "すでに登録済みのメールアドレスです。"
-            }
-          }
-        }
+              message: 'すでに登録済みのメールアドレスです。',
+            },
+          },
+        },
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("rejected")
-      expect(state.message).toEqual(action.payload.response.data.message)
+      expect(state.promise).toBe('rejected')
+      expect(state.message).toBe(action.payload.response.data.message)
     })
   })
 
@@ -47,21 +47,21 @@ describe('authSlice', () => {
         type: login.pending.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("loading")
+      expect(state.promise).toBe('loading')
     })
     it('login fulfilled', () => {
       const action = {
         type: login.fulfilled.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toBe('idle')
     })
     it('login rejected', () => {
       const action = {
         type: login.rejected.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("rejected")
+      expect(state.promise).toBe('rejected')
     })
   })
 
@@ -71,22 +71,21 @@ describe('authSlice', () => {
         type: logout.pending.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("loading")
+      expect(state.promise).toBe('loading')
     })
     it('logout fulfilled', () => {
       const action = {
         type: logout.fulfilled.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("idle")
+      expect(state.promise).toBe('idle')
     })
     it('logout rejected', () => {
       const action = {
         type: logout.rejected.type,
       }
       const state = authSlice.reducer(initialState, action)
-      expect(state.promise).toEqual("rejected")
+      expect(state.promise).toBe('rejected')
     })
   })
 })
-

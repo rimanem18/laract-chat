@@ -36,7 +36,7 @@ const setup = () => {
 describe('Login', () => {
   it('email の入力初期値は空', () => {
     const { emailInput } = setup()
-    expect(emailInput.value).toEqual('')
+    expect(emailInput.value).toBe('')
   })
 
   it('email に文字を入力すると入力された文字が反映される', () => {
@@ -45,6 +45,6 @@ describe('Login', () => {
     fireEvent.change(emailInput, {
       target: { value: email },
     })
-    expect(emailInput.value).toEqual(email)
+    expect(emailInput.value).toBe(email)
   })
 })
