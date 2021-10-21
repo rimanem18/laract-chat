@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
+import renderer from 'react-test-renderer'
 import Input from '../../components/Input'
 
 // Hooks の Mock
@@ -20,17 +21,19 @@ jest.mock('../../app/hooks', () => ({
 // Mock の定義
 const onChangeMock = jest.fn().mockReturnValue('Hello')
 
+const InputComponent = (
+  <Input
+    label="Name"
+    type="text"
+    name="name"
+    value=""
+    onChange={onChangeMock}
+  />
+)
+
 // Setup
 const setup = () => {
-  const screen = render(
-    <Input
-      label="Name"
-      type="text"
-      name="name"
-      value=""
-      onChange={onChangeMock}
-    />
-  )
+  const screen = render(InputComponent)
   const input = screen.getByTestId('Name-input') as HTMLInputElement
   const label = screen.getByTestId('label') as HTMLLabelElement
   return {
@@ -74,5 +77,10 @@ describe('Input', () => {
       target: { value: 'Hello' },
     })
     expect(onChangeMock).toBeCalled()
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(InputComponent).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

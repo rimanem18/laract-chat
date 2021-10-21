@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { fireEvent, render } from '@testing-library/react'
+import renderer from 'react-test-renderer'
 import GlobalNav from '../../components/GlobalNav'
 
 // Hooks の Mock
@@ -22,13 +23,15 @@ jest.mock('../../app/hooks', () => ({
 // Mock の定義
 const useUserIdMock = jest.fn().mockReturnValue(1)
 
+const GlobalNavComponent = (
+  <Router>
+    <GlobalNav />
+  </Router>
+)
+
 // Setup
 const setup = () => {
-  const screen = render(
-    <Router>
-      <GlobalNav />
-    </Router>
-  )
+  const screen = render(GlobalNavComponent)
   const nav = screen.getByTestId('nav') as HTMLElement
   return {
     nav,
@@ -49,5 +52,10 @@ describe('GlobalNav', () => {
 
     expect(Boolean(nav.textContent?.match(/Login/g))).toBe(false)
     expect(Boolean(nav.textContent?.match(/Register/g))).toBe(false)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(GlobalNavComponent).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

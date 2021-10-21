@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { ChatMessagesSliceState } from '../../slices/ChatMessagesSlice'
+import renderer from 'react-test-renderer'
 import Message from '../../components/Message'
 import { mockState } from '../../app/mockState'
 
@@ -57,5 +57,10 @@ describe('Message', () => {
     const { scrollButton } = setup()
     fireEvent.click(scrollButton)
     expect(useScrollToBottomMock).toBeCalled()
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Message />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

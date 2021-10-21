@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
+import renderer from 'react-test-renderer'
 import PostForm from '../../components/PostForm'
 
 // Hooks の Mock
@@ -53,5 +54,10 @@ describe('PostForm', () => {
       },
     })
     expect(textarea.value).toBe(mockValues.content)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<PostForm />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })
