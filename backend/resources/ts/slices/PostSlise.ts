@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import axios, { AxiosRequestConfig } from 'axios'
-import { RootState } from '../app/rootReducer'
+import axios from 'axios'
 import { PromiseState } from '../app/type'
 
 export interface PostState {
@@ -32,7 +31,7 @@ export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    getContent: (state, action) => {
+    getContent: (state, action: PayloadAction<string>) => {
       state.content = action.payload
     },
   },

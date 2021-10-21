@@ -27,41 +27,20 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    login: (
-      state,
-      payloadAction: PayloadAction<{ email: string; password: string }>
-    ) => {
-      const { email, password } = payloadAction.payload
-
-      // ログイン時に CSRF トークンを初期化
-      axios.get('/sanctum/csrf-cookie').then((response) => {
-        axios
-          .post('/api/login', {
-            email: email,
-            password: password,
-          })
-          .then((response) => {
-            console.log('[login]ログイン成功')
-            console.log(response.data)
-          })
-          .catch((error) => {
-            console.log(error.response)
-            console.log('[login]ログイン失敗')
-          })
-      })
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // fetchUser
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        const user = action.payload
-        state.id = user.id
-        state.name = user.name
-        state.email = user.email
-        state.promise = 'idle'
-      })
+      .addCase(
+        fetchUser.fulfilled,
+        (state, action: PayloadAction<UserState>) => {
+          const user = action.payload
+          state.id = user.id
+          state.name = user.name
+          state.email = user.email
+          state.promise = 'idle'
+        }
+      )
       .addCase(fetchUser.pending, (state) => {
         state.promise = 'loading'
       })
