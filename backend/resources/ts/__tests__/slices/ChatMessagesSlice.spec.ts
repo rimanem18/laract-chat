@@ -14,12 +14,30 @@ const initialState: ChatMessagesSliceState = {
     message0: {
       id: 0,
       name: '',
+      group_id: 0,
       content: '',
       created_at: '',
     },
   },
   promise: 'idle',
 }
+
+const payloadMock = [
+  {
+    id: 1,
+    name: 'hoge',
+    group_id: 1,
+    content: 'Hello World!',
+    created_at: '1900-01-01',
+  },
+  {
+    id: 2,
+    name: 'fuga',
+    group_id: 2,
+    content: 'Hello Docker',
+    created_at: '1900-01-01',
+  },
+]
 
 describe('ChatMessages', () => {
   describe('fetchMessages', () => {
@@ -33,14 +51,7 @@ describe('ChatMessages', () => {
     it('fetchMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
         type: fetchMessages.fulfilled.type,
-        payload: [
-          {
-            id: 1,
-            name: 'hoge',
-            content: 'Hello World!',
-            created_at: '1900-01-01',
-          },
-        ],
+        payload: [payloadMock[0]],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('idle')
@@ -48,20 +59,7 @@ describe('ChatMessages', () => {
     it('fetchMessages fulfilled 配列が複数個', () => {
       const action: PayloadAction<ChatMessage[]> = {
         type: fetchMessages.fulfilled.type,
-        payload: [
-          {
-            id: 1,
-            name: 'hoge',
-            content: 'Hello World!',
-            created_at: '1900-01-01',
-          },
-          {
-            id: 2,
-            name: 'fuga',
-            content: 'Hello Docker',
-            created_at: '1900-01-01',
-          },
-        ],
+        payload: payloadMock,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('idle')
@@ -86,14 +84,7 @@ describe('ChatMessages', () => {
     it('updateMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
         type: updateMessages.fulfilled.type,
-        payload: [
-          {
-            id: 1,
-            name: 'hoge',
-            content: 'Hello World!',
-            created_at: '1900-01-01',
-          },
-        ],
+        payload: [payloadMock[0]],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('idle')
@@ -101,20 +92,7 @@ describe('ChatMessages', () => {
     it('updateMessages fulfilled 配列が複数個', () => {
       const action: PayloadAction<ChatMessage[]> = {
         type: updateMessages.fulfilled.type,
-        payload: [
-          {
-            id: 1,
-            name: 'hoge',
-            content: 'Hello World!',
-            created_at: '1900-01-01',
-          },
-          {
-            id: 2,
-            name: 'fuga',
-            content: 'Hello Docker',
-            created_at: '1900-01-01',
-          },
-        ],
+        payload: payloadMock,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('idle')

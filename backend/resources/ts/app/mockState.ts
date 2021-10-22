@@ -14,12 +14,14 @@ export const mockState: RootState = {
       message1: {
         id: 1,
         name: 'hoge',
+        group_id: 1,
         content: 'fugafuga',
         created_at: '1900-01-01',
       },
       message2: {
         id: 2,
         name: 'piyo',
+        group_id: 2,
         content: 'fugafuga',
         created_at: '1900-01-01',
       },
