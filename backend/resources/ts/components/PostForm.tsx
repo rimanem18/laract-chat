@@ -1,12 +1,17 @@
 import React from 'react'
 import { useAppDispatch, usePostContent, useUserId } from '../app/hooks'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()
   const userId = useUserId()
   const postContent = usePostContent()
+  const { groupId } = useParams<{ groupId?: string }>()
+
+  if (groupId === undefined) {
+    return null
+  }
 
   // 投稿
   const postMessageHandler = (
@@ -16,7 +21,13 @@ const PostForm = () => {
   ) => {
     if (postContent === '') return
     e.preventDefault()
-    dispatch(postMessage({ userId: userId, content: postContent }))
+    dispatch(
+      postMessage({
+        userId: userId,
+        groupId: Number(groupId),
+        content: postContent,
+      })
+    )
   }
 
   const changeContentHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

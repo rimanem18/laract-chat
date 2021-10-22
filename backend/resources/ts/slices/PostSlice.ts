@@ -16,6 +16,7 @@ const initialState: PostState = {
 
 type PostData = {
   userId: number
+  groupId: number
   content: string
 }
 
