@@ -16,10 +16,11 @@ class ChatMessageSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('ja_JP');
-        $user_id = 1;
-        $group_id =1;
 
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 20; $i++) {
+            $user_id = rand(1, 3);
+            $group_id = rand(1, 3);
+
             $param = [
               'user_id' => $user_id,
               'group_id' => $group_id,

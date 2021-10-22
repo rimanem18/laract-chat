@@ -38,5 +38,5 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::post('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
+Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);

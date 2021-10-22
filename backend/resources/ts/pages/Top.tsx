@@ -9,15 +9,13 @@ const Top = () => {
   return (
     <>
       <h1>TopPage</h1>
-      <div className="container">
-        <div className="row">
-          {/* <div className="col-md-3">
-            <Sidebar />
-          </div> */}
-          <div className="col-md-9">
-            <Message />
-            <PostForm />
-          </div>
+      <div className="row">
+        <div className="col-md-3">
+          <Sidebar />
+        </div>
+        <div className="col-md-9">
+          <Message />
+          <PostForm />
         </div>
       </div>
     </>

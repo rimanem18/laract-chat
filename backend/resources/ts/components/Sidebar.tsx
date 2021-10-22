@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useUserEmail, useUserId, useUserName } from '../app/hooks'
 
 const Sidebar = () => {
@@ -7,11 +8,24 @@ const Sidebar = () => {
   const userEmail = useUserEmail()
 
   return (
-    <div>
-      <p data-testid="user-id">{userId}</p>
-      <p data-testid="user-name">{userName}</p>
-      <p data-testid="user-email">{userEmail}</p>
-    </div>
+    <>
+      <ul>
+        <li data-testid="user-id">{userId}</li>
+        <li data-testid="user-name">{userName}</li>
+        <li data-testid="user-email">{userEmail}</li>
+      </ul>
+      <ul>
+        <li>
+          <Link to="/groups/1">グループ1</Link>
+        </li>
+        <li>
+          <Link to="/groups/2">グループ2</Link>
+        </li>
+        <li>
+          <Link to="/groups/3">グループ3</Link>
+        </li>
+      </ul>
+    </>
   )
 }
 

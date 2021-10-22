@@ -25,11 +25,11 @@ class ChatMessageController extends Controller
         ->select(
             'messages.id',
             'messages.user_id',
+            'messages.group_id',
             'messages.content',
             'messages.created_at',
             'users.name'
         )
-        ->where("group_id", $request->groupId)
         ->get();
 
         return Response()->json(['chat_messages'=>$chat_messages], Response::HTTP_OK);
