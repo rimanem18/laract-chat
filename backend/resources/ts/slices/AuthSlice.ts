@@ -87,7 +87,7 @@ export const authSlice = createSlice({
       // register
       .addCase(register.fulfilled, (state) => {
         state.promise = 'idle'
-        location.href = '/'
+        location.href = '/groups/1'
       })
       .addCase(register.pending, (state) => {
         state.promise = 'loading'
@@ -101,7 +101,7 @@ export const authSlice = createSlice({
       // login
       .addCase(login.fulfilled, (state) => {
         state.promise = 'idle'
-        location.href = '/'
+        location.href = '/groups/1'
       })
       .addCase(login.pending, (state) => {
         state.promise = 'loading'
@@ -112,6 +112,7 @@ export const authSlice = createSlice({
       // logout
       .addCase(logout.fulfilled, (state) => {
         state.promise = 'idle'
+        location.href = '/login'
       })
       .addCase(logout.pending, (state) => {
         state.promise = 'loading'
