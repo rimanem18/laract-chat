@@ -37,19 +37,6 @@ Route::post('/tokens/create', function (Request $request) {
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
-// Route::post('/login', function (Request $request) {
-//     $login = new LoginController();
-//     return $login->login($request);
-// });
-// Route::get('/logout', function (Request $request) {
-//     $login = new LoginController();
-//     return $login->logout($request);
-// });
 
-// Route::get('/chat_messages', function (Request $request) {
-//     $chat_messages = Chat_message::all();
-//     return response()->json(['chat_messages'=>$chat_messages]);
-// });
-
-Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
+Route::post('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);

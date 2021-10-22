@@ -34,15 +34,19 @@ const initialState: ChatMessagesSliceState = {
 
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
-  async () => {
-    const response = await axios.get('/api/chat_messages')
+  async ({ groupId }: { groupId: number }) => {
+    const response = await axios.post('/api/chat_messages/', {
+      groupId: groupId,
+    })
     return response.data.chat_messages
   }
 )
 export const updateMessages = createAsyncThunk(
   'chatMessages/updateMessages',
-  async () => {
-    const response = await axios.get('/api/chat_messages')
+  async ({ groupId }: { groupId: number }) => {
+    const response = await axios.post('/api/chat_messages/', {
+      groupId: groupId,
+    })
     return response.data.chat_messages
   }
 )

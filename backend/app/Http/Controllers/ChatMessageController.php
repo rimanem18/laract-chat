@@ -10,17 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatMessageController extends Controller
 {
+
+    /**
+     * リクエストパラメーターをもとにメッセージ一覧を返す
+     *
+     * @param Request $request
+     * @return jsonResponse
+     */
     public function selectChatMessages(Request $request)
     {
-//         $sql = <<< EOM
-//         SELECT t1.id, t1.user_id, t1.content, t1.create_at, t2.name
-//         FROM chat_messages AS t1
-//         JOIN users AS t2
-//         ON t1.user_id = t2.id;
-        // EOM;
-//         $chat_messages =
-//       DB::select($sql);
-
         $chat_messages =
         ChatMessage::from('chat_messages AS messages')
         ->join('users', 'messages.user_id', '=', 'users.id')
@@ -31,15 +29,22 @@ class ChatMessageController extends Controller
             'messages.created_at',
             'users.name'
         )
+        ->where("group_id", $request->groupId)
         ->get();
 
-        return Response()->json(['chat_messages'=>$chat_messages]);
+        return Response()->json(['chat_messages'=>$chat_messages], Response::HTTP_OK);
     }
 
+    /**
+     * リクエストパラメーターをもとにメッセージを挿入する
+     *
+     * @param Request $request
+     * @return jsonResponse
+     */
     public function insertChatMessage(Request $request)
     {
         $user_id = $request->userId;
-        $group_id = 1;
+        $group_id = $request->groupId;
         $content = $request->content;
 
         ChatMessage::create([

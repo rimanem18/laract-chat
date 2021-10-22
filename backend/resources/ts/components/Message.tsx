@@ -13,8 +13,10 @@ const Message = () => {
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
 
-  useInitFetchMessages()
-  useUpdateMessages()
+  const groupId = 1
+
+  useInitFetchMessages(groupId)
+  useUpdateMessages(groupId)
   useEffect(() => {
     console.log('Auto Scroll')
 
