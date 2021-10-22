@@ -1,6 +1,7 @@
 import React from 'react'
 import Message from '../components/Message'
 import PostForm from '../components/PostForm'
+import Sidebar from '../components/Sidebar'
 
 const Top = () => {
   console.log('Top')
@@ -9,8 +10,15 @@ const Top = () => {
     <>
       <h1>TopPage</h1>
       <div className="container">
-        <Message />
-        <PostForm />
+        <div className="row">
+          {/* <div className="col-md-3">
+            <Sidebar />
+          </div> */}
+          <div className="col-md-9">
+            <Message />
+            <PostForm />
+          </div>
+        </div>
       </div>
     </>
   )

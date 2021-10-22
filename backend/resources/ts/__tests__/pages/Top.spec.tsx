@@ -26,6 +26,8 @@ jest.mock('../../app/hooks', () => ({
   useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
   useUserId: () => useUserIdMock(),
+  useUserName: () => useUserNameMock(),
+  useUserEmail: () => useUserEmailMock(),
   usePostContent: () => usePostContentMock(),
 }))
 
@@ -35,20 +37,24 @@ const ids = mockState.chatMessagesSlice.ids
 const entities = mockState.chatMessagesSlice.entities
 const created_at = entities.message1.created_at
 const promise = mockState.chatMessagesSlice.promise
+const user = mockState.userSlice
+const post = mockState.postSlice
+
 const mockChatMessageIds = jest.fn().mockReturnValue(ids)
 const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
 const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
+
+const useUserIdMock = jest.fn().mockReturnValue(user.id)
+const useUserNameMock = jest.fn().mockReturnValue(user.name)
+const useUserEmailMock = jest.fn().mockReturnValue(user.email)
+
+const usePostContentMock = jest.fn().mockReturnValue(post.content)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
-const useScrollToBottomMock = jest.fn()
+
 const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
-const mockValues = {
-  userId: 1,
-  content: 'Hello',
-}
-const useUserIdMock = jest.fn().mockReturnValue(mockValues.userId)
-const usePostContentMock = jest.fn().mockReturnValue(mockValues.content)
+const useScrollToBottomMock = jest.fn()
 
 const setup = () => {
   const screen = render(<Top />)
@@ -64,7 +70,7 @@ describe('Top', () => {
     it('入力値と postSlice content の文字列が同じ', () => {
       const { textarea } = setup()
 
-      expect(textarea.value).toBe(mockValues.content)
+      expect(textarea.value).toBe(post.content)
     })
 
     it('onChange が発火しても文字列は同じ', () => {
@@ -75,7 +81,7 @@ describe('Top', () => {
           value: 'Hello World!',
         },
       })
-      expect(textarea.value).toBe(mockValues.content)
+      expect(textarea.value).toBe(post.content)
     })
   })
 
