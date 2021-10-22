@@ -5,7 +5,7 @@ import {
   ChatMessagesSliceState,
   fetchMessages,
   updateMessages,
-} from './ChatMessagesSlice'
+} from '../../slices/ChatMessagesSlice'
 
 // 初期値
 const initialState: ChatMessagesSliceState = {
@@ -28,7 +28,7 @@ describe('ChatMessages', () => {
         type: fetchMessages.pending.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('loading')
+      expect(state.promise).toBe('loading')
     })
     it('fetchMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
@@ -43,7 +43,7 @@ describe('ChatMessages', () => {
         ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('idle')
+      expect(state.promise).toBe('idle')
     })
     it('fetchMessages fulfilled 配列が複数個', () => {
       const action: PayloadAction<ChatMessage[]> = {
@@ -64,14 +64,14 @@ describe('ChatMessages', () => {
         ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('idle')
+      expect(state.promise).toBe('idle')
     })
     it('fetchMessages rejected', () => {
       const action = {
         type: fetchMessages.rejected.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('rejected')
+      expect(state.promise).toBe('rejected')
     })
   })
 
@@ -81,7 +81,7 @@ describe('ChatMessages', () => {
         type: updateMessages.pending.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('loading')
+      expect(state.promise).toBe('loading')
     })
     it('updateMessages fulfilled 配列が一個', () => {
       const action: PayloadAction<ChatMessage[]> = {
@@ -96,7 +96,7 @@ describe('ChatMessages', () => {
         ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('idle')
+      expect(state.promise).toBe('idle')
     })
     it('updateMessages fulfilled 配列が複数個', () => {
       const action: PayloadAction<ChatMessage[]> = {
@@ -117,14 +117,14 @@ describe('ChatMessages', () => {
         ],
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('idle')
+      expect(state.promise).toBe('idle')
     })
     it('updateMessages rejected', () => {
       const action = {
         type: updateMessages.rejected.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toEqual('rejected')
+      expect(state.promise).toBe('rejected')
     })
   })
 })

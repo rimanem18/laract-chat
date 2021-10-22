@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useAppDispatch, useAuthPromise } from '../app/hooks'
 import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
@@ -23,6 +23,19 @@ const Login = () => {
     dispatch(initAuthState())
   }, [])
 
+  const emailChangeHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value)
+    },
+    []
+  )
+  const passwordChangeHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value)
+    },
+    []
+  )
+
   return (
     <div className="container">
       <h3>ログイン</h3>
@@ -37,14 +50,14 @@ const Login = () => {
           type="text"
           name="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={emailChangeHandler}
         />
         <Input
           label="Password"
           type="password"
           name="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={passwordChangeHandler}
         />
         <button className="btn btn-primary" type="submit">
           Login

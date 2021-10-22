@@ -5,13 +5,13 @@ type InputProps = {
   type: string
   name: string
   value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 const Input = ({ label, type, name, value, onChange }: InputProps) => {
   return (
     <>
       <div className="form-group">
-        <label htmlFor={label} className="form-label">
+        <label data-testid="label" htmlFor={label} className="form-label">
           {label}
         </label>
         <input

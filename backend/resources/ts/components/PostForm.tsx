@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAppDispatch, usePostContent, useUserId } from '../app/hooks'
 import { Link } from 'react-router-dom'
-import { getContent, postMessage } from '../slices/PostSlise'
+import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = () => {
   const dispatch = useAppDispatch()
@@ -9,7 +9,11 @@ const PostForm = () => {
   const postContent = usePostContent()
 
   // 投稿
-  const postMessageHandler = (e: any) => {
+  const postMessageHandler = (
+    e:
+      | React.KeyboardEvent<HTMLTextAreaElement>
+      | React.FormEvent<HTMLFormElement>
+  ) => {
     if (postContent === '') return
     e.preventDefault()
     dispatch(postMessage({ userId: userId, content: postContent }))
@@ -37,8 +41,9 @@ const PostForm = () => {
           書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
         </p>
       ) : (
-        <form className="form post-form mt-1">
+        <form className="form post-form mt-1" onSubmit={postMessageHandler}>
           <textarea
+            data-testid="textarea"
             className="post-form__input"
             name="content"
             value={postContent}
@@ -46,11 +51,7 @@ const PostForm = () => {
             onKeyUp={onSubmitKeyUpHandler}
             autoFocus
           ></textarea>
-          <button
-            className="btn btn-primary mx-1 align-top"
-            onClick={postMessageHandler}
-            type="button"
-          >
+          <button className="btn btn-primary mx-1 align-top" type="button">
             投稿
           </button>
         </form>

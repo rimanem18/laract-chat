@@ -1,11 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import Login from './Login'
+import renderer from 'react-test-renderer'
+import Login from '../../pages/Login'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
@@ -36,7 +37,7 @@ const setup = () => {
 describe('Login', () => {
   it('email の入力初期値は空', () => {
     const { emailInput } = setup()
-    expect(emailInput.value).toEqual('')
+    expect(emailInput.value).toBe('')
   })
 
   it('email に文字を入力すると入力された文字が反映される', () => {
@@ -45,6 +46,11 @@ describe('Login', () => {
     fireEvent.change(emailInput, {
       target: { value: email },
     })
-    expect(emailInput.value).toEqual(email)
+    expect(emailInput.value).toBe(email)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Login />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

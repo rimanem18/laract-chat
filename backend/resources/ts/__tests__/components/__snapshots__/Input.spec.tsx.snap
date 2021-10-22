@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input snapshot 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="form-label"
+    data-testid="label"
+    htmlFor="Name"
+  >
+    Name
+  </label>
+  <input
+    className="form-control"
+    data-testid="Name-input"
+    id="Name"
+    name="name"
+    onChange={[MockFunction]}
+    type="text"
+    value=""
+  />
+</div>
+`;

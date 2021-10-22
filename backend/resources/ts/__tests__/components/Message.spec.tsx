@@ -1,34 +1,14 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Message from './Message'
-import {} from '../app/hooks'
-import { ChatMessagesSliceState } from '../slices/ChatMessagesSlice'
-
-// Mock の State
-const mockState: ChatMessagesSliceState = {
-  ids: ['message1', 'message2'],
-  entities: {
-    message1: {
-      id: 1,
-      name: 'hoge',
-      content: 'fugafuga',
-      created_at: '1900-01-01',
-    },
-    message2: {
-      id: 2,
-      name: 'piyo',
-      content: 'fugafuga',
-      created_at: '1900-01-01',
-    },
-  },
-  promise: 'idle',
-}
+import renderer from 'react-test-renderer'
+import Message from '../../components/Message'
+import { mockState } from '../../app/mockState'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
@@ -47,13 +27,14 @@ jest.mock('../app/hooks', () => ({
   useFormatDate: () => useFormatDateMock(),
 }))
 
-const entities = mockState.entities
-const created_at = entities.message1.created_at
-
 // Mock の定義
-const mockChatMessageIds = jest.fn().mockReturnValue(mockState.ids)
+const ids = mockState.chatMessagesSlice.ids
+const entities = mockState.chatMessagesSlice.entities
+const created_at = entities.message1.created_at
+const promise = mockState.chatMessagesSlice.promise
+const mockChatMessageIds = jest.fn().mockReturnValue(ids)
 const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
-const useChatMessagesPromiseMock = jest.fn().mockReturnValue(mockState.promise)
+const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 const useScrollToBottomMock = jest.fn()
 const useInitFetchMessagesMock = jest.fn()
@@ -76,5 +57,10 @@ describe('Message', () => {
     const { scrollButton } = setup()
     fireEvent.click(scrollButton)
     expect(useScrollToBottomMock).toBeCalled()
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Message />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

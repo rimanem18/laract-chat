@@ -1,11 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import Register from './Register'
+import renderer from 'react-test-renderer'
+import Register from '../../pages/Register'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
-jest.mock('../app/hooks', () => ({
+jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
@@ -49,12 +50,12 @@ describe('Register Input', () => {
       target: { value: 'eaab' },
     })
 
-    expect(emailWarnMsg.textContent).toEqual('Email 形式で入力してください。')
+    expect(emailWarnMsg.textContent).toBe('Email 形式で入力してください。')
   })
 
   it('password の入力初期値は空', () => {
     const { passwordInput } = setup()
-    expect(passwordInput.value).toEqual('')
+    expect(passwordInput.value).toBe('')
   })
 
   it('password に文字を入力すると入力された文字が反映される', () => {
@@ -64,7 +65,7 @@ describe('Register Input', () => {
       target: { value: password },
     })
 
-    expect(passwordInput.value).toEqual(password)
+    expect(passwordInput.value).toBe(password)
   })
 
   it('password が7文字以下だとバリデーションエラーが表示される', () => {
@@ -75,7 +76,7 @@ describe('Register Input', () => {
       target: { value: password },
     })
 
-    expect(passwordWarnMsg.textContent).toEqual(
+    expect(passwordWarnMsg.textContent).toBe(
       'パスワードは8文字以上である必要があります。'
     )
   })
@@ -88,14 +89,14 @@ describe('Register Input', () => {
       target: { value: password },
     })
 
-    expect(passwordWarnMsg.textContent).toEqual('')
+    expect(passwordWarnMsg.textContent).toBe('')
   })
 })
 
 describe('Register Button', () => {
   it('初期値だとボタンは押せない', () => {
     const { button } = setup()
-    expect(button.disabled).toEqual(true)
+    expect(button.disabled).toBe(true)
   })
 
   it('name だけ入力されていても押せない', () => {
@@ -103,7 +104,7 @@ describe('Register Button', () => {
     fireEvent.change(nameInput, {
       target: { value: '太郎' },
     })
-    expect(button.disabled).toEqual(true)
+    expect(button.disabled).toBe(true)
   })
 
   it('email だけ入力されていても押せない', () => {
@@ -111,7 +112,7 @@ describe('Register Button', () => {
     fireEvent.change(emailInput, {
       target: { value: 'test@example.com' },
     })
-    expect(button.disabled).toEqual(true)
+    expect(button.disabled).toBe(true)
   })
 
   it('password だけ入力されていても押せない', () => {
@@ -119,7 +120,7 @@ describe('Register Button', () => {
     fireEvent.change(passwordInput, {
       target: { value: 'helloPass' },
     })
-    expect(button.disabled).toEqual(true)
+    expect(button.disabled).toBe(true)
   })
 
   it('バリデーションにかからなくなったら押せる', () => {
@@ -133,6 +134,11 @@ describe('Register Button', () => {
     fireEvent.change(passwordInput, {
       target: { value: 'helloPass' },
     })
-    expect(button.disabled).toEqual(false)
+    expect(button.disabled).toBe(false)
+  })
+
+  it('snapshot', () => {
+    const tree = renderer.create(<Register />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })
