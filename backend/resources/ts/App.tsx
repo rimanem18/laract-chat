@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { useAppDispatch, useAuthPromise } from './app/hooks'
+import {
+  useAppDispatch,
+  useAuthPromise,
+  useFetchGroups,
+  useGroupsPromise,
+  useInitFetchMessages,
+} from './app/hooks'
 import { fetchUser } from './slices/UserSlice'
 
 import GlobalNav from './components/GlobalNav'
@@ -12,6 +18,7 @@ import Register from './pages/Register'
 
 const App = () => {
   const authPromise = useAuthPromise()
+
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
@@ -20,6 +27,8 @@ const App = () => {
       dispatch(fetchUser())
     }
   }, [authPromise])
+  useInitFetchMessages()
+  useFetchGroups()
 
   return (
     <BrowserRouter>

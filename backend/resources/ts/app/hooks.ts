@@ -31,6 +31,7 @@ import {
   groupsEntitiesSelector,
   groupsPromiseSelector,
 } from '../selectors/GroupsSelector'
+import { fetchGroups } from '../slices/GroupsSlice'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -164,4 +165,15 @@ export const useUpdateMessages = () => {
       console.log('updateFetch')
     }
   }, [postPromise, chatMessagesIds.length])
+}
+
+export const useFetchGroups = () => {
+  const groupsPromise = useGroupsPromise()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (groupsPromise !== 'loading') {
+      dispatch(fetchGroups())
+    }
+  }, [])
 }
