@@ -28,6 +28,20 @@ export const mockState: RootState = {
     },
     promise: 'idle',
   },
+  groupsSlice: {
+    ids: ['group1', 'group2'],
+    entities: {
+      group1: {
+        id: 1,
+        name: 'hoge',
+      },
+      message2: {
+        id: 2,
+        name: 'piyo',
+      },
+    },
+    promise: 'idle',
+  },
   postSlice: {
     userId: 1,
     content: 'fugafuga',

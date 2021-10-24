@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import renderer from 'react-test-renderer'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Sidebar from '../../components/Sidebar'
 import { mockState } from '../../app/mockState'
 
@@ -22,21 +23,27 @@ const useUserIdMock = jest.fn().mockReturnValue(user.id)
 const useUserNameMock = jest.fn().mockReturnValue(user.name)
 const useUserEmailMock = jest.fn().mockReturnValue(user.email)
 
+const Component = (
+  <Router>
+    <Sidebar />
+  </Router>
+)
+
 const setup = () => {
-  const screen = render(<Sidebar />)
+  const screen = render(Component)
   const userId = screen.getByTestId('user-id')
   const userName = screen.getByTestId('user-name')
   const userEmail = screen.getByTestId('user-email')
-  const groupId = screen.getByTestId('group-id')
-  const groupName = screen.getByTestId('group-name')
-  const groupMessage = screen.getByTestId('group-message')
+  // const groupId = screen.getByTestId('group-id')
+  // const groupName = screen.getByTestId('group-name')
+  // const groupMessage = screen.getByTestId('group-message')
   return {
     userId,
     userName,
     userEmail,
-    groupId,
-    groupName,
-    groupMessage,
+    // groupId,
+    // groupName,
+    // groupMessage,
     ...screen,
   }
 }

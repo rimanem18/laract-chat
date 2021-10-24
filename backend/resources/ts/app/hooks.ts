@@ -26,6 +26,11 @@ import {
   postPromiseSelector,
   postUserIdSelector,
 } from '../selectors/PostSelector'
+import {
+  groupIdsSelector,
+  groupsEntitiesSelector,
+  groupsPromiseSelector,
+} from '../selectors/GroupsSelector'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -60,6 +65,17 @@ export const useUserName = () => {
 }
 export const useUserPromise = () => {
   return useAppSelector(userPromiseSelector)
+}
+
+// Groups Selector
+export const useGroupsIds = () => {
+  return useAppSelector(groupIdsSelector)
+}
+export const useGroupsEntities = () => {
+  return useAppSelector(groupsEntitiesSelector)
+}
+export const useGroupsPromise = () => {
+  return useAppSelector(groupsPromiseSelector)
 }
 
 // ChatMessages Selector

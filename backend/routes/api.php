@@ -4,6 +4,7 @@ use App\Models\Chat_message;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\ChatMessageController;
+use App\Http\Controllers\ChatGroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,5 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
+
+Route::get('/chat_groups', [ChatGroupController::class, 'selectChatGroups']);
