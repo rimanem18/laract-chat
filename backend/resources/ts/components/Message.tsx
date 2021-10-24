@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { useParams } from 'react-router'
 import {
   useChatMessageIds,
   useChatMessagesEntities,
@@ -12,7 +13,15 @@ const Message = () => {
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
+  const { groupId } = useParams<{ groupId?: string }>()
 
+  if (groupId === undefined) {
+    return (
+      <div>
+        <p>メッセージの取得に失敗しました。</p>
+      </div>
+    )
+  }
   useInitFetchMessages()
   useUpdateMessages()
   useEffect(() => {
@@ -25,14 +34,18 @@ const Message = () => {
 
   return (
     <div ref={messageList} className="message">
-      {chatMessagesIds.map((id: string) => (
-        <MessageItem
-          key={id}
-          name={chatMessagesEntities[id].name}
-          content={chatMessagesEntities[id].content}
-          created_at={chatMessagesEntities[id].created_at}
-        />
-      ))}
+      {chatMessagesIds.map((id: string) =>
+        Number(groupId) === chatMessagesEntities[id].group_id ? (
+          <MessageItem
+            key={id}
+            name={chatMessagesEntities[id].name}
+            content={chatMessagesEntities[id].content}
+            created_at={chatMessagesEntities[id].created_at}
+          />
+        ) : (
+          ''
+        )
+      )}
       <ScrollButton refObject={messageList} />
     </div>
   )
@@ -57,20 +70,22 @@ const MessageItem = React.memo(
     const datetime = useFormatDate(created_at)
 
     return (
-      <div className="message__item">
-        <div>
-          <strong className="mr-1">{name}</strong>
-          <small>{datetime}</small>
+      <>
+        <div className="message__item">
+          <div>
+            <strong className="mr-1">{name}</strong>
+            <small>{datetime}</small>
+          </div>
+          <p>
+            {content.split('\n').map((str, index) => (
+              <React.Fragment key={index}>
+                {str}
+                <br />
+              </React.Fragment>
+            ))}
+          </p>
         </div>
-        <p>
-          {content.split('\n').map((str, index) => (
-            <React.Fragment key={index}>
-              {str}
-              <br />
-            </React.Fragment>
-          ))}
-        </p>
-      </div>
+      </>
     )
   }
 )

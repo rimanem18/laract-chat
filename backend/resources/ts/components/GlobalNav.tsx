@@ -18,7 +18,7 @@ const GlobalNav = () => {
   return (
     <nav>
       <ul data-testid="nav">
-        <Link to="/">
+        <Link to="/groups/1">
           <li>Top</li>
         </Link>
         <Link to="/about">

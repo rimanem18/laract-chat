@@ -9,78 +9,107 @@ Array [
     className="container"
   >
     <div
-      className="message"
+      className="row"
     >
       <div
-        className="message__item"
+        className="col-md-3"
       >
         <div>
-          <strong
-            className="mr-1"
+          <p
+            data-testid="user-id"
           >
-            hoge
-          </strong>
-          <small>
-            1900-01-01
-          </small>
+            1
+          </p>
+          <p
+            data-testid="user-name"
+          >
+            太郎
+          </p>
+          <p
+            data-testid="user-email"
+          >
+            taro@example.com
+          </p>
         </div>
-        <p>
-          fugafuga
-          <br />
-        </p>
       </div>
       <div
-        className="message__item"
+        className="col-md-9"
       >
-        <div>
-          <strong
-            className="mr-1"
-          >
-            piyo
-          </strong>
-          <small>
-            1900-01-01
-          </small>
-        </div>
-        <p>
-          fugafuga
-          <br />
-        </p>
-      </div>
-      <div
-        className="scroll-btn"
-      >
-        <a
-          className="scroll-btn__item"
-          data-testid="scroll-btn"
-          onClick={[Function]}
+        <div
+          className="message"
         >
-          <i
-            className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+          <div
+            className="message__item"
+          >
+            <div>
+              <strong
+                className="mr-1"
+              >
+                hoge
+              </strong>
+              <small>
+                1900-01-01
+              </small>
+            </div>
+            <p>
+              fugafuga
+              <br />
+            </p>
+          </div>
+          <div
+            className="message__item"
+          >
+            <div>
+              <strong
+                className="mr-1"
+              >
+                piyo
+              </strong>
+              <small>
+                1900-01-01
+              </small>
+            </div>
+            <p>
+              fugafuga
+              <br />
+            </p>
+          </div>
+          <div
+            className="scroll-btn"
+          >
+            <a
+              className="scroll-btn__item"
+              data-testid="scroll-btn"
+              onClick={[Function]}
+            >
+              <i
+                className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+              />
+            </a>
+          </div>
+        </div>
+        <form
+          className="form post-form mt-1"
+          onSubmit={[Function]}
+        >
+          <textarea
+            autoFocus={true}
+            className="post-form__input"
+            data-testid="textarea"
+            name="content"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            value="fugafuga"
           />
-        </a>
+          <button
+            className="btn btn-primary mx-1 align-top"
+            type="button"
+          >
+            投稿
+          </button>
+        </form>
       </div>
     </div>
-    <form
-      className="form post-form mt-1"
-      onSubmit={[Function]}
-    >
-      <textarea
-        autoFocus={true}
-        className="post-form__input"
-        data-testid="textarea"
-        name="content"
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        value="Hello"
-      />
-      <button
-        className="btn btn-primary mx-1 align-top"
-        type="button"
-      >
-        投稿
-      </button>
-    </form>
   </div>,
 ]
 `;

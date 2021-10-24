@@ -6,6 +6,7 @@ import { PromiseState } from '../app/type'
 
 export type ChatMessage = {
   id: number
+  group_id: number
   name: string
   content: string
   created_at: string
@@ -24,6 +25,7 @@ const initialState: ChatMessagesSliceState = {
   entities: {
     message0: {
       id: 0,
+      group_id: 0,
       name: '',
       content: '',
       created_at: '',
@@ -35,14 +37,14 @@ const initialState: ChatMessagesSliceState = {
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
   async () => {
-    const response = await axios.get('/api/chat_messages')
+    const response = await axios.get('/api/chat_messages/')
     return response.data.chat_messages
   }
 )
 export const updateMessages = createAsyncThunk(
   'chatMessages/updateMessages',
   async () => {
-    const response = await axios.get('/api/chat_messages')
+    const response = await axios.get('/api/chat_messages/')
     return response.data.chat_messages
   }
 )
