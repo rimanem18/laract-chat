@@ -59,17 +59,13 @@ export const chatMessagesSlice = createSlice({
         fetchMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
-          // console.log(messages);
-
           state.promise = 'idle'
 
           // メッセージ数が同じならそのまま帰る
           if (state.ids.length === messages.length) {
-            // console.log('[fetchMessages]同じ')
             return
           }
 
-          // console.log('[fetchMessages]違う')
           state.ids = messages.map(
             (message) => `message${message.id.toString()}`
           )
@@ -96,7 +92,6 @@ export const chatMessagesSlice = createSlice({
           if (diff === 0) {
             return
           }
-          console.log(diff)
 
           const i = 0
           const lastMessage = messages.slice(-diff)[i]

@@ -93,8 +93,6 @@ export const authSlice = createSlice({
         state.promise = 'loading'
       })
       .addCase(register.rejected, (state, action: any) => {
-        console.log(action)
-
         state.message = action.payload.response.data.message
         state.promise = 'rejected'
       })

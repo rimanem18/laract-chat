@@ -145,7 +145,6 @@ export const useInitFetchMessages = () => {
   useEffect(() => {
     if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
       dispatch(fetchMessages())
-      console.log('initFetch')
     }
   }, [])
 }
@@ -162,7 +161,6 @@ export const useUpdateMessages = () => {
   useEffect(() => {
     if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
       dispatch(updateMessages())
-      console.log('updateFetch')
     }
   }, [postPromise, chatMessagesIds.length])
 }

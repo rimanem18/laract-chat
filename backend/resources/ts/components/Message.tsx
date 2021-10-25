@@ -28,14 +28,11 @@ const Message = () => {
   }
   useUpdateMessages()
   useEffect(() => {
-    console.log('Auto Scroll')
-
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
   const groupName =
     groupIds.length !== 0 ? groupsEntities[`group${groupId}`].name : undefined
-  console.log('Messages')
 
   return (
     <>
@@ -71,8 +68,6 @@ type MessageItemProps = {
 }
 const MessageItem = React.memo(
   ({ name, content, created_at }: MessageItemProps) => {
-    // console.log('messageItem')
-
     // 2個以上の改行を2個改行におさめる
     content = content.replace(/\n{2,}/g, '\n\n')
     const datetime = useFormatDate(created_at)
