@@ -35,14 +35,24 @@ export const fetchGroups = createAsyncThunk(
   }
 )
 
+export const addGroup = createAsyncThunk(
+  'groups/addGroup',
+  async ({ groupName }: { groupName: string }, thunkApi) => {
+    const response = await axios.post('/api/chat_groups/create', {
+      groupName: groupName,
+    })
+    return response.data
+  }
+)
+
 export const groupsSlice = createSlice({
   name: 'groupsSlice',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // fetch
       .addCase(
-        // fetch
         fetchGroups.fulfilled,
         (state, action: PayloadAction<Group[]>) => {
           const groups = action.payload
@@ -54,10 +64,20 @@ export const groupsSlice = createSlice({
           })
         }
       )
-      .addCase(fetchGroups.pending, (state, action) => {
+      .addCase(fetchGroups.pending, (state) => {
         state.promise = 'loading'
       })
       .addCase(fetchGroups.rejected, (state) => {
+        state.promise = 'rejected'
+      })
+      // addGroup
+      .addCase(addGroup.fulfilled, (state) => {
+        state.promise = 'idle'
+      })
+      .addCase(addGroup.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(addGroup.rejected, (state) => {
         state.promise = 'rejected'
       })
   },
