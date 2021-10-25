@@ -14,8 +14,25 @@ class ChatGroupController extends Controller
             'chat_groups.id',
             "chat_groups.name"
         )
-    ->get();
+        ->get();
 
         return Response()->json(['chat_groups'=>$chat_groups], Response::HTTP_OK);
+    }
+
+    /**
+     * リクエストパラメーターをもとにグループを追加する
+     *
+     * @param Request $request
+     * @return jsonResponse
+     */
+    public function insertChatGroup(Request $request)
+    {
+        $name = $request->groupName;
+
+        ChatGroup::create([
+            'name'=> $name
+        ]);
+
+        return response()->json(['message'=> 'グループを追加しました。'], Response::HTTP_OK);
     }
 }

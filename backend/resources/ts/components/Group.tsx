@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
-import { useAppDispatch, useGroupsEntities, useGroupsIds } from '../app/hooks'
-import { addGroup, fetchGroups } from '../slices/GroupsSlice'
+import {
+  useAppDispatch,
+  useGroupsEntities,
+  useGroupsIds,
+  useGroupsPromise,
+} from '../app/hooks'
+import { addGroup, fetchGroups, updateGroups } from '../slices/GroupsSlice'
 
 Modal.setAppElement('#app')
 
@@ -10,11 +15,17 @@ const Group = () => {
   const dispatch = useAppDispatch()
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()
+  const groupsPromise = useGroupsPromise()
   const [groupName, setGroupName] = useState('')
 
+  // useEffect(() => {
+  //   dispatch(fetchGroups())
+  // }, [])
   useEffect(() => {
-    dispatch(fetchGroups())
-  }, [])
+    if (groupIds.length !== 0 && groupsPromise !== 'loading') {
+      dispatch(updateGroups())
+    }
+  }, [groupIds.length])
   const addGroupHandler = () => {
     dispatch(addGroup({ groupName: groupName }))
   }
@@ -42,6 +53,9 @@ const Group = () => {
 }
 export default React.memo(Group)
 
+/**
+ * Components
+ */
 type GroupItemProps = {
   id: string
   name: string

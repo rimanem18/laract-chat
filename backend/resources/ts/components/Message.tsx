@@ -38,6 +38,7 @@ const Message = () => {
     <>
       <h2 className="h2">{groupName !== undefined ? groupName : ''}</h2>
       <div ref={messageList} className="message">
+        <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesIds.map((id: string) =>
           Number(groupId) === chatMessagesEntities[id].group_id ? (
             <MessageItem

@@ -81,7 +81,7 @@ export const chatMessagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
-      // addMessage
+      // updateMessage
       .addCase(
         updateMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
