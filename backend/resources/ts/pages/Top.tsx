@@ -4,8 +4,6 @@ import PostForm from '../components/PostForm'
 import Sidebar from '../components/Sidebar'
 
 const Top = () => {
-  console.log('Top')
-
   return (
     <>
       <h1>TopPage</h1>

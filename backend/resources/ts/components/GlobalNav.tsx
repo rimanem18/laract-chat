@@ -12,9 +12,6 @@ const GlobalNav = () => {
     dispatch(logout())
   }
 
-  console.log('GlobalNav')
-  console.log(userId)
-
   return (
     <nav>
       <ul data-testid="nav">

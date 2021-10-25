@@ -26,6 +26,12 @@ import {
   postPromiseSelector,
   postUserIdSelector,
 } from '../selectors/PostSelector'
+import {
+  groupIdsSelector,
+  groupsEntitiesSelector,
+  groupsPromiseSelector,
+} from '../selectors/GroupsSelector'
+import { fetchGroups } from '../slices/GroupsSlice'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -60,6 +66,17 @@ export const useUserName = () => {
 }
 export const useUserPromise = () => {
   return useAppSelector(userPromiseSelector)
+}
+
+// Groups Selector
+export const useGroupsIds = () => {
+  return useAppSelector(groupIdsSelector)
+}
+export const useGroupsEntities = () => {
+  return useAppSelector(groupsEntitiesSelector)
+}
+export const useGroupsPromise = () => {
+  return useAppSelector(groupsPromiseSelector)
 }
 
 // ChatMessages Selector
@@ -128,7 +145,6 @@ export const useInitFetchMessages = () => {
   useEffect(() => {
     if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
       dispatch(fetchMessages())
-      console.log('initFetch')
     }
   }, [])
 }
@@ -145,7 +161,17 @@ export const useUpdateMessages = () => {
   useEffect(() => {
     if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
       dispatch(updateMessages())
-      console.log('updateFetch')
     }
   }, [postPromise, chatMessagesIds.length])
+}
+
+export const useFetchGroups = () => {
+  const groupsPromise = useGroupsPromise()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (groupsPromise !== 'loading') {
+      dispatch(fetchGroups())
+    }
+  }, [])
 }

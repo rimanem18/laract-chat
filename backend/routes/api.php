@@ -4,6 +4,7 @@ use App\Models\Chat_message;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\ChatMessageController;
+use App\Http\Controllers\ChatGroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,16 @@ Route::post('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);
     return ['token'=>$token->plainTextToken];
 });
+
+// 登録やログイン、ログアウト
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 
+// メッセージ取得、投稿
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
+
+// グループ取得、追加
+Route::get('/chat_groups', [ChatGroupController::class, 'selectChatGroups']);
+Route::middleware('auth:sanctum')->post('/chat_groups/create', [ChatGroupController::class, 'insertChatGroup']);

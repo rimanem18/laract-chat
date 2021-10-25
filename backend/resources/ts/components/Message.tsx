@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useParams } from 'react-router'
 import {
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
-  useInitFetchMessages,
+  useGroupsEntities,
+  useGroupsIds,
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
@@ -15,6 +16,9 @@ const Message = () => {
   const messageList = useRef<HTMLDivElement | null>(null)
   const { groupId } = useParams<{ groupId?: string }>()
 
+  const groupIds = useGroupsIds()
+  const groupsEntities = useGroupsEntities()
+
   if (groupId === undefined) {
     return (
       <div>
@@ -22,32 +26,34 @@ const Message = () => {
       </div>
     )
   }
-  useInitFetchMessages()
   useUpdateMessages()
   useEffect(() => {
-    console.log('Auto Scroll')
-
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
-  console.log('Messages')
+  const groupName =
+    groupIds.length !== 0 ? groupsEntities[`group${groupId}`].name : undefined
 
   return (
-    <div ref={messageList} className="message">
-      {chatMessagesIds.map((id: string) =>
-        Number(groupId) === chatMessagesEntities[id].group_id ? (
-          <MessageItem
-            key={id}
-            name={chatMessagesEntities[id].name}
-            content={chatMessagesEntities[id].content}
-            created_at={chatMessagesEntities[id].created_at}
-          />
-        ) : (
-          ''
-        )
-      )}
-      <ScrollButton refObject={messageList} />
-    </div>
+    <>
+      <h2 className="h2">{groupName !== undefined ? groupName : ''}</h2>
+      <div ref={messageList} className="message">
+        <p className="message__note">ここが「{groupName}」の先頭です。</p>
+        {chatMessagesIds.map((id: string) =>
+          Number(groupId) === chatMessagesEntities[id].group_id ? (
+            <MessageItem
+              key={id}
+              name={chatMessagesEntities[id].name}
+              content={chatMessagesEntities[id].content}
+              created_at={chatMessagesEntities[id].created_at}
+            />
+          ) : (
+            ''
+          )
+        )}
+        <ScrollButton refObject={messageList} />
+      </div>
+    </>
   )
 }
 
@@ -63,8 +69,6 @@ type MessageItemProps = {
 }
 const MessageItem = React.memo(
   ({ name, content, created_at }: MessageItemProps) => {
-    // console.log('messageItem')
-
     // 2個以上の改行を2個改行におさめる
     content = content.replace(/\n{2,}/g, '\n\n')
     const datetime = useFormatDate(created_at)
