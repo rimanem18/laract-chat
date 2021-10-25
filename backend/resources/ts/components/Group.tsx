@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal'
 import {
@@ -21,32 +21,38 @@ const Group = () => {
   // useEffect(() => {
   //   dispatch(fetchGroups())
   // }, [])
-  useEffect(() => {
-    if (groupIds.length !== 0 && groupsPromise !== 'loading') {
-      dispatch(updateGroups())
-    }
-  }, [groupIds.length])
-  const addGroupHandler = () => {
+  // useEffect(() => {
+  //   if (groupIds.length !== 0 && groupsPromise !== 'loading') {
+  //     dispatch(updateGroups())
+  //   }
+  // }, [groupIds.length])
+  const addGroupHandler = useCallback(() => {
     dispatch(addGroup({ groupName: groupName }))
-  }
-  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGroupName(e.target.value)
-  }
+  }, [groupName])
+  const onChangeNameHandler = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setGroupName(e.target.value)
+    },
+    [groupName]
+  )
 
   return (
     <>
       <ul className="group">
-        {groupIds.map((id: string) => (
-          <GroupItem
-            key={id}
-            id={groupsEntities[id].id.toString()}
-            name={groupsEntities[id].name}
-          />
-        ))}
+        {groupIds.map((id: string) => {
+          return (
+            <GroupItem
+              key={id}
+              id={groupsEntities[id].id.toString()}
+              name={groupsEntities[id].name}
+            />
+          )
+        })}
       </ul>
       <AddGroupModal
         addGroupHandler={addGroupHandler}
         onChangeNameHandler={onChangeNameHandler}
+        value={groupName}
       />
     </>
   )
@@ -94,9 +100,10 @@ const modalStyle = {
 type AddGroupModalProps = {
   addGroupHandler: () => void
   onChangeNameHandler: (e: React.ChangeEvent<HTMLInputElement>) => void
+  value: string
 }
 const AddGroupModal = React.memo(
-  ({ addGroupHandler, onChangeNameHandler }: AddGroupModalProps) => {
+  ({ addGroupHandler, onChangeNameHandler, value }: AddGroupModalProps) => {
     const [modalisOpen, setIsOpen] = useState(false)
 
     const openModal = () => {
@@ -121,6 +128,7 @@ const AddGroupModal = React.memo(
             type="text"
             name="groupName"
             id="groupName"
+            value={value}
             onChange={onChangeNameHandler}
             autoFocus
           />
