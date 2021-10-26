@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Group snapshot 1`] = `
+Array [
+  <ul
+    className="group"
+  >
+    <li
+      data-testid="group1"
+    >
+      <a
+        data-testid="group1-link"
+        href="/groups/1"
+        onClick={[Function]}
+      >
+        hoge
+      </a>
+    </li>
+    <li
+      data-testid="group2"
+    >
+      <a
+        data-testid="group2-link"
+        href="/groups/2"
+        onClick={[Function]}
+      >
+        piyo
+      </a>
+    </li>
+  </ul>,
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    新しいグループを追加
+  </button>,
+]
+`;

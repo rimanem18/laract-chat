@@ -31,16 +31,22 @@ Array [
       <ul
         className="group"
       >
-        <li>
+        <li
+          data-testid="group1"
+        >
           <a
+            data-testid="group1-link"
             href="/groups/1"
             onClick={[Function]}
           >
             hoge
           </a>
         </li>
-        <li>
+        <li
+          data-testid="group2"
+        >
           <a
+            data-testid="group2-link"
             href="/groups/2"
             onClick={[Function]}
           >

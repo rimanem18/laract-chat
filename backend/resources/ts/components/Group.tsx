@@ -15,17 +15,8 @@ const Group = () => {
   const dispatch = useAppDispatch()
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()
-  const groupsPromise = useGroupsPromise()
   const [groupName, setGroupName] = useState('')
 
-  // useEffect(() => {
-  //   dispatch(fetchGroups())
-  // }, [])
-  // useEffect(() => {
-  //   if (groupIds.length !== 0 && groupsPromise !== 'loading') {
-  //     dispatch(updateGroups())
-  //   }
-  // }, [groupIds.length])
   const addGroupHandler = useCallback(() => {
     dispatch(addGroup({ groupName: groupName }))
   }, [groupName])
@@ -69,8 +60,10 @@ type GroupItemProps = {
 const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
   return (
     <>
-      <li>
-        <Link to={`/groups/${id}`}>{name}</Link>
+      <li data-testid={`group${id}`}>
+        <Link data-testid={`group${id}-link`} to={`/groups/${id}`}>
+          {name}
+        </Link>
       </li>
     </>
   )
