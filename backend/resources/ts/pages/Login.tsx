@@ -37,7 +37,7 @@ const Login = () => {
   )
 
   return (
-    <div className="container">
+    <>
       <h3>ログイン</h3>
       <p>
         {authPromise === 'rejected'
@@ -63,7 +63,7 @@ const Login = () => {
           Login
         </button>
       </form>
-    </div>
+    </>
   )
 }
 

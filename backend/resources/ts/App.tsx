@@ -34,14 +34,16 @@ const App = () => {
     <BrowserRouter>
       <React.Fragment>
         <GlobalNav />
-        <Switch>
-          {/*完全一致のため、exactを付与*/}
-          <Route path="/groups/:groupId" exact component={Top} />
-          <Route path="/about" component={About} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-        </Switch>
-        {/* <Loader /> */}
+        <div className="container">
+          <Switch>
+            {/*完全一致のため、exactを付与*/}
+            <Route path="/groups/:groupId" exact component={Top} />
+            <Route path="/about" component={About} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </Switch>
+          {/* <Loader /> */}
+        </div>
       </React.Fragment>
     </BrowserRouter>
   )

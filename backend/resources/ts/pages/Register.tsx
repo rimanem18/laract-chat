@@ -40,7 +40,7 @@ const Register = () => {
   }, [])
 
   return (
-    <div className="container">
+    <>
       <h3>登録</h3>
       <p>
         {authPromise === 'rejected'
@@ -98,7 +98,7 @@ const Register = () => {
           Register
         </button>
       </form>
-    </div>
+    </>
   )
 }
 
