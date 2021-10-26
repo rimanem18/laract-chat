@@ -1,57 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Message snapshot 1`] = `
-<div
-  className="message"
->
-  <div
-    className="message__item"
+Array [
+  <h2
+    className="h2"
   >
-    <div>
-      <strong
-        className="mr-1"
-      >
-        hoge
-      </strong>
-      <small>
-        1900-01-01
-      </small>
-    </div>
-    <p>
-      fugafuga
-      <br />
-    </p>
-  </div>
+    hoge
+  </h2>,
   <div
-    className="message__item"
+    className="message"
   >
-    <div>
-      <strong
-        className="mr-1"
-      >
-        piyo
-      </strong>
-      <small>
-        1900-01-01
-      </small>
-    </div>
-    <p>
-      fugafuga
-      <br />
-    </p>
-  </div>
-  <div
-    className="scroll-btn"
-  >
-    <a
-      className="scroll-btn__item"
-      data-testid="scroll-btn"
-      onClick={[Function]}
+    <p
+      className="message__note"
     >
-      <i
-        className="fa fa-arrow  fa-arrow-circle-down fa-4x"
-      />
-    </a>
-  </div>
-</div>
+      ここが「
+      hoge
+      」の先頭です。
+    </p>
+    <div
+      className="message__item"
+    >
+      <div>
+        <strong
+          className="mr-1"
+        >
+          hoge
+        </strong>
+        <small>
+          1900-01-01
+        </small>
+      </div>
+      <p>
+        fugafuga
+        <br />
+      </p>
+    </div>
+    
+    <div
+      className="scroll-btn"
+    >
+      <a
+        className="scroll-btn__item"
+        data-testid="scroll-btn"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+        />
+      </a>
+    </div>
+  </div>,
+]
 `;

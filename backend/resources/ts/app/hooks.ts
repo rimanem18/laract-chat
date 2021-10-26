@@ -32,6 +32,7 @@ import {
   groupsPromiseSelector,
 } from '../selectors/GroupsSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
+import { useParams } from 'react-router'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -165,6 +166,9 @@ export const useUpdateMessages = () => {
   }, [postPromise, chatMessagesIds.length])
 }
 
+/**
+ * グループ一覧を初回だけフェッチする
+ */
 export const useFetchGroups = () => {
   const groupsPromise = useGroupsPromise()
   const dispatch = useAppDispatch()
@@ -174,4 +178,14 @@ export const useFetchGroups = () => {
       dispatch(fetchGroups())
     }
   }, [])
+}
+
+/**
+ * URL から groupId を取得して返す
+ * @returns string?
+ */
+export const useParamGroupId = () => {
+  const { groupId } = useParams<{ groupId?: string }>()
+
+  return groupId
 }

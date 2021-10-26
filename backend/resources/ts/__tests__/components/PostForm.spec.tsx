@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import renderer from 'react-test-renderer'
+import Modal from 'react-modal'
 import PostForm from '../../components/PostForm'
 
 // Hooks の Mock
@@ -18,6 +19,7 @@ jest.mock('../../app/hooks', () => ({
       mockUseAppSelector(...args),
   useUserId: () => useUserIdMock(),
   usePostContent: () => usePostContentMock(),
+  useParamGroupId: () => useParamGroupIdMock(),
 }))
 
 const mockValues = {
@@ -26,6 +28,11 @@ const mockValues = {
 }
 const useUserIdMock = jest.fn().mockReturnValue(mockValues.userId)
 const usePostContentMock = jest.fn().mockReturnValue(mockValues.content)
+const useParamGroupIdMock = jest.fn().mockReturnValue(1)
+
+jest
+  .spyOn(Modal, 'setAppElement')
+  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
 
 // Setup
 const setup = () => {

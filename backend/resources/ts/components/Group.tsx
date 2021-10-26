@@ -9,7 +9,7 @@ import {
 } from '../app/hooks'
 import { addGroup, fetchGroups, updateGroups } from '../slices/GroupsSlice'
 
-Modal.setAppElement('#app')
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
 
 const Group = () => {
   const dispatch = useAppDispatch()

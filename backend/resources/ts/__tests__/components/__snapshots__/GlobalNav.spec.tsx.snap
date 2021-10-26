@@ -6,7 +6,7 @@ exports[`GlobalNav snapshot 1`] = `
     data-testid="nav"
   >
     <a
-      href="/"
+      href="/groups/1"
       onClick={[Function]}
     >
       <li>
