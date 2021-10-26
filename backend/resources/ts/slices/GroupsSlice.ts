@@ -3,7 +3,7 @@ import { RootState } from '../app/store'
 import axios from 'axios'
 import { PromiseState } from '../app/type'
 
-type Group = {
+export type Group = {
   id: number
   name: string
 }
