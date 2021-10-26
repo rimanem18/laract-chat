@@ -6,6 +6,7 @@ import {
   useFormatDate,
   useGroupsEntities,
   useGroupsIds,
+  useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
@@ -14,7 +15,7 @@ const Message = () => {
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
-  const { groupId } = useParams<{ groupId?: string }>()
+  const groupId = useParamGroupId()
 
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()

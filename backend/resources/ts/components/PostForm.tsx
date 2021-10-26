@@ -1,5 +1,10 @@
 import React from 'react'
-import { useAppDispatch, usePostContent, useUserId } from '../app/hooks'
+import {
+  useAppDispatch,
+  useParamGroupId,
+  usePostContent,
+  useUserId,
+} from '../app/hooks'
 import { Link, useParams } from 'react-router-dom'
 import { getContent, postMessage } from '../slices/PostSlice'
 
@@ -7,7 +12,7 @@ const PostForm = () => {
   const dispatch = useAppDispatch()
   const userId = useUserId()
   const postContent = usePostContent()
-  const { groupId } = useParams<{ groupId?: string }>()
+  const groupId = useParamGroupId()
 
   if (groupId === undefined) {
     return null

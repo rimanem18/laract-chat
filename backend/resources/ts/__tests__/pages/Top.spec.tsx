@@ -1,7 +1,9 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import renderer from 'react-test-renderer'
+import Modal from 'react-modal'
 import Top from '../../pages/Top'
 import { mockState } from '../../app/mockState'
 
@@ -29,6 +31,10 @@ jest.mock('../../app/hooks', () => ({
   useUserName: () => useUserNameMock(),
   useUserEmail: () => useUserEmailMock(),
   usePostContent: () => usePostContentMock(),
+  useParamGroupId: () => useParamGroupIdMock(),
+  useGroupsIds: () => useGroupsIdsMock(),
+  useGroupsEntities: () => useGroupsEntitiesMock(),
+  useGroupsPromise: () => useGroupsPromiseMock(),
 }))
 
 // Hooks の Mock
@@ -39,6 +45,7 @@ const created_at = entities.message1.created_at
 const promise = mockState.chatMessagesSlice.promise
 const user = mockState.userSlice
 const post = mockState.postSlice
+const group = mockState.groupsSlice
 
 const mockChatMessageIds = jest.fn().mockReturnValue(ids)
 const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
@@ -51,20 +58,35 @@ const useUserEmailMock = jest.fn().mockReturnValue(user.email)
 const usePostContentMock = jest.fn().mockReturnValue(post.content)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 
+const useParamGroupIdMock = jest.fn().mockReturnValue(1)
+const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
+const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
+const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
+
 const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
 
+jest
+  .spyOn(Modal, 'setAppElement')
+  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
+
+const Component = (
+  <Router>
+    <Top />
+  </Router>
+)
+
+// テスト開始
 const setup = () => {
-  const screen = render(<Top />)
+  const screen = render(Component)
   const textarea = screen.getByTestId('textarea') as HTMLTextAreaElement
   return {
     textarea,
     ...screen,
   }
 }
-
 describe('Top', () => {
   describe('PostForm', () => {
     it('入力値と postSlice content の文字列が同じ', () => {
@@ -86,7 +108,7 @@ describe('Top', () => {
   })
 
   it('snapshot', () => {
-    const tree = renderer.create(<Top />).toJSON()
+    const tree = renderer.create(Component).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

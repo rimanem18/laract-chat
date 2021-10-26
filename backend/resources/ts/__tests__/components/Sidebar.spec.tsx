@@ -15,13 +15,20 @@ jest.mock('../../app/hooks', () => ({
   useUserId: () => useUserIdMock(),
   useUserName: () => useUserNameMock(),
   useUserEmail: () => useUserEmailMock(),
+  useGroupsIds: () => useGroupsIdsMock(),
+  useGroupsEntities: () => useGroupsEntitiesMock(),
+  useGroupsPromise: () => useGroupsPromiseMock(),
 }))
 
 // Mock の定義
 const user = mockState.userSlice
+const group = mockState.groupsSlice
 const useUserIdMock = jest.fn().mockReturnValue(user.id)
 const useUserNameMock = jest.fn().mockReturnValue(user.name)
 const useUserEmailMock = jest.fn().mockReturnValue(user.email)
+const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
+const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
+const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
 
 const Component = (
   <Router>

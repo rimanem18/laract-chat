@@ -6,109 +6,132 @@ Array [
     TopPage
   </h1>,
   <div
-    className="container"
+    className="row"
   >
     <div
-      className="row"
+      className="col-md-3"
     >
-      <div
-        className="col-md-3"
+      <ul>
+        <li
+          data-testid="user-id"
+        >
+          1
+        </li>
+        <li
+          data-testid="user-name"
+        >
+          太郎
+        </li>
+        <li
+          data-testid="user-email"
+        >
+          taro@example.com
+        </li>
+      </ul>
+      <ul
+        className="group"
       >
-        <div>
-          <p
-            data-testid="user-id"
+        <li
+          data-testid="group1"
+        >
+          <a
+            data-testid="group1-link"
+            href="/groups/1"
+            onClick={[Function]}
           >
-            1
-          </p>
-          <p
-            data-testid="user-name"
+            hoge
+          </a>
+        </li>
+        <li
+          data-testid="group2"
+        >
+          <a
+            data-testid="group2-link"
+            href="/groups/2"
+            onClick={[Function]}
           >
-            太郎
-          </p>
-          <p
-            data-testid="user-email"
-          >
-            taro@example.com
-          </p>
-        </div>
-      </div>
-      <div
-        className="col-md-9"
+            piyo
+          </a>
+        </li>
+      </ul>
+      <button
+        className="btn btn-primary"
+        onClick={[Function]}
       >
+        新しいグループを追加
+      </button>
+    </div>
+    <div
+      className="col-md-9"
+    >
+      <h2
+        className="h2"
+      >
+        hoge
+      </h2>
+      <div
+        className="message"
+      >
+        <p
+          className="message__note"
+        >
+          ここが「
+          hoge
+          」の先頭です。
+        </p>
         <div
-          className="message"
+          className="message__item"
         >
-          <div
-            className="message__item"
-          >
-            <div>
-              <strong
-                className="mr-1"
-              >
-                hoge
-              </strong>
-              <small>
-                1900-01-01
-              </small>
-            </div>
-            <p>
-              fugafuga
-              <br />
-            </p>
-          </div>
-          <div
-            className="message__item"
-          >
-            <div>
-              <strong
-                className="mr-1"
-              >
-                piyo
-              </strong>
-              <small>
-                1900-01-01
-              </small>
-            </div>
-            <p>
-              fugafuga
-              <br />
-            </p>
-          </div>
-          <div
-            className="scroll-btn"
-          >
-            <a
-              className="scroll-btn__item"
-              data-testid="scroll-btn"
-              onClick={[Function]}
+          <div>
+            <strong
+              className="mr-1"
             >
-              <i
-                className="fa fa-arrow  fa-arrow-circle-down fa-4x"
-              />
-            </a>
+              hoge
+            </strong>
+            <small>
+              1900-01-01
+            </small>
           </div>
+          <p>
+            fugafuga
+            <br />
+          </p>
         </div>
-        <form
-          className="form post-form mt-1"
-          onSubmit={[Function]}
+        
+        <div
+          className="scroll-btn"
         >
-          <textarea
-            autoFocus={true}
-            className="post-form__input"
-            data-testid="textarea"
-            name="content"
-            onChange={[Function]}
-            onKeyUp={[Function]}
-            value="fugafuga"
-          />
-          <button
-            className="btn btn-primary mx-1 align-top"
-            type="button"
+          <a
+            className="scroll-btn__item"
+            data-testid="scroll-btn"
+            onClick={[Function]}
           >
-            投稿
-          </button>
-        </form>
+            <i
+              className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+            />
+          </a>
+        </div>
       </div>
+      <form
+        className="form post-form mt-1"
+        onSubmit={[Function]}
+      >
+        <textarea
+          autoFocus={true}
+          className="post-form__input"
+          data-testid="textarea"
+          name="content"
+          onChange={[Function]}
+          onKeyUp={[Function]}
+          value="fugafuga"
+        />
+        <button
+          className="btn btn-primary mx-1 align-top"
+          type="button"
+        >
+          投稿
+        </button>
+      </form>
     </div>
   </div>,
 ]

@@ -35,7 +35,7 @@ export const mockState: RootState = {
         id: 1,
         name: 'hoge',
       },
-      message2: {
+      group2: {
         id: 2,
         name: 'piyo',
       },
