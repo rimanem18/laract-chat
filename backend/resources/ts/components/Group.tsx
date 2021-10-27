@@ -78,15 +78,15 @@ const modalStyle = {
   },
   content: {
     // position: 'absolute',
-    top: '25%',
-    left: '25%',
-    right: '25%',
-    bottom: '25%',
     backgroundColor: '#f2f2f2',
     borderRadius: '1rem',
     padding: '1.5rem',
     width: '30em',
     height: '20em',
+    top: '50%',
+    left: '50%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
   },
 }
 
