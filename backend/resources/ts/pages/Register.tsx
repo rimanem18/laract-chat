@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAuthMessage, useAuthPromise } from '../app/hooks'
+import {
+  useAppDispatch,
+  useAuthMessage,
+  useAuthPromise,
+  useUserId,
+} from '../app/hooks'
 import { initAuthState, register } from '../slices/AuthSlice'
 import Input from '../components/Input'
+import { Link, Redirect } from 'react-router-dom'
 
 const Register = () => {
   const dispatch = useAppDispatch()
@@ -11,6 +17,7 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const authPromise = useAuthPromise()
   const authMessage = useAuthMessage()
+  const userId = useUserId()
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,63 +48,74 @@ const Register = () => {
 
   return (
     <>
-      <h3>登録</h3>
-      <p>
-        {authPromise === 'rejected'
-          ? `ユーザ登録に失敗しました。${authMessage}`
-          : ''}
-      </p>
+      {userId !== 0 ? (
+        <Redirect to="/groups/1" />
+      ) : (
+        <>
+          <h3>登録</h3>
+          <p>
+            {authPromise === 'rejected'
+              ? `ユーザ登録に失敗しました。${authMessage}`
+              : ''}
+          </p>
 
-      <form className="form" onSubmit={registerHandler}>
-        <Input
-          label="Name"
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          data-testid="name-input"
-        />
-        <Input
-          label="Email"
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <div data-testid="email-warning">
-          {emailError ? <p>Email 形式で入力してください。</p> : ''}
-        </div>
-        <Input
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div data-testid="password-warning">
-          {password.length === 0 ? (
-            <p>パスワードを入力してください。</p>
-          ) : password.length <= 7 ? (
-            <p>パスワードは8文字以上である必要があります。</p>
-          ) : (
-            ''
-          )}
-        </div>
-        <button
-          disabled={
-            name.length === 0 ||
-            email.length === 0 ||
-            emailError ||
-            password.length <= 7
-              ? true
-              : false
-          }
-          className="btn btn-primary"
-          type="submit"
-        >
-          Register
-        </button>
-      </form>
+          <form className="form" onSubmit={registerHandler}>
+            <Input
+              label="Name"
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              data-testid="name-input"
+            />
+            <Input
+              label="Email"
+              type="text"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div data-testid="email-warning">
+              {emailError ? <p>Email 形式で入力してください。</p> : ''}
+            </div>
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div data-testid="password-warning">
+              {password.length === 0 ? (
+                <p>パスワードを入力してください。</p>
+              ) : password.length <= 7 ? (
+                <p>パスワードは8文字以上である必要があります。</p>
+              ) : (
+                ''
+              )}
+            </div>
+            <button
+              disabled={
+                name.length === 0 ||
+                email.length === 0 ||
+                emailError ||
+                password.length <= 7
+                  ? true
+                  : false
+              }
+              className="btn btn-primary"
+              type="submit"
+            >
+              Register
+            </button>
+          </form>
+          <div className="mt-1">
+            <p>
+              すでに登録済みの方は<Link to="/login">ログイン</Link>
+            </p>
+          </div>
+        </>
+      )}
     </>
   )
 }
