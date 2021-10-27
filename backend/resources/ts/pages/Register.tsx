@@ -7,7 +7,7 @@ import {
 } from '../app/hooks'
 import { initAuthState, register } from '../slices/AuthSlice'
 import Input from '../components/Input'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 const Register = () => {
   const dispatch = useAppDispatch()
@@ -109,6 +109,11 @@ const Register = () => {
               Register
             </button>
           </form>
+          <div className="mt-1">
+            <p>
+              すでに登録済みの方は<Link to="/login">ログイン</Link>
+            </p>
+          </div>
         </>
       )}
     </>

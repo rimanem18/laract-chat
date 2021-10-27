@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useAppDispatch, useAuthPromise, useUserId } from '../app/hooks'
 import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 const Login = () => {
   const dispatch = useAppDispatch()
@@ -69,6 +69,11 @@ const Login = () => {
               Login
             </button>
           </form>
+          <div className="mt-1">
+            <p>
+              ユーザ登録がまだの場合は<Link to="/register">登録</Link>
+            </p>
+          </div>
         </>
       )}
     </>

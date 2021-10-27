@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import {
   useAppDispatch,
@@ -36,11 +36,11 @@ const App = () => {
         <GlobalNav />
         <div className="container">
           <Switch>
-            {/*完全一致のため、exactを付与*/}
             <Route path="/groups/:groupId" exact component={Top} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Redirect to="/groups/1" />
           </Switch>
           {/* <Loader /> */}
         </div>
