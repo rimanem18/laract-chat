@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router'
+import Modal from 'react-modal'
 import {
+  useAppDispatch,
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
@@ -37,6 +39,7 @@ const Message = () => {
 
   return (
     <>
+      <EditGroupModal groupId={groupId} groupName={groupName} />
       <h2 className="h2">{groupName !== undefined ? groupName : ''}</h2>
       <div ref={messageList} className="message">
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
@@ -113,3 +116,71 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
     </div>
   )
 })
+
+const modalStyle = {
+  overlay: {
+    // position: 'fixed',
+    top: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,0.85)',
+  },
+  content: {
+    // position: 'absolute',
+    backgroundColor: '#f2f2f2',
+    borderRadius: '1rem',
+    padding: '1.5rem',
+    width: '30em',
+    height: '20em',
+    top: '50%',
+    left: '50%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+}
+
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
+type EditGroupModalProps = {
+  groupId: string
+  groupName?: string
+}
+const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [newName, setNewName] = useState(groupName)
+  const dispatch = useAppDispatch()
+
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewName(e.target.value)
+  }
+  const editGroupHandler = () => {
+    // dispatch(editGroup({ id: groupId, name: newName }))
+  }
+
+  return (
+    <>
+      <button className="btn btn-primary" onClick={openModal}>
+        グループを編集
+      </button>
+      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+        <h4>{groupName}</h4>
+        <input
+          type="text"
+          name="groupName"
+          id="groupName"
+          value={newName}
+          onChange={onChangeNameHandler}
+          autoFocus
+        />
+        <button className="btn btn-primary" onClick={editGroupHandler}>
+          OK
+        </button>
+      </Modal>
+    </>
+  )
+}

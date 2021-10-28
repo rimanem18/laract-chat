@@ -97,7 +97,7 @@ type AddGroupModalProps = {
 }
 const AddGroupModal = React.memo(
   ({ addGroupHandler, onChangeNameHandler, value }: AddGroupModalProps) => {
-    const [modalisOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const openModal = () => {
       setIsOpen(true)
@@ -111,11 +111,7 @@ const AddGroupModal = React.memo(
         <button className="btn btn-primary" onClick={openModal}>
           新しいグループを追加
         </button>
-        <Modal
-          isOpen={modalisOpen}
-          onRequestClose={closeModal}
-          style={modalStyle}
-        >
+        <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
           <h4>追加するグループの名前</h4>
           <input
             type="text"
