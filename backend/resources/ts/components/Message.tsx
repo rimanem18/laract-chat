@@ -12,6 +12,7 @@ import {
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
+import { editGroup } from '../slices/GroupsSlice'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
@@ -159,7 +160,9 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
     setNewName(e.target.value)
   }
   const editGroupHandler = () => {
-    // dispatch(editGroup({ id: groupId, name: newName }))
+    if (newName !== undefined) {
+      dispatch(editGroup({ groupId: groupId, groupName: newName }))
+    }
   }
 
   return (

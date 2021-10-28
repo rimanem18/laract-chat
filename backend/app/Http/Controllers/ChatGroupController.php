@@ -35,4 +35,18 @@ class ChatGroupController extends Controller
 
         return response()->json(['message'=> 'グループを追加しました。'], Response::HTTP_OK);
     }
+
+    /**
+     * グループ名を書き換える
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function updateChatGroup(Request $request)
+    {
+        $id = $request->groupId;
+        $name = $request->groupName;
+
+        ChatGroup::where('id', $id)->update(['name'=>$name]);
+    }
 }
