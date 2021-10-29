@@ -49,4 +49,17 @@ class ChatGroupController extends Controller
 
         ChatGroup::where('id', $id)->update(['name'=>$name]);
     }
+
+    /**
+     * グループを削除
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function deleteChatGroup(Request $request)
+    {
+        $id = $request->groupId;
+
+        ChatGroup::where('id', $id)->delete();
+    }
 }

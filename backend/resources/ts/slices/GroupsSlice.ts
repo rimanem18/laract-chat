@@ -72,6 +72,20 @@ export const editGroup = createAsyncThunk(
   }
 )
 
+export const deleteGroup = createAsyncThunk(
+  'groups/deleteGroup',
+  async ({ groupId }: { groupId: string }) => {
+    const response = await axios
+      .post('/api/chat_groups/delete', {
+        groupId: groupId,
+      })
+      .then((res) => {
+        return axios.get('/api/chat_groups/')
+      })
+    return response.data.chat_groups
+  }
+)
+
 export const groupsSlice = createSlice({
   name: 'groupsSlice',
   initialState,
@@ -165,6 +179,26 @@ export const groupsSlice = createSlice({
         state.promise = 'loading'
       })
       .addCase(editGroup.rejected, (state) => {
+        state.promise = 'rejected'
+      })
+      // delete
+      .addCase(
+        deleteGroup.fulfilled,
+        (state, action: PayloadAction<Group[]>) => {
+          const groups = action.payload
+          state.promise = 'idle'
+          state.ids = groups.map((group) => `group${group.id.toString()}`)
+          console.log('delete')
+
+          groups.forEach((group) => {
+            state.entities[`group${group.id}`] = group
+          })
+        }
+      )
+      .addCase(deleteGroup.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(deleteGroup.rejected, (state) => {
         state.promise = 'rejected'
       })
   },

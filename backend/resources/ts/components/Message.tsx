@@ -12,7 +12,7 @@ import {
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
-import { editGroup } from '../slices/GroupsSlice'
+import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
@@ -182,6 +182,11 @@ const EditGroupModal = React.memo(
       setNewName(groupName)
     }, [groupName])
 
+    const deleteGroupHandler = () => {
+      dispatch(deleteGroup({ groupId: groupId }))
+      closeModal()
+    }
+
     return (
       <>
         <button className="btn btn-primary" onClick={openModal}>
@@ -206,6 +211,9 @@ const EditGroupModal = React.memo(
               戻る
             </button>
           </form>
+          <button className="btn btn-danger" onClick={deleteGroupHandler}>
+            グループを削除
+          </button>
         </Modal>
       </>
     )
