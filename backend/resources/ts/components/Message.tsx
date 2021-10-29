@@ -19,6 +19,7 @@ const Message = () => {
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
+  const [groupName, setGroupName] = useState('')
 
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()
@@ -35,13 +36,22 @@ const Message = () => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
-  const groupName =
-    groupIds.length !== 0 ? groupsEntities[`group${groupId}`].name : undefined
+  useEffect(() => {
+    setGroupName(
+      groupIds.length !== 0
+        ? groupsEntities[`group${groupId}`].name
+        : 'グループ名が取得できませんでした。'
+    )
+  }, [groupIds.length, groupName, groupId])
 
   return (
     <>
       <EditGroupModal groupId={groupId} groupName={groupName} />
-      <h2 className="h2">{groupName !== undefined ? groupName : ''}</h2>
+      <h2 className="h2">
+        {groupsEntities[`group${groupId}`]
+          ? groupsEntities[`group${groupId}`].name
+          : ''}
+      </h2>
       <div ref={messageList} className="message">
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesIds.map((id: string) =>
@@ -142,48 +152,62 @@ const modalStyle = {
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
 type EditGroupModalProps = {
   groupId: string
-  groupName?: string
+  groupName: string
 }
-const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [newName, setNewName] = useState(groupName)
-  const dispatch = useAppDispatch()
+const EditGroupModal = React.memo(
+  ({ groupId, groupName }: EditGroupModalProps) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [newName, setNewName] = useState(groupName)
+    const dispatch = useAppDispatch()
 
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const closeModal = () => {
-    setIsOpen(false)
-  }
-
-  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value)
-  }
-  const editGroupHandler = () => {
-    if (newName !== undefined) {
-      dispatch(editGroup({ groupId: groupId, groupName: newName }))
+    const openModal = () => {
+      setIsOpen(true)
     }
-  }
+    const closeModal = () => {
+      setIsOpen(false)
+    }
 
-  return (
-    <>
-      <button className="btn btn-primary" onClick={openModal}>
-        グループを編集
-      </button>
-      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
-        <h4>{groupName}</h4>
-        <input
-          type="text"
-          name="groupName"
-          id="groupName"
-          value={newName}
-          onChange={onChangeNameHandler}
-          autoFocus
-        />
-        <button className="btn btn-primary" onClick={editGroupHandler}>
-          OK
+    const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNewName(e.target.value)
+    }
+    const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      if (newName !== undefined) {
+        dispatch(editGroup({ groupId: groupId, groupName: newName }))
+        setNewName('')
+        closeModal()
+      }
+    }
+    useEffect(() => {
+      setNewName(groupName)
+    }, [groupName])
+
+    return (
+      <>
+        <button className="btn btn-primary" onClick={openModal}>
+          グループを編集
         </button>
-      </Modal>
-    </>
-  )
-}
+        <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+          <h4>{groupName}</h4>
+          <form onSubmit={editGroupHandler} className="form">
+            <input
+              className="form-controll"
+              type="text"
+              name="groupName"
+              id="groupName"
+              value={newName}
+              onChange={onChangeNameHandler}
+              autoFocus
+            />
+            <button className="btn btn-primary" type="submit">
+              OK
+            </button>
+            <button className="btn btn-light" onClick={closeModal}>
+              戻る
+            </button>
+          </form>
+        </Modal>
+      </>
+    )
+  }
+)
