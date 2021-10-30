@@ -1,12 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useUserEmail, useUserId, useUserName } from '../app/hooks'
+import {
+  useAppDispatch,
+  useUserEmail,
+  useUserId,
+  useUserName,
+} from '../app/hooks'
+import { logout } from '../slices/AuthSlice'
 import Group from './Group'
 
 const Sidebar = () => {
   const userId = useUserId()
   const userName = useUserName()
   const userEmail = useUserEmail()
+  const dispatch = useAppDispatch()
+
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
 
   return (
     <>
@@ -15,6 +26,9 @@ const Sidebar = () => {
         <li data-testid="user-name">{userName}</li>
         <li data-testid="user-email">{userEmail}</li>
       </ul>
+      <button onClick={logoutHandler} className="btn btn-primary">
+        ログアウト
+      </button>
       <Group />
     </>
   )
