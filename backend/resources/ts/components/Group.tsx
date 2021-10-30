@@ -6,6 +6,7 @@ import {
   useGroupsEntities,
   useGroupsIds,
   useGroupsPromise,
+  useParamGroupId,
 } from '../app/hooks'
 import { addGroup, fetchGroups, updateGroups } from '../slices/GroupsSlice'
 
@@ -43,11 +44,22 @@ type GroupItemProps = {
   name: string
 }
 const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
+  const activeGroupId = useParamGroupId()
+  const [isActive, setIsActive] = useState(false)
+
+  useEffect(() => {
+    setIsActive(activeGroupId === id ? true : false)
+  }, [activeGroupId])
+
   return (
     <>
-      <li data-testid={`group${id}`}>
-        <Link data-testid={`group${id}-link`} to={`/groups/${id}`}>
-          {name}
+      <li data-testid={`group${id}`} className="group__item">
+        <Link
+          data-testid={`group${id}-link`}
+          to={`/groups/${id}`}
+          className={`group__link` + (isActive ? `--is-active` : ``)}
+        >
+          <span className="ml-2">{name}</span>
         </Link>
       </li>
     </>
