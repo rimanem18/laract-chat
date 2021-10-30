@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router'
+import Modal from 'react-modal'
 import {
+  useAppDispatch,
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
@@ -10,12 +12,14 @@ import {
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
+import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
+  const [groupName, setGroupName] = useState('')
 
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()
@@ -32,12 +36,22 @@ const Message = () => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
-  const groupName =
-    groupIds.length !== 0 ? groupsEntities[`group${groupId}`].name : undefined
+  useEffect(() => {
+    setGroupName(
+      groupIds.length !== 0
+        ? groupsEntities[`group${groupId}`].name
+        : 'グループ名が取得できませんでした。'
+    )
+  }, [groupIds.length, groupName, groupId])
 
   return (
     <>
-      <h2 className="h2">{groupName !== undefined ? groupName : ''}</h2>
+      <EditGroupModal groupId={groupId} groupName={groupName} />
+      <h2 className="h2">
+        {groupsEntities[`group${groupId}`]
+          ? groupsEntities[`group${groupId}`].name
+          : ''}
+      </h2>
       <div ref={messageList} className="message">
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesIds.map((id: string) =>
@@ -113,3 +127,114 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
     </div>
   )
 })
+
+const modalStyle = {
+  overlay: {
+    // position: 'fixed',
+    top: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,0.85)',
+  },
+  content: {
+    // position: 'absolute',
+    backgroundColor: '#f2f2f2',
+    borderRadius: '1rem',
+    padding: '1.5rem',
+    width: '30em',
+    height: '20em',
+    top: '50%',
+    left: '50%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+}
+
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
+type EditGroupModalProps = {
+  groupId: string
+  groupName: string
+}
+const EditGroupModal = React.memo(
+  ({ groupId, groupName }: EditGroupModalProps) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [isConfirm, setIsConfirm] = useState(false)
+    const [newName, setNewName] = useState(groupName)
+    const dispatch = useAppDispatch()
+
+    const openModal = () => {
+      setIsOpen(true)
+    }
+    const closeModal = () => {
+      setIsOpen(false)
+      setIsConfirm(false)
+    }
+
+    const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNewName(e.target.value)
+    }
+    const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      if (newName !== undefined) {
+        dispatch(editGroup({ groupId: groupId, groupName: newName }))
+        setNewName('')
+        closeModal()
+      }
+    }
+    useEffect(() => {
+      setNewName(groupName)
+    }, [groupName])
+
+    const deleteGroupConfirm = () => {
+      setIsConfirm(true)
+    }
+    const deleteGroupHandler = () => {
+      dispatch(deleteGroup({ groupId: groupId }))
+      closeModal()
+    }
+
+    return (
+      <>
+        <button className="btn btn-primary" onClick={openModal}>
+          グループを編集
+        </button>
+        <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+          <h4>{groupName}</h4>
+          {isConfirm ? (
+            <div>
+              <p>削除するともとには戻せません。削除してよろしいですか？</p>
+              <button className="btn btn-danger" onClick={deleteGroupHandler}>
+                グループを削除
+              </button>
+              <button className="btn btn-light" onClick={closeModal}>
+                キャンセル
+              </button>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={editGroupHandler} className="form">
+                <input
+                  className="form-controll"
+                  type="text"
+                  name="groupName"
+                  id="groupName"
+                  value={newName}
+                  onChange={onChangeNameHandler}
+                  autoFocus
+                />
+                <button className="btn btn-primary" type="submit">
+                  OK
+                </button>
+                <button className="btn btn-light" onClick={closeModal}>
+                  キャンセル
+                </button>
+              </form>
+              <button className="btn btn-danger" onClick={deleteGroupConfirm}>
+                グループを削除
+              </button>
+            </>
+          )}
+        </Modal>
+      </>
+    )
+  }
+)

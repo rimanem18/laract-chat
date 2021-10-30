@@ -57,6 +57,35 @@ export const addGroup = createAsyncThunk(
   }
 )
 
+export const editGroup = createAsyncThunk(
+  'groups/editGroup',
+  async ({ groupId, groupName }: { groupId: string; groupName: string }) => {
+    const response = await axios
+      .post('/api/chat_groups/edit', {
+        groupId: groupId,
+        groupName: groupName,
+      })
+      .then((res) => {
+        return axios.get('/api/chat_groups/')
+      })
+    return response.data.chat_groups
+  }
+)
+
+export const deleteGroup = createAsyncThunk(
+  'groups/deleteGroup',
+  async ({ groupId }: { groupId: string }) => {
+    const response = await axios
+      .post('/api/chat_groups/delete', {
+        groupId: groupId,
+      })
+      .then((res) => {
+        return axios.get('/api/chat_groups/')
+      })
+    return response.data.chat_groups
+  }
+)
+
 export const groupsSlice = createSlice({
   name: 'groupsSlice',
   initialState,
@@ -91,16 +120,13 @@ export const groupsSlice = createSlice({
 
           // 差がなければそのまま帰る
           const diff = groups.length - state.ids.length
-          console.log(diff)
 
           if (diff === 0) {
             return
           }
-          console.log(diff)
 
           const lastGroup = groups.slice(-diff)[0]
           state.ids.push(`group${lastGroup.id.toString()}`)
-          console.log(lastGroup)
 
           state.entities[`group${lastGroup.id.toString()}`] = lastGroup
         }
@@ -118,22 +144,55 @@ export const groupsSlice = createSlice({
 
         // 差がなければそのまま帰る
         const diff = groups.length - state.ids.length
-        console.log(diff)
 
         if (diff === 0) {
           return
         }
-        console.log(diff)
 
         const lastGroup = groups.slice(-diff)[0]
         state.ids.push(`group${lastGroup.id.toString()}`)
-        console.log(lastGroup)
+
         state.entities[`group${lastGroup.id.toString()}`] = lastGroup
       })
       .addCase(addGroup.pending, (state) => {
         state.promise = 'loading'
       })
       .addCase(addGroup.rejected, (state) => {
+        state.promise = 'rejected'
+      })
+      // edit
+      .addCase(editGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
+        const groups = action.payload
+        state.promise = 'idle'
+        state.ids = groups.map((group) => `group${group.id.toString()}`)
+
+        groups.forEach((group) => {
+          state.entities[`group${group.id}`] = group
+        })
+      })
+      .addCase(editGroup.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(editGroup.rejected, (state) => {
+        state.promise = 'rejected'
+      })
+      // delete
+      .addCase(
+        deleteGroup.fulfilled,
+        (state, action: PayloadAction<Group[]>) => {
+          const groups = action.payload
+          state.promise = 'idle'
+          state.ids = groups.map((group) => `group${group.id.toString()}`)
+
+          groups.forEach((group) => {
+            state.entities[`group${group.id}`] = group
+          })
+        }
+      )
+      .addCase(deleteGroup.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(deleteGroup.rejected, (state) => {
         state.promise = 'rejected'
       })
   },

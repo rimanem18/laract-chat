@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import Register from '../../pages/Register'
+import { BrowserRouter } from 'react-router-dom'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -15,16 +16,18 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
+  useUserId: () => userUserIdMock(),
   useAuthPromise: () => useAuthPromiseMock(),
   useAuthMessage: () => useAuthMessageMock(),
 }))
 
 // Hooks の Mock
+let userUserIdMock = jest.fn().mockReturnValue(0)
 const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
 const useAuthMessageMock = jest.fn().mockReturnValue('')
 
 const setup = () => {
-  const screen = render(<Register />)
+  const screen = render(Component)
   const nameInput = screen.getByLabelText('Name') as HTMLInputElement
   const emailInput = screen.getByLabelText('Email') as HTMLInputElement
   const passwordInput = screen.getByLabelText('Password') as HTMLInputElement
@@ -42,6 +45,11 @@ const setup = () => {
   }
 }
 
+const Component = (
+  <BrowserRouter>
+    <Register />
+  </BrowserRouter>
+)
 describe('Register Input', () => {
   it('email がメールアドレス形式ではない場合、バリデーションエラーが表示される', () => {
     const { emailInput, emailWarnMsg } = setup()
@@ -138,7 +146,7 @@ describe('Register Button', () => {
   })
 
   it('snapshot', () => {
-    const tree = renderer.create(<Register />).toJSON()
+    const tree = renderer.create(Component).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

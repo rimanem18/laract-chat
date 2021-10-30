@@ -2,6 +2,12 @@
 
 exports[`Message snapshot 1`] = `
 Array [
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    グループを編集
+  </button>,
   <h2
     className="h2"
   >
@@ -14,7 +20,7 @@ Array [
       className="message__note"
     >
       ここが「
-      hoge
+      
       」の先頭です。
     </p>
     <div

@@ -45,6 +45,8 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
 
-// グループ取得、追加
+// グループ取得、追加、編集、削除
 Route::get('/chat_groups', [ChatGroupController::class, 'selectChatGroups']);
 Route::middleware('auth:sanctum')->post('/chat_groups/create', [ChatGroupController::class, 'insertChatGroup']);
+Route::middleware('auth:sanctum')->post('/chat_groups/edit', [ChatGroupController::class, 'updateChatGroup']);
+Route::middleware('auth:sanctum')->post('/chat_groups/delete', [ChatGroupController::class, 'deleteChatGroup']);

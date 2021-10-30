@@ -15,17 +15,6 @@ const Group = () => {
   const dispatch = useAppDispatch()
   const groupIds = useGroupsIds()
   const groupsEntities = useGroupsEntities()
-  const [groupName, setGroupName] = useState('')
-
-  const addGroupHandler = useCallback(() => {
-    dispatch(addGroup({ groupName: groupName }))
-  }, [groupName])
-  const onChangeNameHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setGroupName(e.target.value)
-    },
-    [groupName]
-  )
 
   return (
     <>
@@ -40,11 +29,7 @@ const Group = () => {
           )
         })}
       </ul>
-      <AddGroupModal
-        addGroupHandler={addGroupHandler}
-        onChangeNameHandler={onChangeNameHandler}
-        value={groupName}
-      />
+      <AddGroupModal />
     </>
   )
 }
@@ -90,49 +75,52 @@ const modalStyle = {
   },
 }
 
-type AddGroupModalProps = {
-  addGroupHandler: () => void
-  onChangeNameHandler: (e: React.ChangeEvent<HTMLInputElement>) => void
-  value: string
-}
-const AddGroupModal = React.memo(
-  ({ addGroupHandler, onChangeNameHandler, value }: AddGroupModalProps) => {
-    const [modalisOpen, setIsOpen] = useState(false)
+const AddGroupModal = React.memo(() => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [groupName, setGroupName] = useState('')
+  const dispatch = useAppDispatch()
 
-    const openModal = () => {
-      setIsOpen(true)
-    }
-    const closeModal = () => {
-      setIsOpen(false)
-    }
+  const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(addGroup({ groupName: groupName }))
+    closeModal()
+  }
+  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGroupName(e.target.value)
+  }
 
-    return (
-      <>
-        <button className="btn btn-primary" onClick={openModal}>
-          新しいグループを追加
-        </button>
-        <Modal
-          isOpen={modalisOpen}
-          onRequestClose={closeModal}
-          style={modalStyle}
-        >
-          <h4>追加するグループの名前</h4>
+  const openModal = () => {
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  return (
+    <>
+      <button className="btn btn-primary" onClick={openModal}>
+        新しいグループを追加
+      </button>
+      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+        <h4>追加するグループの名前</h4>
+        <form onSubmit={addGroupHandler} className="form">
           <input
             type="text"
             name="groupName"
             id="groupName"
-            value={value}
+            className="from-controll"
+            value={groupName || ''}
             onChange={onChangeNameHandler}
             autoFocus
           />
-          <button className="btn btn-primary" onClick={addGroupHandler}>
+          <button className="btn btn-primary" type="submit">
             追加
           </button>
           <button className="btn btn-light" onClick={closeModal}>
-            戻る
+            キャンセル
           </button>
-        </Modal>
-      </>
-    )
-  }
-)
+        </form>
+      </Modal>
+    </>
+  )
+})
