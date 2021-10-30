@@ -76,6 +76,9 @@ const AddGroupModal = React.memo(() => {
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(addGroup({ groupName: groupName }))
+    setGroupName('')
+    console.log('aadd')
+
     closeModal()
   }
   const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
