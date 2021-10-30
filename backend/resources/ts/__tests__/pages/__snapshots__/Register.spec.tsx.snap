@@ -1,15 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Register Button snapshot 1`] = `
-<div
-  className="container"
->
+Array [
   <h3>
     登録
-  </h3>
+  </h3>,
   <p>
     
-  </p>
+  </p>,
   <form
     className="form"
     onSubmit={[Function]}
@@ -95,6 +93,19 @@ exports[`Register Button snapshot 1`] = `
     >
       Register
     </button>
-  </form>
-</div>
+  </form>,
+  <div
+    className="mt-1"
+  >
+    <p>
+      すでに登録済みの方は
+      <a
+        href="/login"
+        onClick={[Function]}
+      >
+        ログイン
+      </a>
+    </p>
+  </div>,
+]
 `;

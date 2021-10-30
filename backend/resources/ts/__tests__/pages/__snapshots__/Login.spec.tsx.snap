@@ -1,15 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login snapshot 1`] = `
-<div
-  className="container"
->
+exports[`未ログイン時 Login snapshot 1`] = `
+Array [
   <h3>
     ログイン
-  </h3>
+  </h3>,
   <p>
     
-  </p>
+  </p>,
   <form
     className="form"
     onSubmit={[Function]}
@@ -60,6 +58,19 @@ exports[`Login snapshot 1`] = `
     >
       Login
     </button>
-  </form>
-</div>
+  </form>,
+  <div
+    className="mt-1"
+  >
+    <p>
+      ユーザ登録がまだの場合は
+      <a
+        href="/register"
+        onClick={[Function]}
+      >
+        登録
+      </a>
+    </p>
+  </div>,
+]
 `;

@@ -120,16 +120,13 @@ export const groupsSlice = createSlice({
 
           // 差がなければそのまま帰る
           const diff = groups.length - state.ids.length
-          console.log(diff)
 
           if (diff === 0) {
             return
           }
-          console.log(diff)
 
           const lastGroup = groups.slice(-diff)[0]
           state.ids.push(`group${lastGroup.id.toString()}`)
-          console.log(lastGroup)
 
           state.entities[`group${lastGroup.id.toString()}`] = lastGroup
         }
@@ -147,16 +144,14 @@ export const groupsSlice = createSlice({
 
         // 差がなければそのまま帰る
         const diff = groups.length - state.ids.length
-        console.log(diff)
 
         if (diff === 0) {
           return
         }
-        console.log(diff)
 
         const lastGroup = groups.slice(-diff)[0]
         state.ids.push(`group${lastGroup.id.toString()}`)
-        console.log(lastGroup)
+
         state.entities[`group${lastGroup.id.toString()}`] = lastGroup
       })
       .addCase(addGroup.pending, (state) => {
@@ -188,7 +183,6 @@ export const groupsSlice = createSlice({
           const groups = action.payload
           state.promise = 'idle'
           state.ids = groups.map((group) => `group${group.id.toString()}`)
-          console.log('delete')
 
           groups.forEach((group) => {
             state.entities[`group${group.id}`] = group
