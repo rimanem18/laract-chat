@@ -33,7 +33,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <React.Fragment>
-        <GlobalNav />
         <div className="container">
           <Switch>
             <Route path="/groups/:groupId" exact component={Top} />
