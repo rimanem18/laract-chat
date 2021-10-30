@@ -6,6 +6,7 @@ import renderer from 'react-test-renderer'
 import Modal from 'react-modal'
 import { mockState } from '../../app/mockState'
 import Group from '../../components/Group'
+import { useModalStyle } from '../../app/hooks'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -19,6 +20,7 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useParamGroupId: () => useParamGroupIdMock(),
+  useModalStyle: () => useModalStyleMock(),
   useGroupsIds: () => useGroupsIdsMock(),
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
@@ -26,6 +28,7 @@ jest.mock('../../app/hooks', () => ({
 
 // Hooks の Mock
 const group = mockState.groupsSlice
+const useModalStyleMock = jest.fn().mockReturnValue({})
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
 const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)

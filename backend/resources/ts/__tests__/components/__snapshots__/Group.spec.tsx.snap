@@ -6,25 +6,37 @@ Array [
     className="group"
   >
     <li
+      className="group__item"
       data-testid="group1"
     >
       <a
+        className="group__link"
         data-testid="group1-link"
         href="/groups/1"
         onClick={[Function]}
       >
-        hoge
+        <span
+          className="ml-2"
+        >
+          hoge
+        </span>
       </a>
     </li>
     <li
+      className="group__item"
       data-testid="group2"
     >
       <a
+        className="group__link"
         data-testid="group2-link"
         href="/groups/2"
         onClick={[Function]}
       >
-        piyo
+        <span
+          className="ml-2"
+        >
+          piyo
+        </span>
       </a>
     </li>
   </ul>,

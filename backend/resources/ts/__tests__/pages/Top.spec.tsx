@@ -35,6 +35,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsIds: () => useGroupsIdsMock(),
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
+  useModalStyle: () => useModalStyleMock(),
 }))
 
 // Hooks の Mock
@@ -67,6 +68,8 @@ const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
+
+const useModalStyleMock = jest.fn().mockReturnValue({})
 
 jest
   .spyOn(Modal, 'setAppElement')

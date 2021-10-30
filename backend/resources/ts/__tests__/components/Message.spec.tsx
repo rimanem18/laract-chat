@@ -29,6 +29,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
   useParamGroupId: () => useParamGroupIdMock(),
+  useModalStyle: () => useModalStyleMock(),
 }))
 
 // Mock の定義
@@ -52,6 +53,7 @@ const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
 
 const useParamGroupIdMock = jest.fn().mockReturnValue(groupId)
+const useModalStyleMock = jest.fn().mockReturnValue({})
 
 // Setup
 const setup = () => {
