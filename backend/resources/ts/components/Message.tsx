@@ -157,6 +157,7 @@ type EditGroupModalProps = {
 const EditGroupModal = React.memo(
   ({ groupId, groupName }: EditGroupModalProps) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isConfirm, setIsConfirm] = useState(false)
     const [newName, setNewName] = useState(groupName)
     const dispatch = useAppDispatch()
 
@@ -165,6 +166,7 @@ const EditGroupModal = React.memo(
     }
     const closeModal = () => {
       setIsOpen(false)
+      setIsConfirm(false)
     }
 
     const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,6 +184,9 @@ const EditGroupModal = React.memo(
       setNewName(groupName)
     }, [groupName])
 
+    const deleteGroupConfirm = () => {
+      setIsConfirm(true)
+    }
     const deleteGroupHandler = () => {
       dispatch(deleteGroup({ groupId: groupId }))
       closeModal()
@@ -194,26 +199,40 @@ const EditGroupModal = React.memo(
         </button>
         <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
           <h4>{groupName}</h4>
-          <form onSubmit={editGroupHandler} className="form">
-            <input
-              className="form-controll"
-              type="text"
-              name="groupName"
-              id="groupName"
-              value={newName}
-              onChange={onChangeNameHandler}
-              autoFocus
-            />
-            <button className="btn btn-primary" type="submit">
-              OK
-            </button>
-            <button className="btn btn-light" onClick={closeModal}>
-              戻る
-            </button>
-          </form>
-          <button className="btn btn-danger" onClick={deleteGroupHandler}>
-            グループを削除
-          </button>
+          {isConfirm ? (
+            <div>
+              <p>削除するともとには戻せません。削除してよろしいですか？</p>
+              <button className="btn btn-danger" onClick={deleteGroupHandler}>
+                グループを削除
+              </button>
+              <button className="btn btn-light" onClick={closeModal}>
+                キャンセル
+              </button>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={editGroupHandler} className="form">
+                <input
+                  className="form-controll"
+                  type="text"
+                  name="groupName"
+                  id="groupName"
+                  value={newName}
+                  onChange={onChangeNameHandler}
+                  autoFocus
+                />
+                <button className="btn btn-primary" type="submit">
+                  OK
+                </button>
+                <button className="btn btn-light" onClick={closeModal}>
+                  キャンセル
+                </button>
+              </form>
+              <button className="btn btn-danger" onClick={deleteGroupConfirm}>
+                グループを削除
+              </button>
+            </>
+          )}
         </Modal>
       </>
     )
