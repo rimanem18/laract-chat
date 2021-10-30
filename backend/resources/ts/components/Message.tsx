@@ -8,6 +8,7 @@ import {
   useFormatDate,
   useGroupsEntities,
   useGroupsIds,
+  useModalStyle,
   useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
@@ -128,27 +129,6 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
   )
 })
 
-const modalStyle = {
-  overlay: {
-    // position: 'fixed',
-    top: 0,
-    left: 0,
-    backgroundColor: 'rgba(0,0,0,0.85)',
-  },
-  content: {
-    // position: 'absolute',
-    backgroundColor: '#f2f2f2',
-    borderRadius: '1rem',
-    padding: '1.5rem',
-    width: '30em',
-    height: '20em',
-    top: '50%',
-    left: '50%',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}
-
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
 type EditGroupModalProps = {
   groupId: string
@@ -160,6 +140,7 @@ const EditGroupModal = React.memo(
     const [isConfirm, setIsConfirm] = useState(false)
     const [newName, setNewName] = useState(groupName)
     const dispatch = useAppDispatch()
+    const modalStyle = useModalStyle()
 
     const openModal = () => {
       setIsOpen(true)

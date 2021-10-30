@@ -6,6 +6,7 @@ import {
   useGroupsEntities,
   useGroupsIds,
   useGroupsPromise,
+  useModalStyle,
   useParamGroupId,
 } from '../app/hooks'
 import { addGroup, fetchGroups, updateGroups } from '../slices/GroupsSlice'
@@ -66,31 +67,11 @@ const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
   )
 })
 
-const modalStyle = {
-  overlay: {
-    // position: 'fixed',
-    top: 0,
-    left: 0,
-    backgroundColor: 'rgba(0,0,0,0.85)',
-  },
-  content: {
-    // position: 'absolute',
-    backgroundColor: '#f2f2f2',
-    borderRadius: '1rem',
-    padding: '1.5rem',
-    width: '30em',
-    height: '20em',
-    top: '50%',
-    left: '50%',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}
-
 const AddGroupModal = React.memo(() => {
   const [isOpen, setIsOpen] = useState(false)
   const [groupName, setGroupName] = useState('')
   const dispatch = useAppDispatch()
+  const modalStyle = useModalStyle()
 
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
