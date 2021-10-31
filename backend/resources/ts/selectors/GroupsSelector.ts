@@ -32,3 +32,13 @@ export const groupsPromiseSelector = createSelector(
     return groupsSlice.promise
   }
 )
+
+/**
+ * oldestId を取得する
+ */
+export const groupsOldestIdSelector = createSelector(
+  groupsSelector,
+  (groupsSlice) => {
+    return groupsSlice.oldestId
+  }
+)

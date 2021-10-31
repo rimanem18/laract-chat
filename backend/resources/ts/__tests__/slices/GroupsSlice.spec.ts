@@ -18,6 +18,7 @@ const initialState: GroupsState = {
     },
   },
   promise: 'idle',
+  oldestId: 1,
 }
 
 const payloadMock = [{ id: 1, name: 'hoge' }]
