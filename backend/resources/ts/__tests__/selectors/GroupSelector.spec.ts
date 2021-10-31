@@ -2,6 +2,7 @@ import { mockState } from '../../app/mockState'
 import {
   groupIdsSelector,
   groupsEntitiesSelector,
+  groupsOldestIdSelector,
   groupsPromiseSelector,
 } from '../../selectors/GroupsSelector'
 
@@ -10,6 +11,7 @@ describe('groupSelector', () => {
     const ids = groupIdsSelector(mockState)
     const entities = groupsEntitiesSelector(mockState)
     const promise = groupsPromiseSelector(mockState)
+    const oldestId = groupsOldestIdSelector(mockState)
 
     expect(ids).toEqual(['group1', 'group2'])
     expect(entities).toEqual({
@@ -23,5 +25,6 @@ describe('groupSelector', () => {
       },
     })
     expect(promise).toBe('idle')
+    expect(oldestId).toBe(1)
   })
 })

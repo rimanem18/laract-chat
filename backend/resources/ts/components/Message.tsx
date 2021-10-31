@@ -37,13 +37,13 @@ const Message = () => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
-  useEffect(() => {
-    setGroupName(
-      groupIds.length !== 0
-        ? groupsEntities[`group${groupId}`].name
-        : 'グループ名が取得できませんでした。'
-    )
-  }, [groupIds.length, groupName, groupId])
+  // useEffect(() => {
+  //   setGroupName(
+  //     groupIds.length !== 0
+  //       ? groupsEntities[`group${groupId}`].name
+  //       : 'グループ名が取得できませんでした。'
+  //   )
+  // }, [groupIds.length, groupName, groupId])
 
   return (
     <>

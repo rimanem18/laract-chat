@@ -35,6 +35,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsIds: () => useGroupsIdsMock(),
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
+  useGroupsOldestId: () => useGroupsOldestIdMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
 
@@ -63,6 +64,7 @@ const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
 const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
+const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
 
 const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()

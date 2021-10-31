@@ -13,6 +13,7 @@ export interface GroupsState {
   ids: string[]
   entities: Record<string, Group>
   promise: PromiseState
+  oldestId: number
 }
 
 // 初期値
@@ -25,6 +26,7 @@ const initialState: GroupsState = {
     },
   },
   promise: 'idle',
+  oldestId: 1,
 }
 
 export const fetchGroups = createAsyncThunk(
@@ -97,8 +99,10 @@ export const groupsSlice = createSlice({
         fetchGroups.fulfilled,
         (state, action: PayloadAction<Group[]>) => {
           const groups = action.payload
+          const ids = groups.map((group) => `group${group.id.toString()}`)
+          state.ids = ids
+          state.oldestId = Number(ids[0].replace('group', ''))
           state.promise = 'idle'
-          state.ids = groups.map((group) => `group${group.id.toString()}`)
 
           groups.forEach((group) => {
             state.entities[`group${group.id}`] = group

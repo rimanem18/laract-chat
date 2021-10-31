@@ -41,6 +41,7 @@ export const mockState: RootState = {
       },
     },
     promise: 'idle',
+    oldestId: 1,
   },
   postSlice: {
     userId: 1,

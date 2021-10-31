@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import {
   useAppDispatch,
   useAuthPromise,
   useFetchGroups,
-  useGroupsPromise,
+  useGroupsOldestId,
   useInitFetchMessages,
 } from './app/hooks'
 import { fetchUser } from './slices/UserSlice'
 
-import GlobalNav from './components/GlobalNav'
 import Top from './pages/Top'
 import About from './pages/About'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
   const authPromise = useAuthPromise()
-
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
@@ -39,7 +38,7 @@ const App = () => {
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Redirect to="/groups/1" />
+            <AuthRedirect />
           </Switch>
           {/* <Loader /> */}
         </div>

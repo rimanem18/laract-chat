@@ -7,7 +7,8 @@ import {
 } from '../app/hooks'
 import { initAuthState, register } from '../slices/AuthSlice'
 import Input from '../components/Input'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import AuthRedirect from '../components/AuthRedirect'
 
 const Register = () => {
   const dispatch = useAppDispatch()
@@ -49,7 +50,7 @@ const Register = () => {
   return (
     <>
       {userId !== 0 ? (
-        <Redirect to="/groups/1" />
+        <AuthRedirect />
       ) : (
         <>
           <h3>登録</h3>

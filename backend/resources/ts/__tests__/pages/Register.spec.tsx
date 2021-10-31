@@ -4,6 +4,7 @@ import { fireEvent, render } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import Register from '../../pages/Register'
 import { BrowserRouter } from 'react-router-dom'
+import { mockState } from '../../app/mockState'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -19,12 +20,17 @@ jest.mock('../../app/hooks', () => ({
   useUserId: () => userUserIdMock(),
   useAuthPromise: () => useAuthPromiseMock(),
   useAuthMessage: () => useAuthMessageMock(),
+  useGroupsOldestId: () => useGroupsOldestIdMock(),
 }))
 
 // Hooks の Mock
+const group = mockState.groupsSlice
+
 let userUserIdMock = jest.fn().mockReturnValue(0)
 const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
 const useAuthMessageMock = jest.fn().mockReturnValue('')
+
+const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
 
 const setup = () => {
   const screen = render(Component)

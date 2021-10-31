@@ -29,6 +29,7 @@ import {
 import {
   groupIdsSelector,
   groupsEntitiesSelector,
+  groupsOldestIdSelector,
   groupsPromiseSelector,
 } from '../selectors/GroupsSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
@@ -78,6 +79,9 @@ export const useGroupsEntities = () => {
 }
 export const useGroupsPromise = () => {
   return useAppSelector(groupsPromiseSelector)
+}
+export const useGroupsOldestId = () => {
+  return useAppSelector(groupsOldestIdSelector)
 }
 
 // ChatMessages Selector
