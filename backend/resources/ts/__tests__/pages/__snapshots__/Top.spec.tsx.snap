@@ -84,7 +84,7 @@ Array [
     >
       <button
         className="btn btn-primary"
-        onClick={[Function]}
+        data-testid="edit-button"
       >
         グループを編集
       </button>
