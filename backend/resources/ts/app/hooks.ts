@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
 import type { RootState, AppDispatch } from './store'
@@ -214,5 +214,33 @@ export const useModalStyle = () => {
     },
   }
 
-  return modalStyle
+  return useMemo(() => {
+    return modalStyle
+  }, [])
+}
+
+export const useEditGroupModal = (groupName: string) => {
+  const [isConfirm, setIsConfirm] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [newName, setNewName] = useState('')
+
+  const openModal = useCallback(() => {
+    setIsOpen(true)
+  }, [])
+  const closeModal = useCallback(() => {
+    setIsOpen(false)
+    setIsConfirm(false)
+  }, [])
+  const openConfirm = useCallback(() => {
+    setIsConfirm(true)
+  }, [])
+
+  useEffect(() => {
+    setNewName(groupName)
+  }, [groupName])
+
+  return [
+    { isOpen, isConfirm, newName },
+    { openModal, closeModal, setNewName, openConfirm },
+  ] as const
 }

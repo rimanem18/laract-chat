@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import Modal from 'react-modal'
 import {
@@ -14,6 +14,7 @@ import {
   useUpdateMessages,
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
+import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
   const chatMessagesIds = useChatMessageIds()
@@ -21,6 +22,7 @@ const Message = () => {
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
   const [groupName, setGroupName] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
 
   const groupsEntities = useGroupsEntities()
 
@@ -123,93 +125,3 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
     </div>
   )
 })
-
-if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
-type EditGroupModalProps = {
-  groupId: string
-  groupName: string
-}
-const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isConfirm, setIsConfirm] = useState(false)
-  const [newName, setNewName] = useState('')
-  const dispatch = useAppDispatch()
-  const modalStyle = useModalStyle()
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const closeModal = () => {
-    setIsOpen(false)
-    setIsConfirm(false)
-  }
-
-  useEffect(() => {
-    setNewName(groupName)
-  }, [groupName])
-
-  const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value)
-  }
-  const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (newName !== undefined) {
-      dispatch(editGroup({ groupId: groupId, groupName: newName }))
-      closeModal()
-    }
-  }
-
-  const deleteGroupConfirm = () => {
-    setIsConfirm(true)
-  }
-  const deleteGroupHandler = () => {
-    dispatch(deleteGroup({ groupId: groupId }))
-    closeModal()
-  }
-
-  return (
-    <>
-      <button className="btn btn-primary" onClick={openModal}>
-        グループを編集
-      </button>
-      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
-        <h4>{groupName}</h4>
-        {isConfirm ? (
-          <div>
-            <p>削除するともとには戻せません。削除してよろしいですか？</p>
-            <button className="btn btn-danger" onClick={deleteGroupHandler}>
-              グループを削除
-            </button>
-            <button className="btn btn-light" onClick={closeModal}>
-              キャンセル
-            </button>
-          </div>
-        ) : (
-          <>
-            <form onSubmit={editGroupHandler} className="form">
-              <input
-                data-testid="edit-group-name"
-                className="form-controll"
-                type="text"
-                name="groupName"
-                id="groupName"
-                value={newName}
-                onChange={onChangeNameHandler}
-                autoFocus
-              />
-              <button className="btn btn-primary" type="submit">
-                OK
-              </button>
-              <button className="btn btn-light" onClick={closeModal}>
-                キャンセル
-              </button>
-            </form>
-            <button className="btn btn-danger" onClick={deleteGroupConfirm}>
-              グループを削除
-            </button>
-          </>
-        )}
-      </Modal>
-    </>
-  )
-}

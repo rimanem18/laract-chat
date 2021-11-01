@@ -36,6 +36,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
   useGroupsOldestId: () => useGroupsOldestIdMock(),
+  useEditGroupModal: () => useEditGroupModalMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
 
@@ -71,6 +72,14 @@ const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
 
+const useEditGroupModalMock = jest.fn().mockReturnValue([
+  {
+    isOpen: false,
+    isConfirm: false,
+    newName: group.entities.group1.name,
+  },
+  {},
+])
 const useModalStyleMock = jest.fn().mockReturnValue({})
 
 jest
