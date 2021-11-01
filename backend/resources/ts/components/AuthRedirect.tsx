@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { useGroupsOldestId, useGroupsPromise, useUserId } from '../app/hooks'
+import { useDefaultGroupPath, useUserId } from '../app/hooks'
 
 const AuthRedirect = () => {
   const userId = useUserId()
-  const oldestGroupsId = useGroupsOldestId().toString()
-  const groupPromise = useGroupsPromise()
-  const [path, setPath] = useState('')
+  const defaultGroupPath = useDefaultGroupPath()
 
-  useEffect(() => {
-    if (groupPromise !== 'loading') {
-      setPath(`/groups/${oldestGroupsId}`)
-    }
-  }, [groupPromise])
-
-  return <>{userId === 0 ? <Redirect to="/login" /> : <Redirect to={path} />}</>
+  return (
+    <>
+      {userId === 0 ? (
+        <Redirect to="/login" />
+      ) : (
+        <Redirect to={defaultGroupPath} />
+      )}
+    </>
+  )
 }
 
 export default AuthRedirect

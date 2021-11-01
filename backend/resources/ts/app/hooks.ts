@@ -244,3 +244,17 @@ export const useEditGroupModal = (groupName: string) => {
     { openModal, closeModal, setNewName, openConfirm },
   ] as const
 }
+
+export const useDefaultGroupPath = () => {
+  const oldestGroupsId = useGroupsOldestId().toString()
+  const groupPromise = useGroupsPromise()
+  const [path, setPath] = useState('')
+
+  useEffect(() => {
+    if (groupPromise !== 'loading') {
+      setPath(`/groups/${oldestGroupsId}`)
+    }
+  }, [groupPromise])
+
+  return path
+}

@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { push } from 'react-router-redux'
 import { RootState } from '../app/store'
 import axios from 'axios'
 import { PromiseState } from '../app/type'
+import { useDefaultGroupPath } from '../app/hooks'
 
 export type Group = {
   id: number
@@ -74,14 +76,19 @@ export const editGroup = createAsyncThunk(
   }
 )
 
+type deleteGroupProps = {
+  groupId: string
+  closeModal: () => void
+}
 export const deleteGroup = createAsyncThunk(
   'groups/deleteGroup',
-  async ({ groupId }: { groupId: string }) => {
+  async ({ groupId, closeModal }: deleteGroupProps) => {
     const response = await axios
       .post('/api/chat_groups/delete', {
         groupId: groupId,
       })
       .then((res) => {
+        closeModal()
         return axios.get('/api/chat_groups/')
       })
     return response.data.chat_groups
@@ -191,6 +198,9 @@ export const groupsSlice = createSlice({
           groups.forEach((group) => {
             state.entities[`group${group.id}`] = group
           })
+
+          const defaultGroupPath = useDefaultGroupPath()
+          push(defaultGroupPath)
         }
       )
       .addCase(deleteGroup.pending, (state) => {
