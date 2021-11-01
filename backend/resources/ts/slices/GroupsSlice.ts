@@ -198,9 +198,6 @@ export const groupsSlice = createSlice({
           groups.forEach((group) => {
             state.entities[`group${group.id}`] = group
           })
-
-          const defaultGroupPath = useDefaultGroupPath()
-          push(defaultGroupPath)
         }
       )
       .addCase(deleteGroup.pending, (state) => {
