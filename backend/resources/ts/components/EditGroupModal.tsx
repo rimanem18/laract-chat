@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 import { useAppDispatch, useEditGroupModal, useModalStyle } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
@@ -28,8 +28,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   }
 
   const deleteGroupHandler = () => {
-    dispatch(deleteGroup({ groupId: groupId }))
-    closeModal()
+    dispatch(deleteGroup({ groupId: groupId, closeModal: closeModal }))
   }
 
   return (

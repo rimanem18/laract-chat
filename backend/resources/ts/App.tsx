@@ -5,6 +5,7 @@ import {
   useAppDispatch,
   useAuthPromise,
   useFetchGroups,
+  useGroupsIds,
   useGroupsOldestId,
   useInitFetchMessages,
 } from './app/hooks'
@@ -18,6 +19,7 @@ import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
   const authPromise = useAuthPromise()
+  const groupIds = useGroupsIds()
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
