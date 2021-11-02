@@ -17,6 +17,7 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useEditGroupModal: () => useEditGroupModalMock(),
+  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
 
@@ -24,7 +25,7 @@ const group = mockState.groupsSlice
 
 let useEditGroupModalMock = jest.fn()
 const useModalStyleMock = jest.fn().mockReturnValue({})
-const mock = jest.fn()
+const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 const Component = (
   <EditGroupModal

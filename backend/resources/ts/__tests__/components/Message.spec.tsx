@@ -29,6 +29,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
   useParamGroupId: () => useParamGroupIdMock(),
+  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useEditGroupModal: () => useEditGroupModalMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
@@ -63,6 +64,7 @@ const useEditGroupModalMock = jest.fn().mockReturnValue([
   {},
 ])
 const useModalStyleMock = jest.fn().mockReturnValue({})
+const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 // Setup
 const setup = () => {
