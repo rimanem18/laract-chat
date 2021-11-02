@@ -47,11 +47,11 @@ const setup = () => {
   const screen = render(Component)
   const emailInput = screen.getByLabelText('Email') as HTMLInputElement
   const passwordInput = screen.getByLabelText('Password') as HTMLInputElement
-  const button = screen.getByRole('button') as HTMLButtonElement
+  const loginButton = screen.getByTestId('login-btn') as HTMLButtonElement
   return {
     emailInput,
     passwordInput,
-    button,
+    loginButton,
     ...screen,
   }
 }
