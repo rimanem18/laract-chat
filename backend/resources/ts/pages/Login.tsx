@@ -1,23 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  useAppDispatch,
-  useAuthPromise,
-  useGroupsOldestId,
-  useUserId,
-} from '../app/hooks'
+import { useAppDispatch, useAuthPromise } from '../app/hooks'
 import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import AuthRedirect from '../components/AuthRedirect'
 
-const initialState = null
 const Login = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const authPromise = useAuthPromise()
-  const userId = useUserId()
-  const oldestGroupsId = useGroupsOldestId()
 
   const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,6 +17,15 @@ const Login = () => {
       login({
         email: email,
         password: password,
+      })
+    )
+  }
+
+  const demoLoginHandler = () => {
+    dispatch(
+      login({
+        email: 'demo@example.com',
+        password: 'cX3/ZNa-',
       })
     )
   }
@@ -71,7 +72,11 @@ const Login = () => {
             value={password}
             onChange={passwordChangeHandler}
           />
-          <button className="btn btn-primary" type="submit">
+          <button
+            data-testid="login-btn"
+            className="btn btn-primary"
+            type="submit"
+          >
             Login
           </button>
         </form>
@@ -81,6 +86,9 @@ const Login = () => {
           </p>
         </div>
       </>
+      <button className="btn btn-success" onClick={demoLoginHandler}>
+        デモユーザーとしてログイン
+      </button>
     </>
   )
 }

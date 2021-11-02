@@ -54,6 +54,7 @@ Array [
     </div>
     <button
       className="btn btn-primary"
+      data-testid="login-btn"
       type="submit"
     >
       Login
@@ -72,5 +73,11 @@ Array [
       </a>
     </p>
   </div>,
+  <button
+    className="btn btn-success"
+    onClick={[Function]}
+  >
+    デモユーザーとしてログイン
+  </button>,
 ]
 `;
