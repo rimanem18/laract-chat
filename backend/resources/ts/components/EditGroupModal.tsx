@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Modal from 'react-modal'
-import { useAppDispatch, useEditGroupModal, useModalStyle } from '../app/hooks'
+import { useHistory } from 'react-router'
+import {
+  useAppDispatch,
+  useDefaultGroupPath,
+  useEditGroupModal,
+  useModalStyle,
+} from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
@@ -15,6 +21,8 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   ] = useEditGroupModal(groupName)
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
+  const history = useHistory()
+  const defaultGroupPath = useDefaultGroupPath()
 
   const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewName(e.target.value)
@@ -29,6 +37,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
 
   const deleteGroupHandler = () => {
     dispatch(deleteGroup({ groupId: groupId, closeModal: closeModal }))
+    history.push(defaultGroupPath)
   }
 
   return (
