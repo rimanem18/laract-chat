@@ -204,7 +204,7 @@ export const useModalStyle = () => {
     content: {
       backgroundColor: '#f2f2f2',
       borderRadius: '1rem',
-      padding: '1.5rem',
+      padding: '0px',
       width: '30em',
       height: '20em',
       top: '50%',

@@ -1,0 +1,22 @@
+.modal {
+  position: relative;
+  display: block;
+
+  &__title {
+    background: $theme-color;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 1em;
+    margin: 0;
+  }
+
+  &__content {
+    padding: 0.5em;
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}

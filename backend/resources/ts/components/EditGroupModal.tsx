@@ -44,44 +44,53 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
     <>
       <Button openModal={openModal} />
       <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
-        <h4 data-testid="modal-title">{groupName}</h4>
-        {isConfirm ? (
-          <>
-            <p data-testid="confirm-message">
-              削除するともとには戻せません。削除してよろしいですか？
-            </p>
-            <button className="btn btn-danger" onClick={deleteGroupHandler}>
-              グループを削除
-            </button>
-            <button className="btn btn-light" onClick={closeModal}>
-              キャンセル
-            </button>
-          </>
-        ) : (
-          <>
-            <form onSubmit={editGroupHandler} className="form">
-              <input
-                data-testid="edit-group-name"
-                className="form-controll"
-                type="text"
-                name="groupName"
-                id="groupName"
-                value={newName}
-                onChange={onChangeNameHandler}
-                autoFocus
-              />
-              <button className="btn btn-primary" type="submit">
-                OK
-              </button>
-              <button className="btn btn-light" onClick={closeModal}>
-                キャンセル
-              </button>
-            </form>
-            <button className="btn btn-danger" onClick={openConfirm}>
-              グループを削除
-            </button>
-          </>
-        )}
+        <div className="modal">
+          <h4 className="modal__title" data-testid="modal-title">
+            {groupName}
+          </h4>
+          <button className="icon-btn">
+            <i className="fa fa-close"></i>
+          </button>
+          <div className="modal__content">
+            {isConfirm ? (
+              <>
+                <p data-testid="confirm-message">
+                  削除するともとには戻せません。削除してよろしいですか？
+                </p>
+                <button className="btn--red" onClick={deleteGroupHandler}>
+                  グループを削除
+                </button>
+                <button className="btn btn-light" onClick={closeModal}>
+                  キャンセル
+                </button>
+              </>
+            ) : (
+              <>
+                <form onSubmit={editGroupHandler} className="form">
+                  <input
+                    data-testid="edit-group-name"
+                    className="input"
+                    type="text"
+                    name="groupName"
+                    id="groupName"
+                    value={newName}
+                    onChange={onChangeNameHandler}
+                    autoFocus
+                  />
+                  <button className="icon-btn" type="submit">
+                    <i className="fa fa-check fa-4x"></i>
+                  </button>
+                  <button className="btn" onClick={closeModal}>
+                    キャンセル
+                  </button>
+                </form>
+                <button className="btn--red" onClick={openConfirm}>
+                  グループを削除
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       </Modal>
     </>
   )
