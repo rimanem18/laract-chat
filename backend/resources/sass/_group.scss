@@ -37,7 +37,7 @@
   &__link--is-active {
     @extend %__link;
     font-weight: bold;
-    background: #3fb455;
+    background: $theme-color;
     color: #f2f2f2;
 
     &:hover {
