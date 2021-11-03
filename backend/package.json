@@ -49,6 +49,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@reduxjs/toolkit": "^1.6.1",
     "jest": "^27.2.5",
+    "normalize.css": "^8.0.1",
     "react-modal": "^3.14.3",
     "react-redux": "^7.2.5",
     "react-router": "^5.2.1",
