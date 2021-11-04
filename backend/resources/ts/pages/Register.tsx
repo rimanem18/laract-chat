@@ -9,6 +9,7 @@ import { initAuthState, register } from '../slices/AuthSlice'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
 import AuthRedirect from '../components/AuthRedirect'
+import { Button } from '@mui/material'
 
 const Register = () => {
   const dispatch = useAppDispatch()
@@ -95,7 +96,8 @@ const Register = () => {
                 ''
               )}
             </div>
-            <button
+            <Button
+              variant="contained"
               disabled={
                 name.length === 0 ||
                 email.length === 0 ||
@@ -104,11 +106,10 @@ const Register = () => {
                   ? true
                   : false
               }
-              className="btn btn-primary"
               type="submit"
             >
               Register
-            </button>
+            </Button>
           </form>
           <div className="mt-1">
             <p>

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import Modal from 'react-modal'
 import { useHistory } from 'react-router'
-import { TextField, Button, InputAdornment } from '@mui/material'
+import { TextField, Button, InputAdornment, IconButton } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import {
   useAppDispatch,
   useDefaultGroupPath,
@@ -131,12 +132,8 @@ type OpenButtonProps = {
 }
 const OpenButton = React.memo(({ openModal }: OpenButtonProps) => {
   return (
-    <button
-      className="btn btn-primary"
-      onClick={openModal}
-      data-testid="edit-button"
-    >
-      グループを編集
-    </button>
+    <IconButton onClick={openModal} data-testid="edit-button">
+      <ModeEditIcon />
+    </IconButton>
   )
 })

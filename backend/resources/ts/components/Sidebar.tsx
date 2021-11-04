@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Button } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout'
 import {
   useAppDispatch,
   useUserEmail,
@@ -26,9 +27,9 @@ const Sidebar = () => {
         <li data-testid="user-name">{userName}</li>
         <li data-testid="user-email">{userEmail}</li>
       </ul>
-      <button onClick={logoutHandler} className="btn btn-primary">
+      <Button onClick={logoutHandler} startIcon={<LogoutIcon />}>
         ログアウト
-      </button>
+      </Button>
       <Group />
     </>
   )

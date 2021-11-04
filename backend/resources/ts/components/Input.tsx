@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material'
 import React from 'react'
 
 type InputProps = {
@@ -11,12 +12,10 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
   return (
     <>
       <div className="form-group">
-        <label data-testid="label" htmlFor={label} className="form-label">
-          {label}
-        </label>
-        <input
+        <TextField
           id={label}
-          className="form-control"
+          label={label}
+          variant="standard"
           type={type}
           name={name}
           value={value}

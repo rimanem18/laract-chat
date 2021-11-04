@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Box } from '@mui/material'
 import {
   useChatMessageIds,
   useChatMessagesEntities,
@@ -38,12 +39,14 @@ const Message = () => {
 
   return (
     <>
-      <EditGroupModal groupId={groupId} groupName={groupName} />
-      <h2 className="h2">
-        {groupsEntities[`group${groupId}`]
-          ? groupsEntities[`group${groupId}`].name
-          : ''}
-      </h2>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <h2 className="h2">
+          {groupsEntities[`group${groupId}`]
+            ? groupsEntities[`group${groupId}`].name
+            : ''}
+        </h2>
+        <EditGroupModal groupId={groupId} groupName={groupName} />
+      </Box>
       <div ref={messageList} className="message">
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesIds.map((id: string) =>

@@ -4,6 +4,7 @@ import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
 import AuthRedirect from '../components/AuthRedirect'
+import { Button } from '@mui/material'
 
 const Login = () => {
   const dispatch = useAppDispatch()
@@ -72,13 +73,9 @@ const Login = () => {
             value={password}
             onChange={passwordChangeHandler}
           />
-          <button
-            data-testid="login-btn"
-            className="btn btn-primary"
-            type="submit"
-          >
+          <Button variant="contained" data-testid="login-btn" type="submit">
             Login
-          </button>
+          </Button>
         </form>
         <div className="mt-1">
           <p>
@@ -86,9 +83,9 @@ const Login = () => {
           </p>
         </div>
       </>
-      <button className="btn btn-success" onClick={demoLoginHandler}>
+      <Button variant="contained" onClick={demoLoginHandler}>
         デモユーザーとしてログイン
-      </button>
+      </Button>
     </>
   )
 }

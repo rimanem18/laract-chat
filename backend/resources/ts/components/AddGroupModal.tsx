@@ -1,5 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal'
+import { TextField, Button, InputAdornment } from '@mui/material'
+import ControlPointIcon from '@mui/icons-material/ControlPoint'
 import { useAppDispatch, useGroupModal, useModalStyle } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
@@ -26,27 +28,30 @@ const AddGroupModal = () => {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={openModal}>
+      <Button
+        variant="contained"
+        startIcon={<ControlPointIcon />}
+        onClick={openModal}
+      >
         新しいグループを追加
-      </button>
+      </Button>
       <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
         <h4>追加するグループの名前</h4>
         <form onSubmit={addGroupHandler} className="form">
-          <input
+          <TextField
+            label="グループ名"
+            variant="standard"
             type="text"
             name="groupName"
             id="groupName"
-            className="from-controll"
             value={newGroupName || ''}
             onChange={onChangeNameHandler}
             autoFocus
           />
-          <button className="btn btn-primary" type="submit">
-            追加
-          </button>
-          <button className="btn btn-light" onClick={closeModal}>
+          <Button type="submit">追加</Button>
+          <Button color="secondary" onClick={closeModal}>
             キャンセル
-          </button>
+          </Button>
         </form>
       </Modal>
     </>
