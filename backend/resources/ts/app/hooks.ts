@@ -220,7 +220,7 @@ export const useModalStyle = () => {
   }, [])
 }
 
-export const useEditGroupModal = (groupName: string) => {
+export const useGroupModal = (groupName: string) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [newName, setNewName] = useState('')

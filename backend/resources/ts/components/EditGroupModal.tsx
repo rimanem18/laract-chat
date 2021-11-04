@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import {
   useAppDispatch,
   useDefaultGroupPath,
-  useEditGroupModal,
+  useGroupModal,
   useModalStyle,
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
@@ -22,7 +22,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const [
     { isOpen, isConfirm, newName },
     { openModal, closeModal, setNewName, openConfirm },
-  ] = useEditGroupModal(groupName)
+  ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
   const history = useHistory()
