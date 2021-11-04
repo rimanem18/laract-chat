@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { useHistory } from 'react-router'
 import { TextField, Button, InputAdornment } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
 import {
   useAppDispatch,
   useDefaultGroupPath,
@@ -51,7 +52,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
             {groupName}
           </h4>
           <button className="icon-btn--close" onClick={closeModal}>
-            <i className="fa fa-times fa-2x"></i>
+            <CancelIcon />
           </button>
           <div className="modal__content">
             {isConfirm ? (
