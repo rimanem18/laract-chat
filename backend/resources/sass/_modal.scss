@@ -11,7 +11,25 @@
   }
 
   &__content {
+    margin: 0 auto;
+    width: 90%;
     padding: 0.5em;
+  }
+
+  &__input {
+    border: 0;
+    display: inline-block;
+    padding: 0.25em;
+    margin: 0;
+    text-align: center;
+    background: transparent;
+
+    &:active,
+    &:focus,
+    &:focus-visible {
+      border: 0;
+      border-bottom: 1px solid #dddddd;
+    }
   }
 
   &__footer {

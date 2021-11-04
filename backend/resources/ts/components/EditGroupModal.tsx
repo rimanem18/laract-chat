@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import Modal from 'react-modal'
 import { useHistory } from 'react-router'
+import { TextField, Button, InputAdornment } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check'
 import {
   useAppDispatch,
   useDefaultGroupPath,
@@ -42,14 +44,14 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
 
   return (
     <>
-      <Button openModal={openModal} />
+      <OpenButton openModal={openModal} />
       <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
         <div className="modal">
           <h4 className="modal__title" data-testid="modal-title">
             {groupName}
           </h4>
-          <button className="icon-btn">
-            <i className="fa fa-close"></i>
+          <button className="icon-btn--close" onClick={closeModal}>
+            <i className="fa fa-times fa-2x"></i>
           </button>
           <div className="modal__content">
             {isConfirm ? (
@@ -67,26 +69,37 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
             ) : (
               <>
                 <form onSubmit={editGroupHandler} className="form">
-                  <input
+                  <TextField
                     data-testid="edit-group-name"
-                    className="input"
+                    className="modal__input"
                     type="text"
                     name="groupName"
                     id="groupName"
                     value={newName}
                     onChange={onChangeNameHandler}
+                    label="グループ名"
+                    variant="standard"
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <button className="icon-btn--check" type="submit">
+                            <CheckIcon></CheckIcon>
+                          </button>
+                        </InputAdornment>
+                      ),
+                    }}
                     autoFocus
                   />
-                  <button className="icon-btn" type="submit">
-                    <i className="fa fa-check fa-4x"></i>
-                  </button>
-                  <button className="btn" onClick={closeModal}>
-                    キャンセル
-                  </button>
+                  <Button
+                    onClick={openConfirm}
+                    sx={{ m: 1 }}
+                    variant="contained"
+                    color="error"
+                  >
+                    グループを削除
+                  </Button>
                 </form>
-                <button className="btn--red" onClick={openConfirm}>
-                  グループを削除
-                </button>
               </>
             )}
           </div>
@@ -100,10 +113,10 @@ export default React.memo(EditGroupModal)
 /**
  * Components
  */
-type ButtonProps = {
+type OpenButtonProps = {
   openModal: () => void
 }
-const Button = React.memo(({ openModal }: ButtonProps) => {
+const OpenButton = React.memo(({ openModal }: OpenButtonProps) => {
   return (
     <button
       className="btn btn-primary"
