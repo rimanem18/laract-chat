@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import { TextField, Button, InputAdornment } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
 import {
   useAppDispatch,
   useDefaultGroupPath,
@@ -60,12 +61,16 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                 <p data-testid="confirm-message">
                   削除するともとには戻せません。削除してよろしいですか？
                 </p>
-                <button className="btn--red" onClick={deleteGroupHandler}>
+                <Button
+                  onClick={deleteGroupHandler}
+                  sx={{ m: 1 }}
+                  variant="contained"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                >
                   グループを削除
-                </button>
-                <button className="btn btn-light" onClick={closeModal}>
-                  キャンセル
-                </button>
+                </Button>
+                <Button onClick={closeModal}>キャンセル</Button>
               </>
             ) : (
               <>
@@ -92,14 +97,17 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                     }}
                     autoFocus
                   />
-                  <Button
-                    onClick={openConfirm}
-                    sx={{ m: 1 }}
-                    variant="contained"
-                    color="error"
-                  >
-                    グループを削除
-                  </Button>
+                  <div className="modal__footer">
+                    <Button
+                      onClick={openConfirm}
+                      sx={{ m: 1 }}
+                      variant="contained"
+                      color="error"
+                      startIcon={<DeleteIcon />}
+                    >
+                      グループを削除
+                    </Button>
+                  </div>
                 </form>
               </>
             )}

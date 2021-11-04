@@ -202,6 +202,7 @@ export const useModalStyle = () => {
       backgroundColor: 'rgba(0,0,0,0.85)',
     },
     content: {
+      Position: 'relative',
       backgroundColor: '#f2f2f2',
       borderRadius: '1rem',
       padding: '0px',
