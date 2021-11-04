@@ -206,7 +206,7 @@ export const useModalStyle = () => {
       borderRadius: '1rem',
       padding: '0px',
       width: '30em',
-      height: '20em',
+      height: '15em',
       top: '50%',
       left: '50%',
       marginRight: '-50%',
