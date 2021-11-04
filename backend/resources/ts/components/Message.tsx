@@ -1,19 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router'
-import Modal from 'react-modal'
+import React, { useEffect, useRef, useState } from 'react'
 import {
-  useAppDispatch,
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
   useGroupsEntities,
-  useGroupsIds,
-  useModalStyle,
   useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
-import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
@@ -21,8 +15,8 @@ const Message = () => {
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
+
   const [groupName, setGroupName] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
 
   const groupsEntities = useGroupsEntities()
 
@@ -40,7 +34,7 @@ const Message = () => {
 
   useEffect(() => {
     setGroupName(groupsEntities[`group${groupId}`].name)
-  }, [groupId])
+  }, [groupId, groupsEntities[`group${groupId}`].name])
 
   return (
     <>

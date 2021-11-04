@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import {
   useAppDispatch,
   useDefaultGroupPath,
-  useEditGroupModal,
+  useGroupModal,
   useModalStyle,
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
@@ -20,21 +20,25 @@ type EditGroupModalProps = {
 }
 const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const [
-    { isOpen, isConfirm, newName },
-    { openModal, closeModal, setNewName, openConfirm },
-  ] = useEditGroupModal(groupName)
+    { isOpen, isConfirm, newGroupName },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
+  ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
   const history = useHistory()
   const defaultGroupPath = useDefaultGroupPath()
 
+  useEffect(() => {
+    setNewGroupName(groupName)
+  }, [groupName])
+
   const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value)
+    setNewGroupName(e.target.value)
   }
   const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (newName !== undefined) {
-      dispatch(editGroup({ groupId: groupId, groupName: newName }))
+    if (newGroupName !== undefined) {
+      dispatch(editGroup({ groupId: groupId, groupName: newGroupName }))
       closeModal()
     }
   }
@@ -70,7 +74,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                 >
                   グループを削除
                 </Button>
-                <Button onClick={closeModal}>キャンセル</Button>
+                <Button onClick={closeConfirm}>キャンセル</Button>
               </>
             ) : (
               <>
@@ -81,7 +85,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                     type="text"
                     name="groupName"
                     id="groupName"
-                    value={newName}
+                    value={newGroupName}
                     onChange={onChangeNameHandler}
                     label="グループ名"
                     variant="standard"
