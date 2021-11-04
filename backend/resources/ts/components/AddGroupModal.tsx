@@ -1,33 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from 'react-modal'
-import { useAppDispatch, useModalStyle } from '../app/hooks'
+import { useAppDispatch, useGroupModal, useModalStyle } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
 if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
 
 const AddGroupModal = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [groupName, setGroupName] = useState('')
+  const [
+    { isOpen, isConfirm, newGroupName },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
+  ] = useGroupModal('')
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
 
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(addGroup({ groupName: groupName }))
-    setGroupName('')
-    console.log('aadd')
+    dispatch(addGroup({ groupName: newGroupName }))
+    setNewGroupName('')
 
     closeModal()
   }
   const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGroupName(e.target.value)
-  }
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const closeModal = () => {
-    setIsOpen(false)
+    setNewGroupName(e.target.value)
   }
 
   return (
@@ -43,7 +37,7 @@ const AddGroupModal = () => {
             name="groupName"
             id="groupName"
             className="from-controll"
-            value={groupName || ''}
+            value={newGroupName || ''}
             onChange={onChangeNameHandler}
             autoFocus
           />

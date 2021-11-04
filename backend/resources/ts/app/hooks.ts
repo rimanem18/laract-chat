@@ -223,7 +223,7 @@ export const useModalStyle = () => {
 export const useGroupModal = (groupName: string) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [newName, setNewName] = useState('')
+  const [newGroupName, setNewGroupName] = useState('')
 
   const openModal = useCallback(() => {
     setIsOpen(true)
@@ -239,13 +239,9 @@ export const useGroupModal = (groupName: string) => {
     setIsConfirm(false)
   }, [])
 
-  useEffect(() => {
-    setNewName(groupName)
-  }, [groupName])
-
   return [
-    { isOpen, isConfirm, newName },
-    { openModal, closeModal, openConfirm, closeConfirm, setNewName },
+    { isOpen, isConfirm, newGroupName },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] as const
 }
 
