@@ -21,7 +21,7 @@ type EditGroupModalProps = {
 const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const [
     { isOpen, isConfirm, newName },
-    { openModal, closeModal, setNewName, openConfirm },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewName },
   ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
@@ -70,7 +70,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                 >
                   グループを削除
                 </Button>
-                <Button onClick={closeModal}>キャンセル</Button>
+                <Button onClick={closeConfirm}>キャンセル</Button>
               </>
             ) : (
               <>

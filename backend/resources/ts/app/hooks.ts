@@ -235,6 +235,9 @@ export const useGroupModal = (groupName: string) => {
   const openConfirm = useCallback(() => {
     setIsConfirm(true)
   }, [])
+  const closeConfirm = useCallback(() => {
+    setIsConfirm(false)
+  }, [])
 
   useEffect(() => {
     setNewName(groupName)
@@ -242,7 +245,7 @@ export const useGroupModal = (groupName: string) => {
 
   return [
     { isOpen, isConfirm, newName },
-    { openModal, closeModal, setNewName, openConfirm },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewName },
   ] as const
 }
 
