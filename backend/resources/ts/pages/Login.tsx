@@ -23,6 +23,8 @@ const Login = () => {
   }
 
   const demoLoginHandler = () => {
+    setEmail('demo@example.com')
+    setPassword('cX3/ZNa-')
     dispatch(
       login({
         email: 'demo@example.com',
