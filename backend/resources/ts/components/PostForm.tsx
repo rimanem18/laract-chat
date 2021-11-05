@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, IconButton } from '@mui/material'
+import { Button, IconButton, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import {
   useAppDispatch,
@@ -40,9 +40,7 @@ const PostForm = () => {
     dispatch(getContent(e.target.value))
   }
 
-  const onSubmitKeyUpHandler = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const onSubmitKeyUpHandler = (e: any) => {
     // ctrl+Enter で送信
     if (e.code === 'Enter' && e.ctrlKey) {
       postMessageHandler(e)
@@ -51,8 +49,9 @@ const PostForm = () => {
 
   return (
     <>
-      <form className="form post-form mt-1" onSubmit={postMessageHandler}>
-        <textarea
+      <form className="post-form" onSubmit={postMessageHandler}>
+        <TextField
+          multiline
           data-testid="textarea"
           className="post-form__input"
           name="content"
@@ -60,7 +59,7 @@ const PostForm = () => {
           onChange={changeContentHandler}
           onKeyUp={onSubmitKeyUpHandler}
           autoFocus
-        ></textarea>
+        />
         <IconButton color="primary" type="submit">
           <SendIcon />
         </IconButton>
