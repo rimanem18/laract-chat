@@ -16,6 +16,8 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
           id={label}
           label={label}
           variant="standard"
+          fullWidth
+          margin="normal"
           type={type}
           name={name}
           value={value}
