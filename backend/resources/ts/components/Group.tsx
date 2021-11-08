@@ -16,6 +16,7 @@ const Group = () => {
 
   return (
     <>
+      <AddGroupModal />
       <List
         sx={{
           '&::-webkit-scrollbar': {
@@ -45,7 +46,6 @@ const Group = () => {
           )
         })}
       </List>
-      <AddGroupModal />
     </>
   )
 }
