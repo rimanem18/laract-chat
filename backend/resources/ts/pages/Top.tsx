@@ -16,10 +16,10 @@ const Top = () => {
       ) : (
         <>
           <Grid container>
-            <Grid item lg={3} md={3} sm={12}>
+            <Grid item md={3} xs={12}>
               <Sidebar />
             </Grid>
-            <Grid item lg={9} sm={12}>
+            <Grid item md={9} xs={12}>
               <Message />
               <PostForm />
             </Grid>

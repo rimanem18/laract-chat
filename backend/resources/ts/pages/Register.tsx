@@ -54,8 +54,8 @@ const Register = () => {
         <AuthRedirect />
       ) : (
         <Grid container spacing={10}>
-          <Grid item lg={2}></Grid>
-          <Grid item lg={8} sm={8}>
+          <Grid item xs={2} md={3}></Grid>
+          <Grid item xs={8} md={6}>
             <h3>登録</h3>
             <p>
               {authPromise === 'rejected'
