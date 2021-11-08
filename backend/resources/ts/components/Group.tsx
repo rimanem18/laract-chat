@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { List, ListItemButton, ListItemText } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   useAppDispatch,
   useGroupsEntities,
@@ -15,7 +16,25 @@ const Group = () => {
 
   return (
     <>
-      <ul className="group">
+      <List
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: 2,
+            borderRadius: 5,
+          },
+          '&::-webkit-scrollbar-track': {
+            boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            outline: `1px solid rgba(0, 0, 0, 0.3)`,
+          },
+
+          height: '65vh',
+          overflowY: 'scroll',
+          overflow: 'none',
+        }}
+      >
         {groupIds.map((id: string) => {
           return (
             <GroupItem
@@ -25,7 +44,7 @@ const Group = () => {
             />
           )
         })}
-      </ul>
+      </List>
       <AddGroupModal />
     </>
   )
@@ -41,23 +60,27 @@ type GroupItemProps = {
 }
 const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
   const activeGroupId = useParamGroupId()
+  const history = useHistory()
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     setIsActive(activeGroupId === id ? true : false)
   }, [activeGroupId])
 
+  const goTo = () => {
+    history.push(`/groups/${id}`)
+  }
+
   return (
     <>
-      <li data-testid={`group${id}`} className="group__item">
-        <Link
-          data-testid={`group${id}-link`}
-          to={`/groups/${id}`}
-          className={`group__link` + (isActive ? `--is-active` : ``)}
-        >
-          <span className="ml-2">{name}</span>
-        </Link>
-      </li>
+      <ListItemButton
+        selected={isActive}
+        onClick={goTo}
+        key={id}
+        data-testid={`group${id}`}
+      >
+        <ListItemText primary={name}></ListItemText>
+      </ListItemButton>
     </>
   )
 })

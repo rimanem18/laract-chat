@@ -15,7 +15,7 @@ const Top = () => {
         <Redirect to="/login" />
       ) : (
         <>
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item md={3} xs={12}>
               <Sidebar />
             </Grid>
