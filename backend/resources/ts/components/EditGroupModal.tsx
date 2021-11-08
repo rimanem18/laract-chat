@@ -81,6 +81,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
               <>
                 <form onSubmit={editGroupHandler} className="form">
                   <TextField
+                    margin="normal"
                     data-testid="edit-group-name"
                     className="modal__input"
                     type="text"
