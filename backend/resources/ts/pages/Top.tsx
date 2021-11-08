@@ -14,7 +14,6 @@ const Top = () => {
         <Redirect to="/login" />
       ) : (
         <>
-          <h1>TopPage</h1>
           <div className="flex">
             <div className="flex__item--3">
               <Sidebar />
