@@ -1,22 +1,14 @@
 import React from 'react'
-import { Avatar, Button, Grid, Box } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import {
-  useAppDispatch,
-  useStringToColor,
-  useUserEmail,
-  useUserId,
-  useUserName,
-} from '../app/hooks'
+import { useAppDispatch, useUserName } from '../app/hooks'
+import StringAvatar from './StringAvatar'
 import { logout } from '../slices/AuthSlice'
 import Group from './Group'
 
 const Sidebar = () => {
-  const userId = useUserId()
   const userName = useUserName()
-  const userEmail = useUserEmail()
   const dispatch = useAppDispatch()
-  const nameColor = useStringToColor(userName)
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -26,7 +18,7 @@ const Sidebar = () => {
     <>
       <Grid container sx={{ my: 2 }}>
         <Grid container>
-          <Avatar title={userName} sx={{ bgcolor: nameColor, m: 1 }}></Avatar>
+          <StringAvatar name={userName}></StringAvatar>
           <p>{userName}</p>
         </Grid>
         <Grid container>

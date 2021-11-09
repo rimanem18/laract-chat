@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Avatar, Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import {
   useChatMessageIds,
   useChatMessagesEntities,
@@ -8,8 +8,8 @@ import {
   useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
-  useStringToColor,
 } from '../app/hooks'
+import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
@@ -81,33 +81,20 @@ const MessageItem = React.memo(
     // 2個以上の改行を2個改行におさめる
     content = content.replace(/\n{2,}/g, '\n\n')
     const datetime = useFormatDate(created_at)
-    const nameColor = useStringToColor(name)
 
-    function stringToColor(string: string) {
-      let hash = 0
-      let i
-
-      /* eslint-disable no-bitwise */
-      for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash)
-      }
-
-      let color = '#'
-
-      for (i = 0; i < 3; i += 1) {
-        const value = (hash >> (i * 8)) & 0xff
-        color += `00${value.toString(16)}`.substr(-2)
-      }
-      /* eslint-enable no-bitwise */
-
-      return color
-    }
     return (
       <>
         <div className="message__item">
           <Grid container>
-            <Avatar title={name} sx={{ bgcolor: nameColor, m: 1 }}></Avatar>
-            <p>{name}</p>
+            <StringAvatar name={name}></StringAvatar>
+            <Box sx={{ m: 1 }}>
+              <Box
+                sx={{ fontWeight: 'bold', display: 'block', fontSize: '80%' }}
+              >
+                {name}
+              </Box>
+              <Box sx={{ display: 'block', fontSize: '80%' }}>{datetime}</Box>
+            </Box>
           </Grid>
           <p>
             {content.split('\n').map((str, index) => (
