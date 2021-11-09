@@ -16,14 +16,14 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useEditGroupModal: () => useEditGroupModalMock(),
+  useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
 
 const group = mockState.groupsSlice
 
-let useEditGroupModalMock = jest.fn()
+let useGroupModalMock = jest.fn()
 const useModalStyleMock = jest.fn().mockReturnValue({})
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
@@ -43,13 +43,19 @@ const setup = () => {
 
 describe('EditGroupModal', () => {
   describe('Open Modal', () => {
-    useEditGroupModalMock = jest.fn().mockReturnValue([
+    useGroupModalMock = jest.fn().mockReturnValue([
       {
         isOpen: true,
         isConfirm: false,
-        newName: group.entities.group1.name,
+        newGroupName: group.entities.group1.name,
       },
-      {},
+      {
+        openModal: jest.fn(),
+        closeModal: jest.fn(),
+        openConfirm: jest.fn(),
+        closeConfirm: jest.fn(),
+        setNewGroupName: jest.fn(),
+      },
     ])
     const screen = render(Component)
     const modalTitle = screen.getByTestId('modal-title')

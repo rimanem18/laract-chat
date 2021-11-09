@@ -1,111 +1,184 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Register Button snapshot 1`] = `
-Array [
-  <h3>
-    登録
-  </h3>,
-  <p>
-    
-  </p>,
-  <form
-    className="form"
-    onSubmit={[Function]}
-  >
-    <div
-      className="form-group"
-    >
-      <label
-        className="form-label"
-        data-testid="label"
-        htmlFor="Name"
-      >
-        Name
-      </label>
-      <input
-        className="form-control"
-        data-testid="Name-input"
-        id="Name"
-        name="name"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="form-label"
-        data-testid="label"
-        htmlFor="Email"
-      >
-        Email
-      </label>
-      <input
-        className="form-control"
-        data-testid="Email-input"
-        id="Email"
-        name="email"
-        onChange={[Function]}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      data-testid="email-warning"
-    >
-      <p>
-        Email 形式で入力してください。
-      </p>
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="form-label"
-        data-testid="label"
-        htmlFor="Password"
-      >
-        Password
-      </label>
-      <input
-        className="form-control"
-        data-testid="Password-input"
-        id="Password"
-        name="password"
-        onChange={[Function]}
-        type="password"
-        value=""
-      />
-    </div>
-    <div
-      data-testid="password-warning"
-    >
-      <p>
-        パスワードを入力してください。
-      </p>
-    </div>
-    <button
-      className="btn btn-primary"
-      disabled={true}
-      type="submit"
-    >
-      Register
-    </button>
-  </form>,
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-10 css-11reh94-MuiGrid-root"
+>
   <div
-    className="mt-1"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 MuiGrid-grid-md-3 css-j74kg4-MuiGrid-root"
+  />
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 MuiGrid-grid-md-6 css-c4udxv-MuiGrid-root"
   >
+    <h3>
+      登録
+    </h3>
     <p>
-      すでに登録済みの方は
-      <a
-        href="/login"
-        onClick={[Function]}
-      >
-        ログイン
-      </a>
+      
     </p>
-  </div>,
-]
+    <form
+      className="form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <div
+          className="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink={false}
+            htmlFor="Name"
+            id="Name-label"
+          >
+            Name
+          </label>
+          <div
+            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              data-testid="Name-input"
+              disabled={false}
+              id="Name"
+              name="name"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <div
+          className="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink={false}
+            htmlFor="Email"
+            id="Email-label"
+          >
+            Email
+          </label>
+          <div
+            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              data-testid="Email-input"
+              disabled={false}
+              id="Email"
+              name="email"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        data-testid="email-warning"
+      >
+        <p>
+          Email 形式で入力してください。
+        </p>
+      </div>
+      <div
+        className="form-group"
+      >
+        <div
+          className="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink={false}
+            htmlFor="Password"
+            id="Password-label"
+          >
+            Password
+          </label>
+          <div
+            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
+            onClick={[Function]}
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={false}
+              className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              data-testid="Password-input"
+              disabled={false}
+              id="Password"
+              name="password"
+              onAnimationStart={[Function]}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              type="password"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        data-testid="password-warning"
+      >
+        <p>
+          パスワードを入力してください。
+        </p>
+      </div>
+      <button
+        className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled css-sghohy-MuiButtonBase-root-MuiButton-root"
+        disabled={true}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
+        type="submit"
+      >
+        Register
+      </button>
+    </form>
+    <div
+      className="mt-1"
+    >
+      <p>
+        すでに登録済みの方は
+        <a
+          href="/login"
+          onClick={[Function]}
+        >
+          ログイン
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
 `;

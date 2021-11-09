@@ -2,16 +2,42 @@
 
 exports[`Message snapshot 1`] = `
 Array [
-  <button
-    className="btn btn-primary"
-    data-testid="edit-button"
-  >
-    グループを編集
-  </button>,
   <h2
     className="h2"
   >
     hoge
+    <button
+      className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+      data-testid="edit-button"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[MockFunction]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="ModeEditIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+        />
+      </svg>
+    </button>
   </h2>,
   <div
     className="message"
@@ -26,15 +52,30 @@ Array [
     <div
       className="message__item"
     >
-      <div>
-        <strong
-          className="mr-1"
+      <div
+        className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
+      >
+        <div
+          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-qjgvr5-MuiAvatar-root"
+          data-testid="user-name"
+          title="hoge"
         >
-          hoge
-        </strong>
-        <small>
-          1900-01-01
-        </small>
+          h
+        </div>
+        <div
+          className="MuiBox-root css-1ynyhby"
+        >
+          <div
+            className="MuiBox-root css-1spkyxa"
+          >
+            hoge
+          </div>
+          <div
+            className="MuiBox-root css-1lxptm7"
+          >
+            1900-01-01
+          </div>
+        </div>
       </div>
       <p>
         fugafuga

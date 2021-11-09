@@ -39,9 +39,9 @@ const StringAvatar = ({ name = '' }: StringAvatarProps) => {
   return (
     <>
       {name ? (
-        <Avatar {...stringAvatar(name)}></Avatar>
+        <Avatar data-testid="user-name" {...stringAvatar(name)}></Avatar>
       ) : (
-        <Avatar sx={{ m: 1 }}></Avatar>
+        <Avatar data-testid="user-name" sx={{ m: 1 }}></Avatar>
       )}
     </>
   )

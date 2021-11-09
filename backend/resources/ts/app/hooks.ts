@@ -190,7 +190,6 @@ export const useFetchGroups = () => {
  */
 export const useParamGroupId = () => {
   const { groupId } = useParams<{ groupId?: string }>()
-
   return groupId
 }
 

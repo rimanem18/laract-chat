@@ -1,162 +1,362 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Top snapshot 1`] = `
-Array [
-  <h1>
-    TopPage
-  </h1>,
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+>
   <div
-    className="row"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-3 css-1mhtw2e-MuiGrid-root"
   >
     <div
-      className="flex__item--3"
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-161s7uk-MuiGrid-root"
     >
-      <ul>
-        <li
-          data-testid="user-id"
-        >
-          1
-        </li>
-        <li
-          data-testid="user-name"
-        >
-          太郎
-        </li>
-        <li
-          data-testid="user-email"
-        >
-          taro@example.com
-        </li>
-      </ul>
-      <button
-        className="btn btn-primary"
-        onClick={[Function]}
-      >
-        ログアウト
-      </button>
-      <ul
-        className="group"
-      >
-        <li
-          className="group__item"
-          data-testid="group1"
-        >
-          <a
-            className="group__link"
-            data-testid="group1-link"
-            href="/groups/1"
-            onClick={[Function]}
-          >
-            <span
-              className="ml-2"
-            >
-              hoge
-            </span>
-          </a>
-        </li>
-        <li
-          className="group__item"
-          data-testid="group2"
-        >
-          <a
-            className="group__link"
-            data-testid="group2-link"
-            href="/groups/2"
-            onClick={[Function]}
-          >
-            <span
-              className="ml-2"
-            >
-              piyo
-            </span>
-          </a>
-        </li>
-      </ul>
-      <button
-        className="btn btn-primary"
-        onClick={[Function]}
-      >
-        新しいグループを追加
-      </button>
-    </div>
-    <div
-      className="flex__item--9"
-    >
-      <button
-        className="btn btn-primary"
-        data-testid="edit-button"
-      >
-        グループを編集
-      </button>
-      <h2
-        className="h2"
-      >
-        hoge
-      </h2>
       <div
-        className="message"
+        className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
       >
-        <p
-          className="message__note"
+        <div
+          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-utr0cb-MuiAvatar-root"
+          data-testid="user-name"
+          title="太郎"
         >
-          ここが「
-
-          」の先頭です。
+          太
+        </div>
+        <p>
+          太郎
         </p>
-        <div
-          className="message__item"
-        >
-          <div>
-            <strong
-              className="mr-1"
-            >
-              hoge
-            </strong>
-            <small>
-              1900-01-01
-            </small>
-          </div>
-          <p>
-            fugafuga
-            <br />
-          </p>
-        </div>
-
-        <div
-          className="scroll-btn"
-        >
-          <a
-            className="scroll-btn__item"
-            data-testid="scroll-btn"
-            onClick={[Function]}
-          >
-            <i
-              className="fa fa-arrow  fa-arrow-circle-down fa-4x"
-            />
-          </a>
-        </div>
       </div>
-      <form
-        className="form post-form mt-1"
-        onSubmit={[Function]}
+      <div
+        className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
       >
-        <textarea
-          autoFocus={true}
-          className="post-form__input"
-          data-testid="textarea"
-          name="content"
-          onChange={[Function]}
-          onKeyUp={[Function]}
-          value="fugafuga"
-        />
         <button
-          className="btn btn-primary mx-1 align-top"
+          className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-w99pb7-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
           type="button"
         >
-          投稿
+          <span
+            className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="LogoutIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="m17 7-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
+              />
+            </svg>
+          </span>
+          ログアウト
+          <span
+            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
         </button>
-      </form>
+      </div>
     </div>
-  </div>,
-]
+    <button
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root css-sghohy-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[MockFunction]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ControlPointIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          />
+        </svg>
+      </span>
+      新しいグループを追加
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+    <ul
+      className="MuiList-root MuiList-padding css-x9esj-MuiList-root"
+    >
+      <div
+        className="MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+        data-testid="group1"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemText-root css-tlelie-MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+          >
+            hoge
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+      <div
+        className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+        data-testid="group2"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="MuiListItemText-root css-tlelie-MuiListItemText-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+          >
+            piyo
+          </span>
+        </div>
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+    </ul>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-9 css-cyie08-MuiGrid-root"
+  >
+    <h2
+      className="h2"
+    >
+      hoge
+      <button
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+        data-testid="edit-button"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[MockFunction]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ModeEditIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+          />
+        </svg>
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </h2>
+    <div
+      className="message"
+    >
+      <p
+        className="message__note"
+      >
+        ここが「
+        hoge
+        」の先頭です。
+      </p>
+      <div
+        className="message__item"
+      >
+        <div
+          className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
+        >
+          <div
+            className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-qjgvr5-MuiAvatar-root"
+            data-testid="user-name"
+            title="hoge"
+          >
+            h
+          </div>
+          <div
+            className="MuiBox-root css-1ynyhby"
+          >
+            <div
+              className="MuiBox-root css-1spkyxa"
+            >
+              hoge
+            </div>
+            <div
+              className="MuiBox-root css-1lxptm7"
+            >
+              1900-01-01
+            </div>
+          </div>
+        </div>
+        <p>
+          fugafuga
+          <br />
+        </p>
+      </div>
+      
+      <div
+        className="scroll-btn"
+      >
+        <a
+          className="scroll-btn__item"
+          data-testid="scroll-btn"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+          />
+        </a>
+      </div>
+    </div>
+    <form
+      className="post-form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root post-form__input css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        onKeyUp={[Function]}
+      >
+        <div
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={true}
+            className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            data-testid="post-form"
+            disabled={false}
+            name="content"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value="fugafuga"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-1a1ihhj"
+            >
+              <span
+                className="notranslate"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <button
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeMedium css-1kuq5xv-MuiButtonBase-root-MuiIconButton-root"
+        disabled={false}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="submit"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="SendIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"
+          />
+        </svg>
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </form>
+  </div>
+</div>
 `;

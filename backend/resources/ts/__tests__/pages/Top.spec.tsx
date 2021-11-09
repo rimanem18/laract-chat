@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen as SCREEN } from '@testing-library/react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import renderer from 'react-test-renderer'
 import Modal from 'react-modal'
@@ -36,7 +36,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
   useGroupsOldestId: () => useGroupsOldestIdMock(),
-  useEditGroupModal: () => useEditGroupModalMock(),
+  useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useModalStyle: () => useModalStyleMock(),
 }))
@@ -62,7 +62,7 @@ const useUserEmailMock = jest.fn().mockReturnValue(user.email)
 const usePostContentMock = jest.fn().mockReturnValue(post.content)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 
-const useParamGroupIdMock = jest.fn().mockReturnValue(1)
+const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
 const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
@@ -74,14 +74,7 @@ const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
 
-const useEditGroupModalMock = jest.fn().mockReturnValue([
-  {
-    isOpen: false,
-    isConfirm: false,
-    newName: group.entities.group1.name,
-  },
-  {},
-])
+let useGroupModalMock = jest.fn()
 const useModalStyleMock = jest.fn().mockReturnValue({})
 
 jest
@@ -97,7 +90,7 @@ const Component = (
 // テスト開始
 const setup = () => {
   const screen = render(Component)
-  const textarea = screen.getByTestId('textarea') as HTMLTextAreaElement
+  const textarea = screen.getByTestId('post-form') as HTMLTextAreaElement
   return {
     textarea,
     ...screen,
@@ -105,6 +98,21 @@ const setup = () => {
 }
 describe('Top', () => {
   describe('PostForm', () => {
+    useGroupModalMock = jest.fn().mockReturnValue([
+      {
+        isOpen: false,
+        isConfirm: false,
+        newGroupName: group.entities.group1.name,
+      },
+      {
+        openModal: jest.fn(),
+        closeModal: jest.fn(),
+        openConfirm: jest.fn(),
+        closeConfirm: jest.fn(),
+        setNewGroupName: jest.fn(),
+      },
+    ])
+
     it('入力値と postSlice content の文字列が同じ', () => {
       const { textarea } = setup()
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen as SCREEN } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import Modal from 'react-modal'
 import PostForm from '../../components/PostForm'
@@ -28,16 +28,18 @@ const mockValues = {
 }
 const useUserIdMock = jest.fn().mockReturnValue(mockValues.userId)
 const usePostContentMock = jest.fn().mockReturnValue(mockValues.content)
-const useParamGroupIdMock = jest.fn().mockReturnValue(1)
+const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 
 jest
   .spyOn(Modal, 'setAppElement')
   .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
 
+const Component = <PostForm />
+
 // Setup
 const setup = () => {
-  const screen = render(<PostForm />)
-  const textarea = screen.getByTestId('textarea') as HTMLTextAreaElement
+  const screen = render(Component)
+  const textarea = screen.getByTestId('post-form') as HTMLTextAreaElement
   return {
     textarea,
     ...screen,
@@ -46,6 +48,11 @@ const setup = () => {
 
 // テスト開始
 describe('PostForm', () => {
+  it('snapshot', () => {
+    const tree = renderer.create(Component).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
   it('入力値と postSlice content の文字列が同じ', () => {
     const { textarea } = setup()
 
@@ -61,10 +68,5 @@ describe('PostForm', () => {
       },
     })
     expect(textarea.value).toBe(mockValues.content)
-  })
-
-  it('snapshot', () => {
-    const tree = renderer.create(<PostForm />).toJSON()
-    expect(tree).toMatchSnapshot()
   })
 })

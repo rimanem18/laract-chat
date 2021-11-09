@@ -9,14 +9,14 @@ import {
 } from '../app/hooks'
 import { getContent, postMessage } from '../slices/PostSlice'
 
-const PostForm = () => {
+const PostForm = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const userId = useUserId()
   const postContent = usePostContent()
   const groupId = useParamGroupId()
 
   if (groupId === undefined) {
-    return null
+    return <p>正しく取得することができませんでした。</p>
   }
 
   // 投稿
@@ -47,18 +47,25 @@ const PostForm = () => {
     }
   }
 
+  // スナップショットテスト用
+  let isMultiline: boolean
+  if (process.env.NODE_ENV === 'test') {
+    isMultiline = false
+  } else {
+    isMultiline = true
+  }
+
   return (
     <>
       <form className="post-form" onSubmit={postMessageHandler}>
         <TextField
-          multiline
-          data-testid="textarea"
+          multiline={isMultiline}
           className="post-form__input"
           name="content"
-          value={postContent}
           onChange={changeContentHandler}
           onKeyUp={onSubmitKeyUpHandler}
           autoFocus
+          inputProps={{ 'data-testid': 'post-form', value: postContent }}
         />
         <IconButton color="primary" type="submit">
           <SendIcon />

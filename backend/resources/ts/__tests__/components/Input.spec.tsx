@@ -35,10 +35,8 @@ const InputComponent = (
 const setup = () => {
   const screen = render(InputComponent)
   const input = screen.getByTestId('Name-input') as HTMLInputElement
-  const label = screen.getByTestId('label') as HTMLLabelElement
   return {
     input,
-    label,
     ...screen,
   }
 }
@@ -48,13 +46,6 @@ describe('Input', () => {
   it('snapshot', () => {
     const tree = renderer.create(InputComponent).toJSON()
     expect(tree).toMatchSnapshot()
-  })
-
-  it('渡されたラベルの値が htmlFor, text に反映されている', () => {
-    const { label } = setup()
-
-    expect(label.htmlFor).toBe('Name')
-    expect(label.textContent).toBe('Name')
   })
 
   it('渡された type の値が反映されている', () => {

@@ -82,26 +82,19 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                 <form onSubmit={editGroupHandler} className="form">
                   <TextField
                     margin="normal"
-                    data-testid="edit-group-name"
                     className="modal__input"
                     type="text"
                     name="groupName"
                     id="groupName"
-                    value={newGroupName}
                     onChange={onChangeNameHandler}
                     label="グループ名"
                     variant="standard"
                     fullWidth
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <button className="icon-btn--check" type="submit">
-                            <CheckIcon></CheckIcon>
-                          </button>
-                        </InputAdornment>
-                      ),
-                    }}
                     autoFocus
+                    inputProps={{
+                      'data-testid': 'edit-group-name',
+                      value: newGroupName,
+                    }}
                   />
                   <div className="modal__footer">
                     <Button

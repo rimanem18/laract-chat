@@ -20,6 +20,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
   useParamGroupId: () => useParamGroupIdMock(),
+  useGroupModal: () => useGroupModalMock(),
 }))
 
 // Mock の定義
@@ -35,6 +36,8 @@ const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
+const useGroupModalMock = jest.fn().mockReturnValue([{}, {}])
+
 const Component = (
   <Router>
     <Sidebar />
@@ -43,35 +46,22 @@ const Component = (
 
 const setup = () => {
   const screen = render(Component)
-  const userId = screen.getByTestId('user-id')
   const userName = screen.getByTestId('user-name')
-  const userEmail = screen.getByTestId('user-email')
-  // const groupId = screen.getByTestId('group-id')
-  // const groupName = screen.getByTestId('group-name')
-  // const groupMessage = screen.getByTestId('group-message')
   return {
-    userId,
     userName,
-    userEmail,
-    // groupId,
-    // groupName,
-    // groupMessage,
     ...screen,
   }
 }
 
 describe('Sidebar', () => {
-  it('ユーザ情報が表示される', () => {
-    const { userId, userEmail, userName } = setup()
+  it('ユーザ名の一文字目が表示される', () => {
+    const { userName } = setup()
 
-    expect(userId.textContent).toBe(user.id.toString())
-    expect(userName.textContent).toBe(user.name)
-    expect(userEmail.textContent).toBe(user.email)
+    expect(userName.textContent).toBe('太')
   })
 
-  //   it('グループ一覧が表示される', () => {
-  //     const { groupId, groupName, groupMessage } = setup
-
-  // 	expect(groupId.textContent).toBe()
-  //   })
+  it('snapshot', () => {
+    const tree = renderer.create(Component).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })

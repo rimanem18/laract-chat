@@ -20,9 +20,8 @@ const Input = ({ label, type, name, value, onChange }: InputProps) => {
           margin="normal"
           type={type}
           name={name}
-          value={value}
           onChange={onChange}
-          data-testid={`${label}-input`}
+          inputProps={{ 'data-testid': `${label}-input`, value: value }}
         />
       </div>
     </>

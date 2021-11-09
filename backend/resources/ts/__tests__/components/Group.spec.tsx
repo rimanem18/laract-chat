@@ -20,6 +20,7 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useParamGroupId: () => useParamGroupIdMock(),
+  useGroupModal: () => useGroupModalMock(),
   useModalStyle: () => useModalStyleMock(),
   useGroupsIds: () => useGroupsIdsMock(),
   useGroupsEntities: () => useGroupsEntitiesMock(),
@@ -33,7 +34,7 @@ const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
 const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
-
+let useGroupModalMock = jest.fn()
 jest
   .spyOn(Modal, 'setAppElement')
   .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
@@ -51,18 +52,28 @@ const setup = () => {
     screen.getByTestId('group1'),
     screen.getByTestId('group2'),
   ]
-  const groupLinks = [
-    screen.getByTestId('group1-link'),
-    screen.getByTestId('group2-link'),
-  ]
   return {
     groupNames,
-    groupLinks,
     ...screen,
   }
 }
 
 describe('Group', () => {
+  useGroupModalMock = jest.fn().mockReturnValue([
+    {
+      isOpen: false,
+      isConfirm: false,
+      newName: group.entities.group1.name,
+    },
+    {
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      openConfirm: jest.fn(),
+      closeConfirm: jest.fn(),
+      setNewGroupName: jest.fn(),
+    },
+  ])
+
   it('snapshot', () => {
     const tree = renderer.create(Component).toJSON()
     expect(tree).toMatchSnapshot()
@@ -73,11 +84,5 @@ describe('Group', () => {
     const ent = group.entities
     expect(groupNames[0].textContent).toBe(ent.group1.name)
     expect(groupNames[1].textContent).toBe(ent.group2.name)
-  })
-
-  it('グループのリンク先が正しい', () => {
-    const { groupLinks } = setup()
-    expect(groupLinks[0].getAttribute('href')).toBe('/groups/1')
-    expect(groupLinks[1].getAttribute('href')).toBe('/groups/2')
   })
 })
