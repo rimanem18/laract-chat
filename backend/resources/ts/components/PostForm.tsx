@@ -1,11 +1,12 @@
 import React from 'react'
+import { Button, IconButton, TextField } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
 import {
   useAppDispatch,
   useParamGroupId,
   usePostContent,
   useUserId,
 } from '../app/hooks'
-import { Link, useParams } from 'react-router-dom'
 import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = () => {
@@ -39,9 +40,7 @@ const PostForm = () => {
     dispatch(getContent(e.target.value))
   }
 
-  const onSubmitKeyUpHandler = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const onSubmitKeyUpHandler = (e: any) => {
     // ctrl+Enter で送信
     if (e.code === 'Enter' && e.ctrlKey) {
       postMessageHandler(e)
@@ -50,26 +49,21 @@ const PostForm = () => {
 
   return (
     <>
-      {userId === 0 ? (
-        <p>
-          書き込みをするには <Link to="/login">ログイン</Link> してください。{' '}
-        </p>
-      ) : (
-        <form className="form post-form mt-1" onSubmit={postMessageHandler}>
-          <textarea
-            data-testid="textarea"
-            className="post-form__input"
-            name="content"
-            value={postContent}
-            onChange={changeContentHandler}
-            onKeyUp={onSubmitKeyUpHandler}
-            autoFocus
-          ></textarea>
-          <button className="btn btn-primary mx-1 align-top" type="submit">
-            投稿
-          </button>
-        </form>
-      )}
+      <form className="post-form" onSubmit={postMessageHandler}>
+        <TextField
+          multiline
+          data-testid="textarea"
+          className="post-form__input"
+          name="content"
+          value={postContent}
+          onChange={changeContentHandler}
+          onKeyUp={onSubmitKeyUpHandler}
+          autoFocus
+        />
+        <IconButton color="primary" type="submit">
+          <SendIcon />
+        </IconButton>
+      </form>
     </>
   )
 }

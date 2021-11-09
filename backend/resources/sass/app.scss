@@ -1,13 +1,21 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
+// @import '~normalize.css/normalize.css';
+
 // Variables
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootstrap';
+@import 'btn';
+@import 'container';
+@import 'flex';
 @import 'group';
+@import 'icon-btn';
+@import 'input';
 @import 'message';
+@import 'modal';
 @import 'post-form';
 @import 'scroll-btn';
 

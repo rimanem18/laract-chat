@@ -4,6 +4,7 @@ import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
 import AuthRedirect from '../components/AuthRedirect'
+import { Button, Grid } from '@mui/material'
 
 const Login = () => {
   const dispatch = useAppDispatch()
@@ -22,6 +23,8 @@ const Login = () => {
   }
 
   const demoLoginHandler = () => {
+    setEmail('demo@example.com')
+    setPassword('cX3/ZNa-')
     dispatch(
       login({
         email: 'demo@example.com',
@@ -50,45 +53,48 @@ const Login = () => {
   return (
     <>
       <AuthRedirect />
-      <>
-        <h3>ログイン</h3>
-        <p>
-          {authPromise === 'rejected'
-            ? 'ログインに失敗しました。ユーザ名とパスワードが正しいか確認してください。'
-            : ''}
-        </p>
-        <form className="form" onSubmit={loginHandler}>
-          <Input
-            label="Email"
-            type="text"
-            name="email"
-            value={email}
-            onChange={emailChangeHandler}
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={passwordChangeHandler}
-          />
-          <button
-            data-testid="login-btn"
-            className="btn btn-primary"
-            type="submit"
-          >
-            Login
-          </button>
-        </form>
-        <div className="mt-1">
+      <Grid container spacing={10}>
+        <Grid item xs={2} md={3}></Grid>
+        <Grid item xs={8} md={6}>
+          <h3>ログイン</h3>
           <p>
-            ユーザ登録がまだの場合は<Link to="/register">登録</Link>
+            {authPromise === 'rejected'
+              ? 'ログインに失敗しました。ユーザ名とパスワードが正しいか確認してください。'
+              : ''}
           </p>
-        </div>
-      </>
-      <button className="btn btn-success" onClick={demoLoginHandler}>
-        デモユーザーとしてログイン
-      </button>
+          <form className="form" onSubmit={loginHandler}>
+            <Input
+              label="Email"
+              type="text"
+              name="email"
+              value={email}
+              onChange={emailChangeHandler}
+            />
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              value={password}
+              onChange={passwordChangeHandler}
+            />
+            <Button variant="contained" data-testid="login-btn" type="submit">
+              Login
+            </Button>
+          </form>
+          <div className="mt-1">
+            <p>
+              ユーザ登録がまだの場合は<Link to="/register">登録</Link>
+            </p>
+          </div>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={demoLoginHandler}
+          >
+            デモユーザーとしてログイン
+          </Button>
+        </Grid>
+      </Grid>
     </>
   )
 }

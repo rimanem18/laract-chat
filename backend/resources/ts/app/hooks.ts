@@ -202,11 +202,12 @@ export const useModalStyle = () => {
       backgroundColor: 'rgba(0,0,0,0.85)',
     },
     content: {
+      Position: 'relative',
       backgroundColor: '#f2f2f2',
       borderRadius: '1rem',
-      padding: '1.5rem',
+      padding: '0px',
       width: '30em',
-      height: '20em',
+      height: '15em',
       top: '50%',
       left: '50%',
       marginRight: '-50%',
@@ -219,10 +220,10 @@ export const useModalStyle = () => {
   }, [])
 }
 
-export const useEditGroupModal = (groupName: string) => {
+export const useGroupModal = (groupName: string) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [newName, setNewName] = useState('')
+  const [newGroupName, setNewGroupName] = useState('')
 
   const openModal = useCallback(() => {
     setIsOpen(true)
@@ -234,14 +235,13 @@ export const useEditGroupModal = (groupName: string) => {
   const openConfirm = useCallback(() => {
     setIsConfirm(true)
   }, [])
-
-  useEffect(() => {
-    setNewName(groupName)
-  }, [groupName])
+  const closeConfirm = useCallback(() => {
+    setIsConfirm(false)
+  }, [])
 
   return [
-    { isOpen, isConfirm, newName },
-    { openModal, closeModal, setNewName, openConfirm },
+    { isOpen, isConfirm, newGroupName },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] as const
 }
 

@@ -1,19 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router'
-import Modal from 'react-modal'
+import React, { useEffect, useRef, useState } from 'react'
+import { Box, Grid } from '@mui/material'
 import {
-  useAppDispatch,
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
   useGroupsEntities,
-  useGroupsIds,
-  useModalStyle,
   useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
 } from '../app/hooks'
-import { deleteGroup, editGroup } from '../slices/GroupsSlice'
+import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
@@ -21,8 +17,8 @@ const Message = () => {
   const chatMessagesEntities = useChatMessagesEntities()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
+
   const [groupName, setGroupName] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
 
   const groupsEntities = useGroupsEntities()
 
@@ -40,15 +36,15 @@ const Message = () => {
 
   useEffect(() => {
     setGroupName(groupsEntities[`group${groupId}`].name)
-  }, [groupId])
+  }, [groupId, groupsEntities[`group${groupId}`].name])
 
   return (
     <>
-      <EditGroupModal groupId={groupId} groupName={groupName} />
       <h2 className="h2">
         {groupsEntities[`group${groupId}`]
           ? groupsEntities[`group${groupId}`].name
           : ''}
+        <EditGroupModal groupId={groupId} groupName={groupName} />
       </h2>
       <div ref={messageList} className="message">
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
@@ -89,10 +85,17 @@ const MessageItem = React.memo(
     return (
       <>
         <div className="message__item">
-          <div>
-            <strong className="mr-1">{name}</strong>
-            <small>{datetime}</small>
-          </div>
+          <Grid container>
+            <StringAvatar name={name}></StringAvatar>
+            <Box sx={{ m: 1 }}>
+              <Box
+                sx={{ fontWeight: 'bold', display: 'block', fontSize: '80%' }}
+              >
+                {name}
+              </Box>
+              <Box sx={{ display: 'block', fontSize: '80%' }}>{datetime}</Box>
+            </Box>
+          </Grid>
           <p>
             {content.split('\n').map((str, index) => (
               <React.Fragment key={index}>

@@ -1,0 +1,16 @@
+.flex {
+  display: block;
+
+  @include mq() {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  $grid: 12;
+  @for $i from 1 to $grid {
+    &__item--#{$i} {
+      flex: 0 0 percentage($i / $grid);
+      min-width: percentage($i / $grid);
+    }
+  }
+}

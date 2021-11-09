@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
 import Modal from 'react-modal'
 import { useHistory } from 'react-router'
+import { TextField, Button, InputAdornment, IconButton } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import {
   useAppDispatch,
   useDefaultGroupPath,
-  useEditGroupModal,
+  useGroupModal,
   useModalStyle,
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
@@ -16,21 +21,25 @@ type EditGroupModalProps = {
 }
 const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const [
-    { isOpen, isConfirm, newName },
-    { openModal, closeModal, setNewName, openConfirm },
-  ] = useEditGroupModal(groupName)
+    { isOpen, isConfirm, newGroupName },
+    { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
+  ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const modalStyle = useModalStyle()
   const history = useHistory()
   const defaultGroupPath = useDefaultGroupPath()
 
+  useEffect(() => {
+    setNewGroupName(groupName)
+  }, [groupName])
+
   const onChangeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value)
+    setNewGroupName(e.target.value)
   }
   const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (newName !== undefined) {
-      dispatch(editGroup({ groupId: groupId, groupName: newName }))
+    if (newGroupName !== undefined) {
+      dispatch(editGroup({ groupId: groupId, groupName: newGroupName }))
       closeModal()
     }
   }
@@ -42,46 +51,74 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
 
   return (
     <>
-      <Button openModal={openModal} />
+      <OpenButton openModal={openModal} />
       <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
-        <h4 data-testid="modal-title">{groupName}</h4>
-        {isConfirm ? (
-          <>
-            <p data-testid="confirm-message">
-              削除するともとには戻せません。削除してよろしいですか？
-            </p>
-            <button className="btn btn-danger" onClick={deleteGroupHandler}>
-              グループを削除
-            </button>
-            <button className="btn btn-light" onClick={closeModal}>
-              キャンセル
-            </button>
-          </>
-        ) : (
-          <>
-            <form onSubmit={editGroupHandler} className="form">
-              <input
-                data-testid="edit-group-name"
-                className="form-controll"
-                type="text"
-                name="groupName"
-                id="groupName"
-                value={newName}
-                onChange={onChangeNameHandler}
-                autoFocus
-              />
-              <button className="btn btn-primary" type="submit">
-                OK
-              </button>
-              <button className="btn btn-light" onClick={closeModal}>
-                キャンセル
-              </button>
-            </form>
-            <button className="btn btn-danger" onClick={openConfirm}>
-              グループを削除
-            </button>
-          </>
-        )}
+        <div className="modal">
+          <h4 className="modal__title" data-testid="modal-title">
+            {groupName}
+          </h4>
+          <button className="icon-btn--close" onClick={closeModal}>
+            <CancelIcon />
+          </button>
+          <div className="modal__content">
+            {isConfirm ? (
+              <>
+                <p data-testid="confirm-message">
+                  削除するともとには戻せません。削除してよろしいですか？
+                </p>
+                <Button
+                  onClick={deleteGroupHandler}
+                  sx={{ m: 1 }}
+                  variant="contained"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                >
+                  グループを削除
+                </Button>
+                <Button onClick={closeConfirm}>キャンセル</Button>
+              </>
+            ) : (
+              <>
+                <form onSubmit={editGroupHandler} className="form">
+                  <TextField
+                    margin="normal"
+                    data-testid="edit-group-name"
+                    className="modal__input"
+                    type="text"
+                    name="groupName"
+                    id="groupName"
+                    value={newGroupName}
+                    onChange={onChangeNameHandler}
+                    label="グループ名"
+                    variant="standard"
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <button className="icon-btn--check" type="submit">
+                            <CheckIcon></CheckIcon>
+                          </button>
+                        </InputAdornment>
+                      ),
+                    }}
+                    autoFocus
+                  />
+                  <div className="modal__footer">
+                    <Button
+                      onClick={openConfirm}
+                      sx={{ m: 1 }}
+                      variant="contained"
+                      color="error"
+                      startIcon={<DeleteIcon />}
+                    >
+                      グループを削除
+                    </Button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
       </Modal>
     </>
   )
@@ -91,17 +128,13 @@ export default React.memo(EditGroupModal)
 /**
  * Components
  */
-type ButtonProps = {
+type OpenButtonProps = {
   openModal: () => void
 }
-const Button = React.memo(({ openModal }: ButtonProps) => {
+const OpenButton = React.memo(({ openModal }: OpenButtonProps) => {
   return (
-    <button
-      className="btn btn-primary"
-      onClick={openModal}
-      data-testid="edit-button"
-    >
-      グループを編集
-    </button>
+    <IconButton onClick={openModal} data-testid="edit-button">
+      <ModeEditIcon />
+    </IconButton>
   )
 })

@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material'
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { useUserId } from '../app/hooks'
@@ -14,16 +15,15 @@ const Top = () => {
         <Redirect to="/login" />
       ) : (
         <>
-          <h1>TopPage</h1>
-          <div className="row">
-            <div className="col-md-3">
+          <Grid container spacing={2}>
+            <Grid item md={3} xs={12}>
               <Sidebar />
-            </div>
-            <div className="col-md-9">
+            </Grid>
+            <Grid item md={9} xs={12}>
               <Message />
               <PostForm />
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         </>
       )}
     </>
