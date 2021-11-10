@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { useHistory } from 'react-router'
 import { TextField, Button, InputAdornment, IconButton } from '@mui/material'
@@ -21,7 +21,8 @@ type EditGroupModalProps = {
 }
 const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const [
-    { isOpen, isConfirm, newGroupName },
+    { isOpen, isConfirm, isOver, newGroupName },
+
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
@@ -38,7 +39,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   }
   const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (newGroupName !== undefined) {
+    if (newGroupName !== undefined && isOver === false) {
       dispatch(editGroup({ groupId: groupId, groupName: newGroupName }))
       closeModal()
     }
@@ -81,6 +82,12 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
               <>
                 <form onSubmit={editGroupHandler} className="form">
                   <TextField
+                    error={isOver}
+                    helperText={
+                      isOver
+                        ? 'グループ名は15文字以下である必要があります。'
+                        : ''
+                    }
                     margin="normal"
                     className="modal__input"
                     type="text"
@@ -90,10 +97,10 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                     label="グループ名"
                     variant="standard"
                     fullWidth
+                    value={newGroupName || ''}
                     autoFocus
                     inputProps={{
                       'data-testid': 'edit-group-name',
-                      value: newGroupName,
                     }}
                   />
                   <div className="modal__footer">
