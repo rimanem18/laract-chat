@@ -38,15 +38,11 @@ const setup = () => {
   const emailInput = screen.getByLabelText('Email') as HTMLInputElement
   const passwordInput = screen.getByLabelText('Password') as HTMLInputElement
   const button = screen.getByRole('button') as HTMLButtonElement
-  const emailWarnMsg = screen.getByTestId('email-warning')
-  const passwordWarnMsg = screen.getByTestId('password-warning')
   return {
     nameInput,
     emailInput,
     passwordInput,
     button,
-    emailWarnMsg,
-    passwordWarnMsg,
     ...screen,
   }
 }
@@ -57,16 +53,6 @@ const Component = (
   </BrowserRouter>
 )
 describe('Register Input', () => {
-  it('email がメールアドレス形式ではない場合、バリデーションエラーが表示される', () => {
-    const { emailInput, emailWarnMsg } = setup()
-
-    fireEvent.change(emailInput, {
-      target: { value: 'eaab' },
-    })
-
-    expect(emailWarnMsg.textContent).toBe('Email 形式で入力してください。')
-  })
-
   it('password の入力初期値は空', () => {
     const { passwordInput } = setup()
     expect(passwordInput.value).toBe('')
@@ -80,30 +66,6 @@ describe('Register Input', () => {
     })
 
     expect(passwordInput.value).toBe(password)
-  })
-
-  it('password が7文字以下だとバリデーションエラーが表示される', () => {
-    const { passwordInput, passwordWarnMsg } = setup()
-    const password = 'hello'
-
-    fireEvent.change(passwordInput, {
-      target: { value: password },
-    })
-
-    expect(passwordWarnMsg.textContent).toBe(
-      'パスワードは8文字以上である必要があります。'
-    )
-  })
-
-  it('password が8文字以上ならバリデーションエラーは表示されない', () => {
-    const { passwordInput, passwordWarnMsg } = setup()
-    const password = 'helloPass'
-
-    fireEvent.change(passwordInput, {
-      target: { value: password },
-    })
-
-    expect(passwordWarnMsg.textContent).toBe('')
   })
 })
 

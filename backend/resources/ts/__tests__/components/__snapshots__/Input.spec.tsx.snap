@@ -36,6 +36,7 @@ exports[`Input snapshot 1`] = `
         value=""
       />
     </div>
+    
   </div>
 </div>
 `;

@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import renderer from 'react-test-renderer'
+import Modal from 'react-modal'
 import { fireEvent, render } from '@testing-library/react'
 import { mockState } from '../../app/mockState'
 import EditGroupModal from '../../components/EditGroupModal'
@@ -26,6 +27,10 @@ const group = mockState.groupsSlice
 let useGroupModalMock = jest.fn()
 const useModalStyleMock = jest.fn().mockReturnValue({})
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
+
+jest
+  .spyOn(Modal, 'setAppElement')
+  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
 
 const Component = (
   <EditGroupModal
