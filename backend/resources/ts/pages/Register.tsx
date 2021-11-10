@@ -77,27 +77,23 @@ const Register = () => {
                 type="text"
                 name="email"
                 value={email}
+                helperText={emailError ? 'Email 形式で入力してください。' : ''}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <div data-testid="email-warning">
-                {emailError ? <p>Email 形式で入力してください。</p> : ''}
-              </div>
               <Input
                 label="Password"
                 type="password"
                 name="password"
+                helperText={
+                  password.length === 0
+                    ? 'パスワードを入力してください。'
+                    : password.length <= 7
+                    ? 'パスワードは8文字以上である必要があります。'
+                    : ''
+                }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div data-testid="password-warning">
-                {password.length === 0 ? (
-                  <p>パスワードを入力してください。</p>
-                ) : password.length <= 7 ? (
-                  <p>パスワードは8文字以上である必要があります。</p>
-                ) : (
-                  ''
-                )}
-              </div>
               <Button
                 variant="contained"
                 disabled={
