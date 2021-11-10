@@ -8,8 +8,6 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint'
 import { useAppDispatch, useGroupModal, useModalStyle } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
-if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
-
 const AddGroupModal = () => {
   const [
     { isOpen, isConfirm, newGroupName, isOver },

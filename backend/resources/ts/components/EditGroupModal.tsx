@@ -14,7 +14,6 @@ import {
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
-if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#app')
 type EditGroupModalProps = {
   groupId: string
   groupName: string

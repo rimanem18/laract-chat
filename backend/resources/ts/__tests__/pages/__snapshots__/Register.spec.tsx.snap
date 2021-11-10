@@ -55,6 +55,7 @@ exports[`Register Button snapshot 1`] = `
               value=""
             />
           </div>
+          
         </div>
       </div>
       <div
@@ -64,7 +65,7 @@ exports[`Register Button snapshot 1`] = `
           className="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink={false}
             htmlFor="Email"
             id="Email-label"
@@ -72,11 +73,12 @@ exports[`Register Button snapshot 1`] = `
             Email
           </label>
           <div
-            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
+            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-describedby="Email-helper-text"
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
               data-testid="Email-input"
@@ -92,14 +94,13 @@ exports[`Register Button snapshot 1`] = `
               value=""
             />
           </div>
+          <p
+            className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+            id="Email-helper-text"
+          >
+            Email 形式で入力してください。
+          </p>
         </div>
-      </div>
-      <div
-        data-testid="email-warning"
-      >
-        <p>
-          Email 形式で入力してください。
-        </p>
       </div>
       <div
         className="form-group"
@@ -108,7 +109,7 @@ exports[`Register Button snapshot 1`] = `
           className="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink={false}
             htmlFor="Password"
             id="Password-label"
@@ -116,11 +117,12 @@ exports[`Register Button snapshot 1`] = `
             Password
           </label>
           <div
-            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
+            className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl css-ghsjzk-MuiInputBase-root-MuiInput-root"
             onClick={[Function]}
           >
             <input
-              aria-invalid={false}
+              aria-describedby="Password-helper-text"
+              aria-invalid={true}
               autoFocus={false}
               className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
               data-testid="Password-input"
@@ -136,14 +138,13 @@ exports[`Register Button snapshot 1`] = `
               value=""
             />
           </div>
+          <p
+            className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+            id="Password-helper-text"
+          >
+            パスワードを入力してください。
+          </p>
         </div>
-      </div>
-      <div
-        data-testid="password-warning"
-      >
-        <p>
-          パスワードを入力してください。
-        </p>
       </div>
       <button
         className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled css-sghohy-MuiButtonBase-root-MuiButton-root"
