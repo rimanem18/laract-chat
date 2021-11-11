@@ -46,7 +46,26 @@ const Message = () => {
           : ''}
         <EditGroupModal groupId={groupId} groupName={groupName} />
       </h2>
-      <div ref={messageList} className="message">
+      <Box
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: 2,
+            borderRadius: 5,
+          },
+          '&::-webkit-scrollbar-track': {
+            boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            outline: `1px solid rgba(0, 0, 0, 0.3)`,
+          },
+
+          height: '70vh',
+          overflowY: 'scroll',
+          overflow: 'none',
+        }}
+        ref={messageList}
+      >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesIds.map((id: string) =>
           Number(groupId) === chatMessagesEntities[id].group_id ? (
@@ -61,7 +80,7 @@ const Message = () => {
           )
         )}
         <ScrollButton refObject={messageList} />
-      </div>
+      </Box>
     </>
   )
 }
