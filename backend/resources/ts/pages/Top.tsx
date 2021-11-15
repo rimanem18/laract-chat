@@ -10,8 +10,15 @@ import zIndex from '@mui/material/styles/zIndex'
 
 const Top = () => {
   const userId = useUserId()
-  const [width, setWidth] = useState<number>(768)
+  const [width, setWidth] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState(false)
+
+  const updateWidth = () => {
+    setWidth(window.innerWidth)
+  }
+  useEffect(() => {
+    updateWidth()
+  }, [null === width])
 
   const toggleDrawer = useCallback(
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -46,7 +53,7 @@ const Top = () => {
         <Redirect to="/login" />
       ) : (
         <>
-          {width >= 768 ? (
+          {width === null || width >= 768 ? (
             <PcView />
           ) : (
             <MobileView isOpen={isOpen} toggleDrawer={toggleDrawer} />
@@ -58,7 +65,7 @@ const Top = () => {
 }
 export default React.memo(Top)
 
-const PcView = () => {
+const PcView = React.memo(() => {
   return (
     <>
       <div className="flex">
@@ -72,7 +79,7 @@ const PcView = () => {
       </div>
     </>
   )
-}
+})
 
 type MobileViewProps = {
   isOpen: boolean
@@ -80,7 +87,7 @@ type MobileViewProps = {
     open: boolean
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void
 }
-const MobileView = ({ isOpen, toggleDrawer }: MobileViewProps) => {
+const MobileView = React.memo(({ isOpen, toggleDrawer }: MobileViewProps) => {
   return (
     <>
       <IconButton
@@ -106,4 +113,4 @@ const MobileView = ({ isOpen, toggleDrawer }: MobileViewProps) => {
       </div>
     </>
   )
-}
+})
