@@ -1,0 +1,8 @@
+.sidebar {
+  box-sizing: border-box;
+  padding: 15px;
+
+  @include mq() {
+    width: 280px;
+  }
+}
