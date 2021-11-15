@@ -6,7 +6,6 @@ import { useUserId } from '../app/hooks'
 import Message from '../components/Message'
 import PostForm from '../components/PostForm'
 import Sidebar from '../components/Sidebar'
-import zIndex from '@mui/material/styles/zIndex'
 
 const Top = () => {
   const userId = useUserId()
@@ -43,9 +42,6 @@ const Top = () => {
     })
     return () => window.removeEventListener(`resize`, updateWidth)
   })
-  const updateWidth = () => {
-    setWidth(window.innerWidth)
-  }
 
   return (
     <>
@@ -91,7 +87,7 @@ const MobileView = React.memo(({ isOpen, toggleDrawer }: MobileViewProps) => {
   return (
     <>
       <IconButton
-        sx={{ position: 'absolute', top: 0, right: 0 }}
+        sx={{ position: 'absolute', top: '10px', right: '10px' }}
         onClick={toggleDrawer(!isOpen)}
       >
         <FormatListBulletedIcon />
