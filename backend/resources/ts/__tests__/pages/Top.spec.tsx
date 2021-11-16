@@ -3,7 +3,6 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen as SCREEN } from '@testing-library/react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import renderer from 'react-test-renderer'
-import Modal from 'react-modal'
 import Top from '../../pages/Top'
 import { mockState } from '../../app/mockState'
 
@@ -38,7 +37,6 @@ jest.mock('../../app/hooks', () => ({
   useGroupsOldestId: () => useGroupsOldestIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
-  useModalStyle: () => useModalStyleMock(),
 }))
 
 // Hooks の Mock
@@ -75,11 +73,6 @@ const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
 
 let useGroupModalMock = jest.fn()
-const useModalStyleMock = jest.fn().mockReturnValue({})
-
-jest
-  .spyOn(Modal, 'setAppElement')
-  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
 
 const Component = (
   <Router>

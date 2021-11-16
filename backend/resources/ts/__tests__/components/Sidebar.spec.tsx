@@ -12,7 +12,6 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppDispatch(...args),
-  useModalStyle: () => useModalStyleMock(),
   useUserId: () => useUserIdMock(),
   useUserName: () => useUserNameMock(),
   useUserEmail: () => useUserEmailMock(),
@@ -26,7 +25,6 @@ jest.mock('../../app/hooks', () => ({
 // Mock の定義
 const user = mockState.userSlice
 const group = mockState.groupsSlice
-const useModalStyleMock = jest.fn().mockReturnValue({})
 
 const useUserIdMock = jest.fn().mockReturnValue(user.id)
 const useUserNameMock = jest.fn().mockReturnValue(user.name)

@@ -16,7 +16,6 @@ import {
   useAppDispatch,
   useDefaultGroupPath,
   useGroupModal,
-  useModalStyle,
 } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
@@ -31,7 +30,6 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
-  const modalStyle = useModalStyle()
   const history = useHistory()
   const defaultGroupPath = useDefaultGroupPath()
 

@@ -200,32 +200,6 @@ export const useParamGroupId = () => {
   return groupId
 }
 
-export const useModalStyle = () => {
-  const modalStyle = {
-    overlay: {
-      top: 0,
-      left: 0,
-      backgroundColor: 'rgba(0,0,0,0.85)',
-    },
-    content: {
-      Position: 'relative',
-      backgroundColor: '#f2f2f2',
-      borderRadius: '1rem',
-      padding: '0px',
-      width: '30em',
-      height: '15em',
-      top: '50%',
-      left: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  }
-
-  return useMemo(() => {
-    return modalStyle
-  }, [])
-}
-
 export const useGroupModal = (groupName: string) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isOpen, setIsOpen] = useState(false)

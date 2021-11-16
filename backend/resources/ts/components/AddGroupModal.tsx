@@ -1,12 +1,10 @@
 import React, { useCallback } from 'react'
 import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
-import { useAppDispatch, useGroupModal, useModalStyle } from '../app/hooks'
+import { useAppDispatch, useGroupModal } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
-import { toggleMenuOpen } from '../slices/MenuSlice'
 
 const AddGroupModal = () => {
   const [
@@ -14,7 +12,6 @@ const AddGroupModal = () => {
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] = useGroupModal('')
   const dispatch = useAppDispatch()
-  const modalStyle = useModalStyle()
 
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
