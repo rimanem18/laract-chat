@@ -34,6 +34,7 @@ import {
 } from '../selectors/GroupsSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { useParams } from 'react-router'
+import { menuIsOpenSelector } from '../selectors/MenuSelector'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -82,6 +83,11 @@ export const useGroupsPromise = () => {
 }
 export const useGroupsOldestId = () => {
   return useAppSelector(groupsOldestIdSelector)
+}
+
+// Menu Selector
+export const useMenuIsOpen = () => {
+  return useAppSelector(menuIsOpenSelector)
 }
 
 // ChatMessages Selector

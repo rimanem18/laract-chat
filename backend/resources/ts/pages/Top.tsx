@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Box, IconButton, SwipeableDrawer } from '@mui/material'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import { Redirect } from 'react-router-dom'
-import { useAppDispatch, useUserId } from '../app/hooks'
+import { useAppDispatch, useMenuIsOpen, useUserId } from '../app/hooks'
 import Message from '../components/Message'
 import PostForm from '../components/PostForm'
 import Sidebar from '../components/Sidebar'
@@ -12,7 +12,7 @@ const Top = () => {
   const dispatch = useAppDispatch()
   const userId = useUserId()
   const [width, setWidth] = useState<number | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const isOpen = useMenuIsOpen()
 
   const updateWidth = () => {
     setWidth(window.innerWidth)
