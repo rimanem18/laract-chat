@@ -5,8 +5,10 @@ import {
   useAppDispatch,
   useGroupsEntities,
   useGroupsIds,
+  useMenuIsOpen,
   useParamGroupId,
 } from '../app/hooks'
+import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
 
 const Group = () => {
@@ -62,6 +64,7 @@ const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
   const activeGroupId = useParamGroupId()
   const history = useHistory()
   const [isActive, setIsActive] = useState(false)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     setIsActive(activeGroupId === id ? true : false)
@@ -69,6 +72,7 @@ const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
 
   const goTo = () => {
     history.push(`/groups/${id}`)
+    dispatch(toggleMenuOpen(false))
   }
 
   return (

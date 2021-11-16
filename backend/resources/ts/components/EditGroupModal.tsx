@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Modal from 'react-modal'
 import { useHistory } from 'react-router'
-import { TextField, Button, InputAdornment, IconButton } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
+import {
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  ButtonGroup,
+} from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
@@ -52,11 +58,11 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   return (
     <>
       <OpenButton openModal={openModal} />
-      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+      <Dialog open={isOpen} onClose={closeModal}>
         <div className="modal">
-          <h4 className="modal__title" data-testid="modal-title">
+          <DialogTitle className="modal__title" data-testid="modal-title">
             {groupName}
-          </h4>
+          </DialogTitle>
           <button className="icon-btn--close" onClick={closeModal}>
             <CancelIcon />
           </button>
@@ -102,23 +108,27 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
                       'data-testid': 'edit-group-name',
                     }}
                   />
-                  <div className="modal__footer">
-                    <Button
-                      onClick={openConfirm}
-                      sx={{ m: 1 }}
-                      variant="contained"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                    >
-                      グループを削除
-                    </Button>
-                  </div>
+                  <Button type="submit" variant="contained">
+                    OK
+                  </Button>
+                  <Button color="secondary" onClick={closeModal}>
+                    キャンセル
+                  </Button>
                 </form>
+                <Button
+                  onClick={openConfirm}
+                  sx={{ m: 1 }}
+                  variant="contained"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                >
+                  グループを削除
+                </Button>
               </>
             )}
           </div>
         </div>
-      </Modal>
+      </Dialog>
     </>
   )
 }

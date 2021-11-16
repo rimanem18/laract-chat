@@ -2,7 +2,6 @@
   box-sizing: border-box;
   padding: 15px;
   background: #ffffff;
-  z-index: 9999;
 
   @include mq() {
     width: 280px;
