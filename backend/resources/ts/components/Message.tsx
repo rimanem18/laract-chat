@@ -138,7 +138,11 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
 
   return (
     <div className="scroll-btn">
-      <IconButton onClick={useScrollHandler} size="large">
+      <IconButton
+        data-testid="scroll-btn"
+        onClick={useScrollHandler}
+        size="large"
+      >
         <KeyboardArrowDownIcon fontSize="large" />
       </IconButton>
     </div>

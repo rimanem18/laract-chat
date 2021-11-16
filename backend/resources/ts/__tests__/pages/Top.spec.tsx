@@ -37,6 +37,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsOldestId: () => useGroupsOldestIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
+  useMenuIsOpen: () => useMenuIsOpenMock(),
 }))
 
 // Hooks の Mock
@@ -74,6 +75,8 @@ const useScrollToBottomMock = jest.fn()
 
 let useGroupModalMock = jest.fn()
 
+const useMenuIsOpenMock = jest.fn().mockReturnValue(false)
+
 const Component = (
   <Router>
     <Top />
@@ -90,22 +93,21 @@ const setup = () => {
   }
 }
 describe('Top', () => {
+  useGroupModalMock = jest.fn().mockReturnValue([
+    {
+      isOpen: false,
+      isConfirm: false,
+      newGroupName: group.entities.group1.name,
+    },
+    {
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      openConfirm: jest.fn(),
+      closeConfirm: jest.fn(),
+      setNewGroupName: jest.fn(),
+    },
+  ])
   describe('PostForm', () => {
-    useGroupModalMock = jest.fn().mockReturnValue([
-      {
-        isOpen: false,
-        isConfirm: false,
-        newGroupName: group.entities.group1.name,
-      },
-      {
-        openModal: jest.fn(),
-        closeModal: jest.fn(),
-        openConfirm: jest.fn(),
-        closeConfirm: jest.fn(),
-        setNewGroupName: jest.fn(),
-      },
-    ])
-
     it('入力値と postSlice content の文字列が同じ', () => {
       const { textarea } = setup()
 

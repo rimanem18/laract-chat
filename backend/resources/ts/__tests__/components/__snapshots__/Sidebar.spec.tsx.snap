@@ -64,6 +64,7 @@ Array [
     className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root css-sghohy-MuiButtonBase-root-MuiButton-root"
     disabled={false}
     onBlur={[Function]}
+    onClick={[MockFunction]}
     onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}

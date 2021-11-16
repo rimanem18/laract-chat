@@ -2,10 +2,10 @@
 
 exports[`Top snapshot 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+  className="flex"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-3 css-1mhtw2e-MuiGrid-root"
+    className="sidebar MuiBox-root css-0"
   >
     <div
       className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-161s7uk-MuiGrid-root"
@@ -177,7 +177,7 @@ exports[`Top snapshot 1`] = `
     </ul>
   </div>
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-9 css-cyie08-MuiGrid-root"
+    className="main MuiBox-root css-0"
   >
     <h2
       className="h2"
@@ -220,7 +220,7 @@ exports[`Top snapshot 1`] = `
       </button>
     </h2>
     <div
-      className="message"
+      className="MuiBox-root css-x0kdyz"
     >
       <p
         className="message__note"
@@ -266,15 +266,41 @@ exports[`Top snapshot 1`] = `
       <div
         className="scroll-btn"
       >
-        <a
-          className="scroll-btn__item"
+        <button
+          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
           data-testid="scroll-btn"
+          disabled={false}
+          onBlur={[Function]}
           onClick={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
         >
-          <i
-            className="fa fa-arrow  fa-arrow-circle-down fa-4x"
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+            data-testid="KeyboardArrowDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+            />
+          </svg>
+          <span
+            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
           />
-        </a>
+        </button>
       </div>
     </div>
     <form
