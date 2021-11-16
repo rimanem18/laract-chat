@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, IconButton } from '@mui/material'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   useChatMessageIds,
   useChatMessagesEntities,
@@ -136,14 +137,20 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
   const useScrollHandler = () => useScrollToBottom(refObject)
 
   return (
+    // <div className="scroll-btn">
+    //   <a
+    //     className="scroll-btn__item"
+    //     onClick={useScrollHandler}
+    //     data-testid="scroll-btn"
+    //   >
+    //     <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
+    //   </a>
+    // </div>
+
     <div className="scroll-btn">
-      <a
-        className="scroll-btn__item"
-        onClick={useScrollHandler}
-        data-testid="scroll-btn"
-      >
-        <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
-      </a>
+      <IconButton size="large">
+        <KeyboardArrowDownIcon onClick={useScrollHandler} fontSize="large" />
+      </IconButton>
     </div>
   )
 })
