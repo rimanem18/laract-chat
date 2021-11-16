@@ -137,16 +137,6 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
   const useScrollHandler = () => useScrollToBottom(refObject)
 
   return (
-    // <div className="scroll-btn">
-    //   <a
-    //     className="scroll-btn__item"
-    //     onClick={useScrollHandler}
-    //     data-testid="scroll-btn"
-    //   >
-    //     <i className="fa fa-arrow  fa-arrow-circle-down fa-4x"></i>
-    //   </a>
-    // </div>
-
     <div className="scroll-btn">
       <IconButton onClick={useScrollHandler} size="large">
         <KeyboardArrowDownIcon fontSize="large" />
