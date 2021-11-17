@@ -3,10 +3,8 @@ import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import renderer from 'react-test-renderer'
-import Modal from 'react-modal'
 import { mockState } from '../../app/mockState'
 import Group from '../../components/Group'
-import { useModalStyle } from '../../app/hooks'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -21,7 +19,6 @@ jest.mock('../../app/hooks', () => ({
       mockUseAppSelector(...args),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
-  useModalStyle: () => useModalStyleMock(),
   useGroupsIds: () => useGroupsIdsMock(),
   useGroupsEntities: () => useGroupsEntitiesMock(),
   useGroupsPromise: () => useGroupsPromiseMock(),
@@ -29,15 +26,11 @@ jest.mock('../../app/hooks', () => ({
 
 // Hooks の Mock
 const group = mockState.groupsSlice
-const useModalStyleMock = jest.fn().mockReturnValue({})
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
 const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
 let useGroupModalMock = jest.fn()
-jest
-  .spyOn(Modal, 'setAppElement')
-  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
 
 const Component = (
   <Router>

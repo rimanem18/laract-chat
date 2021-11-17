@@ -60,6 +60,7 @@ const PostForm = (): JSX.Element => {
       <form className="post-form" onSubmit={postMessageHandler}>
         <TextField
           multiline={isMultiline}
+          maxRows="2"
           className="post-form__input"
           name="content"
           onChange={changeContentHandler}

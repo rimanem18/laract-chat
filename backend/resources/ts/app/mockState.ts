@@ -43,6 +43,9 @@ export const mockState: RootState = {
     promise: 'idle',
     oldestId: 1,
   },
+  menuSlice: {
+    isOpen: false,
+  },
   postSlice: {
     userId: 1,
     content: 'fugafuga',

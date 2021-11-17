@@ -34,16 +34,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <React.Fragment>
-        <div className="container">
-          <Switch>
-            <Route path="/groups/:groupId" exact component={Top} />
-            <Route path="/about" component={About} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <AuthRedirect />
-          </Switch>
-          {/* <Loader /> */}
-        </div>
+        <Switch>
+          <Route path="/groups/:groupId" exact component={Top} />
+          <Route path="/about" component={About} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <AuthRedirect />
+        </Switch>
+        {/* <Loader /> */}
       </React.Fragment>
     </BrowserRouter>
   )

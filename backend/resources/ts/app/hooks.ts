@@ -34,6 +34,8 @@ import {
 } from '../selectors/GroupsSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { useParams } from 'react-router'
+import { menuIsOpenSelector } from '../selectors/MenuSelector'
+import { toggleMenuOpen } from '../slices/MenuSlice'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -82,6 +84,11 @@ export const useGroupsPromise = () => {
 }
 export const useGroupsOldestId = () => {
   return useAppSelector(groupsOldestIdSelector)
+}
+
+// Menu Selector
+export const useMenuIsOpen = () => {
+  return useAppSelector(menuIsOpenSelector)
 }
 
 // ChatMessages Selector
@@ -193,37 +200,12 @@ export const useParamGroupId = () => {
   return groupId
 }
 
-export const useModalStyle = () => {
-  const modalStyle = {
-    overlay: {
-      top: 0,
-      left: 0,
-      backgroundColor: 'rgba(0,0,0,0.85)',
-    },
-    content: {
-      Position: 'relative',
-      backgroundColor: '#f2f2f2',
-      borderRadius: '1rem',
-      padding: '0px',
-      width: '30em',
-      height: '15em',
-      top: '50%',
-      left: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  }
-
-  return useMemo(() => {
-    return modalStyle
-  }, [])
-}
-
 export const useGroupModal = (groupName: string) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [isOver, setIsOver] = useState(false)
+  const dispatch = useAppDispatch()
 
   const openModal = useCallback(() => {
     setIsOpen(true)

@@ -1,11 +1,9 @@
-import React from 'react'
-import Modal from 'react-modal'
-import { TextField, Button, InputAdornment } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
+import React, { useCallback } from 'react'
+import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
-import { useAppDispatch, useGroupModal, useModalStyle } from '../app/hooks'
+import { useAppDispatch, useGroupModal } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
 const AddGroupModal = () => {
@@ -14,7 +12,6 @@ const AddGroupModal = () => {
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] = useGroupModal('')
   const dispatch = useAppDispatch()
-  const modalStyle = useModalStyle()
 
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -37,11 +34,11 @@ const AddGroupModal = () => {
       >
         新しいグループを追加
       </Button>
-      <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyle}>
+      <Dialog open={isOpen} onClose={closeModal}>
         <div className="modal">
-          <h4 className="modal__title" data-testid="modal-title">
+          <DialogTitle className="modal__title" data-testid="modal-title">
             追加するグループの名前
-          </h4>
+          </DialogTitle>
           <button className="icon-btn--close" onClick={closeModal}>
             <CancelIcon />
           </button>
@@ -76,7 +73,7 @@ const AddGroupModal = () => {
             </form>
           </div>
         </div>
-      </Modal>
+      </Dialog>
     </>
   )
 }

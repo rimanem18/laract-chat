@@ -3,7 +3,6 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen as SCREEN } from '@testing-library/react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import renderer from 'react-test-renderer'
-import Modal from 'react-modal'
 import Top from '../../pages/Top'
 import { mockState } from '../../app/mockState'
 
@@ -38,7 +37,7 @@ jest.mock('../../app/hooks', () => ({
   useGroupsOldestId: () => useGroupsOldestIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
-  useModalStyle: () => useModalStyleMock(),
+  useMenuIsOpen: () => useMenuIsOpenMock(),
 }))
 
 // Hooks の Mock
@@ -75,11 +74,8 @@ const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
 
 let useGroupModalMock = jest.fn()
-const useModalStyleMock = jest.fn().mockReturnValue({})
 
-jest
-  .spyOn(Modal, 'setAppElement')
-  .mockImplementation((param) => console.log(`setAppElement:'${param}'`))
+const useMenuIsOpenMock = jest.fn().mockReturnValue(false)
 
 const Component = (
   <Router>
@@ -97,22 +93,21 @@ const setup = () => {
   }
 }
 describe('Top', () => {
+  useGroupModalMock = jest.fn().mockReturnValue([
+    {
+      isOpen: false,
+      isConfirm: false,
+      newGroupName: group.entities.group1.name,
+    },
+    {
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      openConfirm: jest.fn(),
+      closeConfirm: jest.fn(),
+      setNewGroupName: jest.fn(),
+    },
+  ])
   describe('PostForm', () => {
-    useGroupModalMock = jest.fn().mockReturnValue([
-      {
-        isOpen: false,
-        isConfirm: false,
-        newGroupName: group.entities.group1.name,
-      },
-      {
-        openModal: jest.fn(),
-        closeModal: jest.fn(),
-        openConfirm: jest.fn(),
-        closeConfirm: jest.fn(),
-        setNewGroupName: jest.fn(),
-      },
-    ])
-
     it('入力値と postSlice content の文字列が同じ', () => {
       const { textarea } = setup()
 

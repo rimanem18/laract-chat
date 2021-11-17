@@ -31,7 +31,6 @@ jest.mock('../../app/hooks', () => ({
   useParamGroupId: () => useParamGroupIdMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useGroupModal: () => useGroupModalMock(),
-  useModalStyle: () => useModalStyleMock(),
 }))
 
 // Mock の定義
@@ -69,7 +68,6 @@ const useGroupModalMock = jest.fn().mockReturnValue([
     setNewGroupName: jest.fn(),
   },
 ])
-const useModalStyleMock = jest.fn().mockReturnValue({})
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 // Setup

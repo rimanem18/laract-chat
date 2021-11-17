@@ -1,7 +1,7 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// @import '~normalize.css/normalize.css';
+@import '~normalize.css/normalize.css';
 
 // Variables
 @import 'variables';
@@ -14,10 +14,12 @@
 @import 'group';
 @import 'icon-btn';
 @import 'input';
+@import 'main';
 @import 'message';
 @import 'modal';
 @import 'post-form';
 @import 'scroll-btn';
+@import 'sidebar';
 
 html,
 body {

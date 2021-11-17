@@ -12,7 +12,6 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppDispatch(...args),
-  useModalStyle: () => useModalStyleMock(),
   useUserId: () => useUserIdMock(),
   useUserName: () => useUserNameMock(),
   useUserEmail: () => useUserEmailMock(),
@@ -26,7 +25,6 @@ jest.mock('../../app/hooks', () => ({
 // Mock の定義
 const user = mockState.userSlice
 const group = mockState.groupsSlice
-const useModalStyleMock = jest.fn().mockReturnValue({})
 
 const useUserIdMock = jest.fn().mockReturnValue(user.id)
 const useUserNameMock = jest.fn().mockReturnValue(user.name)
@@ -36,7 +34,7 @@ const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
 const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
-const useGroupModalMock = jest.fn().mockReturnValue([{}, {}])
+let useGroupModalMock = jest.fn()
 
 const Component = (
   <Router>
@@ -54,6 +52,21 @@ const setup = () => {
 }
 
 describe('Sidebar', () => {
+  useGroupModalMock = jest.fn().mockReturnValue([
+    {
+      isOpen: false,
+      isConfirm: false,
+      newGroupName: group.entities.group1.name,
+    },
+    {
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      openConfirm: jest.fn(),
+      closeConfirm: jest.fn(),
+      setNewGroupName: jest.fn(),
+    },
+  ])
+
   it('ユーザ名の一文字目が表示される', () => {
     const { userName } = setup()
 
