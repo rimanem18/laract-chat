@@ -1,5 +1,5 @@
-import { List, ListItemButton, ListItemText } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, List, ListItemButton, ListItemText } from '@mui/material'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   useAppDispatch,
@@ -83,7 +83,18 @@ const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
         key={id}
         data-testid={`group${id}`}
       >
-        <ListItemText primary={name}></ListItemText>
+        <ListItemText>
+          <Box
+            sx={{
+              width: '13em',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+            }}
+          >
+            {name}
+          </Box>
+        </ListItemText>
       </ListItemButton>
     </>
   )
