@@ -3,6 +3,10 @@
   bottom: 0;
 
   &__input {
-    width: 90%;
+    width: 80%;
+
+    @include mq() {
+      width: 90%;
+    }
   }
 }
