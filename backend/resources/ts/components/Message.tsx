@@ -5,7 +5,7 @@ import {
   useChatMessageIds,
   useChatMessagesEntities,
   useFormatDate,
-  useGroupsEntities,
+  useGroupsState,
   useParamGroupId,
   useScrollToBottom,
   useUpdateMessages,
@@ -21,7 +21,7 @@ const Message = () => {
 
   const [groupName, setGroupName] = useState('')
 
-  const groupsEntities = useGroupsEntities()
+  const { groupsEntities } = useGroupsState()
 
   if (groupId === undefined) {
     return (

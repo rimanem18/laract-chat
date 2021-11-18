@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useAppDispatch, useAuthPromise } from '../app/hooks'
+import { useAppDispatch, useAuthState } from '../app/hooks'
 import { initAuthState, login } from '../slices/AuthSlice'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
@@ -10,7 +10,7 @@ const Login = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const authPromise = useAuthPromise()
+  const { authPromise } = useAuthState()
 
   const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

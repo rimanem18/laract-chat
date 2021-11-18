@@ -182,7 +182,7 @@ export const useUpdateMessages = () => {
  * グループ一覧を初回だけフェッチする
  */
 export const useFetchGroups = () => {
-  const groupsPromise = useGroupsPromise()
+  const { groupsPromise } = useGroupsState()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -237,15 +237,14 @@ export const useGroupModal = (groupName: string) => {
 }
 
 export const useDefaultGroupPath = () => {
-  const oldestGroupsId = useGroupsOldestId().toString()
-  const groupPromise = useGroupsPromise()
+  const { groupsPromise, groupsOldestId } = useGroupsState()
   const [path, setPath] = useState('')
 
   useEffect(() => {
-    if (groupPromise !== 'loading') {
-      setPath(`/groups/${oldestGroupsId}`)
+    if (groupsPromise !== 'loading') {
+      setPath(`/groups/${groupsOldestId.toString()}`)
     }
-  }, [groupPromise])
+  }, [groupsPromise])
 
   return path
 }
