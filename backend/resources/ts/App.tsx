@@ -3,10 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import {
   useAppDispatch,
-  useAuthPromise,
   useFetchGroups,
-  useGroupsIds,
-  useGroupsOldestId,
+  useGroupsState,
   useInitFetchMessages,
 } from './app/hooks'
 import { fetchUser } from './slices/UserSlice'
@@ -19,7 +17,7 @@ import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
   const authPromise = useAuthPromise()
-  const groupIds = useGroupsIds()
+  const { groupIds } = useGroupsState()
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定

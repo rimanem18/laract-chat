@@ -1,20 +1,13 @@
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import {
-  useAppDispatch,
-  useGroupsEntities,
-  useGroupsIds,
-  useMenuIsOpen,
-  useParamGroupId,
-} from '../app/hooks'
+import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
 import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
 
 const Group = () => {
   const dispatch = useAppDispatch()
-  const groupIds = useGroupsIds()
-  const groupsEntities = useGroupsEntities()
+  const { groupIds, groupsEntities } = useGroupsState()
 
   return (
     <>

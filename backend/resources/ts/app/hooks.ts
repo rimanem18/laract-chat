@@ -73,18 +73,18 @@ export const useUserState = () => {
   }
 }
 
-// Groups Selector
-export const useGroupsIds = () => {
-  return useAppSelector(groupIdsSelector)
-}
-export const useGroupsEntities = () => {
-  return useAppSelector(groupsEntitiesSelector)
-}
-export const useGroupsPromise = () => {
-  return useAppSelector(groupsPromiseSelector)
-}
-export const useGroupsOldestId = () => {
-  return useAppSelector(groupsOldestIdSelector)
+export const useGroupsState = () => {
+  const groupIds = useAppSelector(groupIdsSelector)
+  const groupsEntities = useAppSelector(groupsEntitiesSelector)
+  const groupsPromise = useAppSelector(groupsPromiseSelector)
+  const groupsOldestId = useAppSelector(groupsOldestIdSelector)
+
+  return {
+    groupIds,
+    groupsEntities,
+    groupsPromise,
+    groupsOldestId,
+  }
 }
 
 // Menu Selector
