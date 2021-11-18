@@ -17,15 +17,19 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useAuthPromise: () => useAuthPromiseMock(),
-  useUserPromise: () => useUserPromiseMock(),
+  useAuthState: () => useAuthStateMock(),
+  useUserState: () => useUserStateMock(),
 }))
 
 // Mock の定義
 const authSlice = mockState.authSlice
 const userSlice = mockState.userSlice
-const useAuthPromiseMock = jest.fn().mockReturnValue(authSlice.promise)
-const useUserPromiseMock = jest.fn().mockReturnValue(userSlice.promise)
+const useAuthStateMock = jest
+  .fn()
+  .mockReturnValue({ authPromise: authSlice.promise })
+const useUserStateMock = jest
+  .fn()
+  .mockReturnValue({ userPromise: userSlice.promise })
 
 const LoaderComponent = <Loader />
 

@@ -5,7 +5,7 @@ Array [
   <h2
     className="h2"
   >
-    hoge
+    
     <button
       className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
       data-testid="edit-button"

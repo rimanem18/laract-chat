@@ -12,12 +12,8 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppDispatch(...args),
-  useUserId: () => useUserIdMock(),
-  useUserName: () => useUserNameMock(),
-  useUserEmail: () => useUserEmailMock(),
-  useGroupsIds: () => useGroupsIdsMock(),
-  useGroupsEntities: () => useGroupsEntitiesMock(),
-  useGroupsPromise: () => useGroupsPromiseMock(),
+  useUserState: () => useUserStateMock(),
+  useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
 }))
@@ -26,12 +22,16 @@ jest.mock('../../app/hooks', () => ({
 const user = mockState.userSlice
 const group = mockState.groupsSlice
 
-const useUserIdMock = jest.fn().mockReturnValue(user.id)
-const useUserNameMock = jest.fn().mockReturnValue(user.name)
-const useUserEmailMock = jest.fn().mockReturnValue(user.email)
-const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
-const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
-const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
+const useUserStateMock = jest.fn().mockReturnValue({
+  userId: user.id,
+  userName: user.name,
+  userEmail: user.email,
+})
+const useGroupsStateMock = jest.fn().mockReturnValue({
+  groupIds: group.ids,
+  groupsEntities: group.entities,
+  groupsPromise: group.promise,
+})
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
 let useGroupModalMock = jest.fn()
