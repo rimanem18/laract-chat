@@ -17,10 +17,8 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useUserId: () => useUserIdMock(),
-  useAuthPromise: () => useAuthPromiseMock(),
-  useGroupsPromise: () => useGropsPromiseMock(),
-  useGroupsOldestId: () => useGroupsOldestIdMock(),
+  useUserState: () => useUserStateMock(),
+  useAuthState: () => useAuthStateMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
 }))
 
@@ -29,8 +27,8 @@ const user = mockState.userSlice
 const group = mockState.groupsSlice
 
 // Hooks の Mock
-let useUserIdMock = jest.fn().mockReturnValue(user.id)
-const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
+let useUserStateMock = jest.fn()
+const useAuthStateMock = jest.fn().mockReturnValue({ authPromise: 'idle' })
 
 const useGropsPromiseMock = jest.fn().mockReturnValue(group.promise)
 const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
@@ -58,7 +56,9 @@ const setup = () => {
 
 describe('未ログイン時 Login', () => {
   beforeAll(() => {
-    useUserIdMock = jest.fn().mockReturnValue(0)
+    useUserStateMock = jest.fn().mockReturnValue({
+      userId: 0,
+    })
   })
 
   it('email の入力初期値は空', () => {

@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import Message from '../../components/Message'
 import { mockState } from '../../app/mockState'
+import { groupsEntitiesSelector } from '../../selectors/GroupsSelector'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
@@ -25,9 +26,7 @@ jest.mock('../../app/hooks', () => ({
   useInitFetchMessages: () => useInitFetchMessagesMock(),
   useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
-  useGroupsIds: () => useGroupsIdsMock(),
-  useGroupsEntities: () => useGroupsEntitiesMock(),
-  useGroupsPromise: () => useGroupsPromiseMock(),
+  useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useGroupModal: () => useGroupModalMock(),
@@ -40,6 +39,7 @@ const created_at = entities.message1.created_at
 const promise = mockState.chatMessagesSlice.promise
 const group = mockState.groupsSlice
 const groupId = 1
+
 const mockChatMessageIds = jest.fn().mockReturnValue(ids)
 const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
 const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
@@ -49,9 +49,11 @@ const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 
-const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
-const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
-const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
+const useGroupsStateMock = jest.fn().mockReturnValue({
+  groupIds: group.ids,
+  groupEntities: group.entities,
+  groupsPromise: group.promise,
+})
 
 const useParamGroupIdMock = jest.fn().mockReturnValue(groupId)
 const useGroupModalMock = jest.fn().mockReturnValue([

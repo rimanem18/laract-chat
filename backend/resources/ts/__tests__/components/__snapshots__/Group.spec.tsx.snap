@@ -66,7 +66,11 @@ Array [
         <span
           className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
-          hoge
+          <div
+            className="MuiBox-root css-24ohs5"
+          >
+            hoge
+          </div>
         </span>
       </div>
     </div>
@@ -95,7 +99,11 @@ Array [
         <span
           className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
-          piyo
+          <div
+            className="MuiBox-root css-24ohs5"
+          >
+            piyo
+          </div>
         </span>
       </div>
     </div>

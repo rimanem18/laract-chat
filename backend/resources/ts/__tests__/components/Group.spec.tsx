@@ -19,17 +19,17 @@ jest.mock('../../app/hooks', () => ({
       mockUseAppSelector(...args),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
-  useGroupsIds: () => useGroupsIdsMock(),
-  useGroupsEntities: () => useGroupsEntitiesMock(),
-  useGroupsPromise: () => useGroupsPromiseMock(),
+  useGroupsState: () => useGroupsStateMock(),
 }))
 
 // Hooks の Mock
 const group = mockState.groupsSlice
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
-const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
-const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
-const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
+const useGroupsStateMock = jest.fn().mockReturnValue({
+  groupIds: group.ids,
+  groupsEntities: group.entities,
+  groupsPromise: group.promise,
+})
 let useGroupModalMock = jest.fn()
 
 const Component = (

@@ -17,18 +17,19 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useUserId: () => userUserIdMock(),
-  useAuthPromise: () => useAuthPromiseMock(),
-  useAuthMessage: () => useAuthMessageMock(),
+  useUserState: () => useUserStateMock(),
+  useAuthState: () => useAuthStateMock(),
   useGroupsOldestId: () => useGroupsOldestIdMock(),
 }))
 
 // Hooks の Mock
 const group = mockState.groupsSlice
 
-let userUserIdMock = jest.fn().mockReturnValue(0)
-const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
-const useAuthMessageMock = jest.fn().mockReturnValue('')
+let useUserStateMock = jest.fn().mockReturnValue({ userId: 0 })
+const useAuthStateMock = jest.fn().mockReturnValue({
+  authPromise: 'idle',
+  authMessage: '',
+})
 
 const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
 

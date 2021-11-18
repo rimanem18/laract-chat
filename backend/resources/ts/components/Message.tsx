@@ -36,15 +36,15 @@ const Message = () => {
   }, [messageList.current?.scrollHeight])
 
   useEffect(() => {
-    setGroupName(groupsEntities[`group${groupId}`].name)
-  }, [groupId, groupsEntities[`group${groupId}`].name])
+    if (groupsEntities !== undefined) {
+      setGroupName(groupsEntities[`group${groupId}`].name)
+    }
+  }, [groupId, groupName])
 
   return (
     <>
       <h2 className="h2">
-        {groupsEntities[`group${groupId}`]
-          ? groupsEntities[`group${groupId}`].name
-          : ''}
+        {groupName ? groupName : ''}
         <EditGroupModal groupId={groupId} groupName={groupName} />
       </h2>
       <Box

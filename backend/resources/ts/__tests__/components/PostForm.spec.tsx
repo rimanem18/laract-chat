@@ -16,7 +16,7 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useUserId: () => useUserIdMock(),
+  useUserState: () => useUserStateMock(),
   usePostContent: () => usePostContentMock(),
   useParamGroupId: () => useParamGroupIdMock(),
 }))
@@ -25,7 +25,9 @@ const mockValues = {
   userId: 1,
   content: 'Hello',
 }
-const useUserIdMock = jest.fn().mockReturnValue(mockValues.userId)
+const useUserStateMock = jest
+  .fn()
+  .mockReturnValue({ userId: mockValues.userId })
 const usePostContentMock = jest.fn().mockReturnValue(mockValues.content)
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 

@@ -17,7 +17,9 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useAuthPromise: () => useAuthPromiseMock(),
+  useAuthState: () => useAuthStateMock(),
+  useUserState: () => useUserStateMock(),
+  useGroupsState: () => useGroupsStateMock(),
   useChatMessageIds: () => mockChatMessageIds(),
   useChatMessagesEntities: () => useChatMessagesEntitiesMock(),
   useChatMessagesPromise: () => useChatMessagesPromiseMock(),
@@ -26,22 +28,15 @@ jest.mock('../../app/hooks', () => ({
   useInitFetchMessages: () => useInitFetchMessagesMock(),
   useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
-  useUserId: () => useUserIdMock(),
-  useUserName: () => useUserNameMock(),
-  useUserEmail: () => useUserEmailMock(),
   usePostContent: () => usePostContentMock(),
   useParamGroupId: () => useParamGroupIdMock(),
-  useGroupsIds: () => useGroupsIdsMock(),
-  useGroupsEntities: () => useGroupsEntitiesMock(),
-  useGroupsPromise: () => useGroupsPromiseMock(),
-  useGroupsOldestId: () => useGroupsOldestIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useMenuIsOpen: () => useMenuIsOpenMock(),
 }))
 
 // Hooks の Mock
-const useAuthPromiseMock = jest.fn().mockReturnValue('idle')
+const useAuthStateMock = jest.fn().mockReturnValue({ authPromise: 'idle' })
 const ids = mockState.chatMessagesSlice.ids
 const entities = mockState.chatMessagesSlice.entities
 const created_at = entities.message1.created_at
@@ -54,19 +49,23 @@ const mockChatMessageIds = jest.fn().mockReturnValue(ids)
 const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
 const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
 
-const useUserIdMock = jest.fn().mockReturnValue(user.id)
-const useUserNameMock = jest.fn().mockReturnValue(user.name)
-const useUserEmailMock = jest.fn().mockReturnValue(user.email)
+const useUserStateMock = jest.fn().mockReturnValue({
+  userId: user.id,
+  userName: user.name,
+  userEmail: user.email,
+})
 
 const usePostContentMock = jest.fn().mockReturnValue(post.content)
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
-const useGroupsIdsMock = jest.fn().mockReturnValue(group.ids)
-const useGroupsEntitiesMock = jest.fn().mockReturnValue(group.entities)
-const useGroupsPromiseMock = jest.fn().mockReturnValue(group.promise)
-const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
+const useGroupsStateMock = jest.fn().mockReturnValue({
+  groupIds: group.ids,
+  groupsEntities: group.entities,
+  groupsPromise: group.promise,
+  groupsOldestId: group.oldestId,
+})
 
 const useInitFetchMessagesMock = jest.fn()
 const useUpdateMessagesMock = jest.fn()
