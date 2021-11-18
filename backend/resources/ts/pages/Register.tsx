@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAuthState, useUserId } from '../app/hooks'
+import { useAppDispatch, useAuthState, useUserState } from '../app/hooks'
 import { initAuthState, register } from '../slices/AuthSlice'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
@@ -13,7 +13,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
   const { authMessage, authPromise } = useAuthState()
-  const userId = useUserId()
+  const { userId } = useUserState()
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {

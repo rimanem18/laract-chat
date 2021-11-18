@@ -1,9 +1,9 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { useDefaultGroupPath, useUserId } from '../app/hooks'
+import { useDefaultGroupPath, useUserState } from '../app/hooks'
 
 const AuthRedirect = () => {
-  const userId = useUserId()
+  const { userId } = useUserState()
   const defaultGroupPath = useDefaultGroupPath()
 
   return (

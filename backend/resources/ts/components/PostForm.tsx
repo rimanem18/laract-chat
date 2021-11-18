@@ -5,13 +5,13 @@ import {
   useAppDispatch,
   useParamGroupId,
   usePostContent,
-  useUserId,
+  useUserState,
 } from '../app/hooks'
 import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = (): JSX.Element => {
   const dispatch = useAppDispatch()
-  const userId = useUserId()
+  const { userId } = useUserState()
   const postContent = usePostContent()
   const groupId = useParamGroupId()
 

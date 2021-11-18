@@ -58,18 +58,19 @@ export const useAuthState = () => {
   }
 }
 
-// User Selector
-export const useUserId = () => {
-  return useAppSelector(userIdSelector)
-}
-export const useUserEmail = () => {
-  return useAppSelector(userEmailSelector)
-}
-export const useUserName = () => {
-  return useAppSelector(userNameSelector)
-}
-export const useUserPromise = () => {
-  return useAppSelector(userPromiseSelector)
+// User Slice
+export const useUserState = () => {
+  const userId = useAppSelector(userIdSelector)
+  const userEmail = useAppSelector(userEmailSelector)
+  const userName = useAppSelector(userNameSelector)
+  const userPromise = useAppSelector(userPromiseSelector)
+
+  return {
+    userId,
+    userEmail,
+    userName,
+    userPromise,
+  }
 }
 
 // Groups Selector
