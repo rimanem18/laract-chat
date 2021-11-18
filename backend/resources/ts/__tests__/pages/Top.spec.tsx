@@ -21,12 +21,11 @@ jest.mock('../../app/hooks', () => ({
   useUserState: () => useUserStateMock(),
   useGroupsState: () => useGroupsStateMock(),
   useChatMessagesState: () => useChatMessagesStateMock(),
-  usePostPromise: () => usePostPromiseMock(),
+  usePostState: () => usePostStateMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useInitFetchMessages: () => useInitFetchMessagesMock(),
   useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
-  usePostContent: () => usePostContentMock(),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useDefaultGroupPath: () => useDefaultGroupPathMock(),
@@ -55,8 +54,10 @@ const useUserStateMock = jest.fn().mockReturnValue({
   userEmail: user.email,
 })
 
-const usePostContentMock = jest.fn().mockReturnValue(post.content)
-const usePostPromiseMock = jest.fn().mockReturnValue('idle')
+const usePostStateMock = jest.fn().mockReturnValue({
+  postContent: post.content,
+  postPromise: 'idle',
+})
 
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)

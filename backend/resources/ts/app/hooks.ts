@@ -105,15 +105,16 @@ export const useChatMessagesState = () => {
   }
 }
 
-// Post Selector
-export const usePostUserId = () => {
-  return useAppSelector(postUserIdSelector)
-}
-export const usePostContent = () => {
-  return useAppSelector(postContentSelector)
-}
-export const usePostPromise = () => {
-  return useAppSelector(postPromiseSelector)
+export const usePostState = () => {
+  const postUserId = useAppSelector(postUserIdSelector)
+  const postContent = useAppSelector(postContentSelector)
+  const postPromise = useAppSelector(postPromiseSelector)
+
+  return {
+    postUserId,
+    postContent,
+    postPromise,
+  }
 }
 
 // Render
@@ -168,7 +169,7 @@ export const useInitFetchMessages = () => {
  */
 export const useUpdateMessages = () => {
   const { chatMessageIds, chatMessagesPromise } = useChatMessagesState()
-  const postPromise = usePostPromise()
+  const { postPromise } = usePostState()
   const dispatch = useAppDispatch()
 
   useEffect(() => {

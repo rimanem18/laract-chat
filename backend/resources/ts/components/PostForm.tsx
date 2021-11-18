@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send'
 import {
   useAppDispatch,
   useParamGroupId,
-  usePostContent,
+  usePostState,
   useUserState,
 } from '../app/hooks'
 import { getContent, postMessage } from '../slices/PostSlice'
@@ -12,7 +12,7 @@ import { getContent, postMessage } from '../slices/PostSlice'
 const PostForm = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const { userId } = useUserState()
-  const postContent = usePostContent()
+  const { postContent } = usePostState()
   const groupId = useParamGroupId()
 
   if (groupId === undefined) {
