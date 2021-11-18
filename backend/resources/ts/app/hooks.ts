@@ -41,21 +41,21 @@ import { toggleMenuOpen } from '../slices/MenuSlice'
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-// Auth Selector
-export const useAuthName = () => {
-  return useAppSelector(authNameSelector)
-}
-export const useAuthEmail = () => {
-  return useAppSelector(authEmailSelector)
-}
-export const useAuthPassword = () => {
-  return useAppSelector(authPasswordSelector)
-}
-export const useAuthMessage = () => {
-  return useAppSelector(authMessageSelector)
-}
-export const useAuthPromise = () => {
-  return useAppSelector(authPromiseSelector)
+// AuthSlice
+export const useAuthState = () => {
+  const authName = useAppSelector(authNameSelector)
+  const authEmail = useAppSelector(authEmailSelector)
+  const authPassword = useAppSelector(authPasswordSelector)
+  const authMessage = useAppSelector(authMessageSelector)
+  const authPromise = useAppSelector(authPromiseSelector)
+
+  return {
+    authName,
+    authEmail,
+    authPassword,
+    authMessage,
+    authPromise,
+  }
 }
 
 // User Selector
