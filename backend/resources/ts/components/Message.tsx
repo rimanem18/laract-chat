@@ -42,7 +42,9 @@ const Message = () => {
   return (
     <>
       <h2 className="h2">
-        {groupName ? groupName : ''}
+        {groupsEntities !== undefined
+          ? groupsEntities[`group${groupId}`].name
+          : ''}
         <EditGroupModal groupId={groupId} groupName={groupName} />
       </h2>
       <Box
