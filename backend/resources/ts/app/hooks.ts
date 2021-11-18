@@ -92,15 +92,17 @@ export const useMenuIsOpen = () => {
   return useAppSelector(menuIsOpenSelector)
 }
 
-// ChatMessages Selector
-export const useChatMessageIds = () => {
-  return useAppSelector(chatMessageIdsSelector)
-}
-export const useChatMessagesEntities = () => {
-  return useAppSelector(chatMessagesEntitiesSelector)
-}
-export const useChatMessagesPromise = () => {
-  return useAppSelector(chatMessagesPromiseSelector)
+// ChatMessages Slice
+export const useChatMessagesState = () => {
+  const chatMessageIds = useAppSelector(chatMessageIdsSelector)
+  const chatMessagesEntities = useAppSelector(chatMessagesEntitiesSelector)
+  const chatMessagesPromise = useAppSelector(chatMessagesPromiseSelector)
+
+  return {
+    chatMessageIds,
+    chatMessagesEntities,
+    chatMessagesPromise,
+  }
 }
 
 // Post Selector
@@ -151,12 +153,11 @@ export const useFormatDate = (created_at: string) => {
  * メッセージが何もフェッチされていないときだけfetchする
  */
 export const useInitFetchMessages = () => {
-  const chatMessagesIds = useChatMessageIds()
-  const chatMessagesPromise = useChatMessagesPromise()
+  const { chatMessageIds, chatMessagesPromise } = useChatMessagesState()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (chatMessagesIds.length === 0 || chatMessagesPromise !== 'loading') {
+    if (chatMessageIds.length === 0 || chatMessagesPromise !== 'loading') {
       dispatch(fetchMessages())
     }
   }, [])
@@ -166,8 +167,7 @@ export const useInitFetchMessages = () => {
  * メッセージ一覧の差分を取得して更新する
  */
 export const useUpdateMessages = () => {
-  const chatMessagesIds = useChatMessageIds()
-  const chatMessagesPromise = useChatMessagesPromise()
+  const { chatMessageIds, chatMessagesPromise } = useChatMessagesState()
   const postPromise = usePostPromise()
   const dispatch = useAppDispatch()
 
@@ -175,7 +175,7 @@ export const useUpdateMessages = () => {
     if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
       dispatch(updateMessages())
     }
-  }, [postPromise, chatMessagesIds.length])
+  }, [postPromise, chatMessageIds.length])
 }
 
 /**

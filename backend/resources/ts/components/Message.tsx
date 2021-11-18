@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
-  useChatMessageIds,
-  useChatMessagesEntities,
+  useChatMessagesState,
   useFormatDate,
   useGroupsState,
   useParamGroupId,
@@ -14,8 +13,7 @@ import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
-  const chatMessagesIds = useChatMessageIds()
-  const chatMessagesEntities = useChatMessagesEntities()
+  const { chatMessageIds, chatMessagesEntities } = useChatMessagesState()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
 
@@ -68,7 +66,7 @@ const Message = () => {
         ref={messageList}
       >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
-        {chatMessagesIds.map((id: string) =>
+        {chatMessageIds.map((id: string) =>
           Number(groupId) === chatMessagesEntities[id].group_id ? (
             <MessageItem
               key={id}

@@ -20,9 +20,7 @@ jest.mock('../../app/hooks', () => ({
   useAuthState: () => useAuthStateMock(),
   useUserState: () => useUserStateMock(),
   useGroupsState: () => useGroupsStateMock(),
-  useChatMessageIds: () => mockChatMessageIds(),
-  useChatMessagesEntities: () => useChatMessagesEntitiesMock(),
-  useChatMessagesPromise: () => useChatMessagesPromiseMock(),
+  useChatMessagesState: () => useChatMessagesStateMock(),
   usePostPromise: () => usePostPromiseMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useInitFetchMessages: () => useInitFetchMessagesMock(),
@@ -45,9 +43,11 @@ const user = mockState.userSlice
 const post = mockState.postSlice
 const group = mockState.groupsSlice
 
-const mockChatMessageIds = jest.fn().mockReturnValue(ids)
-const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
-const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
+const useChatMessagesStateMock = jest.fn().mockReturnValue({
+  chatMessageIds: ids,
+  chatMessagesEntities: entities,
+  chatMessagesPromise: promise,
+})
 
 const useUserStateMock = jest.fn().mockReturnValue({
   userId: user.id,

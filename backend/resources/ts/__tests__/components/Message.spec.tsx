@@ -18,9 +18,7 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
-  useChatMessageIds: () => mockChatMessageIds(),
-  useChatMessagesEntities: () => useChatMessagesEntitiesMock(),
-  useChatMessagesPromise: () => useChatMessagesPromiseMock(),
+  useChatMessagesState: () => useChatMessagesStateMock(),
   usePostPromise: () => usePostPromiseMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useInitFetchMessages: () => useInitFetchMessagesMock(),
@@ -40,9 +38,11 @@ const promise = mockState.chatMessagesSlice.promise
 const group = mockState.groupsSlice
 const groupId = 1
 
-const mockChatMessageIds = jest.fn().mockReturnValue(ids)
-const useChatMessagesEntitiesMock = jest.fn().mockReturnValue(entities)
-const useChatMessagesPromiseMock = jest.fn().mockReturnValue(promise)
+const useChatMessagesStateMock = jest.fn().mockReturnValue({
+  chatMessageIds: ids,
+  chatMessagesEntities: entities,
+  chatMessagesPromise: promise,
+})
 const usePostPromiseMock = jest.fn().mockReturnValue('idle')
 const useScrollToBottomMock = jest.fn()
 const useInitFetchMessagesMock = jest.fn()
