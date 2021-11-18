@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
@@ -11,6 +11,7 @@ import {
 } from '../app/hooks'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
+import { DateRangeTwoTone } from '@mui/icons-material'
 
 const Message = () => {
   const { chatMessageIds, chatMessagesEntities } = useChatMessagesState()
@@ -21,13 +22,6 @@ const Message = () => {
 
   const { groupsEntities } = useGroupsState()
 
-  if (groupId === undefined) {
-    return (
-      <div>
-        <p>メッセージの取得に失敗しました。</p>
-      </div>
-    )
-  }
   useUpdateMessages()
   useEffect(() => {
     useScrollToBottom(messageList)
@@ -45,7 +39,10 @@ const Message = () => {
         {groupsEntities !== undefined
           ? groupsEntities[`group${groupId}`].name
           : ''}
-        <EditGroupModal groupId={groupId} groupName={groupName} />
+        <EditGroupModal
+          groupId={groupId ? groupId : ''}
+          groupName={groupName}
+        />
       </h2>
       <Box
         sx={{
@@ -68,18 +65,23 @@ const Message = () => {
         ref={messageList}
       >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
-        {chatMessageIds.map((id: string) =>
-          Number(groupId) === chatMessagesEntities[id].group_id ? (
-            <MessageItem
-              key={id}
-              name={chatMessagesEntities[id].name}
-              content={chatMessagesEntities[id].content}
-              created_at={chatMessagesEntities[id].created_at}
-            />
-          ) : (
-            ''
-          )
-        )}
+        {chatMessageIds.map((id: string) => {
+          const entity = chatMessagesEntities[id]
+          // 2個以上の改行を2個改行におさめる
+          const content = entity.content.replace(/\n{2,}/g, '\n\n')
+
+          // グループID が一致しているものだけ出力する
+          if (Number(groupId) === entity.group_id) {
+            return (
+              <MessageItem
+                key={`${groupId}${id}`}
+                name={entity.name}
+                content={content}
+                created_at={entity.created_at}
+              />
+            )
+          }
+        })}
         <ScrollButton refObject={messageList} />
       </Box>
     </>
@@ -91,6 +93,7 @@ export default React.memo(Message)
 /**
  * Components
  */
+
 type MessageItemProps = {
   name: string
   content: string
@@ -98,8 +101,8 @@ type MessageItemProps = {
 }
 const MessageItem = React.memo(
   ({ name, content, created_at }: MessageItemProps) => {
-    // 2個以上の改行を2個改行におさめる
-    content = content.replace(/\n{2,}/g, '\n\n')
+    console.log('message item')
+
     const datetime = useFormatDate(created_at)
 
     return (
