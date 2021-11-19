@@ -21,8 +21,6 @@ jest.mock('../../app/hooks', () => ({
   useChatMessagesState: () => useChatMessagesStateMock(),
   usePostState: () => usePostStateMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
-  useInitFetchMessages: () => useInitFetchMessagesMock(),
-  useUpdateMessages: () => useUpdateMessagesMock(),
   useFormatDate: () => useFormatDateMock(),
   useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
@@ -47,8 +45,6 @@ const usePostStateMock = jest.fn().mockReturnValue({
   postPromise: 'idle',
 })
 const useScrollToBottomMock = jest.fn()
-const useInitFetchMessagesMock = jest.fn()
-const useUpdateMessagesMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 
 const useGroupsStateMock = jest.fn().mockReturnValue({

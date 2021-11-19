@@ -111,7 +111,7 @@ exports[`Top snapshot 1`] = `
       className="MuiList-root MuiList-padding css-x9esj-MuiList-root"
     >
       <div
-        className="MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+        className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
         data-testid="group1"
         onBlur={[Function]}
         onClick={[Function]}
@@ -270,7 +270,6 @@ exports[`Top snapshot 1`] = `
           <br />
         </p>
       </div>
-      
       <div
         className="scroll-btn"
       >

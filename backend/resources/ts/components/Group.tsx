@@ -1,13 +1,31 @@
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
+import { fetchGroups } from '../slices/GroupsSlice'
 import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
 
 const Group = () => {
+  const activeGroupId = useParamGroupId()
+  if (activeGroupId === undefined) {
+    return null
+  }
+
   const dispatch = useAppDispatch()
-  const { groupIds, groupsEntities } = useGroupsState()
+  const { groupIds, groupsEntities, groupsPromise } = useGroupsState()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (groupsPromise !== 'loading') {
+      dispatch(fetchGroups())
+    }
+  }, [])
+
+  const goToById = useCallback((id) => {
+    history.push(`/groups/${id}`)
+    dispatch(toggleMenuOpen(false))
+  }, [])
 
   return (
     <>
@@ -32,11 +50,15 @@ const Group = () => {
         }}
       >
         {groupIds.map((id: string) => {
+          const isActive = id === activeGroupId
+
           return (
             <GroupItem
               key={id}
               id={groupsEntities[id].id.toString()}
               name={groupsEntities[id].name}
+              goToById={goToById}
+              isActive={isActive}
             />
           )
         })}
@@ -52,43 +74,36 @@ export default React.memo(Group)
 type GroupItemProps = {
   id: string
   name: string
+  goToById: (id: string) => void
+  isActive: boolean
 }
-const GroupItem = React.memo(({ id, name }: GroupItemProps) => {
-  const activeGroupId = useParamGroupId()
-  const history = useHistory()
-  const [isActive, setIsActive] = useState(false)
-  const dispatch = useAppDispatch()
+const GroupItem = React.memo(
+  ({ id, name, goToById, isActive }: GroupItemProps) => {
+    const goTo = () => {
+      goToById(id)
+    }
 
-  useEffect(() => {
-    setIsActive(activeGroupId === id ? true : false)
-  }, [activeGroupId])
-
-  const goTo = () => {
-    history.push(`/groups/${id}`)
-    dispatch(toggleMenuOpen(false))
+    return (
+      <>
+        <ListItemButton
+          selected={isActive}
+          onClick={goTo}
+          data-testid={`group${id}`}
+        >
+          <ListItemText>
+            <Box
+              sx={{
+                width: '13em',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+              }}
+            >
+              {name}
+            </Box>
+          </ListItemText>
+        </ListItemButton>
+      </>
+    )
   }
-
-  return (
-    <>
-      <ListItemButton
-        selected={isActive}
-        onClick={goTo}
-        key={id}
-        data-testid={`group${id}`}
-      >
-        <ListItemText>
-          <Box
-            sx={{
-              width: '13em',
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-            }}
-          >
-            {name}
-          </Box>
-        </ListItemText>
-      </ListItemButton>
-    </>
-  )
-})
+)
