@@ -1,12 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import {
-  useAppDispatch,
-  useAuthState,
-  useFetchGroups,
-  useInitFetchMessages,
-} from './app/hooks'
+import { useAppDispatch, useAuthState } from './app/hooks'
 import { fetchUser } from './slices/UserSlice'
 
 import Top from './pages/Top'
@@ -19,14 +14,14 @@ const App = () => {
   const { authPromise } = useAuthState()
   const dispatch = useAppDispatch()
 
+  console.log('App')
+
   // レンダリング時にログインしているか判定
   useEffect(() => {
     if (authPromise !== 'loading') {
       dispatch(fetchUser())
     }
   }, [authPromise])
-  useInitFetchMessages()
-  useFetchGroups()
 
   return (
     <BrowserRouter>

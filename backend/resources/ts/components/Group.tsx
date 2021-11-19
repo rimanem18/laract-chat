@@ -2,19 +2,25 @@ import { Box, List, ListItemButton, ListItemText } from '@mui/material'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
+import { fetchGroups } from '../slices/GroupsSlice'
 import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
 
 const Group = () => {
   const activeGroupId = useParamGroupId()
-
   if (activeGroupId === undefined) {
     return null
   }
 
   const dispatch = useAppDispatch()
-  const { groupIds, groupsEntities } = useGroupsState()
+  const { groupIds, groupsEntities, groupsPromise } = useGroupsState()
   const history = useHistory()
+
+  useEffect(() => {
+    if (groupsPromise !== 'loading') {
+      dispatch(fetchGroups())
+    }
+  }, [])
 
   const goToById = useCallback((id) => {
     history.push(`/groups/${id}`)

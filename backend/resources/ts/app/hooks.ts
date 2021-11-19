@@ -151,49 +151,6 @@ export const useFormatDate = (created_at: string) => {
 }
 
 /**
- * メッセージが何もフェッチされていないときだけfetchする
- */
-export const useInitFetchMessages = () => {
-  const { chatMessageIds, chatMessagesPromise } = useChatMessagesState()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (chatMessageIds.length === 0 || chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
-    }
-  }, [])
-}
-
-/**
- * メッセージ一覧の差分を取得して更新する
- */
-export const useUpdateMessages = () => {
-  const { chatMessageIds, chatMessagesPromise } = useChatMessagesState()
-  const { postPromise } = usePostState()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      dispatch(updateMessages())
-    }
-  }, [postPromise, chatMessageIds.length])
-}
-
-/**
- * グループ一覧を初回だけフェッチする
- */
-export const useFetchGroups = () => {
-  const { groupsPromise } = useGroupsState()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (groupsPromise !== 'loading') {
-      dispatch(fetchGroups())
-    }
-  }, [])
-}
-
-/**
  * URL から groupId を取得して返す
  * @returns string?
  */

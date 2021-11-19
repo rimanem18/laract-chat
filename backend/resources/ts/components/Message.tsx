@@ -2,43 +2,58 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
+  useAppDispatch,
   useChatMessagesState,
   useFormatDate,
+  usePostState,
   useGroupsState,
   useParamGroupId,
   useScrollToBottom,
-  useUpdateMessages,
 } from '../app/hooks'
+import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
-import { DateRangeTwoTone } from '@mui/icons-material'
 
 const Message = () => {
-  const { chatMessageIds, chatMessagesEntities } = useChatMessagesState()
+  const { chatMessageIds, chatMessagesEntities, chatMessagesPromise } =
+    useChatMessagesState()
+  const { postPromise } = usePostState()
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
-
+  const dispatch = useAppDispatch()
   const [groupName, setGroupName] = useState('')
 
   const { groupsEntities } = useGroupsState()
 
-  useUpdateMessages()
+  // 初回のみ一括でメッセージをフェッチ
+  useEffect(() => {
+    if (chatMessageIds.length === 0 || chatMessagesPromise !== 'loading') {
+      dispatch(fetchMessages())
+    }
+  }, [])
+  // メッセージが更新されたらフェッチ
+  useEffect(() => {
+    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
+      dispatch(updateMessages())
+    }
+  }, [postPromise, chatMessageIds.length])
+
   useEffect(() => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
   useEffect(() => {
-    if (groupsEntities !== undefined) {
+    if (
+      groupsEntities !== undefined &&
+      groupsEntities[`group${groupId}`] !== undefined
+    ) {
       setGroupName(groupsEntities[`group${groupId}`].name)
     }
   }, [groupId, groupName])
 
   return (
     <>
-      <GroupName
-        id={groupId ? groupId : ''}
-        name={groupsEntities ? groupsEntities[`group${groupId}`].name : ''}
-      />
+      <GroupName id={groupId ? groupId : ''} name={groupName} />
       <Box
         sx={{
           '&::-webkit-scrollbar': {
