@@ -21,7 +21,6 @@ const Message = () => {
   const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
   const dispatch = useAppDispatch()
-  const [groupName, setGroupName] = useState('')
 
   const { groupsEntities } = useGroupsState()
 
@@ -42,14 +41,11 @@ const Message = () => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
-  useEffect(() => {
-    if (
-      groupsEntities !== undefined &&
-      groupsEntities[`group${groupId}`] !== undefined
-    ) {
-      setGroupName(groupsEntities[`group${groupId}`].name)
-    }
-  }, [groupId, groupName])
+  const groupName =
+    groupsEntities !== undefined &&
+    groupsEntities[`group${groupId}`] !== undefined
+      ? groupsEntities[`group${groupId}`].name
+      : ''
 
   return (
     <>
