@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
@@ -35,15 +35,10 @@ const Message = () => {
 
   return (
     <>
-      <h2 className="h2">
-        {groupsEntities !== undefined
-          ? groupsEntities[`group${groupId}`].name
-          : ''}
-        <EditGroupModal
-          groupId={groupId ? groupId : ''}
-          groupName={groupName}
-        />
-      </h2>
+      <GroupName
+        id={groupId ? groupId : ''}
+        name={groupsEntities ? groupsEntities[`group${groupId}`].name : ''}
+      />
       <Box
         sx={{
           '&::-webkit-scrollbar': {
@@ -93,6 +88,19 @@ export default React.memo(Message)
 /**
  * Components
  */
+
+type GroupNameProps = {
+  id: string
+  name: string
+}
+const GroupName = React.memo(({ id, name }: GroupNameProps) => {
+  return (
+    <h2 className="h2">
+      {name}
+      <EditGroupModal groupId={id} groupName={name} />
+    </h2>
+  )
+})
 
 type MessageItemProps = {
   name: string
