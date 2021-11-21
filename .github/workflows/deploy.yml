@@ -22,8 +22,8 @@ jobs:
       - name: Install NPM packages
         working-directory: ./backend
         run: |
-        npm i -g yarn
-        yarn install
+          npm i -g yarn
+          yarn install
 
       - name: React build
         working-directory: ./backend
