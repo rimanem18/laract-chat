@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - working-directory: ./backend
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -20,4 +19,9 @@ jobs:
           node-version: 14.x
 
       - name: Install NPM packages
+        working-directory: ./backend
         run: npm ci
+
+      - name: React build
+        working-directory: ./backend
+        run: yarn publish
