@@ -25,6 +25,10 @@ jobs:
           npm i -g yarn
           yarn install
 
-      - name: React build
+      - name: Frontend build
         working-directory: ./backend
         run: yarn production
+
+      - name: Frontend deploy
+        working-directory: ./backend/public
+        run: rsync -auzrv -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
