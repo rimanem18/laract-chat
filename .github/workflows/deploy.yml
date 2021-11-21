@@ -20,8 +20,10 @@ jobs:
 
       - name: Install NPM packages
         working-directory: ./backend
-        run: npm ci
+        run: |
+        npm i -g yarn
+        yarn install
 
       - name: React build
         working-directory: ./backend
-        run: yarn publish
+        run: yarn production
