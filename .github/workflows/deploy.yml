@@ -14,6 +14,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: SSH key generate
+        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: git pull By Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.SERVER_DEPLOY_DIR }}
+            git checkout main
+            git pull
+
+      - name: Install Composer packages
+        working-directory: ./backend
+        run: php -v && composer install
+
+      - name: Vendor deploy
+        working-directory: ./backend
+        run: rsync -auzrv -e "ssh -i '$KEY' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* "$REMOTE"
+        env:
+          KEY: /home/runner/work/laract-chat/laract-chat/laract-chat_rsa
+          REMOTE: ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}vendor/
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -28,23 +56,6 @@ jobs:
       - name: Frontend build
         working-directory: ./backend
         run: yarn production
-
-      - name: SSH key generate
-        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Server git pull
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ${{ secrets.SERVER_DEPLOY_DIR }}
-            git checkout main
-            git pull
 
       - name: Frontend deploy
         working-directory: ./backend/public
