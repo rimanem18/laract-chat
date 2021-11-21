@@ -14,27 +14,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: 14.x
 
-      - name: Install NPM packages
-        working-directory: ./backend
-        run: |
-          npm i -g yarn
-          yarn install
+      # - name: Install NPM packages
+      #   working-directory: ./backend
+      #   run: |
+      #     npm i -g yarn
+      #     yarn install
 
-      - name: Frontend build
-        working-directory: ./backend
-        run: yarn production
+      # - name: Frontend build
+      #   working-directory: ./backend
+      #   run: yarn production
 
       - name: SSH key generate
-        working-directory: ./backend/public
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key && pwd && ls
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Frontend deploy
-        working-directory: ./backend/public
-        run: rsync -auzrv -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
+      # - name: Frontend deploy
+      #   working-directory: ./backend/public
+      #   run: rsync -auzrv -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
