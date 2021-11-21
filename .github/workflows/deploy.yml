@@ -18,5 +18,7 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: 階層を移動
+        run: cd backend
       - name: Install NPM packages
-        run: cd backend && npm ci
+        run: npm ci
