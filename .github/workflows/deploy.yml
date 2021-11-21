@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  git_pull_by_server:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,16 +31,11 @@ jobs:
             git checkout main
             git pull
 
-      - name: Install Composer packages
-        working-directory: ./backend
-        run: php -v && composer install
-
-      - name: Vendor deploy
-        working-directory: ./backend
-        run: rsync -auzrv -e "ssh -i '$KEY' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* "$REMOTE"
-        env:
-          KEY: /home/runner/work/laract-chat/laract-chat/laract-chat_rsa
-          REMOTE: ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}vendor/
+  build_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -63,3 +58,25 @@ jobs:
         env:
           KEY: /home/runner/work/laract-chat/laract-chat/laract-chat_rsa
           REMOTE: ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
+
+  build_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: SSH key generate
+        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install Composer packages
+        working-directory: ./backend
+        run: php -v && composer install
+
+      - name: Vendor deploy
+        working-directory: ./backend
+        run: rsync -auzrv -e "ssh -i '$KEY' -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* "$REMOTE"
+        env:
+          KEY: /home/runner/work/laract-chat/laract-chat/laract-chat_rsa
+          REMOTE: ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}vendor/
