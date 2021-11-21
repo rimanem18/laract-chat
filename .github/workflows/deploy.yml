@@ -30,10 +30,10 @@ jobs:
         run: yarn production
 
       - name: SSH key generate
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Frontend deploy
         working-directory: ./backend/public
-        run: rsync -auzrv -e "ssh -i /home/runner/work/laract-chat/laract-chat/key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
+        run: rsync -auzrv -e "ssh -i /home/runner/work/laract-chat/laract-chat/laract-chat_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${{secrets.SSH_PORT}}" --delete ./* ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
