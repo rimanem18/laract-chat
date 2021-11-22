@@ -15,13 +15,26 @@ class RoleUserSeeder extends Seeder
      */
     public function run()
     {
+        // 一般権限のみ
         \App\Models\RoleUser::create([
             'user_id'=>1,
             'role_id'=>4,
         ]);
+
+        // 一般かつスタッフ
+        \App\Models\RoleUser::create([
+            'user_id'=>2,
+            'role_id'=>3,
+        ]);
         \App\Models\RoleUser::create([
             'user_id'=>2,
             'role_id'=>4,
+        ]);
+
+        // 一般かつスタッフ
+        \App\Models\RoleUser::create([
+            'user_id'=>3,
+            'role_id'=>3,
         ]);
         \App\Models\RoleUser::create([
             'user_id'=>3,

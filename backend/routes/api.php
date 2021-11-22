@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ChatGroupController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,3 +51,6 @@ Route::get('/chat_groups', [ChatGroupController::class, 'selectChatGroups']);
 Route::middleware('auth:sanctum')->post('/chat_groups/create', [ChatGroupController::class, 'insertChatGroup']);
 Route::middleware('auth:sanctum')->post('/chat_groups/edit', [ChatGroupController::class, 'updateChatGroup']);
 Route::middleware('auth:sanctum')->post('/chat_groups/delete', [ChatGroupController::class, 'deleteChatGroup']);
+
+// ロールの取得
+Route::get('/roles', [RoleController::class, 'selectRoles']);
