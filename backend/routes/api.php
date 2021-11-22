@@ -53,4 +53,4 @@ Route::middleware('auth:sanctum')->post('/chat_groups/edit', [ChatGroupControlle
 Route::middleware('auth:sanctum')->post('/chat_groups/delete', [ChatGroupController::class, 'deleteChatGroup']);
 
 // ロールの取得
-Route::get('/roles', [RoleController::class, 'selectRoles']);
+Route::middleware('auth:sanctum')->post('/roles', [RoleController::class, 'selectRoles']);

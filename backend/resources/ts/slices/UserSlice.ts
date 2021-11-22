@@ -41,7 +41,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
 export const fetchRole = createAsyncThunk(
   'user/fetchRole',
   async ({ userId }: { userId: number }, _thunkApi) => {
-    const response = await axios.post('/api/role', {
+    const response = await axios.post('/api/roles', {
       userId: userId,
     })
     return response.data
@@ -88,7 +88,7 @@ export const userSlice = createSlice({
         state.role_ids = roles.map((role) => `role${role.id.toString()}`)
 
         roles.forEach((role) => {
-          state.role_entities[`role${role.id.toString()}`] = role
+          state.role_entities[`role${role.id}`] = role
         })
       })
   },

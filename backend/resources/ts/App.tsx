@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { useAppDispatch, useAuthState } from './app/hooks'
-import { fetchUser } from './slices/UserSlice'
+import { useAppDispatch, useAuthState, useUserState } from './app/hooks'
+import { fetchRole, fetchUser } from './slices/UserSlice'
 
 import Top from './pages/Top'
 import About from './pages/About'
@@ -12,6 +12,7 @@ import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
   const { authPromise } = useAuthState()
+  const { userId } = useUserState()
   const dispatch = useAppDispatch()
 
   console.log('App')
@@ -20,8 +21,9 @@ const App = () => {
   useEffect(() => {
     if (authPromise !== 'loading') {
       dispatch(fetchUser())
+      dispatch(fetchRole({ userId: userId }))
     }
-  }, [authPromise])
+  }, [authPromise, userId])
 
   return (
     <BrowserRouter>
