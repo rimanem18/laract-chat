@@ -12,7 +12,7 @@ import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
   const { authPromise } = useAuthState()
-  const { userId } = useUserState()
+  const { userId, userPromise } = useUserState()
   const dispatch = useAppDispatch()
 
   console.log('App')
@@ -21,9 +21,15 @@ const App = () => {
   useEffect(() => {
     if (authPromise !== 'loading') {
       dispatch(fetchUser())
+    }
+  }, [authPromise])
+
+  // ロールを取得
+  useEffect(() => {
+    if (userPromise !== 'loading') {
       dispatch(fetchRole({ userId: userId }))
     }
-  }, [authPromise, userId])
+  }, [userPromise])
 
   return (
     <BrowserRouter>

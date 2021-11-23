@@ -25,8 +25,8 @@ class RoleController extends Controller
             array_push(
                 $res,
                 [
-                    'role_id'=>$role->id,
-                    'role_name'=>$role->name
+                    'id'=>$role->id,
+                    'name'=>$role->name
                 ]
             );
         }
