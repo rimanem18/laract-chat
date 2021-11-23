@@ -13,6 +13,8 @@ import {
   userIdSelector,
   userNameSelector,
   userPromiseSelector,
+  userRoleEntitiesSelector,
+  userRoleIdsSelector,
 } from '../selectors/UserSelector'
 import {
   authEmailSelector,
@@ -63,12 +65,16 @@ export const useUserState = () => {
   const userId = useAppSelector(userIdSelector)
   const userEmail = useAppSelector(userEmailSelector)
   const userName = useAppSelector(userNameSelector)
+  const userRoleIds = useAppSelector(userRoleIdsSelector)
+  const userRoleEntities = useAppSelector(userRoleEntitiesSelector)
   const userPromise = useAppSelector(userPromiseSelector)
 
   return {
     userId,
     userEmail,
     userName,
+    userRoleIds,
+    userRoleEntities,
     userPromise,
   }
 }

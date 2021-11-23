@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../app/rootReducer'
+import { userSlice } from '../slices/UserSlice'
 
 export const userSelector = (state: RootState) => state.userSlice
 
@@ -23,6 +24,23 @@ export const userNameSelector = createSelector(userSelector, (userSlice) => {
 export const userEmailSelector = createSelector(userSelector, (userSlice) => {
   return userSlice.email
 })
+
+/**
+ * userRoleIds を取得する
+ */
+export const userRoleIdsSelector = createSelector(userSelector, (userSlice) => {
+  return userSlice.role_ids
+})
+
+/**
+ * userRoleEntities を取得する
+ */
+export const userRoleEntitiesSelector = createSelector(
+  userSelector,
+  (userSlice) => {
+    return userSlice.role_entities
+  }
+)
 
 /**
  * userPromise を取得する
