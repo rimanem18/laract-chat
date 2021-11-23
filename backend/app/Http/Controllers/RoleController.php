@@ -6,8 +6,6 @@ use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -46,7 +44,7 @@ class RoleController extends Controller
     {
         $name = $request->roleName;
 
-        ChatGroup::create([
+        Role::create([
             'name'=> $name,
         ]);
 
