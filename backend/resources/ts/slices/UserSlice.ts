@@ -17,7 +17,7 @@ export interface UserState {
   promise: PromiseState
 }
 
-type Role = {
+export type Role = {
   id: number
   name: string
 }
