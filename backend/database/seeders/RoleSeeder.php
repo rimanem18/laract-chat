@@ -17,12 +17,15 @@ class RoleSeeder extends Seeder
     {
         \App\Models\Role::create([
             'name'=>"特権管理者",
+            'color'=>"#c8336f"
         ]);
         \App\Models\Role::create([
             'name'=>"管理者",
+            'color'=>"#e45c0b"
         ]);
         \App\Models\Role::create([
             'name'=>"スタッフ",
+            'color'=>'#169824'
         ]);
     }
 }

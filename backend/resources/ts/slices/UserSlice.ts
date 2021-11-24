@@ -20,6 +20,7 @@ export interface UserState {
 export type Role = {
   id: number
   name: string
+  color: string
 }
 
 // 初期値
@@ -33,6 +34,7 @@ const initialState: UserState = {
       role0: {
         id: 0,
         name: '',
+        color: '',
       },
     },
   },
@@ -103,6 +105,8 @@ export const userSlice = createSlice({
         state.id = 0
         state.name = ''
         state.email = ''
+        state.role.ids = ['role0']
+        state.role.entities = { role0: { id: 0, name: '', color: '' } }
         state.promise = 'rejected'
       })
   },

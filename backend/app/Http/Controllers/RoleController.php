@@ -26,7 +26,8 @@ class RoleController extends Controller
                 $res,
                 [
                     'id'=>$role->id,
-                    'name'=>$role->name
+                    'name'=>$role->name,
+                    'color'=>$role->color
                 ]
             );
         }
@@ -43,9 +44,11 @@ class RoleController extends Controller
     public function insertRole(Request $request)
     {
         $name = $request->roleName;
+        $color = $request->roleColor;
 
         Role::create([
             'name'=> $name,
+            'color'=>$color,
         ]);
 
         return response()->json(['message'=> 'ロール「'. $name .'」を追加しました。'], Response::HTTP_OK);
@@ -61,7 +64,11 @@ class RoleController extends Controller
     {
         $id = $request->roleId;
         $name = $request->roleName;
+        $color = $request->roleColor;
 
-        Role::where('id', $id)->update(['name'=>$name]);
+        Role::where('id', $id)->update([
+          'name'=>$name,
+          'color'=>$color
+        ]);
     }
 }
