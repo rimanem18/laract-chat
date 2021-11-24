@@ -24,8 +24,5 @@ class RoleSeeder extends Seeder
         \App\Models\Role::create([
             'name'=>"スタッフ",
         ]);
-        \App\Models\Role::create([
-            'name'=>"一般",
-        ]);
     }
 }
