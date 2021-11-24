@@ -29,7 +29,7 @@ export const userEmailSelector = createSelector(userSelector, (userSlice) => {
  * userRoleIds を取得する
  */
 export const userRoleIdsSelector = createSelector(userSelector, (userSlice) => {
-  return userSlice.role_ids
+  return userSlice.role.ids
 })
 
 /**
@@ -38,7 +38,7 @@ export const userRoleIdsSelector = createSelector(userSelector, (userSlice) => {
 export const userRoleEntitiesSelector = createSelector(
   userSelector,
   (userSlice) => {
-    return userSlice.role_entities
+    return userSlice.role.entities
   }
 )
 

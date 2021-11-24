@@ -9,8 +9,10 @@ export interface UserState {
   id: number
   name: string
   email: string
-  role_ids: string[]
-  role_entities: Record<string, Role>
+  role: {
+    ids: string[]
+    entities: Record<string, Role>
+  }
   promise: PromiseState
 }
 
@@ -24,11 +26,13 @@ const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
-  role_ids: ['role0'],
-  role_entities: {
-    role0: {
-      id: 0,
-      name: '',
+  role: {
+    ids: ['role0'],
+    entities: {
+      role0: {
+        id: 0,
+        name: '',
+      },
     },
   },
   promise: 'idle',
@@ -81,14 +85,14 @@ export const userSlice = createSlice({
         state.promise = 'idle'
 
         // Slice と差がなければ帰る
-        if (shallowEqual(roles, state.role_entities)) {
+        if (shallowEqual(roles, state.role.entities)) {
           return
         }
 
-        state.role_ids = roles.map((role) => `role${role.id.toString()}`)
+        state.role.ids = roles.map((role) => `role${role.id.toString()}`)
 
         roles.forEach((role) => {
-          state.role_entities[`role${role.id}`] = role
+          state.role.entities[`role${role.id}`] = role
         })
       })
   },
