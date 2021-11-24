@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,9 +29,26 @@ class ChatMessageController extends Controller
             'messages.group_id',
             'messages.content',
             'messages.created_at',
+            'users.id',
             'users.name'
         )
         ->get();
+
+
+        $roles = array();
+        foreach ($chat_messages as $message) {
+            $user = User::find($message->user_id);
+            $roles = array();
+
+            foreach ($user->roles as $role) {
+                array_push($roles, [
+                'id'=>$role->id,
+                'name'=>$role->name,
+                'color'=>$role->color
+              ]);
+                $message->roles =  $roles;
+            }
+        }
 
         return Response()->json(['chat_messages'=>$chat_messages], Response::HTTP_OK);
     }
