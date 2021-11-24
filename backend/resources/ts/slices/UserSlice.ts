@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { PromiseState } from '../app/type'
+import { PromiseState, Role } from '../app/type'
 import { shallowEqual } from 'react-redux'
 import { useUserState } from '../app/hooks'
 
@@ -15,12 +15,6 @@ export interface UserState {
     entities: Record<string, Role>
   }
   promise: PromiseState
-}
-
-export type Role = {
-  id: number
-  name: string
-  color: string
 }
 
 // 初期値
