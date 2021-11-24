@@ -1,13 +1,12 @@
 import React from 'react'
-import { Badge, Box, Button, Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useAppDispatch, useUserState } from '../app/hooks'
-import StringAvatar from './StringAvatar'
+import { useAppDispatch } from '../app/hooks'
 import { logout } from '../slices/AuthSlice'
 import Group from './Group'
+import UserInfo from './UserInfo'
 
 const Sidebar = () => {
-  const { userName, userRoleIds, userRoleEntities } = useUserState()
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
@@ -18,27 +17,7 @@ const Sidebar = () => {
     <>
       <Grid container sx={{ my: 2 }}>
         <Grid container>
-          <StringAvatar name={userName}></StringAvatar>
-          <Box>
-            <p>{userName}</p>
-            <p className="role">
-              {userRoleIds.map((id: string) => {
-                const role = userRoleEntities[id]
-                let append = ''
-                if (role.id === 3) {
-                  append = '--staff'
-                } else if (role.id === 2) {
-                  append = '--admin'
-                } else if (role.id === 1) {
-                  append = '--super-user'
-                }
-
-                return (
-                  <span className={`role__badge${append}`}>{role.name}</span>
-                )
-              })}
-            </p>
-          </Box>
+          <UserInfo />
         </Grid>
         <Grid container>
           <Button
