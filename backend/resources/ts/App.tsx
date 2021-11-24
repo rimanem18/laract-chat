@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { useAppDispatch, useAuthState, useUserState } from './app/hooks'
-import { fetchRole, fetchUser } from './slices/UserSlice'
+import { fetchUser } from './slices/UserSlice'
 
 import Top from './pages/Top'
 import About from './pages/About'
@@ -20,16 +20,9 @@ const App = () => {
   // レンダリング時にログインしているか判定
   useEffect(() => {
     if (authPromise !== 'loading') {
-      dispatch(fetchUser())
+      dispatch(fetchUser({ userId: userId }))
     }
-  }, [authPromise])
-
-  // ロールを取得
-  useEffect(() => {
-    if (userPromise !== 'loading') {
-      dispatch(fetchRole({ userId: userId }))
-    }
-  }, [userPromise])
+  }, [authPromise, userId])
 
   return (
     <BrowserRouter>

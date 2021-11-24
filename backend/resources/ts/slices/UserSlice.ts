@@ -3,6 +3,7 @@ import { RootState } from '../app/store'
 import axios from 'axios'
 import { PromiseState } from '../app/type'
 import { shallowEqual } from 'react-redux'
+import { useUserState } from '../app/hooks'
 
 // 型定義
 export interface UserState {
@@ -38,17 +39,22 @@ const initialState: UserState = {
   promise: 'idle',
 }
 
-export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
-  const response = await axios.get('/api/user')
-  return response.data
-})
-export const fetchRole = createAsyncThunk(
-  'user/fetchRole',
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
   async ({ userId }: { userId: number }, _thunkApi) => {
-    const response = await axios.post('/api/roles', {
-      userId: userId,
-    })
-    return response.data
+    const user = await axios.get('/api/user')
+    let roles
+    if (userId !== 0) {
+      roles = await axios.post('/api/roles', {
+        userId: userId,
+      })
+    }
+
+    const response = {
+      user: user.data,
+      roles: roles?.data,
+    }
+    return response
   }
 )
 
@@ -61,12 +67,33 @@ export const userSlice = createSlice({
       // fetchUser
       .addCase(
         fetchUser.fulfilled,
-        (state, action: PayloadAction<UserState>) => {
-          const user = action.payload
+        (
+          state,
+          action: PayloadAction<{
+            user: UserState
+            roles: Role[]
+          }>
+        ) => {
+          const user = action.payload.user
+          const roles = action.payload.roles
+          state.promise = 'idle'
+
           state.id = user.id
           state.name = user.name
           state.email = user.email
-          state.promise = 'idle'
+
+          if (roles !== undefined) {
+            // Slice と差がなければ帰る
+            if (shallowEqual(roles, state.role.entities)) {
+              return
+            }
+
+            state.role.ids = roles.map((role) => `role${role.id.toString()}`)
+
+            roles.forEach((role) => {
+              state.role.entities[`role${role.id}`] = role
+            })
+          }
         }
       )
       .addCase(fetchUser.pending, (state) => {
@@ -77,23 +104,6 @@ export const userSlice = createSlice({
         state.name = ''
         state.email = ''
         state.promise = 'rejected'
-      })
-
-      // fetchRole
-      .addCase(fetchRole.fulfilled, (state, action: PayloadAction<Role[]>) => {
-        const roles = action.payload
-        state.promise = 'idle'
-
-        // Slice と差がなければ帰る
-        if (shallowEqual(roles, state.role.entities)) {
-          return
-        }
-
-        state.role.ids = roles.map((role) => `role${role.id.toString()}`)
-
-        roles.forEach((role) => {
-          state.role.entities[`role${role.id}`] = role
-        })
       })
   },
 })
