@@ -9,13 +9,19 @@ use App\Models\Role;
 
 class RoleController extends Controller
 {
+    public function selectRoles(Request $request)
+    {
+        $roles = Role::all();
+        return response()->json(['roles'=>$roles], Response::HTTP_OK);
+    }
+
     /**
      * user idをもとに特定のユーザのロール一覧を取得する
      *
      * @param Request $request
      * @return jsonResponse
      */
-    public function selectRoles(Request $request)
+    public function selectRolesById(Request $request)
     {
         $user_id = $request->userId;
         $user = User::find($user_id);

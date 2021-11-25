@@ -44,7 +44,7 @@ export const fetchUser = createAsyncThunk(
     const user = await axios.get('/api/user')
     let roles
     if (userId !== 0) {
-      roles = await axios.post('/api/roles', {
+      roles = await axios.post('/api/roles/by_id', {
         userId: userId,
       })
     }

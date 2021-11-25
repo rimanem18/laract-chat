@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { PromiseState, Role } from '../app/type'
+import { GroupsPayload, PromiseState, Role, RolesPayload } from '../app/type'
+
+// 型定義
+export interface GroupsState {
+  groups: Groups
+  roles: Roles
+  promise: PromiseState
+  oldestId: number
+}
 
 type Groups = {
   byId: Record<string, Group>
@@ -10,14 +18,6 @@ export type Group = {
   id: number
   name: string
   roles: string[]
-}
-
-// 型定義
-export interface GroupsState {
-  groups: Groups
-  roles: Roles
-  promise: PromiseState
-  oldestId: number
 }
 
 type Roles = {
@@ -100,8 +100,17 @@ const initialState: GroupSlice = {
 export const fetchGroups = createAsyncThunk(
   'groups/fetchGroups',
   async (_, thunkApi) => {
-    const response = await axios.get('/api/chat_groups/')
-    return response.data.chat_groups
+    const groups = await axios.get('/api/chat_groups/')
+    const roles = await axios.get('/api/roles/')
+
+    const response: {
+      groups: GroupsPayload
+      roles: RolesPayload
+    } = {
+      groups: groups.data,
+      roles: roles.data,
+    }
+    return response
   }
 )
 
@@ -170,15 +179,41 @@ export const groupsSlice = createSlice({
       // fetch
       .addCase(
         fetchGroups.fulfilled,
-        (state, action: PayloadAction<Group[]>) => {
-          const groups = action.payload
-          const ids = groups.map((group) => `group${group.id.toString()}`)
-          state.ids = ids
-          state.oldestId = Number(ids[0].replace('group', ''))
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roles: RolesPayload
+          }>
+        ) => {
+          const groups = action.payload.groups.chat_groups
+          const roles = action.payload.roles
           state.promise = 'idle'
 
+          // Group
+          state.groups.allIds = groups.map(
+            (group) => `group${group.id.toString()}`
+          )
+
           groups.forEach((group) => {
-            state.entities[`group${group.id}`] = group
+            const byId = {
+              id: group.id,
+              name: group.name,
+              roles: [],
+            }
+            state.groups.byId[`group${group.id}`] = byId
+          })
+          state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
+
+          // Roles
+          state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
+          roles.forEach((role) => {
+            const byId = {
+              id: role.id,
+              name: role.name,
+              color: role.color,
+            }
+            state.roles.byId[`role${role.id.toString()}`] = byId
           })
         }
       )
@@ -196,16 +231,16 @@ export const groupsSlice = createSlice({
           state.promise = 'idle'
 
           // 差がなければそのまま帰る
-          const diff = groups.length - state.ids.length
+          const diff = groups.length - state.groups.allIds.length
 
           if (diff === 0) {
             return
           }
 
           const lastGroup = groups.slice(-diff)[0]
-          state.ids.push(`group${lastGroup.id.toString()}`)
+          state.groups.allIds.push(`group${lastGroup.id.toString()}`)
 
-          state.entities[`group${lastGroup.id.toString()}`] = lastGroup
+          state.groups.byId[`group${lastGroup.id.toString()}`] = lastGroup
         }
       )
       .addCase(updateGroups.pending, (state) => {
@@ -220,16 +255,16 @@ export const groupsSlice = createSlice({
         state.promise = 'idle'
 
         // 差がなければそのまま帰る
-        const diff = groups.length - state.ids.length
+        const diff = groups.length - state.groups.allIds.length
 
         if (diff === 0) {
           return
         }
 
         const lastGroup = groups.slice(-diff)[0]
-        state.ids.push(`group${lastGroup.id.toString()}`)
+        state.groups.allIds.push(`group${lastGroup.id.toString()}`)
 
-        state.entities[`group${lastGroup.id.toString()}`] = lastGroup
+        state.groups.byId[`group${lastGroup.id.toString()}`] = lastGroup
       })
       .addCase(addGroup.pending, (state) => {
         state.promise = 'loading'
@@ -241,10 +276,12 @@ export const groupsSlice = createSlice({
       .addCase(editGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
         const groups = action.payload
         state.promise = 'idle'
-        state.ids = groups.map((group) => `group${group.id.toString()}`)
+        state.groups.allIds = groups.map(
+          (group) => `group${group.id.toString()}`
+        )
 
         groups.forEach((group) => {
-          state.entities[`group${group.id}`] = group
+          state.groups.byId[`group${group.id}`] = group
         })
       })
       .addCase(editGroup.pending, (state) => {
@@ -259,10 +296,12 @@ export const groupsSlice = createSlice({
         (state, action: PayloadAction<Group[]>) => {
           const groups = action.payload
           state.promise = 'idle'
-          state.ids = groups.map((group) => `group${group.id.toString()}`)
+          state.groups.allIds = groups.map(
+            (group) => `group${group.id.toString()}`
+          )
 
           groups.forEach((group) => {
-            state.entities[`group${group.id}`] = group
+            state.groups.byId[`group${group.id}`] = group
           })
         }
       )
