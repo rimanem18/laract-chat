@@ -1,31 +1,100 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { PromiseState } from '../app/type'
+import { PromiseState, Role } from '../app/type'
 
+type Groups = {
+  byId: Record<string, Group>
+  allIds: string[]
+}
 export type Group = {
   id: number
   name: string
+  roles: string[]
 }
 
 // 型定義
 export interface GroupsState {
-  ids: string[]
-  entities: Record<string, Group>
+  groups: Groups
+  roles: Roles
   promise: PromiseState
   oldestId: number
 }
 
-// 初期値
-const initialState: GroupsState = {
-  ids: [],
-  entities: {
-    group0: {
-      id: 0,
-      name: '',
+type Roles = {
+  byId: Record<string, Role>
+  allIds: string[]
+}
+
+type GroupSlice = {
+  groups: Groups
+  roles: Roles
+  oldestId: number
+  promise: PromiseState
+}
+const groupSlice: GroupSlice = {
+  groups: {
+    byId: {
+      group1: {
+        id: 1,
+        name: 'hello group',
+        roles: ['role2', 'role3'],
+      },
+      group2: {
+        id: 2,
+        name: 'second group',
+        roles: ['role1'],
+      },
     },
+    allIds: ['group1', 'group2'],
   },
-  promise: 'idle',
+  roles: {
+    byId: {
+      role1: {
+        id: 1,
+        name: 'root',
+        color: '#999999',
+      },
+      role2: {
+        id: 2,
+        name: 'admin',
+        color: '#cccccc',
+      },
+      role3: {
+        id: 3,
+        name: 'staff',
+        color: '#f2f2f2',
+      },
+    },
+    allIds: ['role1', 'role2', 'role3'],
+  },
   oldestId: 1,
+  promise: 'idle',
+}
+
+// 初期値
+const initialState: GroupSlice = {
+  groups: {
+    byId: {
+      group0: {
+        id: 0,
+        name: '',
+        roles: [],
+      },
+    },
+    allIds: ['group0'],
+  },
+  roles: {
+    byId: {
+      role0: {
+        id: 0,
+        name: '',
+        color: '',
+      },
+    },
+    allIds: ['role0'],
+  },
+  oldestId: 1,
+  promise: 'idle',
 }
 
 export const fetchGroups = createAsyncThunk(
