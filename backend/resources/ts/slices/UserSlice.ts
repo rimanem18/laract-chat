@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { PromiseState, Role } from '../app/type'
+import { PromiseState } from '../app/type'
 import { shallowEqual } from 'react-redux'
 import { useUserState } from '../app/hooks'
 
@@ -17,6 +17,10 @@ export interface UserState {
   promise: PromiseState
 }
 
+export type Role = {
+  id: number
+  name: string
+}
 // 初期値
 const initialState: UserState = {
   id: 0,
@@ -28,7 +32,6 @@ const initialState: UserState = {
       role0: {
         id: 0,
         name: '',
-        color: '',
       },
     },
   },
@@ -99,8 +102,6 @@ export const userSlice = createSlice({
         state.id = 0
         state.name = ''
         state.email = ''
-        state.role.ids = ['role0']
-        state.role.entities = { role0: { id: 0, name: '', color: '' } }
         state.promise = 'rejected'
       })
   },

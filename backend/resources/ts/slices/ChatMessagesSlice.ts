@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { RootState } from '../app/store'
-import { PromiseState } from '../app/type'
+import { PromiseState, Role } from '../app/type'
 
 export type ChatMessage = {
   id: number
@@ -10,6 +10,8 @@ export type ChatMessage = {
   name: string
   content: string
   created_at: string
+  role_name: string
+  role_color: string
 }
 
 // 型定義
@@ -29,6 +31,8 @@ const initialState: ChatMessagesSliceState = {
       name: '',
       content: '',
       created_at: '',
+      role_name: '',
+      role_color: '',
     },
   },
   promise: 'idle',
@@ -57,7 +61,19 @@ export const chatMessagesSlice = createSlice({
     builder
       .addCase(
         fetchMessages.fulfilled,
-        (state, action: PayloadAction<ChatMessage[]>) => {
+        (
+          state,
+          action: PayloadAction<
+            {
+              id: number
+              group_id: number
+              content: string
+              created_at: string
+              name: string
+              roles: { id: number; name: string; color: string }[]
+            }[]
+          >
+        ) => {
           const messages = action.payload
           state.promise = 'idle'
 
@@ -69,9 +85,28 @@ export const chatMessagesSlice = createSlice({
           state.ids = messages.map(
             (message) => `message${message.id.toString()}`
           )
-
           messages.forEach((message) => {
-            state.entities[`message${message.id}`] = message
+            // role がある場合のみ代入
+            let role_name = ''
+            let role_color = ''
+            if (message.roles !== undefined) {
+              role_name = message.roles[0].name
+              role_color = message.roles[0].color
+            }
+
+            const entities: ChatMessage = {
+              id: message.id,
+              group_id: message.group_id,
+              name: message.name,
+              content: message.content,
+              created_at: message.created_at,
+              role_name: role_name,
+              role_color: role_color,
+            }
+
+            console.log(entities)
+
+            state.entities[`message${message.id}`] = entities
           })
         }
       )
@@ -86,6 +121,7 @@ export const chatMessagesSlice = createSlice({
         updateMessages.fulfilled,
         (state, action: PayloadAction<ChatMessage[]>) => {
           const messages = action.payload
+
           state.promise = 'idle'
 
           const diff = messages.length - state.ids.length

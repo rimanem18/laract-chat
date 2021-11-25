@@ -23,6 +23,7 @@ const Message = () => {
   const dispatch = useAppDispatch()
 
   const { groupsEntities } = useGroupsState()
+  console.log(chatMessagesEntities)
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
@@ -33,7 +34,7 @@ const Message = () => {
   // メッセージが更新されたらフェッチ
   useEffect(() => {
     if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      dispatch(updateMessages())
+      // dispatch(updateMessages())
     }
   }, [postPromise, chatMessageIds.length])
 
@@ -80,8 +81,10 @@ const Message = () => {
           if (Number(groupId) === entity.group_id) {
             return (
               <MessageItem
-                key={`${groupId}${id}`}
+                key={id}
                 name={entity.name}
+                role_color={entity.role_color}
+                role_name={entity.role_name}
                 content={content}
                 created_at={entity.created_at}
               />
@@ -115,11 +118,13 @@ const GroupName = React.memo(({ id, name }: GroupNameProps) => {
 
 type MessageItemProps = {
   name: string
+  role_name: string
+  role_color: string
   content: string
   created_at: string
 }
 const MessageItem = React.memo(
-  ({ name, content, created_at }: MessageItemProps) => {
+  ({ name, role_color, role_name, content, created_at }: MessageItemProps) => {
     console.log('message item')
 
     const datetime = useFormatDate(created_at)
@@ -131,7 +136,12 @@ const MessageItem = React.memo(
             <StringAvatar name={name}></StringAvatar>
             <Box sx={{ m: 1 }}>
               <Box
-                sx={{ fontWeight: 'bold', display: 'block', fontSize: '80%' }}
+                sx={{
+                  color: role_color,
+                  fontWeight: 'bold',
+                  display: 'block',
+                  fontSize: '80%',
+                }}
               >
                 {name}
               </Box>
