@@ -15,8 +15,6 @@ const App = () => {
   const { userId, userPromise } = useUserState()
   const dispatch = useAppDispatch()
 
-  console.log('App')
-
   // レンダリング時にログインしているか判定
   useEffect(() => {
     if (authPromise !== 'loading') {

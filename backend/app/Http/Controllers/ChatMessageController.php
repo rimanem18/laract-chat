@@ -29,11 +29,9 @@ class ChatMessageController extends Controller
             'messages.group_id',
             'messages.content',
             'messages.created_at',
-            'users.id',
             'users.name'
         )
         ->get();
-
 
         $roles = array();
         foreach ($chat_messages as $message) {

@@ -23,7 +23,6 @@ const Message = () => {
   const dispatch = useAppDispatch()
 
   const { groupsEntities } = useGroupsState()
-  console.log(chatMessagesEntities)
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
@@ -125,8 +124,6 @@ type MessageItemProps = {
 }
 const MessageItem = React.memo(
   ({ name, role_color, role_name, content, created_at }: MessageItemProps) => {
-    console.log('message item')
-
     const datetime = useFormatDate(created_at)
 
     return (

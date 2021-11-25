@@ -92,8 +92,6 @@ export const chatMessagesSlice = createSlice({
               role_color: role_color,
             }
 
-            console.log(entities)
-
             state.entities[`message${message.id}`] = entities
           })
         }
