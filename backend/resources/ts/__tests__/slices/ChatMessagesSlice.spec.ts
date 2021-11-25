@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { MessagePayload } from '../../app/type'
 import {
-  ChatMessage,
   chatMessagesSlice,
   ChatMessagesSliceState,
   fetchMessages,
@@ -13,22 +13,31 @@ const initialState: ChatMessagesSliceState = {
   entities: {
     message0: {
       id: 0,
-      name: '',
       group_id: 0,
+      name: '',
       content: '',
       created_at: '',
+      role_name: '',
+      role_color: '',
     },
   },
   promise: 'idle',
 }
 
-const payloadMock = [
+const payloadMock: MessagePayload[] = [
   {
     id: 1,
     name: 'hoge',
     group_id: 1,
     content: 'Hello World!',
     created_at: '1900-01-01',
+    roles: [
+      {
+        id: 3,
+        name: 'staff',
+        color: '#999999',
+      },
+    ],
   },
   {
     id: 2,
@@ -36,6 +45,13 @@ const payloadMock = [
     group_id: 2,
     content: 'Hello Docker',
     created_at: '1900-01-01',
+    roles: [
+      {
+        id: 3,
+        name: 'staff',
+        color: '#999999',
+      },
+    ],
   },
 ]
 
@@ -49,7 +65,7 @@ describe('ChatMessages', () => {
       expect(state.promise).toBe('loading')
     })
     it('fetchMessages fulfilled 配列が一個', () => {
-      const action: PayloadAction<ChatMessage[]> = {
+      const action: PayloadAction<MessagePayload[]> = {
         type: fetchMessages.fulfilled.type,
         payload: [payloadMock[0]],
       }
@@ -57,7 +73,7 @@ describe('ChatMessages', () => {
       expect(state.promise).toBe('idle')
     })
     it('fetchMessages fulfilled 配列が複数個', () => {
-      const action: PayloadAction<ChatMessage[]> = {
+      const action: PayloadAction<MessagePayload[]> = {
         type: fetchMessages.fulfilled.type,
         payload: payloadMock,
       }
@@ -82,7 +98,7 @@ describe('ChatMessages', () => {
       expect(state.promise).toBe('loading')
     })
     it('updateMessages fulfilled 配列が一個', () => {
-      const action: PayloadAction<ChatMessage[]> = {
+      const action: PayloadAction<MessagePayload[]> = {
         type: updateMessages.fulfilled.type,
         payload: [payloadMock[0]],
       }
@@ -90,7 +106,7 @@ describe('ChatMessages', () => {
       expect(state.promise).toBe('idle')
     })
     it('updateMessages fulfilled 配列が複数個', () => {
-      const action: PayloadAction<ChatMessage[]> = {
+      const action: PayloadAction<MessagePayload[]> = {
         type: updateMessages.fulfilled.type,
         payload: payloadMock,
       }

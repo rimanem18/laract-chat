@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { RootState } from '../app/store'
-import { PromiseState, Role } from '../app/type'
+import { MessagePayload, PromiseState, Role } from '../app/type'
 
 export type ChatMessage = {
   id: number
@@ -61,19 +61,7 @@ export const chatMessagesSlice = createSlice({
     builder
       .addCase(
         fetchMessages.fulfilled,
-        (
-          state,
-          action: PayloadAction<
-            {
-              id: number
-              group_id: number
-              content: string
-              created_at: string
-              name: string
-              roles: { id: number; name: string; color: string }[]
-            }[]
-          >
-        ) => {
+        (state, action: PayloadAction<MessagePayload[]>) => {
           const messages = action.payload
           state.promise = 'idle'
 

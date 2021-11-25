@@ -20,9 +20,26 @@ exports[`Top snapshot 1`] = `
         >
           太
         </div>
-        <p>
-          太郎
-        </p>
+        <div
+          className="MuiBox-root css-7k1nrj"
+        >
+          <div
+            className="MuiBox-root css-0"
+          >
+            太郎
+          </div>
+          <div
+            className="role MuiBox-root css-0"
+          >
+            <div>
+              <span
+                className="role__badge--super-user"
+              >
+                staff
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
@@ -254,7 +271,7 @@ exports[`Top snapshot 1`] = `
             className="MuiBox-root css-1ynyhby"
           >
             <div
-              className="MuiBox-root css-1spkyxa"
+              className="MuiBox-root css-3cky4u"
             >
               hoge
             </div>

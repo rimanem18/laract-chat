@@ -5,6 +5,15 @@ const initialState: UserState = {
   name: '',
   email: '',
   promise: 'idle',
+  role: {
+    ids: ['role0'],
+    entities: {
+      role1: {
+        id: 0,
+        name: '',
+      },
+    },
+  },
 }
 
 describe('userSlice', () => {
@@ -24,6 +33,15 @@ describe('userSlice', () => {
           name: '',
           email: '',
           promise: 'idle',
+          role: {
+            ids: ['role0'],
+            entities: {
+              role1: {
+                id: 0,
+                name: '',
+              },
+            },
+          },
         },
       }
       const state = userSlice.reducer(initialState, action)
@@ -31,6 +49,13 @@ describe('userSlice', () => {
       expect(state.name).toBe('')
       expect(state.email).toBe('')
       expect(state.promise).toBe('idle')
+      expect(state.role.ids).toEqual(['role0'])
+      expect(state.role.entities).toEqual({
+        role1: {
+          id: 0,
+          name: '',
+        },
+      })
     })
     it('fetchUser rejected', () => {
       const action = {

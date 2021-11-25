@@ -17,6 +17,8 @@ export const mockState: RootState = {
         group_id: 1,
         content: 'fugafuga',
         created_at: '1900-01-01',
+        role_name: 'staff',
+        role_color: '#666666',
       },
       message2: {
         id: 2,
@@ -24,6 +26,8 @@ export const mockState: RootState = {
         group_id: 2,
         content: 'fugafuga',
         created_at: '1900-01-01',
+        role_name: 'staff',
+        role_color: '#666666',
       },
     },
     promise: 'idle',
@@ -55,6 +59,15 @@ export const mockState: RootState = {
     id: 1,
     name: '太郎',
     email: 'taro@example.com',
+    role: {
+      ids: ['role1'],
+      entities: {
+        role1: {
+          id: 1,
+          name: 'staff',
+        },
+      },
+    },
     promise: 'idle',
   },
 }

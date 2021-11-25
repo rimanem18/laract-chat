@@ -77,9 +77,11 @@ export const userSlice = createSlice({
           const roles = action.payload.roles
           state.promise = 'idle'
 
-          state.id = user.id
-          state.name = user.name
-          state.email = user.email
+          if (user !== undefined) {
+            state.id = user.id
+            state.name = user.name
+            state.email = user.email
+          }
 
           if (roles !== undefined) {
             // Slice と差がなければ帰る
