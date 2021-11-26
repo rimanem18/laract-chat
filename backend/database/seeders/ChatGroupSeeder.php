@@ -15,11 +15,11 @@ class ChatGroupSeeder extends Seeder
      */
     public function run()
     {
-        $name = ["あいさつ","ざつだん","しつもん"];
+        $names = ["あいさつ","ざつだん","しつもん","スタッフ専用"];
 
-        for ($i=0; $i < 3; $i++) {
+        foreach ($names as $name) {
             $param = [
-              'name' => $name[$i]
+              'name' => $name
           ];
             \App\Models\ChatGroup::create($param);
         }

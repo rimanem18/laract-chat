@@ -9,4 +9,12 @@ class ChatGroup extends Model
 {
     use HasFactory;
     protected $fillable = ['id','name'];
+
+    /**
+     * このグループに属する役割
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

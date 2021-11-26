@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ChatGroupController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleGroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,3 +56,6 @@ Route::middleware('auth:sanctum')->post('/chat_groups/delete', [ChatGroupControl
 // ロールの取得
 Route::get('/roles', [RoleController::class, 'selectRoles']);
 Route::middleware('auth:sanctum')->post('/roles/by_id', [RoleController::class, 'selectRolesById']);
+
+// ロールの関連を取得
+Route::get('/role_group', [RoleGroupController::class, 'selectRoleGroup']);

@@ -3,25 +3,23 @@ import { RootState } from '../app/rootReducer'
 
 export const groupsSelector = (state: RootState) => state.groupsSlice
 
-/**
- * ids を取得する
- */
-export const groupIdsSelector = createSelector(
-  groupsSelector,
-  (groupsSlice) => {
-    return groupsSlice.ids
-  }
-)
+export const selectGroups = {
+  allIds: createSelector(groupsSelector, (groupsSlice) => {
+    return groupsSlice.groups.allIds
+  }),
+  byId: createSelector(groupsSelector, (groupsSlice) => {
+    return groupsSlice.groups.byId
+  }),
+}
 
-/**
- * entities を取得する
- */
-export const groupsEntitiesSelector = createSelector(
-  groupsSelector,
-  (groupsSlice) => {
-    return groupsSlice.entities
-  }
-)
+export const selectRoles = {
+  allIds: createSelector(groupsSelector, (groupsSlice) => {
+    return groupsSlice.roles.allIds
+  }),
+  byId: createSelector(groupsSelector, (groupsSlice) => {
+    return groupsSlice.roles.byId
+  }),
+}
 
 /**
  * promise を取得する
@@ -36,7 +34,7 @@ export const groupsPromiseSelector = createSelector(
 /**
  * oldestId を取得する
  */
-export const groupsOldestIdSelector = createSelector(
+export const groupsOldestIdselector = createSelector(
   groupsSelector,
   (groupsSlice) => {
     return groupsSlice.oldestId
