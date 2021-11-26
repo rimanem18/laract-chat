@@ -15,7 +15,11 @@ class RoleUserSeeder extends Seeder
      */
     public function run()
     {
-        // スタッフ
+        // スタッフ兼管理者
+        \App\Models\RoleUser::create([
+            'user_id'=>2,
+            'role_id'=>2,
+        ]);
         \App\Models\RoleUser::create([
             'user_id'=>2,
             'role_id'=>3,
