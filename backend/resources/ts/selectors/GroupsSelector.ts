@@ -34,9 +34,20 @@ export const groupsPromiseSelector = createSelector(
 /**
  * oldestId を取得する
  */
-export const groupsOldestIdselector = createSelector(
+export const groupsOldestIdSelector = createSelector(
   groupsSelector,
   (groupsSlice) => {
     return groupsSlice.oldestId
+  }
+)
+
+/**
+ * もっとも古いグループのパス
+ */
+export const groupsDefaultPathSelector = createSelector(
+  groupsSelector,
+  (groupsSlice) => {
+    const path = `/groups/${groupsSlice.oldestId.toString()}`
+    return path
   }
 )

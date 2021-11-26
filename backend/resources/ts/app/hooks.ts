@@ -29,10 +29,11 @@ import {
   postUserIdSelector,
 } from '../selectors/PostSelector'
 import {
-  groupIdsSelector,
-  groupsEntitiesSelector,
+  groupsDefaultPathSelector,
   groupsOldestIdSelector,
   groupsPromiseSelector,
+  selectGroups,
+  selectRoles,
 } from '../selectors/GroupsSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { useParams } from 'react-router'
@@ -80,17 +81,26 @@ export const useUserState = () => {
 }
 
 export const useGroupsState = () => {
-  const groupIds = useAppSelector(groupIdsSelector)
-  const groupsEntities = useAppSelector(groupsEntitiesSelector)
-  const groupsPromise = useAppSelector(groupsPromiseSelector)
-  const groupsOldestId = useAppSelector(groupsOldestIdSelector)
-
-  return {
-    groupIds,
-    groupsEntities,
-    groupsPromise,
-    groupsOldestId,
+  const groups = {
+    byId: useAppSelector(selectGroups.byId),
+    allIds: useAppSelector(selectGroups.allIds),
   }
+  const roles = {
+    byId: useAppSelector(selectRoles.byId),
+    allIds: useAppSelector(selectRoles.allIds),
+  }
+  const promise = useAppSelector(groupsPromiseSelector)
+  const oldestId = useAppSelector(groupsOldestIdSelector)
+  const defaultPath = useAppSelector(groupsDefaultPathSelector)
+
+  const groupState = {
+    groups,
+    roles,
+    promise,
+    oldestId,
+    defaultPath,
+  }
+  return groupState
 }
 
 // Menu Selector
@@ -198,17 +208,4 @@ export const useGroupModal = (groupName: string) => {
     { isOpen, isConfirm, isOver, newGroupName },
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] as const
-}
-
-export const useDefaultGroupPath = () => {
-  const { groupsPromise, groupsOldestId } = useGroupsState()
-  const [path, setPath] = useState('')
-
-  useEffect(() => {
-    if (groupsPromise !== 'loading') {
-      setPath(`/groups/${groupsOldestId.toString()}`)
-    }
-  }, [groupsPromise])
-
-  return path
 }

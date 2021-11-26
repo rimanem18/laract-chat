@@ -1,5 +1,5 @@
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
 import { fetchGroups } from '../slices/GroupsSlice'
@@ -13,11 +13,11 @@ const Group = () => {
   }
 
   const dispatch = useAppDispatch()
-  const { groupIds, groupsEntities, groupsPromise } = useGroupsState()
+  const groupState = useGroupsState()
   const history = useHistory()
 
   useEffect(() => {
-    if (groupsPromise !== 'loading') {
+    if (groupState.promise !== 'loading') {
       dispatch(fetchGroups())
     }
   }, [])
@@ -49,14 +49,16 @@ const Group = () => {
           overflow: 'none',
         }}
       >
-        {groupIds.map((id: string) => {
+        {groupState.groups.allIds.map((id: string) => {
+          const groups = groupState.groups
+          const name = groups.byId[id].name
           const isActive = id === activeGroupId
 
           return (
             <GroupItem
               key={id}
-              id={groupsEntities[id].id.toString()}
-              name={groupsEntities[id].name}
+              id={id.toString()}
+              name={name}
               goToById={goToById}
               isActive={isActive}
             />

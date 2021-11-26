@@ -12,11 +12,7 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
-import {
-  useAppDispatch,
-  useDefaultGroupPath,
-  useGroupModal,
-} from '../app/hooks'
+import { useAppDispatch, useGroupModal, useGroupsState } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
 type EditGroupModalProps = {
@@ -31,7 +27,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const history = useHistory()
-  const defaultGroupPath = useDefaultGroupPath()
+  const { defaultPath } = useGroupsState()
 
   useEffect(() => {
     setNewGroupName(groupName)
@@ -50,7 +46,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
 
   const deleteGroupHandler = () => {
     dispatch(deleteGroup({ groupId: groupId, closeModal: closeModal }))
-    history.push(defaultGroupPath)
+    history.push(defaultPath)
   }
 
   return (
