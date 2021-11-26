@@ -15,7 +15,10 @@ class ChatGroupSeeder extends Seeder
      */
     public function run()
     {
-        $names = ["あいさつ","ざつだん","しつもん","スタッフ専用"];
+        $names = [
+          "あいさつ","ざつだん","しつもん",
+          "スタッフ専用","管理者専用","管理者兼スタッフ"
+        ];
 
         foreach ($names as $name) {
             $param = [
