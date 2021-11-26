@@ -209,11 +209,12 @@ export const groupsSlice = createSlice({
             const roleIds = roleGroup.filter(
               (item) => item.group_id === group.id
             )
+            const roles = roleIds.map((role) => `role${role.role_id}`)
 
             const byId = {
               id: group.id,
               name: group.name,
-              roles: [],
+              roles: roles,
             }
             state.groups.byId[`group${group.id}`] = byId
           })
