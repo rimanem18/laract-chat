@@ -194,8 +194,8 @@ export const groupsSlice = createSlice({
           }>
         ) => {
           const groups = action.payload.groups.chat_groups
-          const roleGroup = action.payload.roleGroup
-          const roles = action.payload.roles
+          const roleGroup = action.payload.roleGroup.role_group
+          const roles = action.payload.roles.roles
           state.promise = 'idle'
 
           // RoleGroup

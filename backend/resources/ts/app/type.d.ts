@@ -13,14 +13,18 @@ export type GroupsPayload = {
   }[]
 }
 export type RoleGroupPayload = {
-  group_id: number
-  role_id: number
-}[]
+  role_group: {
+    group_id: number
+    role_id: number
+  }[]
+}
 export type RolesPayload = {
-  id: number
-  name: string
-  color: string
-}[]
+  roles: {
+    id: number
+    name: string
+    color: string
+  }[]
+}
 
 export type MessagePayload = {
   id: number
