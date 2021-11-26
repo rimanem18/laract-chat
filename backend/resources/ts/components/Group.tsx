@@ -57,7 +57,7 @@ const Group = () => {
           return (
             <GroupItem
               key={id}
-              id={id.toString()}
+              id={groups.byId[id].id.toString()}
               name={name}
               goToById={goToById}
               isActive={isActive}

@@ -10,7 +10,7 @@ import {
   useParamGroupId,
   useScrollToBottom,
 } from '../app/hooks'
-import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
+import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
@@ -22,7 +22,7 @@ const Message = () => {
   const groupId = useParamGroupId()
   const dispatch = useAppDispatch()
 
-  const { groupsEntities } = useGroupsState()
+  const groupState = useGroupsState()
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
@@ -42,9 +42,9 @@ const Message = () => {
   }, [messageList.current?.scrollHeight])
 
   const groupName =
-    groupsEntities !== undefined &&
-    groupsEntities[`group${groupId}`] !== undefined
-      ? groupsEntities[`group${groupId}`].name
+    groupState.groups.byId !== undefined &&
+    groupState.groups.byId[`group${groupId}`] !== undefined
+      ? groupState.groups.byId[`group${groupId}`].name
       : ''
 
   return (
