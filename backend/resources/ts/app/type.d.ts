@@ -12,7 +12,10 @@ export type GroupsPayload = {
     name: string
   }[]
 }
-
+export type RoleGroupPayload = {
+  group_id: number
+  role_id: number
+}[]
 export type RolesPayload = {
   id: number
   name: string

@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { GroupsPayload, PromiseState, Role, RolesPayload } from '../app/type'
+import {
+  GroupsPayload,
+  PromiseState,
+  Role,
+  RoleGroupPayload,
+  RolesPayload,
+} from '../app/type'
 
 // 型定義
 export interface GroupsState {
@@ -97,22 +103,22 @@ const initialState: GroupSlice = {
   promise: 'idle',
 }
 
-export const fetchGroups = createAsyncThunk(
-  'groups/fetchGroups',
-  async (_, thunkApi) => {
-    const groups = await axios.get('/api/chat_groups/')
-    const roles = await axios.get('/api/roles/')
+export const fetchGroups = createAsyncThunk('groups/fetchGroups', async () => {
+  const groups = await axios.get('/api/chat_groups')
+  const roleGroup = await axios.get('/api/role_group')
+  const roles = await axios.get('/api/roles')
 
-    const response: {
-      groups: GroupsPayload
-      roles: RolesPayload
-    } = {
-      groups: groups.data,
-      roles: roles.data,
-    }
-    return response
+  const response: {
+    groups: GroupsPayload
+    roleGroup: RoleGroupPayload
+    roles: RolesPayload
+  } = {
+    groups: groups.data,
+    roleGroup: roleGroup.data,
+    roles: roles.data,
   }
-)
+  return response
+})
 
 export const updateGroups = createAsyncThunk(
   'groups/updateGroups',
@@ -183,12 +189,16 @@ export const groupsSlice = createSlice({
           state,
           action: PayloadAction<{
             groups: GroupsPayload
+            roleGroup: RoleGroupPayload
             roles: RolesPayload
           }>
         ) => {
           const groups = action.payload.groups.chat_groups
+          const roleGroup = action.payload.roleGroup
           const roles = action.payload.roles
           state.promise = 'idle'
+
+          // RoleGroup
 
           // Group
           state.groups.allIds = groups.map(
@@ -196,6 +206,10 @@ export const groupsSlice = createSlice({
           )
 
           groups.forEach((group) => {
+            const roleIds = roleGroup.filter(
+              (item) => item.group_id === group.id
+            )
+
             const byId = {
               id: group.id,
               name: group.name,
