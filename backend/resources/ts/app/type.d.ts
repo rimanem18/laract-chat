@@ -7,7 +7,11 @@ export type Role = {
 }
 
 export type GroupsPayload = {
-  chat_groups: {
+  public_groups: {
+    id: number
+    name: string
+  }[]
+  private_groups: {
     id: number
     name: string
   }[]

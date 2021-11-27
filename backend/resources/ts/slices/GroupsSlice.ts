@@ -80,45 +80,40 @@ const groupSlice: GroupSlice = {
 // 初期値
 const initialState: GroupSlice = {
   groups: {
-    byId: {
-      group0: {
-        id: 0,
-        name: '',
-        roles: [],
-      },
-    },
-    allIds: ['group0'],
+    byId: {},
+    allIds: [],
   },
   roles: {
-    byId: {
-      role0: {
-        id: 0,
-        name: '',
-        color: '',
-      },
-    },
-    allIds: ['role0'],
+    byId: {},
+    allIds: [],
   },
   oldestId: 1,
   promise: 'idle',
 }
 
-export const fetchGroups = createAsyncThunk('groups/fetchGroups', async () => {
-  const groups = await axios.get('/api/chat_groups')
-  const roleGroup = await axios.get('/api/role_group')
-  const roles = await axios.get('/api/roles')
+export const fetchGroups = createAsyncThunk(
+  'groups/fetchGroups',
+  async ({ roleIds }: { roleIds: number[] }) => {
+    const groups = await axios
+      .post('/api/chat_groups/by_role_ids', {
+        roleIds: roleIds,
+      })
+      .then()
+    const roleGroup = await axios.get('/api/role_group')
+    const roles = await axios.get('/api/roles')
 
-  const response: {
-    groups: GroupsPayload
-    roleGroup: RoleGroupPayload
-    roles: RolesPayload
-  } = {
-    groups: groups.data,
-    roleGroup: roleGroup.data,
-    roles: roles.data,
+    const response: {
+      groups: GroupsPayload
+      roleGroup: RoleGroupPayload
+      roles: RolesPayload
+    } = {
+      groups: groups.data,
+      roleGroup: roleGroup.data,
+      roles: roles.data,
+    }
+    return response
   }
-  return response
-})
+)
 
 export const updateGroups = createAsyncThunk(
   'groups/updateGroups',
@@ -193,12 +188,13 @@ export const groupsSlice = createSlice({
             roles: RolesPayload
           }>
         ) => {
-          const groups = action.payload.groups.chat_groups
+          const private_groups = action.payload.groups.private_groups
+          const public_groups = action.payload.groups.public_groups
           const roleGroup = action.payload.roleGroup.role_group
           const roles = action.payload.roles.roles
           state.promise = 'idle'
 
-          // RoleGroup
+          const groups = public_groups.concat(private_groups)
 
           // Group
           state.groups.allIds = groups.map(

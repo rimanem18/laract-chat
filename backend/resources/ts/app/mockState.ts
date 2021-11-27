@@ -32,20 +32,44 @@ export const mockState: RootState = {
     },
     promise: 'idle',
   },
-  groupsSlice: {
-    ids: ['group1', 'group2'],
-    entities: {
-      group1: {
-        id: 1,
-        name: 'hoge',
+  groupSlice: {
+    groups: {
+      byId: {
+        group1: {
+          id: 1,
+          name: 'hello group',
+          roles: ['role2', 'role3'],
+        },
+        group2: {
+          id: 2,
+          name: 'second group',
+          roles: ['role1'],
+        },
       },
-      group2: {
-        id: 2,
-        name: 'piyo',
-      },
+      allIds: ['group1', 'group2'],
     },
-    promise: 'idle',
+    roles: {
+      byId: {
+        role1: {
+          id: 1,
+          name: 'root',
+          color: '#999999',
+        },
+        role2: {
+          id: 2,
+          name: 'admin',
+          color: '#cccccc',
+        },
+        role3: {
+          id: 3,
+          name: 'staff',
+          color: '#f2f2f2',
+        },
+      },
+      allIds: ['role1', 'role2', 'role3'],
+    },
     oldestId: 1,
+    promise: 'idle',
   },
   menuSlice: {
     isOpen: false,

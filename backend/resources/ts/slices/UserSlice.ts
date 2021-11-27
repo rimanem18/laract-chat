@@ -27,13 +27,8 @@ const initialState: UserState = {
   name: '',
   email: '',
   role: {
-    ids: ['role0'],
-    entities: {
-      role0: {
-        id: 0,
-        name: '',
-      },
-    },
+    ids: [],
+    entities: {},
   },
   promise: 'idle',
 }

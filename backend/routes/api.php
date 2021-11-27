@@ -62,4 +62,4 @@ Route::middleware('auth:sanctum')->post('/roles/by_id', [RoleController::class, 
 Route::get('/role_user', [RoleUserController::class, 'selectRoleUser']);
 Route::get('/role_group', [RoleGroupController::class, 'selectRoleGroup']);
 
-Route::get('/chat_messages/by_role_ids', [ChatGroupController::class, 'selectChatGroupsByRoleIds']);
+Route::middleware('auth:sanctum')->post('/chat_groups/by_role_ids', [ChatGroupController::class, 'selectChatGroupsByRoleIds']);

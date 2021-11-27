@@ -1,7 +1,12 @@
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
+import {
+  useAppDispatch,
+  useGroupsState,
+  useParamGroupId,
+  useUserState,
+} from '../app/hooks'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
@@ -12,15 +17,21 @@ const Group = () => {
     return null
   }
 
+  const { userRoleIds, userRoleEntities } = useUserState()
   const dispatch = useAppDispatch()
   const groupState = useGroupsState()
   const history = useHistory()
 
   useEffect(() => {
-    if (groupState.promise !== 'loading') {
-      dispatch(fetchGroups())
-    }
-  }, [])
+    // 数値の ID 一覧に変換
+    let roleIds: number[] = []
+    userRoleIds.forEach((roleId) => {
+      roleIds.push(userRoleEntities[roleId].id)
+    })
+
+    // ロールID一覧をもとにグループをフェッチ
+    dispatch(fetchGroups({ roleIds: roleIds }))
+  }, [userRoleIds.length])
 
   const goToById = useCallback((id) => {
     history.push(`/groups/${id}`)

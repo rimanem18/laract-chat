@@ -30,7 +30,6 @@ class ChatGroupController extends Controller
         $role_ids = $request->roleIds;
         // $role_ids = [3];
 
-
         // ロール中間テーブルに紐ついていないものを取得
         $public_groups = ChatGroup::from('chat_groups AS groups')
         ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
