@@ -125,15 +125,29 @@ export const updateGroups = createAsyncThunk(
 
 export const addGroup = createAsyncThunk(
   'groups/addGroup',
-  async ({ groupName }: { groupName: string }, thunkApi) => {
-    const response = await axios
+  async ({ roleIds, groupName }: { roleIds: number[]; groupName: string }) => {
+    const groups = await axios
       .post('/api/chat_groups/create', {
         groupName: groupName,
       })
       .then((res) => {
-        return axios.get('/api/chat_groups/')
+        return axios.post('/api/chat_groups/by_role_ids', {
+          roleIds: roleIds,
+        })
       })
-    return response.data.chat_groups
+    const roleGroup = await axios.get('/api/role_group')
+    const roles = await axios.get('/api/roles')
+
+    const response: {
+      groups: GroupsPayload
+      roleGroup: RoleGroupPayload
+      roles: RolesPayload
+    } = {
+      groups: groups.data,
+      roleGroup: roleGroup.data,
+      roles: roles.data,
+    }
+    return response
   }
 )
 
@@ -261,22 +275,56 @@ export const groupsSlice = createSlice({
         state.promise = 'rejected'
       })
       // addGroup
-      .addCase(addGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
-        const groups = action.payload
-        state.promise = 'idle'
+      .addCase(
+        addGroup.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+            roles: RolesPayload
+          }>
+        ) => {
+          const private_groups = action.payload.groups.private_groups
+          const public_groups = action.payload.groups.public_groups
+          const roleGroup = action.payload.roleGroup.role_group
+          const roles = action.payload.roles.roles
+          state.promise = 'idle'
 
-        // 差がなければそのまま帰る
-        const diff = groups.length - state.groups.allIds.length
+          const groups = public_groups.concat(private_groups)
 
-        if (diff === 0) {
-          return
+          // Group
+          state.groups.allIds = groups.map(
+            (group) => `group${group.id.toString()}`
+          )
+
+          groups.forEach((group) => {
+            const roleIds = roleGroup.filter(
+              (item) => item.group_id === group.id
+            )
+            const roles = roleIds.map((role) => `role${role.role_id}`)
+
+            const byId = {
+              id: group.id,
+              name: group.name,
+              roles: roles,
+            }
+            state.groups.byId[`group${group.id}`] = byId
+          })
+          state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
+
+          // Roles
+          state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
+          roles.forEach((role) => {
+            const byId = {
+              id: role.id,
+              name: role.name,
+              color: role.color,
+            }
+            state.roles.byId[`role${role.id.toString()}`] = byId
+          })
         }
-
-        const lastGroup = groups.slice(-diff)[0]
-        state.groups.allIds.push(`group${lastGroup.id.toString()}`)
-
-        state.groups.byId[`group${lastGroup.id.toString()}`] = lastGroup
-      })
+      )
       .addCase(addGroup.pending, (state) => {
         state.promise = 'loading'
       })

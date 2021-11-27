@@ -3,10 +3,13 @@ import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
-import { useAppDispatch, useGroupModal } from '../app/hooks'
+import { useAppDispatch, useGroupModal, useUserState } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
-const AddGroupModal = () => {
+type AddGroupModalProps = {
+  roleIds: number[]
+}
+const AddGroupModal = ({ roleIds }: AddGroupModalProps) => {
   const [
     { isOpen, isConfirm, newGroupName, isOver },
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
@@ -16,7 +19,7 @@ const AddGroupModal = () => {
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (newGroupName !== undefined && isOver === false) {
-      dispatch(addGroup({ groupName: newGroupName }))
+      dispatch(addGroup({ roleIds: roleIds, groupName: newGroupName }))
       setNewGroupName('')
       closeModal()
     }

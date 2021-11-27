@@ -17,6 +17,7 @@ const Group = () => {
     return null
   }
 
+  const [roleIds, setRoleIds] = useState<number[]>([])
   const { userRoleIds, userRoleEntities } = useUserState()
   const dispatch = useAppDispatch()
   const groupState = useGroupsState()
@@ -24,14 +25,15 @@ const Group = () => {
 
   useEffect(() => {
     // 数値の ID 一覧に変換
-    let roleIds: number[] = []
+    let ids: number[] = []
     userRoleIds.forEach((roleId) => {
-      roleIds.push(userRoleEntities[roleId].id)
+      ids.push(userRoleEntities[roleId].id)
     })
+    setRoleIds(ids)
 
     // ロールID一覧をもとにグループをフェッチ
     dispatch(fetchGroups({ roleIds: roleIds }))
-  }, [userRoleIds.length])
+  }, [roleIds.length])
 
   const goToById = useCallback((id) => {
     history.push(`/groups/${id}`)
@@ -40,7 +42,7 @@ const Group = () => {
 
   return (
     <>
-      <AddGroupModal />
+      <AddGroupModal roleIds={roleIds} />
       <List
         sx={{
           '&::-webkit-scrollbar': {
