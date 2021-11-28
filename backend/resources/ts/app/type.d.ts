@@ -5,6 +5,10 @@ export type Role = {
   name: string
   color: string
 }
+export type RoleGroup = {
+  group_id: number
+  role_id: number
+}
 
 export type GroupsPayload = {
   public_groups: {

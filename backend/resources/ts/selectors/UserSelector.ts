@@ -33,6 +33,22 @@ export const userRoleIdsSelector = createSelector(userSelector, (userSlice) => {
 })
 
 /**
+ * userRoleIds 数値でを取得する
+ */
+export const userRoleNumberIdsSelector = createSelector(
+  userSelector,
+  (userSlice) => {
+    // 数値の ID 一覧に変換
+    let roleIds: number[] = []
+    userSlice.role.ids.forEach((roleId) => {
+      roleIds.push(userSlice.role.entities[roleId].id)
+    })
+
+    return roleIds
+  }
+)
+
+/**
  * userRoleEntities を取得する
  */
 export const userRoleEntitiesSelector = createSelector(

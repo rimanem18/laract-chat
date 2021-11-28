@@ -17,20 +17,12 @@ const Group = () => {
     return null
   }
 
-  const [roleIds, setRoleIds] = useState<number[]>([])
-  const { userRoleIds, userRoleEntities } = useUserState()
+  const { userRoleNumberIds: roleIds } = useUserState()
   const dispatch = useAppDispatch()
   const groupState = useGroupsState()
   const history = useHistory()
 
   useEffect(() => {
-    // 数値の ID 一覧に変換
-    let ids: number[] = []
-    userRoleIds.forEach((roleId) => {
-      ids.push(userRoleEntities[roleId].id)
-    })
-    setRoleIds(ids)
-
     // ロールID一覧をもとにグループをフェッチ
     dispatch(fetchGroups({ roleIds: roleIds }))
   }, [roleIds.length])

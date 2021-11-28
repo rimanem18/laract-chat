@@ -15,6 +15,7 @@ const AddGroupModal = ({ roleIds }: AddGroupModalProps) => {
     { openModal, closeModal, openConfirm, closeConfirm, setNewGroupName },
   ] = useGroupModal('')
   const dispatch = useAppDispatch()
+  console.log(roleIds)
 
   const addGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

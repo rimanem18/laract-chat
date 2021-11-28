@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { WritableDraft } from 'immer/dist/internal'
 import {
   GroupsPayload,
   PromiseState,
   Role,
+  RoleGroup,
   RoleGroupPayload,
   RolesPayload,
 } from '../app/type'
@@ -135,6 +137,7 @@ export const addGroup = createAsyncThunk(
           roleIds: roleIds,
         })
       })
+
     const roleGroup = await axios.get('/api/role_group')
     const roles = await axios.get('/api/roles')
 
@@ -209,37 +212,7 @@ export const groupsSlice = createSlice({
           state.promise = 'idle'
 
           const groups = public_groups.concat(private_groups)
-
-          // Group
-          state.groups.allIds = groups.map(
-            (group) => `group${group.id.toString()}`
-          )
-
-          groups.forEach((group) => {
-            const roleIds = roleGroup.filter(
-              (item) => item.group_id === group.id
-            )
-            const roles = roleIds.map((role) => `role${role.role_id}`)
-
-            const byId = {
-              id: group.id,
-              name: group.name,
-              roles: roles,
-            }
-            state.groups.byId[`group${group.id}`] = byId
-          })
-          state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
-
-          // Roles
-          state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
-          roles.forEach((role) => {
-            const byId = {
-              id: role.id,
-              name: role.name,
-              color: role.color,
-            }
-            state.roles.byId[`role${role.id.toString()}`] = byId
-          })
+          fetch(state, groups, roleGroup, roles)
         }
       )
       .addCase(fetchGroups.pending, (state) => {
@@ -292,37 +265,7 @@ export const groupsSlice = createSlice({
           state.promise = 'idle'
 
           const groups = public_groups.concat(private_groups)
-
-          // Group
-          state.groups.allIds = groups.map(
-            (group) => `group${group.id.toString()}`
-          )
-
-          groups.forEach((group) => {
-            const roleIds = roleGroup.filter(
-              (item) => item.group_id === group.id
-            )
-            const roles = roleIds.map((role) => `role${role.role_id}`)
-
-            const byId = {
-              id: group.id,
-              name: group.name,
-              roles: roles,
-            }
-            state.groups.byId[`group${group.id}`] = byId
-          })
-          state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
-
-          // Roles
-          state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
-          roles.forEach((role) => {
-            const byId = {
-              id: role.id,
-              name: role.name,
-              color: role.color,
-            }
-            state.roles.byId[`role${role.id.toString()}`] = byId
-          })
+          fetch(state, groups, roleGroup, roles)
         }
       )
       .addCase(addGroup.pending, (state) => {
@@ -372,6 +315,40 @@ export const groupsSlice = createSlice({
       })
   },
 })
+
+const fetch = (
+  state: WritableDraft<GroupSlice>,
+  groups: { id: number; name: string }[],
+  roleGroup: RoleGroup[],
+  roles: Role[]
+) => {
+  // Group
+  state.groups.allIds = groups.map((group) => `group${group.id.toString()}`)
+
+  groups.forEach((group) => {
+    const roleIds = roleGroup.filter((item) => item.group_id === group.id)
+    const roles = roleIds.map((role) => `role${role.role_id}`)
+
+    const byId = {
+      id: group.id,
+      name: group.name,
+      roles: roles,
+    }
+    state.groups.byId[`group${group.id}`] = byId
+  })
+  state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
+
+  // Roles
+  state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
+  roles.forEach((role) => {
+    const byId = {
+      id: role.id,
+      name: role.name,
+      color: role.color,
+    }
+    state.roles.byId[`role${role.id.toString()}`] = byId
+  })
+}
 
 export const {} = groupsSlice.actions
 

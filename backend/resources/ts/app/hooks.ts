@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
 import type { RootState, AppDispatch } from './store'
 
 import {
@@ -15,6 +14,7 @@ import {
   userPromiseSelector,
   userRoleEntitiesSelector,
   userRoleIdsSelector,
+  userRoleNumberIdsSelector,
 } from '../selectors/UserSelector'
 import {
   authEmailSelector,
@@ -67,6 +67,7 @@ export const useUserState = () => {
   const userEmail = useAppSelector(userEmailSelector)
   const userName = useAppSelector(userNameSelector)
   const userRoleIds = useAppSelector(userRoleIdsSelector)
+  const userRoleNumberIds = useAppSelector(userRoleNumberIdsSelector)
   const userRoleEntities = useAppSelector(userRoleEntitiesSelector)
   const userPromise = useAppSelector(userPromiseSelector)
 
@@ -75,6 +76,7 @@ export const useUserState = () => {
     userEmail,
     userName,
     userRoleIds,
+    userRoleNumberIds,
     userRoleEntities,
     userPromise,
   }
