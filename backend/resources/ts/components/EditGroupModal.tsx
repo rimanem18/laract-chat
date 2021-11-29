@@ -56,7 +56,13 @@ const EditGroupModal = ({
   }
 
   const deleteGroupHandler = () => {
-    dispatch(deleteGroup({ groupId: groupId, closeModal: closeModal }))
+    dispatch(
+      deleteGroup({
+        groupId: groupId,
+        roleIds: roleIds,
+      })
+    )
+    closeModal()
     history.push(defaultPath)
   }
 

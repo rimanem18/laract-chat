@@ -191,20 +191,34 @@ export const editGroup = createAsyncThunk(
 
 type deleteGroupProps = {
   groupId: string
-  closeModal: () => void
+  roleIds: number[]
 }
 export const deleteGroup = createAsyncThunk(
   'groups/deleteGroup',
-  async ({ groupId, closeModal }: deleteGroupProps) => {
-    const response = await axios
+  async ({ groupId, roleIds }: deleteGroupProps) => {
+    const groups = await axios
       .post('/api/chat_groups/delete', {
         groupId: groupId,
       })
       .then((res) => {
-        closeModal()
-        return axios.get('/api/chat_groups/')
+        return axios.post('/api/chat_groups/by_role_ids', {
+          roleIds: roleIds,
+        })
       })
-    return response.data.chat_groups
+
+    const roleGroup = await axios.get('/api/role_group')
+    const roles = await axios.get('/api/roles')
+
+    const response: {
+      groups: GroupsPayload
+      roleGroup: RoleGroupPayload
+      roles: RolesPayload
+    } = {
+      groups: groups.data,
+      roleGroup: roleGroup.data,
+      roles: roles.data,
+    }
+    return response
   }
 )
 
@@ -324,16 +338,22 @@ export const groupsSlice = createSlice({
       // delete
       .addCase(
         deleteGroup.fulfilled,
-        (state, action: PayloadAction<Group[]>) => {
-          const groups = action.payload
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+            roles: RolesPayload
+          }>
+        ) => {
+          const private_groups = action.payload.groups.private_groups
+          const public_groups = action.payload.groups.public_groups
+          const roleGroup = action.payload.roleGroup.role_group
+          const roles = action.payload.roles.roles
           state.promise = 'idle'
-          state.groups.allIds = groups.map(
-            (group) => `group${group.id.toString()}`
-          )
 
-          groups.forEach((group) => {
-            state.groups.byId[`group${group.id}`] = group
-          })
+          const groups = public_groups.concat(private_groups)
+          fetch(state, groups, roleGroup, roles)
         }
       )
       .addCase(deleteGroup.pending, (state) => {
