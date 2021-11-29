@@ -154,18 +154,38 @@ export const addGroup = createAsyncThunk(
   }
 )
 
+type EditGroupProps = {
+  groupId: string
+  groupName: string
+  roleIds: number[]
+}
 export const editGroup = createAsyncThunk(
   'groups/editGroup',
-  async ({ groupId, groupName }: { groupId: string; groupName: string }) => {
-    const response = await axios
+  async ({ groupId, groupName, roleIds }: EditGroupProps) => {
+    const groups = await axios
       .post('/api/chat_groups/edit', {
         groupId: groupId,
         groupName: groupName,
       })
       .then((res) => {
-        return axios.get('/api/chat_groups/')
+        return axios.post('/api/chat_groups/by_role_ids', {
+          roleIds: roleIds,
+        })
       })
-    return response.data.chat_groups
+
+    const roleGroup = await axios.get('/api/role_group')
+    const roles = await axios.get('/api/roles')
+
+    const response: {
+      groups: GroupsPayload
+      roleGroup: RoleGroupPayload
+      roles: RolesPayload
+    } = {
+      groups: groups.data,
+      roleGroup: roleGroup.data,
+      roles: roles.data,
+    }
+    return response
   }
 )
 
@@ -275,17 +295,26 @@ export const groupsSlice = createSlice({
         state.promise = 'rejected'
       })
       // edit
-      .addCase(editGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
-        const groups = action.payload
-        state.promise = 'idle'
-        state.groups.allIds = groups.map(
-          (group) => `group${group.id.toString()}`
-        )
+      .addCase(
+        editGroup.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+            roles: RolesPayload
+          }>
+        ) => {
+          const private_groups = action.payload.groups.private_groups
+          const public_groups = action.payload.groups.public_groups
+          const roleGroup = action.payload.roleGroup.role_group
+          const roles = action.payload.roles.roles
+          state.promise = 'idle'
 
-        groups.forEach((group) => {
-          state.groups.byId[`group${group.id}`] = group
-        })
-      })
+          const groups = public_groups.concat(private_groups)
+          fetch(state, groups, roleGroup, roles)
+        }
+      )
       .addCase(editGroup.pending, (state) => {
         state.promise = 'loading'
       })

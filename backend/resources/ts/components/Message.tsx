@@ -9,12 +9,14 @@ import {
   useGroupsState,
   useParamGroupId,
   useScrollToBottom,
+  useUserState,
 } from '../app/hooks'
 import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
+  const { userRoleNumberIds: roleIds } = useUserState()
   const { chatMessageIds, chatMessagesEntities, chatMessagesPromise } =
     useChatMessagesState()
   const { postPromise } = usePostState()
@@ -49,7 +51,11 @@ const Message = () => {
 
   return (
     <>
-      <GroupName id={groupId ? groupId : ''} name={groupName} />
+      <GroupName
+        id={groupId ? groupId : ''}
+        name={groupName}
+        roleIds={roleIds}
+      />
       <Box
         sx={{
           '&::-webkit-scrollbar': {
@@ -105,12 +111,13 @@ export default React.memo(Message)
 type GroupNameProps = {
   id: string
   name: string
+  roleIds: number[]
 }
-const GroupName = React.memo(({ id, name }: GroupNameProps) => {
+const GroupName = React.memo(({ id, name, roleIds }: GroupNameProps) => {
   return (
     <h2 className="h2">
       {name}
-      <EditGroupModal groupId={id} groupName={name} />
+      <EditGroupModal groupId={id} groupName={name} roleIds={roleIds} />
     </h2>
   )
 })

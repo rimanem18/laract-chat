@@ -18,8 +18,13 @@ import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 type EditGroupModalProps = {
   groupId: string
   groupName: string
+  roleIds: number[]
 }
-const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
+const EditGroupModal = ({
+  groupId,
+  groupName,
+  roleIds,
+}: EditGroupModalProps) => {
   const [
     { isOpen, isConfirm, isOver, newGroupName },
 
@@ -39,7 +44,13 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (newGroupName !== undefined && isOver === false) {
-      dispatch(editGroup({ groupId: groupId, groupName: newGroupName }))
+      dispatch(
+        editGroup({
+          groupId: groupId,
+          groupName: newGroupName,
+          roleIds: roleIds,
+        })
+      )
       closeModal()
     }
   }
