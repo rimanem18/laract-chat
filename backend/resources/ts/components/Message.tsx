@@ -32,10 +32,11 @@ const Message = () => {
       dispatch(fetchMessages())
     }
   }, [])
+
   // メッセージが更新されたらフェッチ
   useEffect(() => {
     if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      // dispatch(updateMessages())
+      dispatch(fetchMessages())
     }
   }, [postPromise, chatMessageIds.length])
 
