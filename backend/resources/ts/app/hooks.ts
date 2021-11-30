@@ -71,7 +71,7 @@ export const useUserState = () => {
   const userRoleEntities = useAppSelector(userRoleEntitiesSelector)
   const userPromise = useAppSelector(userPromiseSelector)
 
-  return {
+  const userState = {
     userId,
     userEmail,
     userName,
@@ -80,6 +80,7 @@ export const useUserState = () => {
     userRoleEntities,
     userPromise,
   }
+  return userState
 }
 
 export const useGroupsState = () => {

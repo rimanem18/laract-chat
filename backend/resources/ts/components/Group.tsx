@@ -17,7 +17,8 @@ const Group = () => {
     return null
   }
 
-  const { userRoleNumberIds: roleIds } = useUserState()
+  const userState = useUserState()
+  const roleIds = userState.userRoleNumberIds
   const dispatch = useAppDispatch()
   const groupState = useGroupsState()
   const history = useHistory()
@@ -56,14 +57,15 @@ const Group = () => {
       >
         {groupState.groups.allIds.map((id: string) => {
           const groups = groupState.groups
-          const name = groups.byId[id].name
+          console.log(groups.byId[id])
+
           const isActive = id === activeGroupId
 
           return (
             <GroupItem
               key={id}
               id={groups.byId[id].id.toString()}
-              name={name}
+              name={groups.byId[id].name}
               goToById={goToById}
               isActive={isActive}
             />

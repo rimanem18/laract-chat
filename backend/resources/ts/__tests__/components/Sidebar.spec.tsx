@@ -20,7 +20,7 @@ jest.mock('../../app/hooks', () => ({
 
 // Mock の定義
 const user = mockState.userSlice
-const group = mockState.groupsSlice
+const groupState = mockState.groupsSlice
 
 const useUserStateMock = jest.fn().mockReturnValue({
   userId: user.id,
@@ -30,11 +30,7 @@ const useUserStateMock = jest.fn().mockReturnValue({
   userRoleEntities: user.role.entities,
   userPromise: user.promise,
 })
-const useGroupsStateMock = jest.fn().mockReturnValue({
-  groupIds: group.ids,
-  groupsEntities: group.entities,
-  groupsPromise: group.promise,
-})
+const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
 let useGroupModalMock = jest.fn()
@@ -59,7 +55,7 @@ describe('Sidebar', () => {
     {
       isOpen: false,
       isConfirm: false,
-      newGroupName: group.entities.group1.name,
+      newGroupName: groupState.groups.byId.group1.name,
     },
     {
       openModal: jest.fn(),

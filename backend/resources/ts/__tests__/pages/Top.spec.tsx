@@ -36,9 +36,21 @@ const ids = mockState.chatMessagesSlice.ids
 const entities = mockState.chatMessagesSlice.entities
 const created_at = entities.message1.created_at
 const promise = mockState.chatMessagesSlice.promise
-const user = mockState.userSlice
+let mock = mockState.userSlice
+const userState = {
+  userRoleEntities: mock.role.entities,
+  userRoleIds: mock.role.ids,
+  userRoleNumberIds: [1],
+}
+
 const post = mockState.postSlice
-const group = mockState.groupsSlice
+const groupsMock = mockState.groupsSlice
+const groupState = {
+  groups: {
+    byId: groupsMock.groups.byId,
+    allIds: groupsMock.groups.allIds,
+  },
+}
 
 const useChatMessagesStateMock = jest.fn().mockReturnValue({
   chatMessageIds: ids,
@@ -46,14 +58,7 @@ const useChatMessagesStateMock = jest.fn().mockReturnValue({
   chatMessagesPromise: promise,
 })
 
-const useUserStateMock = jest.fn().mockReturnValue({
-  userId: user.id,
-  userName: user.name,
-  userEmail: user.email,
-  userRoleIds: user.role.ids,
-  userRoleEntities: user.role.entities,
-  userPromise: user.promise,
-})
+const useUserStateMock = jest.fn().mockReturnValue(userState)
 
 const usePostStateMock = jest.fn().mockReturnValue({
   postContent: post.content,
@@ -62,12 +67,7 @@ const usePostStateMock = jest.fn().mockReturnValue({
 
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
-const useGroupsStateMock = jest.fn().mockReturnValue({
-  groupIds: group.ids,
-  groupsEntities: group.entities,
-  groupsPromise: group.promise,
-  groupsOldestId: group.oldestId,
-})
+const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
 
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 const useScrollToBottomMock = jest.fn()
@@ -96,7 +96,7 @@ describe('Top', () => {
     {
       isOpen: false,
       isConfirm: false,
-      newGroupName: group.entities.group1.name,
+      newGroupName: 'Hello Group',
     },
     {
       openModal: jest.fn(),

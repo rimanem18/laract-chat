@@ -5,8 +5,8 @@ import { useUserState } from '../app/hooks'
 import { Role } from '../slices/UserSlice'
 
 const UserInfo = () => {
-  const { userName, userRoleIds, userRoleEntities } = useUserState()
-  const existRole = userRoleIds.length > 1 ? true : false
+  const userState = useUserState()
+  const existRole = userState.userRoleIds.length > 1 ? true : false
   let margin
   if (existRole) {
     margin = '0.5em'
@@ -16,17 +16,17 @@ const UserInfo = () => {
 
   const roles: RolesProps = useMemo(() => {
     return {
-      ids: userRoleIds,
-      entities: userRoleEntities,
+      ids: userState.userRoleIds,
+      byId: userState.userRoleEntities,
     }
-  }, [userRoleIds, userRoleEntities])
+  }, [userState.userRoleIds, userState.userRoleEntities])
 
   return (
     <>
-      <StringAvatar name={userName}></StringAvatar>
+      <StringAvatar name={userState.userName}></StringAvatar>
       <Box margin={margin}>
-        <Box>{userName}</Box>
-        <Roles ids={roles.ids} entities={roles.entities} />
+        <Box>{userState.userName}</Box>
+        <Roles ids={roles.ids} byId={roles.byId} />
       </Box>
     </>
   )
@@ -38,14 +38,14 @@ export default React.memo(UserInfo)
  */
 type RolesProps = {
   ids: string[]
-  entities: Record<string, Role>
+  byId: Record<string, Role>
 }
-const Roles = React.memo(({ ids, entities }: RolesProps) => {
+const Roles = React.memo(({ ids, byId }: RolesProps) => {
   return (
     <>
       <Box className="role">
         {ids.map((id: string) => {
-          const role = entities[id]
+          const role = byId[id]
           let append = ''
           if (role.id === 3) {
             append = '--staff'
