@@ -29,6 +29,7 @@ class ChatMessageController extends Controller
             'messages.group_id',
             'messages.content',
             'messages.created_at',
+            'users.id AS user_id',
             'users.name'
         )
         ->get();
@@ -48,8 +49,37 @@ class ChatMessageController extends Controller
             }
         }
 
-        return Response()->json(['chat_messages'=>$chat_messages], Response::HTTP_OK);
+        return Response()->json($chat_messages, Response::HTTP_OK);
     }
+
+    /**
+     * 渡されたグループ ID が紐ついているメッセージのみ取得
+     *
+     * @param Request $request->groupIds array
+     * @return void
+     */
+    public function selectChatMessagesByGroupIds(Request $request)
+    {
+        $group_ids = $request->groupIds;
+
+        $chat_messages =
+        ChatMessage::from('chat_messages AS messages')
+        ->join('users', 'messages.user_id', '=', 'users.id')
+        ->whereIn('messages.group_id', $group_ids)
+        ->select(
+            'messages.id',
+            'messages.user_id',
+            'messages.group_id',
+            'messages.content',
+            'messages.created_at',
+            'users.id AS user_id',
+            'users.name'
+        )
+        ->get();
+
+        return Response()->json($chat_messages, Response::HTTP_OK);
+    }
+
 
     /**
      * リクエストパラメーターをもとにメッセージを挿入する
