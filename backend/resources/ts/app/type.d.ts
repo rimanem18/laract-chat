@@ -1,5 +1,14 @@
 export type PromiseState = 'idle' | 'loading' | 'rejected'
 
+export type Message = {
+  id: number
+  group_id: number
+  user_id: number
+  name: string
+  content: string
+  created_at: string
+  roles: string[]
+}
 export type Group = {
   id: number
   name: string
@@ -22,6 +31,11 @@ export type Groups = {
 
 export type Roles = {
   byId: Record<string, Role>
+  allIds: string[]
+}
+
+export type Messages = {
+  byId: Record<string, Message>
   allIds: string[]
 }
 
@@ -58,6 +72,12 @@ export type MessagePayload = {
   group_id: number
   content: string
   created_at: string
+  user_id: number
   name: string
-  roles: { id: number; name: string; color: string }[]
+}
+export type RoleUserPayload = {
+  role_user: {
+    user_id: number
+    role_id: number
+  }[]
 }

@@ -2,38 +2,47 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { RootState } from '../app/store'
-import { MessagePayload, PromiseState, Role } from '../app/type'
-
-export type ChatMessage = {
-  id: number
-  group_id: number
-  name: string
-  content: string
-  created_at: string
-  role_name: string
-  role_color: string
-}
+import {
+  Message,
+  MessagePayload,
+  Messages,
+  PromiseState,
+  Role,
+  RoleGroupPayload,
+  Roles,
+  RolesPayload,
+  RoleUserPayload,
+} from '../app/type'
 
 // 型定義
-export interface ChatMessagesSliceState {
-  ids: string[]
-  entities: Record<string, ChatMessage>
+type ChatMessagesState = {
+  messages: {
+    byId: Record<string, Message>
+    allIds: string[]
+  }
+  roleUser: {
+    byId: Record<string, RoleUser>
+    allIds: string[]
+  }
+  roles: {
+    byId: Record<string, Role>
+    allIds: string[]
+  }
   promise: PromiseState
 }
 
-// 初期値
-const initialState: ChatMessagesSliceState = {
-  ids: [],
-  entities: {
-    message0: {
-      id: 0,
-      group_id: 0,
-      name: '',
-      content: '',
-      created_at: '',
-      role_name: '',
-      role_color: '',
-    },
+const initialState: ChatMessagesState = {
+  messages: {
+    byId: {},
+    allIds: [],
+  },
+  roleUser: {
+    byId: {},
+    allIds: [],
+  },
+  roles: {
+    byId: {},
+    allIds: [],
   },
   promise: 'idle',
 }
@@ -41,15 +50,22 @@ const initialState: ChatMessagesSliceState = {
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
   async () => {
-    const response = await axios.get('/api/chat_messages/')
-    return response.data.chat_messages
+    const messages = await axios.post('/api/chat_messages/by_group_ids')
+    const roleUser = await axios.get('/api/role_user')
+    const roles = await axios.get('/api/roles')
+    const response = {
+      messages: messages.data,
+      roleUser: roleUser.data,
+      roles: roles.data,
+    }
+    return response
   }
 )
 export const updateMessages = createAsyncThunk(
   'chatMessages/updateMessages',
   async () => {
     const response = await axios.get('/api/chat_messages/')
-    return response.data.chat_messages
+    return response.data
   }
 )
 
@@ -61,38 +77,41 @@ export const chatMessagesSlice = createSlice({
     builder
       .addCase(
         fetchMessages.fulfilled,
-        (state, action: PayloadAction<MessagePayload[]>) => {
-          const messages = action.payload
+        (
+          state,
+          action: PayloadAction<{
+            messages: MessagePayload[]
+            roleUser: RoleUserPayload
+            roles: RolesPayload
+          }>
+        ) => {
+          const messages = action.payload.messages
+          const roleUser = action.payload.roleUser.role_user
+          const roles = action.payload.roles.roles
           state.promise = 'idle'
 
-          // メッセージ数が同じならそのまま帰る
-          if (state.ids.length === messages.length) {
-            return
-          }
-
-          state.ids = messages.map(
+          state.messages.allIds = messages.map(
             (message) => `message${message.id.toString()}`
           )
           messages.forEach((message) => {
-            // role がある場合のみ代入
-            let role_name = ''
-            let role_color = ''
-            if (message.roles !== undefined) {
-              role_name = message.roles[0].name
-              role_color = message.roles[0].color
-            }
+            const roleUser_temp = roleUser.filter(
+              (role) => role.user_id === message.user_id
+            )
+            const roleIds = roleUser_temp.map(
+              (role) => `role${role.role_id.toString()}`
+            )
 
-            const entities: ChatMessage = {
+            const byId: Message = {
               id: message.id,
               group_id: message.group_id,
+              user_id: message.user_id,
               name: message.name,
               content: message.content,
               created_at: message.created_at,
-              role_name: role_name,
-              role_color: role_color,
+              roles: roleIds,
             }
 
-            state.entities[`message${message.id}`] = entities
+            state.messages.byId[`message${message.id}`] = byId
           })
         }
       )
@@ -110,14 +129,14 @@ export const chatMessagesSlice = createSlice({
 
           state.promise = 'idle'
 
-          const diff = messages.length - state.ids.length
+          const diff = messages.length - state.allIds.length
           if (diff === 0) {
             return
           }
 
           const i = 0
           const lastMessage = messages.slice(-diff)[i]
-          state.ids.push(`message${lastMessage.id.toString()}`)
+          state.allIds.push(`message${lastMessage.id.toString()}`)
           state.entities[`message${lastMessage.id.toString()}`] = lastMessage
         }
       )
@@ -129,6 +148,26 @@ export const chatMessagesSlice = createSlice({
       })
   },
 })
+
+const getResponse = async (roleIds: number[]) => {
+  const chatMessages = await axios.post('/api/chat_messages/by_role_ids', {
+    roleIds: roleIds,
+  })
+
+  const roleGroup = await axios.get('/api/role_group')
+  const roles = await axios.get('/api/roles')
+
+  const response: {
+    groups: MessagePayload
+    roleGroup: RoleGroupPayload
+    roles: RolesPayload
+  } = {
+    groups: messages.data,
+    roleGroup: roleGroup.data,
+    roles: roles.data,
+  }
+  return response
+}
 
 // 外部からセットできるように
 export const {} = chatMessagesSlice.actions
