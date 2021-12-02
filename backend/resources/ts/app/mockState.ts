@@ -35,23 +35,18 @@ export const mockState: RootState = {
   groupsSlice: {
     groups: {
       byId: {
-        gorup1: {
+        group1: {
           id: 1,
-          name: 'Hello Group',
-          roles: [],
-        },
-        gorup2: {
-          id: 1,
-          name: 'Hello Group',
+          name: 'hello',
           roles: ['role1'],
         },
-        gorup3: {
-          id: 1,
-          name: 'Hello Group',
+        group2: {
+          id: 2,
+          name: 'world',
           roles: ['role1', 'role2'],
         },
       },
-      allIds: ['group1', 'group2', 'group3'],
+      allIds: ['group1', 'group2'],
     },
     roles: {
       byId: {
@@ -71,7 +66,7 @@ export const mockState: RootState = {
           color: '#222',
         },
       },
-      allIds: ['role1', 'role2', 'role3'],
+      allIds: ['role1', 'role2'],
     },
     promise: 'idle',
     oldestId: 1,

@@ -14,20 +14,27 @@ exports[`Top snapshot 1`] = `
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
       >
         <div
-          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-utr0cb-MuiAvatar-root"
+          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1xi8lsn-MuiAvatar-root"
           data-testid="user-name"
-          title="太郎"
         >
-          太
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
+            data-testid="PersonIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+            />
+          </svg>
         </div>
         <div
           className="MuiBox-root css-7k1nrj"
         >
           <div
             className="MuiBox-root css-0"
-          >
-            太郎
-          </div>
+          />
           <div
             className="role MuiBox-root css-0"
           >
@@ -155,7 +162,7 @@ exports[`Top snapshot 1`] = `
             <div
               className="MuiBox-root css-24ohs5"
             >
-              hoge
+              hello
             </div>
           </span>
         </div>
@@ -191,7 +198,7 @@ exports[`Top snapshot 1`] = `
             <div
               className="MuiBox-root css-24ohs5"
             >
-              piyo
+              world
             </div>
           </span>
         </div>
@@ -207,7 +214,7 @@ exports[`Top snapshot 1`] = `
     <h2
       className="h2"
     >
-      hoge
+      hello
       <button
         className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
         data-testid="edit-button"
@@ -251,7 +258,7 @@ exports[`Top snapshot 1`] = `
         className="message__note"
       >
         ここが「
-        hoge
+        hello
         」の先頭です。
       </p>
       <div

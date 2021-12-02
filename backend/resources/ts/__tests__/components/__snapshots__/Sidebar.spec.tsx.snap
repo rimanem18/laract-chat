@@ -144,7 +144,7 @@ Array [
           <div
             className="MuiBox-root css-24ohs5"
           >
-            hoge
+            hello
           </div>
         </span>
       </div>
@@ -177,7 +177,7 @@ Array [
           <div
             className="MuiBox-root css-24ohs5"
           >
-            piyo
+            world
           </div>
         </span>
       </div>

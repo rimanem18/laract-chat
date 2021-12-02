@@ -28,6 +28,7 @@ const useUserStateMock = jest.fn().mockReturnValue({
   userEmail: user.email,
   userRoleIds: user.role.ids,
   userRoleEntities: user.role.entities,
+  userRoleNumberIds: [1],
   userPromise: user.promise,
 })
 const useGroupsStateMock = jest.fn().mockReturnValue(groupState)

@@ -44,13 +44,7 @@ const userState = {
 }
 
 const post = mockState.postSlice
-const groupsMock = mockState.groupsSlice
-const groupState = {
-  groups: {
-    byId: groupsMock.groups.byId,
-    allIds: groupsMock.groups.allIds,
-  },
-}
+const groupState = mockState.groupsSlice
 
 const useChatMessagesStateMock = jest.fn().mockReturnValue({
   chatMessageIds: ids,
