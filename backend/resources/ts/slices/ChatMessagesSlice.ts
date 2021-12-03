@@ -5,11 +5,8 @@ import { RootState } from '../app/store'
 import {
   Message,
   MessagePayload,
-  Messages,
   PromiseState,
   Role,
-  RoleGroupPayload,
-  Roles,
   RolesPayload,
   RoleUserPayload,
 } from '../app/type'
@@ -49,11 +46,17 @@ const initialState: ChatMessagesState = {
 
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
-  async () => {
-    const messages = await axios.post('/api/chat_messages/by_group_ids')
+  async ({ groupIds }: { groupIds: number[] }) => {
+    const messages = await axios.post('/api/chat_messages/by_group_ids', {
+      groupIds: groupIds,
+    })
     const roleUser = await axios.get('/api/role_user')
     const roles = await axios.get('/api/roles')
-    const response = {
+    const response: {
+      messages: MessagePayload[]
+      roleUser: RoleUserPayload
+      roles: RolesPayload
+    } = {
       messages: messages.data,
       roleUser: roleUser.data,
       roles: roles.data,
@@ -61,14 +64,6 @@ export const fetchMessages = createAsyncThunk(
     return response
   }
 )
-export const updateMessages = createAsyncThunk(
-  'chatMessages/updateMessages',
-  async () => {
-    const response = await axios.get('/api/chat_messages/')
-    return response.data
-  }
-)
-
 export const chatMessagesSlice = createSlice({
   name: 'chatMessages',
   initialState,
@@ -121,53 +116,8 @@ export const chatMessagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
-      // updateMessage
-      .addCase(
-        updateMessages.fulfilled,
-        (state, action: PayloadAction<ChatMessage[]>) => {
-          const messages = action.payload
-
-          state.promise = 'idle'
-
-          const diff = messages.length - state.allIds.length
-          if (diff === 0) {
-            return
-          }
-
-          const i = 0
-          const lastMessage = messages.slice(-diff)[i]
-          state.allIds.push(`message${lastMessage.id.toString()}`)
-          state.entities[`message${lastMessage.id.toString()}`] = lastMessage
-        }
-      )
-      .addCase(updateMessages.pending, (state, action) => {
-        state.promise = 'loading'
-      })
-      .addCase(updateMessages.rejected, (state) => {
-        state.promise = 'rejected'
-      })
   },
 })
-
-const getResponse = async (roleIds: number[]) => {
-  const chatMessages = await axios.post('/api/chat_messages/by_role_ids', {
-    roleIds: roleIds,
-  })
-
-  const roleGroup = await axios.get('/api/role_group')
-  const roles = await axios.get('/api/roles')
-
-  const response: {
-    groups: MessagePayload
-    roleGroup: RoleGroupPayload
-    roles: RolesPayload
-  } = {
-    groups: messages.data,
-    roleGroup: roleGroup.data,
-    roles: roles.data,
-  }
-  return response
-}
 
 // 外部からセットできるように
 export const {} = chatMessagesSlice.actions

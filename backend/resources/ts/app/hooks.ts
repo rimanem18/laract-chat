@@ -6,6 +6,7 @@ import {
   chatMessageIdsSelector,
   chatMessagesEntitiesSelector,
   chatMessagesPromiseSelector,
+  selectMessages,
 } from '../selectors/ChatMessagesSelector'
 import {
   userEmailSelector,
@@ -113,15 +114,17 @@ export const useMenuIsOpen = () => {
 
 // ChatMessages Slice
 export const useChatMessagesState = () => {
-  const chatMessageIds = useAppSelector(chatMessageIdsSelector)
-  const chatMessagesEntities = useAppSelector(chatMessagesEntitiesSelector)
-  const chatMessagesPromise = useAppSelector(chatMessagesPromiseSelector)
-
-  return {
-    chatMessageIds,
-    chatMessagesEntities,
-    chatMessagesPromise,
+  const messages = {
+    byId: useAppSelector(selectMessages.byId),
+    allIds: useAppSelector(selectMessages.allIds),
   }
+  const promise = useAppSelector(chatMessagesPromiseSelector)
+
+  const chatMessagesState = {
+    messages,
+    promise,
+  }
+  return chatMessagesState
 }
 
 export const usePostState = () => {
