@@ -19,6 +19,10 @@ export type Role = {
   name: string
   color: string
 }
+export type RoleUser = {
+  user_id: number
+  role_id: number
+}
 export type RoleGroup = {
   group_id: number
   role_id: number

@@ -8,14 +8,29 @@ export const selectMessages = {
   /**
    * メッセージのID一覧を取得する
    */
-  allIds: createSelector(chatMessagesSelector, (groupsSlice) => {
-    return groupsSlice.messages.allIds
+  allIds: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
+    return chatMessagesSlice.messages.allIds
   }),
   /**
    * メッセージの実体を取得する
    */
   byId: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
     return chatMessagesSlice.messages.byId
+  }),
+}
+
+export const selectRoles = {
+  /**
+   * ロールのID一覧を取得する
+   */
+  allIds: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
+    return chatMessagesSlice.roles.allIds
+  }),
+  /**
+   * ロールの実体を取得する
+   */
+  byId: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
+    return chatMessagesSlice.roles.byId
   }),
 }
 

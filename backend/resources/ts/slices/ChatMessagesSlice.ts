@@ -8,6 +8,7 @@ import {
   PromiseState,
   Role,
   RolesPayload,
+  RoleUser,
   RoleUserPayload,
 } from '../app/type'
 
