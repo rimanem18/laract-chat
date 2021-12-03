@@ -16,29 +16,36 @@ import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
 
 const Message = () => {
+  const groupId = useParamGroupId()
+  if (groupId === undefined) {
+    return null
+  }
+
   const { userRoleNumberIds: roleIds } = useUserState()
-  const { chatMessageIds, chatMessagesEntities, chatMessagesPromise } =
-    useChatMessagesState()
+  const chatMessagesState = useChatMessagesState()
   const { postPromise } = usePostState()
   const messageList = useRef<HTMLDivElement | null>(null)
-  const groupId = useParamGroupId()
   const dispatch = useAppDispatch()
 
   const groupState = useGroupsState()
+  const groupIds = [Number(groupId)]
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
-    if (chatMessageIds.length === 0 || chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
+    if (
+      chatMessagesState.messages.allIds.length === 0 ||
+      chatMessagesState.promise !== 'loading'
+    ) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
     }
   }, [])
 
   // メッセージが更新されたらフェッチ
   useEffect(() => {
-    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      dispatch(fetchMessages())
+    if ([chatMessagesState.promise, postPromise].every((v) => v === 'idle')) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
     }
-  }, [postPromise, chatMessageIds.length])
+  }, [postPromise, chatMessagesState.messages.allIds.length])
 
   useEffect(() => {
     useScrollToBottom(messageList)
@@ -78,8 +85,10 @@ const Message = () => {
         ref={messageList}
       >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
-        {chatMessageIds.map((id: string) => {
-          const entity = chatMessagesEntities[id]
+        {chatMessagesState.messages.allIds.map((id: string) => {
+          const entity = chatMessagesState.messages.byId[id]
+          const role = chatMessagesState.roles.byId[entity.roles[0]]
+          const role_color = role.color
           // 2個以上の改行を2個改行におさめる
           const content = entity.content.replace(/\n{2,}/g, '\n\n')
 
@@ -89,8 +98,8 @@ const Message = () => {
               <MessageItem
                 key={id}
                 name={entity.name}
-                role_color={entity.role_color}
-                role_name={entity.role_name}
+                roleColor={role.color}
+                roleName={role.name}
                 content={content}
                 created_at={entity.created_at}
               />
@@ -125,8 +134,8 @@ const GroupName = React.memo(({ id, name, roleIds }: GroupNameProps) => {
 
 type MessageItemProps = {
   name: string
-  role_name: string
-  role_color: string
+  roleName: string
+  roleColor: string
   content: string
   created_at: string
 }

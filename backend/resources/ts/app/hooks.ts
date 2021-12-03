@@ -3,8 +3,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './store'
 
 import {
-  chatMessageIdsSelector,
-  chatMessagesEntitiesSelector,
   chatMessagesPromiseSelector,
   selectMessages,
 } from '../selectors/ChatMessagesSelector'
@@ -118,10 +116,15 @@ export const useChatMessagesState = () => {
     byId: useAppSelector(selectMessages.byId),
     allIds: useAppSelector(selectMessages.allIds),
   }
+  const roles = {
+    byId: useAppSelector(selectRoles.byId),
+    allIds: useAppSelector(selectRoles.allIds),
+  }
   const promise = useAppSelector(chatMessagesPromiseSelector)
 
   const chatMessagesState = {
     messages,
+    roles,
     promise,
   }
   return chatMessagesState
