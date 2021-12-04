@@ -8,14 +8,15 @@ import {
   Role,
   RoleGroup,
   RoleGroupPayload,
-  Roles,
-  RolesPayload,
 } from '../app/type'
 
 // 型定義
 export interface GroupsState {
   groups: Groups
-  roles: Roles
+  roleGroup: {
+    byId: Record<string, RoleGroup>
+    allIds: string[]
+  }
   oldestId: number
   promise: PromiseState
 }
@@ -26,7 +27,7 @@ const initialState: GroupsState = {
     byId: {},
     allIds: [],
   },
-  roles: {
+  roleGroup: {
     byId: {},
     allIds: [],
   },
@@ -102,7 +103,6 @@ export const groupsSlice = createSlice({
           action: PayloadAction<{
             groups: GroupsPayload
             roleGroup: RoleGroupPayload
-            roles: RolesPayload
           }>
         ) => {
           fetch(state, action)
@@ -122,7 +122,6 @@ export const groupsSlice = createSlice({
           action: PayloadAction<{
             groups: GroupsPayload
             roleGroup: RoleGroupPayload
-            roles: RolesPayload
           }>
         ) => {
           fetch(state, action)
@@ -142,7 +141,6 @@ export const groupsSlice = createSlice({
           action: PayloadAction<{
             groups: GroupsPayload
             roleGroup: RoleGroupPayload
-            roles: RolesPayload
           }>
         ) => {
           fetch(state, action)
@@ -162,7 +160,6 @@ export const groupsSlice = createSlice({
           action: PayloadAction<{
             groups: GroupsPayload
             roleGroup: RoleGroupPayload
-            roles: RolesPayload
           }>
         ) => {
           fetch(state, action)
@@ -182,13 +179,11 @@ const fetch = (
   action: PayloadAction<{
     groups: GroupsPayload
     roleGroup: RoleGroupPayload
-    roles: RolesPayload
   }>
 ) => {
   const private_groups = action.payload.groups.private_groups
   const public_groups = action.payload.groups.public_groups
   const roleGroup = action.payload.roleGroup.role_group
-  const roles = action.payload.roles.roles
   state.promise = 'idle'
 
   const groups = public_groups.concat(private_groups)
@@ -208,17 +203,6 @@ const fetch = (
     state.groups.byId[`group${group.id}`] = byId
   })
   state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
-
-  // Roles
-  state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
-  roles.forEach((role) => {
-    const byId = {
-      id: role.id,
-      name: role.name,
-      color: role.color,
-    }
-    state.roles.byId[`role${role.id.toString()}`] = byId
-  })
 }
 
 type PostData = {
@@ -244,16 +228,13 @@ const getResponse = async (
   }
 
   const roleGroup = await axios.get('/api/role_group')
-  const roles = await axios.get('/api/roles')
 
   const response: {
     groups: GroupsPayload
     roleGroup: RoleGroupPayload
-    roles: RolesPayload
   } = {
     groups: groups.data,
     roleGroup: roleGroup.data,
-    roles: roles.data,
   }
   return response
 }

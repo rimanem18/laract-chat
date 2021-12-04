@@ -32,6 +32,7 @@ import {
   groupsOldestIdSelector,
   groupsPromiseSelector,
   selectGroups,
+  selectRoleGroup,
 } from '../selectors/GroupsSelector'
 import { rolesPromiseSelector, selectRoles } from '../selectors/RolesSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
@@ -88,9 +89,9 @@ export const useGroupsState = () => {
     allIds: useAppSelector(selectGroups.allIds),
     allNumberIds: useAppSelector(selectGroups.allNumberIds),
   }
-  const roles = {
-    byId: useAppSelector(selectRoles.byId),
-    allIds: useAppSelector(selectRoles.allIds),
+  const roleGroup = {
+    byId: useAppSelector(selectRoleGroup.byId),
+    allIds: useAppSelector(selectRoleGroup.allIds),
   }
   const promise = useAppSelector(groupsPromiseSelector)
   const oldestId = useAppSelector(groupsOldestIdSelector)
@@ -98,7 +99,7 @@ export const useGroupsState = () => {
 
   const groupState = {
     groups,
-    roles,
+    roleGroup,
     promise,
     oldestId,
     defaultPath,

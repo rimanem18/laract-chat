@@ -20,12 +20,12 @@ export const selectGroups = {
   }),
 }
 
-export const selectRoles = {
+export const selectRoleGroup = {
   allIds: createSelector(groupsSelector, (groupsSlice) => {
-    return groupsSlice.roles.allIds
+    return groupsSlice.roleGroup.allIds
   }),
   byId: createSelector(groupsSelector, (groupsSlice) => {
-    return groupsSlice.roles.byId
+    return groupsSlice.roleGroup.byId
   }),
 }
 
