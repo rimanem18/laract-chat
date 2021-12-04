@@ -49,6 +49,9 @@ export const fetchMessages = createAsyncThunk(
       messages: messages.data,
       roleUser: roleUser.data,
     }
+
+    console.log(messages)
+
     return response
   }
 )

@@ -57,7 +57,6 @@ const Group = () => {
       >
         {groupState.groups.allIds.map((id: string) => {
           const groups = groupState.groups
-          console.log(groups.byId[id])
 
           const isActive = id === activeGroupId
 

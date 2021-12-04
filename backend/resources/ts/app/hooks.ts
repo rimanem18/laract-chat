@@ -123,7 +123,6 @@ export const useChatMessagesState = () => {
     allIds: useAppSelector(selectRoles.allIds),
   }
   const promise = useAppSelector(chatMessagesPromiseSelector)
-  console.log(roles)
 
   const chatMessagesState = {
     messages,

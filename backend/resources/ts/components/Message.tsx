@@ -10,6 +10,7 @@ import {
   useParamGroupId,
   useScrollToBottom,
   useUserState,
+  useRolesState,
 } from '../app/hooks'
 import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
@@ -22,23 +23,22 @@ const Message = () => {
   }
 
   const { userRoleNumberIds: roleIds } = useUserState()
+  const rolesState = useRolesState()
   const chatMessagesState = useChatMessagesState()
   const { postPromise } = usePostState()
   const messageList = useRef<HTMLDivElement | null>(null)
   const dispatch = useAppDispatch()
 
   const groupState = useGroupsState()
-  const groupIds = [Number(groupId)]
+  const groupIds = groupState.groups.allNumberIds
+  console.log(groupIds)
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
-    if (
-      chatMessagesState.messages.allIds.length === 0 ||
-      chatMessagesState.promise !== 'loading'
-    ) {
+    if (groupIds.length !== 0) {
       dispatch(fetchMessages({ groupIds: groupIds }))
     }
-  }, [])
+  }, [groupIds.length])
 
   // メッセージが更新されたらフェッチ
   useEffect(() => {
@@ -87,8 +87,18 @@ const Message = () => {
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {chatMessagesState.messages.allIds.map((id: string) => {
           const entity = chatMessagesState.messages.byId[id]
-          const role = chatMessagesState.roles.byId[entity.roles[0]]
-          const role_color = role.color
+
+          // ロール情報を取得
+          let role = rolesState.roles.byId[entity.roles[0]]
+          if (role === undefined) {
+            // ロールを持っていない場合は無難なデータを作って渡す
+            role = {
+              id: 0,
+              name: '',
+              color: '#333333',
+            }
+          }
+
           // 2個以上の改行を2個改行におさめる
           const content = entity.content.replace(/\n{2,}/g, '\n\n')
 
@@ -134,13 +144,13 @@ const GroupName = React.memo(({ id, name, roleIds }: GroupNameProps) => {
 
 type MessageItemProps = {
   name: string
-  roleName: string
-  roleColor: string
+  roleName?: string
+  roleColor?: string
   content: string
   created_at: string
 }
 const MessageItem = React.memo(
-  ({ name, role_color, role_name, content, created_at }: MessageItemProps) => {
+  ({ name, roleColor, roleName, content, created_at }: MessageItemProps) => {
     const datetime = useFormatDate(created_at)
 
     return (
@@ -151,7 +161,7 @@ const MessageItem = React.memo(
             <Box sx={{ m: 1 }}>
               <Box
                 sx={{
-                  color: role_color,
+                  color: roleColor,
                   fontWeight: 'bold',
                   display: 'block',
                   fontSize: '80%',
