@@ -86,6 +86,7 @@ export const useGroupsState = () => {
   const groups = {
     byId: useAppSelector(selectGroups.byId),
     allIds: useAppSelector(selectGroups.allIds),
+    allNumberIds: useAppSelector(selectGroups.allNumberIds),
   }
   const roles = {
     byId: useAppSelector(selectRoles.byId),

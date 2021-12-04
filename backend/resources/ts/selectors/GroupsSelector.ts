@@ -10,6 +10,14 @@ export const selectGroups = {
   byId: createSelector(groupsSelector, (groupsSlice) => {
     return groupsSlice.groups.byId
   }),
+  allNumberIds: createSelector(groupsSelector, (groupsSlice) => {
+    let groupIds: number[] = []
+    const groups = groupsSlice.groups
+    groups.allIds.forEach((groupId) => {
+      groupIds.push(groups.byId[groupId].id)
+    })
+    return groupIds
+  }),
 }
 
 export const selectRoles = {
