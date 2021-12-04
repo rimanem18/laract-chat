@@ -17,7 +17,7 @@ const initialState: RolesState = {
   promise: 'idle',
 }
 
-export const fetchRoles = createAsyncThunk('groups/fetchGroups', async () => {
+export const fetchRoles = createAsyncThunk('roles/fetchRoles', async () => {
   const roles = await axios.get('/api/roles')
   const response: {
     roles: RolesPayload
@@ -56,6 +56,12 @@ export const rolesSlice = createSlice({
           })
         }
       )
+      .addCase(fetchRoles.pending, (state) => {
+        state.promise = 'loading'
+      })
+      .addCase(fetchRoles.rejected, (state) => {
+        state.promise = 'rejected'
+      })
   },
 })
 
