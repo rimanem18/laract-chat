@@ -19,21 +19,6 @@ export const selectMessages = {
   }),
 }
 
-export const selectRoles = {
-  /**
-   * ロールのID一覧を取得する
-   */
-  allIds: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
-    return chatMessagesSlice.roles.allIds
-  }),
-  /**
-   * ロールの実体を取得する
-   */
-  byId: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
-    return chatMessagesSlice.roles.byId
-  }),
-}
-
 /**
  * promise を取得する
  */

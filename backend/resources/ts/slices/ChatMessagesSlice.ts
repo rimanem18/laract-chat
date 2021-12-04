@@ -6,8 +6,6 @@ import {
   Message,
   MessagePayload,
   PromiseState,
-  Role,
-  RolesPayload,
   RoleUser,
   RoleUserPayload,
 } from '../app/type'
@@ -22,10 +20,6 @@ type ChatMessagesState = {
     byId: Record<string, RoleUser>
     allIds: string[]
   }
-  roles: {
-    byId: Record<string, Role>
-    allIds: string[]
-  }
   promise: PromiseState
 }
 
@@ -35,10 +29,6 @@ const initialState: ChatMessagesState = {
     allIds: [],
   },
   roleUser: {
-    byId: {},
-    allIds: [],
-  },
-  roles: {
     byId: {},
     allIds: [],
   },
@@ -52,15 +42,12 @@ export const fetchMessages = createAsyncThunk(
       groupIds: groupIds,
     })
     const roleUser = await axios.get('/api/role_user')
-    const roles = await axios.get('/api/roles')
     const response: {
       messages: MessagePayload[]
       roleUser: RoleUserPayload
-      roles: RolesPayload
     } = {
       messages: messages.data,
       roleUser: roleUser.data,
-      roles: roles.data,
     }
     return response
   }
@@ -78,12 +65,10 @@ export const chatMessagesSlice = createSlice({
           action: PayloadAction<{
             messages: MessagePayload[]
             roleUser: RoleUserPayload
-            roles: RolesPayload
           }>
         ) => {
           const messages = action.payload.messages
           const roleUser = action.payload.roleUser.role_user
-          const roles = action.payload.roles.roles
           state.promise = 'idle'
 
           state.messages.allIds = messages.map(
