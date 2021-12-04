@@ -32,8 +32,8 @@ import {
   groupsOldestIdSelector,
   groupsPromiseSelector,
   selectGroups,
-  selectRoles,
 } from '../selectors/GroupsSelector'
+import { rolesPromiseSelector, selectRoles } from '../selectors/RolesSelector'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { useParams } from 'react-router'
 import { menuIsOpenSelector } from '../selectors/MenuSelector'
@@ -122,6 +122,7 @@ export const useChatMessagesState = () => {
     allIds: useAppSelector(selectRoles.allIds),
   }
   const promise = useAppSelector(chatMessagesPromiseSelector)
+  console.log(roles)
 
   const chatMessagesState = {
     messages,
@@ -141,6 +142,21 @@ export const usePostState = () => {
     postContent,
     postPromise,
   }
+}
+
+export const useRolesState = () => {
+  const roles = {
+    byId: useAppSelector(selectRoles.byId),
+    allIds: useAppSelector(selectRoles.allIds),
+  }
+  const promise = useAppSelector(rolesPromiseSelector)
+
+  const rolesState = {
+    roles,
+    promise,
+  }
+
+  return rolesState
 }
 
 // Render

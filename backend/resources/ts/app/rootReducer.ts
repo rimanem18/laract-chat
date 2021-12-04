@@ -4,6 +4,7 @@ import chatMessagesSlice from '../slices/ChatMessagesSlice'
 import groupsSlice from '../slices/GroupsSlice'
 import menuSlice from '../slices/MenuSlice'
 import postSlice from '../slices/PostSlice'
+import rolesSlice from '../slices/RolesSlice'
 import userSlice from '../slices/UserSlice'
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   groupsSlice,
   menuSlice,
   postSlice,
+  rolesSlice,
   userSlice,
 })
 
