@@ -31,7 +31,6 @@ const Message = () => {
 
   const groupState = useGroupsState()
   const groupIds = groupState.groups.allNumberIds
-  console.log(groupIds)
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {

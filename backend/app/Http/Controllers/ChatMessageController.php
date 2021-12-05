@@ -75,6 +75,7 @@ class ChatMessageController extends Controller
             'users.id AS user_id',
             'users.name'
         )
+        ->orderBy('id')
         ->get();
 
         return Response()->json($chat_messages, Response::HTTP_OK);
