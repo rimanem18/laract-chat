@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 import axios from 'axios'
-import { PromiseState } from '../app/type'
+import { PromiseState, RoleUserPayload } from '../app/type'
 import { shallowEqual } from 'react-redux'
 import { useUserState } from '../app/hooks'
 
@@ -10,26 +10,16 @@ export interface UserState {
   id: number
   name: string
   email: string
-  role: {
-    ids: string[]
-    entities: Record<string, Role>
-  }
+  roles: string[]
   promise: PromiseState
 }
 
-export type Role = {
-  id: number
-  name: string
-}
 // 初期値
 const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
-  role: {
-    ids: [],
-    entities: {},
-  },
+  roles: [],
   promise: 'idle',
 }
 
@@ -37,16 +27,11 @@ export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async ({ userId }: { userId: number }, _thunkApi) => {
     const user = await axios.get('/api/user')
-    let roles
-    if (userId !== 0) {
-      roles = await axios.post('/api/roles/by_id', {
-        userId: userId,
-      })
-    }
+    const roleUser = await axios.get('/api/role_user')
 
     const response = {
       user: user.data,
-      roles: roles?.data,
+      roleUser: roleUser.data,
     }
     return response
   }
@@ -65,30 +50,25 @@ export const userSlice = createSlice({
           state,
           action: PayloadAction<{
             user: UserState
-            roles: Role[]
+            roleUser: RoleUserPayload
           }>
         ) => {
           const user = action.payload.user
-          const roles = action.payload.roles
+          const roleUser = action.payload.roleUser.role_user
           state.promise = 'idle'
 
           if (user !== undefined) {
+            const roleUser_temp = roleUser.filter(
+              (role) => role.user_id === user.id
+            )
+            const roleIds = roleUser_temp.map(
+              (role) => `role${role.role_id.toString()}`
+            )
+
             state.id = user.id
             state.name = user.name
             state.email = user.email
-          }
-
-          if (roles !== undefined) {
-            // Slice と差がなければ帰る
-            if (shallowEqual(roles, state.role.entities)) {
-              return
-            }
-
-            state.role.ids = roles.map((role) => `role${role.id.toString()}`)
-
-            roles.forEach((role) => {
-              state.role.entities[`role${role.id}`] = role
-            })
+            state.roles = roleIds
           }
         }
       )
@@ -99,6 +79,7 @@ export const userSlice = createSlice({
         state.id = 0
         state.name = ''
         state.email = ''
+        state.roles = []
         state.promise = 'rejected'
       })
   },

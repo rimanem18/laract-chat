@@ -11,9 +11,8 @@ import {
   userIdSelector,
   userNameSelector,
   userPromiseSelector,
-  userRoleEntitiesSelector,
-  userRoleIdsSelector,
   userRoleNumberIdsSelector,
+  userRolesSelector,
 } from '../selectors/UserSelector'
 import {
   authEmailSelector,
@@ -35,10 +34,8 @@ import {
   selectRoleGroup,
 } from '../selectors/GroupsSelector'
 import { rolesPromiseSelector, selectRoles } from '../selectors/RolesSelector'
-import { fetchGroups } from '../slices/GroupsSlice'
 import { useParams } from 'react-router'
 import { menuIsOpenSelector } from '../selectors/MenuSelector'
-import { toggleMenuOpen } from '../slices/MenuSlice'
 
 // プレーンな useDispatch と useSelector の代わりにアプリ全体で使用する
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -63,22 +60,20 @@ export const useAuthState = () => {
 
 // User Slice
 export const useUserState = () => {
-  const userId = useAppSelector(userIdSelector)
-  const userEmail = useAppSelector(userEmailSelector)
-  const userName = useAppSelector(userNameSelector)
-  const userRoleIds = useAppSelector(userRoleIdsSelector)
-  const userRoleNumberIds = useAppSelector(userRoleNumberIdsSelector)
-  const userRoleEntities = useAppSelector(userRoleEntitiesSelector)
-  const userPromise = useAppSelector(userPromiseSelector)
+  const id = useAppSelector(userIdSelector)
+  const email = useAppSelector(userEmailSelector)
+  const name = useAppSelector(userNameSelector)
+  const roles = useAppSelector(userRolesSelector)
+  const roleNumberIds = useAppSelector(userRoleNumberIdsSelector)
+  const promise = useAppSelector(userPromiseSelector)
 
   const userState = {
-    userId,
-    userEmail,
-    userName,
-    userRoleIds,
-    userRoleNumberIds,
-    userRoleEntities,
-    userPromise,
+    id,
+    email,
+    name,
+    roles,
+    roleNumberIds,
+    promise,
   }
   return userState
 }

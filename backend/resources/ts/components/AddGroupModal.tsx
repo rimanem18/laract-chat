@@ -3,7 +3,7 @@ import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
-import { useAppDispatch, useGroupModal, useUserState } from '../app/hooks'
+import { useAppDispatch, useGroupModal } from '../app/hooks'
 import { addGroup } from '../slices/GroupsSlice'
 
 type AddGroupModalProps = {

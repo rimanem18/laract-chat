@@ -26,35 +26,25 @@ export const userEmailSelector = createSelector(userSelector, (userSlice) => {
 })
 
 /**
- * userRoleIds を取得する
+ * userRoles を取得する
  */
-export const userRoleIdsSelector = createSelector(userSelector, (userSlice) => {
-  return userSlice.role.ids
+export const userRolesSelector = createSelector(userSelector, (userSlice) => {
+  return userSlice.roles
 })
 
 /**
- * userRoleIds 数値でを取得する
+ * userRoles 数値で取得する
  */
 export const userRoleNumberIdsSelector = createSelector(
   userSelector,
   (userSlice) => {
     // 数値の ID 一覧に変換
     let roleIds: number[] = []
-    userSlice.role.ids.forEach((roleId) => {
-      roleIds.push(userSlice.role.entities[roleId].id)
+    userSlice.roles.forEach((roleId) => {
+      roleIds.push(Number(roleId.replace('role', '')))
     })
 
     return roleIds
-  }
-)
-
-/**
- * userRoleEntities を取得する
- */
-export const userRoleEntitiesSelector = createSelector(
-  userSelector,
-  (userSlice) => {
-    return userSlice.role.entities
   }
 )
 

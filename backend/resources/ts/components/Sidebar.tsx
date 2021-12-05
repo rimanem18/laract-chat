@@ -5,6 +5,7 @@ import { useAppDispatch } from '../app/hooks'
 import { logout } from '../slices/AuthSlice'
 import Group from './Group'
 import UserInfo from './UserInfo'
+import { useHistory } from 'react-router'
 
 const Sidebar = () => {
   const dispatch = useAppDispatch()

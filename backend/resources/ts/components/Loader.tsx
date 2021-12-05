@@ -3,11 +3,11 @@ import { useAuthState, useUserState } from '../app/hooks'
 
 const Loader = () => {
   const { authPromise } = useAuthState()
-  const { userPromise } = useUserState()
+  const userState = useUserState()
 
   return (
     <>
-      {[authPromise, userPromise].includes('loading') ? (
+      {[authPromise, userState.promise].includes('loading') ? (
         <>
           <div className="loader-overlay"></div>
           <i className="loader fa fa-spinner fa-spin fa-5x"></i>

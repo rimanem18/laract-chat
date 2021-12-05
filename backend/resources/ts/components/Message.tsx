@@ -23,7 +23,7 @@ const Message = () => {
     return null
   }
 
-  const { userRoleNumberIds: roleIds } = useUserState()
+  const { roleNumberIds: roleIds } = useUserState()
   const rolesState = useRolesState()
   const chatMessagesState = useChatMessagesState()
   const { postPromise } = usePostState()

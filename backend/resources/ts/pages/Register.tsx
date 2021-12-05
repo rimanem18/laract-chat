@@ -13,7 +13,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
   const { authMessage, authPromise } = useAuthState()
-  const { userId } = useUserState()
+  const UserState = useUserState()
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +44,7 @@ const Register = () => {
 
   return (
     <>
-      {userId !== 0 ? (
+      {UserState.id !== 0 ? (
         <AuthRedirect />
       ) : (
         <Grid container spacing={10}>

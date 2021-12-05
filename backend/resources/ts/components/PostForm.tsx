@@ -11,7 +11,7 @@ import { getContent, postMessage } from '../slices/PostSlice'
 
 const PostForm = (): JSX.Element => {
   const dispatch = useAppDispatch()
-  const { userId } = useUserState()
+  const userState = useUserState()
   const { postContent } = usePostState()
   const groupId = useParamGroupId()
 
@@ -29,7 +29,7 @@ const PostForm = (): JSX.Element => {
     e.preventDefault()
     dispatch(
       postMessage({
-        userId: userId,
+        userId: userState.id,
         groupId: Number(groupId),
         content: postContent,
       })

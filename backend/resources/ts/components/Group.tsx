@@ -18,7 +18,7 @@ const Group = () => {
   }
 
   const userState = useUserState()
-  const roleIds = userState.userRoleNumberIds
+  const roleIds = userState.roleNumberIds
   const dispatch = useAppDispatch()
   const groupState = useGroupsState()
   const history = useHistory()
