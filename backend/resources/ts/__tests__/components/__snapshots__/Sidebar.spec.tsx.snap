@@ -23,17 +23,6 @@ Array [
         >
           太郎
         </div>
-        <div
-          className="role MuiBox-root css-0"
-        >
-          <div>
-            <span
-              className="role__badge--super-user"
-            >
-              staff
-            </span>
-          </div>
-        </div>
       </div>
     </div>
     <div

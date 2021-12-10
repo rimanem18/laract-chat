@@ -17,13 +17,11 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useGroupModal: () => useGroupModalMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
 }))
 
 const group = mockState.groupsSlice
 
 let useGroupModalMock = jest.fn()
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 const Component = <AddGroupModal roleIds={[1, 2]} />
 

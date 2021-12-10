@@ -17,15 +17,12 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useGroupModal: () => useGroupModalMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useGroupsState: () => useGroupsStateMock(),
 }))
 
-const user = mockState.userSlice
 const groupsState = mockState.groupsSlice
 
 let useGroupModalMock = jest.fn()
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 const useGroupsStateMock = jest.fn().mockReturnValue(groupsState)
 
 const Component = (

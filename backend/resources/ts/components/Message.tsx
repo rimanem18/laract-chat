@@ -26,7 +26,7 @@ const Message = () => {
   const { roleNumberIds: roleIds } = useUserState()
   const rolesState = useRolesState()
   const chatMessagesState = useChatMessagesState()
-  const { postPromise } = usePostState()
+  const postState = usePostState()
   const messageList = useRef<HTMLDivElement | null>(null)
   const dispatch = useAppDispatch()
 
@@ -48,10 +48,12 @@ const Message = () => {
 
   // メッセージが更新されたらフェッチ
   useEffect(() => {
-    if ([chatMessagesState.promise, postPromise].every((v) => v === 'idle')) {
+    if (
+      [chatMessagesState.promise, postState.promise].every((v) => v === 'idle')
+    ) {
       dispatch(fetchMessages({ groupIds: groupIds }))
     }
-  }, [postPromise, chatMessagesState.messages.allIds.length])
+  }, [postState.promise, chatMessagesState.messages.allIds.length])
 
   useEffect(() => {
     useScrollToBottom(messageList)

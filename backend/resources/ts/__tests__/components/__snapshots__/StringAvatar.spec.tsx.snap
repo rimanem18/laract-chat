@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StringAvatar snapshot 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-utr0cb-MuiAvatar-root"
+  data-testid="user-name"
+  title="太郎"
+>
+  太
+</div>
+`;

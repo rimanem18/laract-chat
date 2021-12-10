@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import renderer from 'react-test-renderer'
 import { mockState } from '../../app/mockState'
 import Group from '../../components/Group'
-import { useUserState } from '../../app/hooks'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -26,7 +25,7 @@ jest.mock('../../app/hooks', () => ({
 
 // Hooks の Mock
 const groupState = mockState.groupsSlice
-const userState = { userRoleNumberIds: [1] }
+const userState = { roleNumberIds: [1] }
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 const useUserStateMock = jest.fn().mockReturnValue(userState)
 const useGroupsStateMock = jest.fn().mockReturnValue(groupState)

@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen as SCREEN } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import PostForm from '../../components/PostForm'
+import { mockState } from '../../app/mockState'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
@@ -21,15 +22,11 @@ jest.mock('../../app/hooks', () => ({
   useParamGroupId: () => useParamGroupIdMock(),
 }))
 
-const mockValues = {
-  userId: 1,
-  content: 'Hello',
-}
-const useUserStateMock = jest
-  .fn()
-  .mockReturnValue({ userId: mockValues.userId })
+const postState = mockState.postSlice
+
+const useUserStateMock = jest.fn().mockReturnValue({ userId: postState.userId })
 const usePostStateMock = jest.fn().mockReturnValue({
-  postContent: mockValues.content,
+  postContent: postState.content,
 })
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
 
@@ -55,17 +52,18 @@ describe('PostForm', () => {
   it('入力値と postSlice content の文字列が同じ', () => {
     const { textarea } = setup()
 
-    expect(textarea.value).toBe(mockValues.content)
+    expect(textarea.value).toBe(postState.content)
   })
 
-  it('onChange が発火しても文字列は同じ', () => {
+  it('onChange が発火すると文字列が反映される', () => {
     const { textarea } = setup()
 
+    expect(textarea.value).toBe('fugafuga')
     fireEvent.change(textarea, {
       target: {
         value: 'Hello World!',
       },
     })
-    expect(textarea.value).toBe(mockValues.content)
+    expect(textarea.value).toBe('Hello World')
   })
 })

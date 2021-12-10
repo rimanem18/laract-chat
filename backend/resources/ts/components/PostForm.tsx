@@ -12,7 +12,7 @@ import { getContent, postMessage } from '../slices/PostSlice'
 const PostForm = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const userState = useUserState()
-  const { postContent } = usePostState()
+  const postState = usePostState()
   const groupId = useParamGroupId()
 
   if (groupId === undefined) {
@@ -25,13 +25,13 @@ const PostForm = (): JSX.Element => {
       | React.KeyboardEvent<HTMLTextAreaElement>
       | React.FormEvent<HTMLFormElement>
   ) => {
-    if (postContent === '') return
+    if (postState.content === '') return
     e.preventDefault()
     dispatch(
       postMessage({
         userId: userState.id,
         groupId: Number(groupId),
-        content: postContent,
+        content: postState.content,
       })
     )
   }
@@ -63,10 +63,11 @@ const PostForm = (): JSX.Element => {
           maxRows="2"
           className="post-form__input"
           name="content"
+          value={postState.content}
           onChange={changeContentHandler}
           onKeyUp={onSubmitKeyUpHandler}
           autoFocus
-          inputProps={{ 'data-testid': 'post-form', value: postContent }}
+          inputProps={{ 'data-testid': 'post-form' }}
         />
         <IconButton color="primary" type="submit">
           <SendIcon />

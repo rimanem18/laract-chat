@@ -2,25 +2,26 @@ import React from 'react'
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
 import renderer from 'react-test-renderer'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Sidebar from '../../components/Sidebar'
 import { mockState } from '../../app/mockState'
+import UserInfo from '../../components/UserInfo'
 
+// Hooks の Mock
 const mockUseAppDispatch = jest.fn()
+const mockUseAppSelector = jest.fn()
 jest.mock('../../app/hooks', () => ({
   useAppDispatch:
     () =>
     (...args: any[]) =>
       mockUseAppDispatch(...args),
+  useAppSelector:
+    () =>
+    (...args: any[]) =>
+      mockUseAppSelector(...args),
   useUserState: () => useUserStateMock(),
-  useGroupsState: () => useGroupsStateMock(),
-  useParamGroupId: () => useParamGroupIdMock(),
-  useGroupModal: () => useGroupModalMock(),
 }))
 
 // Mock の定義
 const user = mockState.userSlice
-const groupState = mockState.groupsSlice
 
 const useUserStateMock = jest.fn().mockReturnValue({
   id: user.id,
@@ -30,17 +31,8 @@ const useUserStateMock = jest.fn().mockReturnValue({
   roleNumberIds: [1],
   promise: user.promise,
 })
-const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
-const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
-let useGroupModalMock = jest.fn()
-
-const Component = (
-  <Router>
-    <Sidebar />
-  </Router>
-)
-
+const Component = <UserInfo />
 const setup = () => {
   const screen = render(Component)
   const userName = screen.getByTestId('user-name')
@@ -50,22 +42,7 @@ const setup = () => {
   }
 }
 
-describe('Sidebar', () => {
-  useGroupModalMock = jest.fn().mockReturnValue([
-    {
-      isOpen: false,
-      isConfirm: false,
-      newGroupName: groupState.groups.byId.group1.name,
-    },
-    {
-      openModal: jest.fn(),
-      closeModal: jest.fn(),
-      openConfirm: jest.fn(),
-      closeConfirm: jest.fn(),
-      setNewGroupName: jest.fn(),
-    },
-  ])
-
+describe('StringAvatar', () => {
   it('ユーザ名の一文字目が表示される', () => {
     const { userName } = setup()
 

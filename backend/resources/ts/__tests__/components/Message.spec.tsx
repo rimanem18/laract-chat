@@ -23,26 +23,25 @@ jest.mock('../../app/hooks', () => ({
   useFormatDate: () => useFormatDateMock(),
   useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useGroupModal: () => useGroupModalMock(),
+  useRolesState: () => useRolesStateMock(),
   useUserState: () => useUserStateMock(),
 }))
 
 // Mock の定義
-const ids = mockState.chatMessagesSlice.ids
-const entities = mockState.chatMessagesSlice.entities
-const created_at = entities.message1.created_at
-const promise = mockState.chatMessagesSlice.promise
+const messagesState = mockState.chatMessagesSlice
+const created_at = messagesState.messages.byId['message1'].created_at
 const groupId = 1
 
-const groupState = mockState.groupsSlice
+const groupState = {
+  groups: {
+    allNumberIds: [1, 2],
+  },
+}
 const userState = mockState.userSlice
+const rolesState = mockState.rolesSlice
 
-const useChatMessagesStateMock = jest.fn().mockReturnValue({
-  chatMessageIds: ids,
-  chatMessagesEntities: entities,
-  chatMessagesPromise: promise,
-})
+const useChatMessagesStateMock = jest.fn().mockReturnValue(messagesState)
 const usePostStateMock = jest.fn().mockReturnValue({
   postPromise: 'idle',
 })
@@ -51,6 +50,7 @@ const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 
 const useUserStateMock = jest.fn().mockReturnValue(userState)
 const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
+const useRolesStateMock = jest.fn().mockReturnValue(rolesState)
 
 const useParamGroupIdMock = jest.fn().mockReturnValue(groupId)
 const useGroupModalMock = jest.fn().mockReturnValue([
@@ -67,7 +67,6 @@ const useGroupModalMock = jest.fn().mockReturnValue([
     setNewGroupName: jest.fn(),
   },
 ])
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 // Setup
 const setup = () => {
