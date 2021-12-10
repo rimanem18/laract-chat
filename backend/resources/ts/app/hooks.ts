@@ -43,19 +43,20 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 // AuthSlice
 export const useAuthState = () => {
-  const authName = useAppSelector(authNameSelector)
-  const authEmail = useAppSelector(authEmailSelector)
-  const authPassword = useAppSelector(authPasswordSelector)
-  const authMessage = useAppSelector(authMessageSelector)
-  const authPromise = useAppSelector(authPromiseSelector)
+  const name = useAppSelector(authNameSelector)
+  const email = useAppSelector(authEmailSelector)
+  const password = useAppSelector(authPasswordSelector)
+  const message = useAppSelector(authMessageSelector)
+  const promise = useAppSelector(authPromiseSelector)
 
-  return {
-    authName,
-    authEmail,
-    authPassword,
-    authMessage,
-    authPromise,
+  const authState = {
+    name,
+    email,
+    password,
+    message,
+    promise,
   }
+  return authState
 }
 
 // User Slice
@@ -113,30 +114,26 @@ export const useChatMessagesState = () => {
     byId: useAppSelector(selectMessages.byId),
     allIds: useAppSelector(selectMessages.allIds),
   }
-  const roles = {
-    byId: useAppSelector(selectRoles.byId),
-    allIds: useAppSelector(selectRoles.allIds),
-  }
   const promise = useAppSelector(chatMessagesPromiseSelector)
 
   const chatMessagesState = {
     messages,
-    roles,
     promise,
   }
   return chatMessagesState
 }
 
 export const usePostState = () => {
-  const postUserId = useAppSelector(postUserIdSelector)
-  const postContent = useAppSelector(postContentSelector)
-  const postPromise = useAppSelector(postPromiseSelector)
+  const userId = useAppSelector(postUserIdSelector)
+  const content = useAppSelector(postContentSelector)
+  const promise = useAppSelector(postPromiseSelector)
 
-  return {
-    postUserId,
-    postContent,
-    postPromise,
+  const postState = {
+    userId,
+    content,
+    promise,
   }
+  return postState
 }
 
 export const useRolesState = () => {

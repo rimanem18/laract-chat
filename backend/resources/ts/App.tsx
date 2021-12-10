@@ -11,16 +11,16 @@ import Register from './pages/Register'
 import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
-  const { authPromise } = useAuthState()
+  const authState = useAuthState()
   const userState = useUserState()
   const dispatch = useAppDispatch()
 
   // レンダリング時にログインしているか判定
   useEffect(() => {
-    if (authPromise !== 'loading') {
+    if (authState.promise !== 'loading') {
       dispatch(fetchUser({ userId: userState.id }))
     }
-  }, [authPromise, userState.id])
+  }, [authState.promise, userState.id])
 
   return (
     <BrowserRouter>
