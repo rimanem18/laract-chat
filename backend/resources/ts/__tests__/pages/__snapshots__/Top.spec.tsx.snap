@@ -14,37 +14,19 @@ exports[`Top snapshot 1`] = `
         className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
       >
         <div
-          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1xi8lsn-MuiAvatar-root"
+          className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-utr0cb-MuiAvatar-root"
           data-testid="user-name"
+          title="太郎"
         >
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
-            data-testid="PersonIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-            />
-          </svg>
+          太
         </div>
         <div
           className="MuiBox-root css-7k1nrj"
         >
           <div
             className="MuiBox-root css-0"
-          />
-          <div
-            className="role MuiBox-root css-0"
           >
-            <div>
-              <span
-                className="role__badge--super-user"
-              >
-                staff
-              </span>
-            </div>
+            太郎
           </div>
         </div>
       </div>
@@ -86,9 +68,6 @@ exports[`Top snapshot 1`] = `
             </svg>
           </span>
           ログアウト
-          <span
-            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
         </button>
       </div>
     </div>
@@ -127,9 +106,6 @@ exports[`Top snapshot 1`] = `
         </svg>
       </span>
       新しいグループを追加
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
     <ul
       className="MuiList-root MuiList-padding css-x9esj-MuiList-root"
@@ -166,9 +142,6 @@ exports[`Top snapshot 1`] = `
             </div>
           </span>
         </div>
-        <span
-          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
       </div>
       <div
         className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
@@ -202,9 +175,6 @@ exports[`Top snapshot 1`] = `
             </div>
           </span>
         </div>
-        <span
-          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
       </div>
     </ul>
   </div>
@@ -246,9 +216,6 @@ exports[`Top snapshot 1`] = `
             d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
           />
         </svg>
-        <span
-          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
       </button>
     </h2>
     <div
@@ -278,7 +245,7 @@ exports[`Top snapshot 1`] = `
             className="MuiBox-root css-1ynyhby"
           >
             <div
-              className="MuiBox-root css-3cky4u"
+              className="MuiBox-root css-gfpg3d"
             >
               hoge
             </div>
@@ -328,9 +295,6 @@ exports[`Top snapshot 1`] = `
               d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
             />
           </svg>
-          <span
-            className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
         </button>
       </div>
     </div>
@@ -409,9 +373,6 @@ exports[`Top snapshot 1`] = `
             d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"
           />
         </svg>
-        <span
-          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
       </button>
     </form>
   </div>

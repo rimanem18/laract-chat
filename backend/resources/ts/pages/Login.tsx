@@ -10,7 +10,7 @@ const Login = () => {
   const dispatch = useAppDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { authPromise } = useAuthState()
+  const authState = useAuthState()
 
   const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -58,7 +58,7 @@ const Login = () => {
         <Grid item xs={8} md={6}>
           <h3>ログイン</h3>
           <p>
-            {authPromise === 'rejected'
+            {authState.promise === 'rejected'
               ? 'ログインに失敗しました。ユーザ名とパスワードが正しいか確認してください。'
               : ''}
           </p>

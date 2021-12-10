@@ -12,7 +12,7 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
-  const { authMessage, authPromise } = useAuthState()
+  const authState = useAuthState()
   const UserState = useUserState()
 
   // 登録
@@ -52,8 +52,8 @@ const Register = () => {
           <Grid item xs={8} md={6}>
             <h3>登録</h3>
             <p>
-              {authPromise === 'rejected'
-                ? `ユーザ登録に失敗しました。${authMessage}`
+              {authState.promise === 'rejected'
+                ? `ユーザ登録に失敗しました。${authState.message}`
                 : ''}
             </p>
 
