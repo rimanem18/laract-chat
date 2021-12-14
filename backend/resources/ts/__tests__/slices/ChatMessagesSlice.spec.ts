@@ -1,43 +1,48 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { MessagePayload } from '../../app/type'
+import {
+  Message,
+  MessagePayload,
+  PromiseState,
+  RoleUser,
+  RoleUserPayload,
+} from '../../app/type'
 import {
   chatMessagesSlice,
-  ChatMessagesSliceState,
   fetchMessages,
-  updateMessages,
 } from '../../slices/ChatMessagesSlice'
 
-// 初期値
-const initialState: ChatMessagesSliceState = {
-  ids: [],
-  entities: {
-    message0: {
-      id: 0,
-      group_id: 0,
-      name: '',
-      content: '',
-      created_at: '',
-      role_name: '',
-      role_color: '',
-    },
+type ChatMessagesState = {
+  messages: {
+    byId: Record<string, Message>
+    allIds: string[]
+  }
+  roleUser: {
+    byId: Record<string, RoleUser>
+    allIds: string[]
+  }
+  promise: PromiseState
+}
+
+const initialState: ChatMessagesState = {
+  messages: {
+    byId: {},
+    allIds: [],
+  },
+  roleUser: {
+    byId: {},
+    allIds: [],
   },
   promise: 'idle',
 }
 
-const payloadMock: MessagePayload[] = [
+const messagePayloadMock: MessagePayload[] = [
   {
     id: 1,
     name: 'hoge',
     group_id: 1,
     content: 'Hello World!',
     created_at: '1900-01-01',
-    roles: [
-      {
-        id: 3,
-        name: 'staff',
-        color: '#999999',
-      },
-    ],
+    user_id: 1,
   },
   {
     id: 2,
@@ -45,15 +50,16 @@ const payloadMock: MessagePayload[] = [
     group_id: 2,
     content: 'Hello Docker',
     created_at: '1900-01-01',
-    roles: [
-      {
-        id: 3,
-        name: 'staff',
-        color: '#999999',
-      },
-    ],
+    user_id: 2,
   },
 ]
+const roleUserPayloadMock: RoleUserPayload = {
+  role_user: [{ user_id: 1, role_id: 1 }],
+}
+const payloadMock = {
+  messages: messagePayloadMock,
+  role_user: roleUserPayloadMock,
+}
 
 describe('ChatMessages', () => {
   describe('fetchMessages', () => {
@@ -64,58 +70,18 @@ describe('ChatMessages', () => {
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('loading')
     })
-    it('fetchMessages fulfilled 配列が一個', () => {
-      const action: PayloadAction<MessagePayload[]> = {
-        type: fetchMessages.fulfilled.type,
-        payload: [payloadMock[0]],
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toBe('idle')
-    })
-    it('fetchMessages fulfilled 配列が複数個', () => {
-      const action: PayloadAction<MessagePayload[]> = {
+    it('fetchMessages fulfilled', () => {
+      const action = {
         type: fetchMessages.fulfilled.type,
         payload: payloadMock,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
+      expect(state.messages.allIds)
       expect(state.promise).toBe('idle')
     })
     it('fetchMessages rejected', () => {
       const action = {
         type: fetchMessages.rejected.type,
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toBe('rejected')
-    })
-  })
-
-  describe('updateMessages', () => {
-    it('updateMessages pending', () => {
-      const action = {
-        type: updateMessages.pending.type,
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toBe('loading')
-    })
-    it('updateMessages fulfilled 配列が一個', () => {
-      const action: PayloadAction<MessagePayload[]> = {
-        type: updateMessages.fulfilled.type,
-        payload: [payloadMock[0]],
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toBe('idle')
-    })
-    it('updateMessages fulfilled 配列が複数個', () => {
-      const action: PayloadAction<MessagePayload[]> = {
-        type: updateMessages.fulfilled.type,
-        payload: payloadMock,
-      }
-      const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.promise).toBe('idle')
-    })
-    it('updateMessages rejected', () => {
-      const action = {
-        type: updateMessages.rejected.type,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
       expect(state.promise).toBe('rejected')

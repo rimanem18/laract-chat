@@ -1,18 +1,33 @@
+import { PayloadAction } from '@reduxjs/toolkit'
+import { RoleUserPayload } from '../../app/type'
 import { fetchUser, userSlice, UserState } from '../../slices/UserSlice'
 
 const initialState: UserState = {
   id: 0,
   name: '',
   email: '',
+  roles: [],
   promise: 'idle',
-  role: {
-    ids: ['role0'],
-    entities: {
-      role1: {
-        id: 0,
-        name: '',
+}
+
+const payloadMock: {
+  user: UserState
+  roleUser: RoleUserPayload
+} = {
+  user: {
+    id: 1,
+    name: '太郎',
+    email: 'taro@example.com',
+    roles: ['role1'],
+    promise: 'idle',
+  },
+  roleUser: {
+    role_user: [
+      {
+        role_id: 1,
+        user_id: 1,
       },
-    },
+    ],
   },
 }
 
@@ -26,36 +41,19 @@ describe('userSlice', () => {
       expect(state.promise).toBe('loading')
     })
     it('fetchUser fulfilled', () => {
-      const action = {
+      const action: PayloadAction<{
+        user: UserState
+        roleUser: RoleUserPayload
+      }> = {
         type: fetchUser.fulfilled.type,
-        payload: {
-          id: 0,
-          name: '',
-          email: '',
-          promise: 'idle',
-          role: {
-            ids: ['role0'],
-            entities: {
-              role1: {
-                id: 0,
-                name: '',
-              },
-            },
-          },
-        },
+        payload: payloadMock,
       }
       const state = userSlice.reducer(initialState, action)
-      expect(state.id).toBe(0)
-      expect(state.name).toBe('')
-      expect(state.email).toBe('')
+      expect(state.id).toBe(1)
+      expect(state.name).toBe('太郎')
+      expect(state.email).toBe('taro@example.com')
       expect(state.promise).toBe('idle')
-      expect(state.role.ids).toEqual(['role0'])
-      expect(state.role.entities).toEqual({
-        role1: {
-          id: 0,
-          name: '',
-        },
-      })
+      expect(state.roles).toEqual(['role1'])
     })
     it('fetchUser rejected', () => {
       const action = {

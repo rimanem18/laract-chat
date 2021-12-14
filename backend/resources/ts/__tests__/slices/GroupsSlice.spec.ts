@@ -15,7 +15,7 @@ const initialState: GroupsState = {
     byId: {},
     allIds: [],
   },
-  roles: {
+  roleGroup: {
     byId: {},
     allIds: [],
   },
@@ -26,7 +26,6 @@ const initialState: GroupsState = {
 const payloadMock: {
   groups: GroupsPayload
   roleGroup: RoleGroupPayload
-  roles: RolesPayload
 } = {
   groups: {
     public_groups: [
@@ -62,20 +61,6 @@ const payloadMock: {
       },
     ],
   },
-  roles: {
-    roles: [
-      {
-        id: 1,
-        name: 'admin',
-        color: '#999',
-      },
-      {
-        id: 2,
-        name: 'staff',
-        color: '#666',
-      },
-    ],
-  },
 }
 
 describe('ChatMessages', () => {
@@ -91,12 +76,40 @@ describe('ChatMessages', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
         roleGroup: RoleGroupPayload
-        roles: RolesPayload
       }> = {
         type: fetchGroups.fulfilled.type,
         payload: payloadMock,
       }
       const state = groupsSlice.reducer(initialState, action)
+      expect(state.groups.byId).toEqual({
+        group1: {
+          id: 1,
+          name: 'hello group',
+          roles: [],
+        },
+        group2: {
+          id: 2,
+          name: 'hoge group',
+          roles: [],
+        },
+        group3: {
+          id: 3,
+          name: 'private group',
+          roles: ['role1'],
+        },
+        group4: {
+          id: 4,
+          name: 'fuga group',
+          roles: ['role2'],
+        },
+      })
+      expect(state.groups.allIds).toEqual([
+        'group1',
+        'group2',
+        'group3',
+        'group4',
+      ])
+      expect(state.oldestId).toBe(1)
       expect(state.promise).toBe('idle')
     })
     it('fetchGroups rejected', () => {
@@ -120,7 +133,6 @@ describe('ChatMessages', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
         roleGroup: RoleGroupPayload
-        roles: RolesPayload
       }> = {
         type: addGroup.fulfilled.type,
         payload: payloadMock,
@@ -149,7 +161,6 @@ describe('ChatMessages', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
         roleGroup: RoleGroupPayload
-        roles: RolesPayload
       }> = {
         type: editGroup.fulfilled.type,
         payload: payloadMock,
@@ -178,7 +189,6 @@ describe('ChatMessages', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
         roleGroup: RoleGroupPayload
-        roles: RolesPayload
       }> = {
         type: deleteGroup.fulfilled.type,
         payload: payloadMock,

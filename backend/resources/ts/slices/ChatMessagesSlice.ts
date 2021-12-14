@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-import { RootState } from '../app/store'
 import {
   Message,
   MessagePayload,
@@ -69,6 +67,7 @@ export const chatMessagesSlice = createSlice({
           }>
         ) => {
           const messages = action.payload.messages
+
           const roleUser = action.payload.roleUser.role_user
           state.promise = 'idle'
 
