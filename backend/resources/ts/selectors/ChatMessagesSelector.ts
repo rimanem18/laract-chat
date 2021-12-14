@@ -4,25 +4,20 @@ import { RootState } from '../app/rootReducer'
 export const chatMessagesSelector = (state: RootState) =>
   state.chatMessagesSlice
 
-/**
- * ids を取得する
- */
-export const chatMessageIdsSelector = createSelector(
-  chatMessagesSelector,
-  (chatMessagesSlice) => {
-    return chatMessagesSlice.ids
-  }
-)
-
-/**
- * entities を取得する
- */
-export const chatMessagesEntitiesSelector = createSelector(
-  chatMessagesSelector,
-  (chatMessagesSlice) => {
-    return chatMessagesSlice.entities
-  }
-)
+export const selectMessages = {
+  /**
+   * メッセージのID一覧を取得する
+   */
+  allIds: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
+    return chatMessagesSlice.messages.allIds
+  }),
+  /**
+   * メッセージの実体を取得する
+   */
+  byId: createSelector(chatMessagesSelector, (chatMessagesSlice) => {
+    return chatMessagesSlice.messages.byId
+  }),
+}
 
 /**
  * promise を取得する

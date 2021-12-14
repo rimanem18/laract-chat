@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StringAvatar snapshot 1`] = `
+Array [
+  <div
+    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-utr0cb-MuiAvatar-root"
+    data-testid="user-name"
+    title="太郎"
+  >
+    太
+  </div>,
+  <div
+    className="MuiBox-root css-7k1nrj"
+  >
+    <div
+      className="MuiBox-root css-0"
+    >
+      太郎
+    </div>
+  </div>,
+]
+`;

@@ -19,17 +19,16 @@ jest.mock('../../app/hooks', () => ({
       mockUseAppSelector(...args),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
+  useUserState: () => useUserStateMock(),
   useGroupsState: () => useGroupsStateMock(),
 }))
 
 // Hooks の Mock
-const group = mockState.groupsSlice
+const groupState = mockState.groupsSlice
+const userState = { roleNumberIds: [1] }
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
-const useGroupsStateMock = jest.fn().mockReturnValue({
-  groupIds: group.ids,
-  groupsEntities: group.entities,
-  groupsPromise: group.promise,
-})
+const useUserStateMock = jest.fn().mockReturnValue(userState)
+const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
 let useGroupModalMock = jest.fn()
 
 const Component = (
@@ -56,7 +55,7 @@ describe('Group', () => {
     {
       isOpen: false,
       isConfirm: false,
-      newName: group.entities.group1.name,
+      newName: 'Group Name',
     },
     {
       openModal: jest.fn(),
@@ -74,8 +73,8 @@ describe('Group', () => {
 
   it('グループ名が表示される', () => {
     const { groupNames } = setup()
-    const ent = group.entities
-    expect(groupNames[0].textContent).toBe(ent.group1.name)
-    expect(groupNames[1].textContent).toBe(ent.group2.name)
+    const byId = groupState.groups.byId
+    expect(groupNames[0].textContent).toBe(byId.group1.name)
+    expect(groupNames[1].textContent).toBe(byId.group2.name)
   })
 })

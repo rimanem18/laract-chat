@@ -4,7 +4,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 import Message from '../../components/Message'
 import { mockState } from '../../app/mockState'
-import { groupsEntitiesSelector } from '../../selectors/GroupsSelector'
 
 // Hooks の Mock
 const mockUseAppDispatch = jest.fn()
@@ -24,41 +23,41 @@ jest.mock('../../app/hooks', () => ({
   useFormatDate: () => useFormatDateMock(),
   useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useGroupModal: () => useGroupModalMock(),
+  useRolesState: () => useRolesStateMock(),
+  useUserState: () => useUserStateMock(),
 }))
 
 // Mock の定義
-const ids = mockState.chatMessagesSlice.ids
-const entities = mockState.chatMessagesSlice.entities
-const created_at = entities.message1.created_at
-const promise = mockState.chatMessagesSlice.promise
-const group = mockState.groupsSlice
+const messagesState = mockState.chatMessagesSlice
+const created_at = messagesState.messages.byId['message1'].created_at
 const groupId = 1
 
-const useChatMessagesStateMock = jest.fn().mockReturnValue({
-  chatMessageIds: ids,
-  chatMessagesEntities: entities,
-  chatMessagesPromise: promise,
-})
+const groupState = {
+  groups: {
+    allNumberIds: [1, 2],
+  },
+}
+const userState = mockState.userSlice
+const rolesState = mockState.rolesSlice
+
+const useChatMessagesStateMock = jest.fn().mockReturnValue(messagesState)
 const usePostStateMock = jest.fn().mockReturnValue({
   postPromise: 'idle',
 })
 const useScrollToBottomMock = jest.fn()
 const useFormatDateMock = jest.fn().mockReturnValue(created_at)
 
-const useGroupsStateMock = jest.fn().mockReturnValue({
-  groupIds: group.ids,
-  groupEntities: group.entities,
-  groupsPromise: group.promise,
-})
+const useUserStateMock = jest.fn().mockReturnValue(userState)
+const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
+const useRolesStateMock = jest.fn().mockReturnValue(rolesState)
 
 const useParamGroupIdMock = jest.fn().mockReturnValue(groupId)
 const useGroupModalMock = jest.fn().mockReturnValue([
   {
     isOpen: false,
     isConfirm: false,
-    newName: group.entities.group1.name,
+    newName: 'Hello Group',
   },
   {
     openModal: jest.fn(),
@@ -68,7 +67,6 @@ const useGroupModalMock = jest.fn().mockReturnValue([
     setNewGroupName: jest.fn(),
   },
 ])
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
 // Setup
 const setup = () => {

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Button, Grid } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useAppDispatch, useUserState } from '../app/hooks'
-import StringAvatar from './StringAvatar'
+import { useAppDispatch } from '../app/hooks'
 import { logout } from '../slices/AuthSlice'
 import Group from './Group'
+import UserInfo from './UserInfo'
+import { useHistory } from 'react-router'
 
 const Sidebar = () => {
-  const { userName } = useUserState()
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
@@ -18,8 +18,7 @@ const Sidebar = () => {
     <>
       <Grid container sx={{ my: 2 }}>
         <Grid container>
-          <StringAvatar name={userName}></StringAvatar>
-          <p>{userName}</p>
+          <UserInfo />
         </Grid>
         <Grid container>
           <Button

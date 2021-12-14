@@ -1,7 +1,12 @@
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAppDispatch, useGroupsState, useParamGroupId } from '../app/hooks'
+import {
+  useAppDispatch,
+  useGroupsState,
+  useParamGroupId,
+  useUserState,
+} from '../app/hooks'
 import { fetchGroups } from '../slices/GroupsSlice'
 import { toggleMenuOpen } from '../slices/MenuSlice'
 import AddGroupModal from './AddGroupModal'
@@ -12,15 +17,16 @@ const Group = () => {
     return null
   }
 
+  const userState = useUserState()
+  const roleIds = userState.roleNumberIds
   const dispatch = useAppDispatch()
-  const { groupIds, groupsEntities, groupsPromise } = useGroupsState()
+  const groupState = useGroupsState()
   const history = useHistory()
 
   useEffect(() => {
-    if (groupsPromise !== 'loading') {
-      dispatch(fetchGroups())
-    }
-  }, [])
+    // ロールID一覧をもとにグループをフェッチ
+    dispatch(fetchGroups({ roleIds: roleIds }))
+  }, [roleIds.length])
 
   const goToById = useCallback((id) => {
     history.push(`/groups/${id}`)
@@ -29,7 +35,7 @@ const Group = () => {
 
   return (
     <>
-      <AddGroupModal />
+      <AddGroupModal roleIds={roleIds} />
       <List
         sx={{
           '&::-webkit-scrollbar': {
@@ -49,14 +55,16 @@ const Group = () => {
           overflow: 'none',
         }}
       >
-        {groupIds.map((id: string) => {
+        {groupState.groups.allIds.map((id: string) => {
+          const groups = groupState.groups
+
           const isActive = id === activeGroupId
 
           return (
             <GroupItem
               key={id}
-              id={groupsEntities[id].id.toString()}
-              name={groupsEntities[id].name}
+              id={groups.byId[id].id.toString()}
+              name={groups.byId[id].name}
               goToById={goToById}
               isActive={isActive}
             />

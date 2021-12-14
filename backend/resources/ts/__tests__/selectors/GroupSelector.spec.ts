@@ -1,29 +1,47 @@
 import { mockState } from '../../app/mockState'
 import {
-  groupIdsSelector,
-  groupsEntitiesSelector,
   groupsOldestIdSelector,
   groupsPromiseSelector,
+  selectGroups,
+  selectRoleGroup,
 } from '../../selectors/GroupsSelector'
 
 describe('groupSelector', () => {
-  it('Selector で groupState の値を取得できる', () => {
-    const ids = groupIdsSelector(mockState)
-    const entities = groupsEntitiesSelector(mockState)
-    const promise = groupsPromiseSelector(mockState)
-    const oldestId = groupsOldestIdSelector(mockState)
+  it('Selector で groups の値を取得できる', () => {
+    const groups = {
+      allIds: selectGroups.allIds(mockState),
+      byId: selectGroups.byId(mockState),
+    }
 
-    expect(ids).toEqual(['group1', 'group2'])
-    expect(entities).toEqual({
+    expect(groups.allIds).toEqual(['group1', 'group2'])
+    expect(groups.byId).toEqual({
       group1: {
         id: 1,
-        name: 'hoge',
+        name: 'hello',
+        roles: ['role1'],
       },
       group2: {
         id: 2,
-        name: 'piyo',
+        name: 'world',
+        roles: ['role1', 'role2'],
       },
     })
+  })
+
+  it('Selector で roleGroup の値を取得できる', () => {
+    const roleGroup = {
+      allIds: selectRoleGroup.allIds(mockState),
+      byId: selectRoleGroup.byId(mockState),
+    }
+
+    expect(roleGroup.allIds).toEqual([])
+    expect(roleGroup.byId).toEqual({})
+  })
+
+  it('Selector で promise と oldestId を取得できる', () => {
+    const promise = groupsPromiseSelector(mockState)
+    const oldestId = groupsOldestIdSelector(mockState)
+
     expect(promise).toBe('idle')
     expect(oldestId).toBe(1)
   })

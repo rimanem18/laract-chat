@@ -9,47 +9,69 @@ import {
   useGroupsState,
   useParamGroupId,
   useScrollToBottom,
+  useUserState,
+  useRolesState,
 } from '../app/hooks'
-import { fetchMessages, updateMessages } from '../slices/ChatMessagesSlice'
+import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
+import { fetchRoles } from '../slices/RolesSlice'
 
 const Message = () => {
-  const { chatMessageIds, chatMessagesEntities, chatMessagesPromise } =
-    useChatMessagesState()
-  const { postPromise } = usePostState()
-  const messageList = useRef<HTMLDivElement | null>(null)
   const groupId = useParamGroupId()
+  if (groupId === undefined) {
+    return null
+  }
+
+  const { roleNumberIds: roleIds } = useUserState()
+  const rolesState = useRolesState()
+  const chatMessagesState = useChatMessagesState()
+  const postState = usePostState()
+  const messageList = useRef<HTMLDivElement | null>(null)
   const dispatch = useAppDispatch()
 
-  const { groupsEntities } = useGroupsState()
+  const groupState = useGroupsState()
+  const groupIds = groupState.groups.allNumberIds
+
+  useEffect(() => {
+    if (rolesState.promise !== 'loading') {
+      dispatch(fetchRoles())
+    }
+  }, [])
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {
-    if (chatMessageIds.length === 0 || chatMessagesPromise !== 'loading') {
-      dispatch(fetchMessages())
+    if (groupIds.length !== 0) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
     }
-  }, [])
+  }, [groupIds.length])
+
   // メッセージが更新されたらフェッチ
   useEffect(() => {
-    if ([chatMessagesPromise, postPromise].every((v) => v === 'idle')) {
-      dispatch(updateMessages())
+    if (
+      [chatMessagesState.promise, postState.promise].every((v) => v === 'idle')
+    ) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
     }
-  }, [postPromise, chatMessageIds.length])
+  }, [postState.promise, chatMessagesState.messages.allIds.length])
 
   useEffect(() => {
     useScrollToBottom(messageList)
   }, [messageList.current?.scrollHeight])
 
   const groupName =
-    groupsEntities !== undefined &&
-    groupsEntities[`group${groupId}`] !== undefined
-      ? groupsEntities[`group${groupId}`].name
+    groupState.groups.byId !== undefined &&
+    groupState.groups.byId[`group${groupId}`] !== undefined
+      ? groupState.groups.byId[`group${groupId}`].name
       : ''
 
   return (
     <>
-      <GroupName id={groupId ? groupId : ''} name={groupName} />
+      <GroupName
+        id={groupId ? groupId : ''}
+        name={groupName}
+        roleIds={roleIds}
+      />
       <Box
         sx={{
           '&::-webkit-scrollbar': {
@@ -71,8 +93,21 @@ const Message = () => {
         ref={messageList}
       >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
-        {chatMessageIds.map((id: string) => {
-          const entity = chatMessagesEntities[id]
+        {chatMessagesState.messages.allIds.map((id: string) => {
+          const entity = chatMessagesState.messages.byId[id]
+
+          // ロール情報を取得
+          let role = rolesState.roles.byId[entity.roles[0]]
+
+          if (role === undefined) {
+            // ロールを持っていない場合は無難なデータを作って渡す
+            role = {
+              id: 0,
+              name: '',
+              color: '#333333',
+            }
+          }
+
           // 2個以上の改行を2個改行におさめる
           const content = entity.content.replace(/\n{2,}/g, '\n\n')
 
@@ -80,8 +115,10 @@ const Message = () => {
           if (Number(groupId) === entity.group_id) {
             return (
               <MessageItem
-                key={`${groupId}${id}`}
+                key={id}
                 name={entity.name}
+                roleColor={role.color}
+                roleName={role.name}
                 content={content}
                 created_at={entity.created_at}
               />
@@ -103,25 +140,26 @@ export default React.memo(Message)
 type GroupNameProps = {
   id: string
   name: string
+  roleIds: number[]
 }
-const GroupName = React.memo(({ id, name }: GroupNameProps) => {
+const GroupName = React.memo(({ id, name, roleIds }: GroupNameProps) => {
   return (
     <h2 className="h2">
       {name}
-      <EditGroupModal groupId={id} groupName={name} />
+      <EditGroupModal groupId={id} groupName={name} roleIds={roleIds} />
     </h2>
   )
 })
 
 type MessageItemProps = {
   name: string
+  roleName?: string
+  roleColor?: string
   content: string
   created_at: string
 }
 const MessageItem = React.memo(
-  ({ name, content, created_at }: MessageItemProps) => {
-    console.log('message item')
-
+  ({ name, roleColor, roleName, content, created_at }: MessageItemProps) => {
     const datetime = useFormatDate(created_at)
 
     return (
@@ -131,7 +169,12 @@ const MessageItem = React.memo(
             <StringAvatar name={name}></StringAvatar>
             <Box sx={{ m: 1 }}>
               <Box
-                sx={{ fontWeight: 'bold', display: 'block', fontSize: '80%' }}
+                sx={{
+                  color: roleColor,
+                  fontWeight: 'bold',
+                  display: 'block',
+                  fontSize: '80%',
+                }}
               >
                 {name}
               </Box>

@@ -1,54 +1,56 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-import { RootState } from '../app/store'
-import { PromiseState } from '../app/type'
-
-export type ChatMessage = {
-  id: number
-  group_id: number
-  name: string
-  content: string
-  created_at: string
-}
+import {
+  Message,
+  MessagePayload,
+  PromiseState,
+  RoleUser,
+  RoleUserPayload,
+} from '../app/type'
 
 // 型定義
-export interface ChatMessagesSliceState {
-  ids: string[]
-  entities: Record<string, ChatMessage>
+type ChatMessagesState = {
+  messages: {
+    byId: Record<string, Message>
+    allIds: string[]
+  }
+  roleUser: {
+    byId: Record<string, RoleUser>
+    allIds: string[]
+  }
   promise: PromiseState
 }
 
-// 初期値
-const initialState: ChatMessagesSliceState = {
-  ids: [],
-  entities: {
-    message0: {
-      id: 0,
-      group_id: 0,
-      name: '',
-      content: '',
-      created_at: '',
-    },
+const initialState: ChatMessagesState = {
+  messages: {
+    byId: {},
+    allIds: [],
+  },
+  roleUser: {
+    byId: {},
+    allIds: [],
   },
   promise: 'idle',
 }
 
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
-  async () => {
-    const response = await axios.get('/api/chat_messages/')
-    return response.data.chat_messages
-  }
-)
-export const updateMessages = createAsyncThunk(
-  'chatMessages/updateMessages',
-  async () => {
-    const response = await axios.get('/api/chat_messages/')
-    return response.data.chat_messages
-  }
-)
+  async ({ groupIds }: { groupIds: number[] }) => {
+    const messages = await axios.post('/api/chat_messages/by_group_ids', {
+      groupIds: groupIds,
+    })
+    const roleUser = await axios.get('/api/role_user')
+    const response: {
+      messages: MessagePayload[]
+      roleUser: RoleUserPayload
+    } = {
+      messages: messages.data,
+      roleUser: roleUser.data,
+    }
 
+    return response
+  }
+)
 export const chatMessagesSlice = createSlice({
   name: 'chatMessages',
   initialState,
@@ -57,21 +59,40 @@ export const chatMessagesSlice = createSlice({
     builder
       .addCase(
         fetchMessages.fulfilled,
-        (state, action: PayloadAction<ChatMessage[]>) => {
-          const messages = action.payload
+        (
+          state,
+          action: PayloadAction<{
+            messages: MessagePayload[]
+            roleUser: RoleUserPayload
+          }>
+        ) => {
+          const messages = action.payload.messages
+
+          const roleUser = action.payload.roleUser.role_user
           state.promise = 'idle'
 
-          // メッセージ数が同じならそのまま帰る
-          if (state.ids.length === messages.length) {
-            return
-          }
-
-          state.ids = messages.map(
+          state.messages.allIds = messages.map(
             (message) => `message${message.id.toString()}`
           )
-
           messages.forEach((message) => {
-            state.entities[`message${message.id}`] = message
+            const roleUser_temp = roleUser.filter(
+              (role) => role.user_id === message.user_id
+            )
+            const roleIds = roleUser_temp.map(
+              (role) => `role${role.role_id.toString()}`
+            )
+
+            const byId: Message = {
+              id: message.id,
+              group_id: message.group_id,
+              user_id: message.user_id,
+              name: message.name,
+              content: message.content,
+              created_at: message.created_at,
+              roles: roleIds,
+            }
+
+            state.messages.byId[`message${message.id}`] = byId
           })
         }
       )
@@ -79,30 +100,6 @@ export const chatMessagesSlice = createSlice({
         state.promise = 'loading'
       })
       .addCase(fetchMessages.rejected, (state) => {
-        state.promise = 'rejected'
-      })
-      // updateMessage
-      .addCase(
-        updateMessages.fulfilled,
-        (state, action: PayloadAction<ChatMessage[]>) => {
-          const messages = action.payload
-          state.promise = 'idle'
-
-          const diff = messages.length - state.ids.length
-          if (diff === 0) {
-            return
-          }
-
-          const i = 0
-          const lastMessage = messages.slice(-diff)[i]
-          state.ids.push(`message${lastMessage.id.toString()}`)
-          state.entities[`message${lastMessage.id.toString()}`] = lastMessage
-        }
-      )
-      .addCase(updateMessages.pending, (state, action) => {
-        state.promise = 'loading'
-      })
-      .addCase(updateMessages.rejected, (state) => {
         state.promise = 'rejected'
       })
   },

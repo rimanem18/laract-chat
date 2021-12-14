@@ -26,7 +26,6 @@ exports[`PostForm snapshot 1`] = `
         onFocus={[Function]}
         required={false}
         type="text"
-        value="Hello"
       />
       <fieldset
         aria-hidden={true}
@@ -76,9 +75,6 @@ exports[`PostForm snapshot 1`] = `
         d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"
       />
     </svg>
-    <span
-      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-    />
   </button>
 </form>
 `;

@@ -12,8 +12,8 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState(true)
   const [password, setPassword] = useState('')
-  const { authMessage, authPromise } = useAuthState()
-  const { userId } = useUserState()
+  const authState = useAuthState()
+  const UserState = useUserState()
 
   // 登録
   const registerHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +44,7 @@ const Register = () => {
 
   return (
     <>
-      {userId !== 0 ? (
+      {UserState.id !== 0 ? (
         <AuthRedirect />
       ) : (
         <Grid container spacing={10}>
@@ -52,8 +52,8 @@ const Register = () => {
           <Grid item xs={8} md={6}>
             <h3>登録</h3>
             <p>
-              {authPromise === 'rejected'
-                ? `ユーザ登録に失敗しました。${authMessage}`
+              {authState.promise === 'rejected'
+                ? `ユーザ登録に失敗しました。${authState.message}`
                 : ''}
             </p>
 

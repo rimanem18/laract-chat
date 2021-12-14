@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * このユーザーに属する役割
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

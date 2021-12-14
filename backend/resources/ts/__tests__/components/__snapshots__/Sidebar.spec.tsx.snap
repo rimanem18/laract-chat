@@ -15,9 +15,15 @@ Array [
       >
         太
       </div>
-      <p>
-        太郎
-      </p>
+      <div
+        className="MuiBox-root css-7k1nrj"
+      >
+        <div
+          className="MuiBox-root css-0"
+        >
+          太郎
+        </div>
+      </div>
     </div>
     <div
       className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-11lq3yg-MuiGrid-root"
@@ -127,7 +133,7 @@ Array [
           <div
             className="MuiBox-root css-24ohs5"
           >
-            hoge
+            hello
           </div>
         </span>
       </div>
@@ -160,7 +166,7 @@ Array [
           <div
             className="MuiBox-root css-24ohs5"
           >
-            piyo
+            world
           </div>
         </span>
       </div>

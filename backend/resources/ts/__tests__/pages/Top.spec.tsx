@@ -22,51 +22,51 @@ jest.mock('../../app/hooks', () => ({
   useGroupsState: () => useGroupsStateMock(),
   useChatMessagesState: () => useChatMessagesStateMock(),
   usePostState: () => usePostStateMock(),
+  useRolesState: () => useRolesStateMock(),
   useScrollToBottom: () => useScrollToBottomMock(),
   useFormatDate: () => useFormatDateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
   useMenuIsOpen: () => useMenuIsOpenMock(),
 }))
 
 // Hooks の Mock
-const useAuthStateMock = jest.fn().mockReturnValue({ authPromise: 'idle' })
-const ids = mockState.chatMessagesSlice.ids
-const entities = mockState.chatMessagesSlice.entities
-const created_at = entities.message1.created_at
-const promise = mockState.chatMessagesSlice.promise
-const user = mockState.userSlice
-const post = mockState.postSlice
-const group = mockState.groupsSlice
+const authState = mockState.authSlice
+const useAuthStateMock = jest.fn().mockReturnValue(authState)
+const messagesState = mockState.chatMessagesSlice
+const userMock = mockState.userSlice
+const userState = {
+  id: userMock.id,
+  name: userMock.name,
+  email: userMock.email,
+  roles: userMock.roles,
+  promise: userMock.promise,
+  roleNumberIds: [1, 2],
+}
+const postState = mockState.postSlice
+const rolesState = mockState.rolesSlice
 
-const useChatMessagesStateMock = jest.fn().mockReturnValue({
-  chatMessageIds: ids,
-  chatMessagesEntities: entities,
-  chatMessagesPromise: promise,
-})
-
-const useUserStateMock = jest.fn().mockReturnValue({
-  userId: user.id,
-  userName: user.name,
-  userEmail: user.email,
-})
-
-const usePostStateMock = jest.fn().mockReturnValue({
-  postContent: post.content,
-  postPromise: 'idle',
-})
+const useChatMessagesStateMock = jest.fn().mockReturnValue(messagesState)
+const useUserStateMock = jest.fn().mockReturnValue(userState)
+const usePostStateMock = jest.fn().mockReturnValue(postState)
+const useRolesStateMock = jest.fn().mockReturnValue(rolesState)
 
 const useParamGroupIdMock = jest.fn().mockReturnValue('1')
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
-const useGroupsStateMock = jest.fn().mockReturnValue({
-  groupIds: group.ids,
-  groupsEntities: group.entities,
-  groupsPromise: group.promise,
-  groupsOldestId: group.oldestId,
-})
 
-const useFormatDateMock = jest.fn().mockReturnValue(created_at)
+const groupsMock = mockState.groupsSlice
+const groupState = {
+  groups: {
+    byId: groupsMock.groups.byId,
+    allIds: groupsMock.groups.allIds,
+    allNumberIds: [1, 2],
+  },
+}
+
+const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
+
+const useFormatDateMock = jest
+  .fn()
+  .mockReturnValue(messagesState.messages.byId['message1'].created_at)
 const useScrollToBottomMock = jest.fn()
 
 let useGroupModalMock = jest.fn()
@@ -93,7 +93,7 @@ describe('Top', () => {
     {
       isOpen: false,
       isConfirm: false,
-      newGroupName: group.entities.group1.name,
+      newGroupName: 'Hello Group',
     },
     {
       openModal: jest.fn(),
@@ -107,7 +107,7 @@ describe('Top', () => {
     it('入力値と postSlice content の文字列が同じ', () => {
       const { textarea } = setup()
 
-      expect(textarea.value).toBe(post.content)
+      expect(textarea.value).toBe(postState.content)
     })
 
     it('onChange が発火しても文字列は同じ', () => {
@@ -118,7 +118,7 @@ describe('Top', () => {
           value: 'Hello World!',
         },
       })
-      expect(textarea.value).toBe(post.content)
+      expect(textarea.value).toBe(postState.content)
     })
   })
 

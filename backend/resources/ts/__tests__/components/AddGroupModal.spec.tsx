@@ -17,15 +17,13 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useGroupModal: () => useGroupModalMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
 }))
 
 const group = mockState.groupsSlice
 
 let useGroupModalMock = jest.fn()
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
 
-const Component = <AddGroupModal />
+const Component = <AddGroupModal roleIds={[1, 2]} />
 
 const setup = () => {
   const screen = render(Component)
@@ -40,7 +38,7 @@ describe('AddGroupModal', () => {
       {
         isOpen: true,
         isConfirm: false,
-        newGroupName: group.entities.group1.name,
+        newGroupName: group.groups.byId.group1.name,
       },
       {
         openModal: jest.fn(),

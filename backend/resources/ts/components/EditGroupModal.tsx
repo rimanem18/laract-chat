@@ -12,18 +12,19 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
-import {
-  useAppDispatch,
-  useDefaultGroupPath,
-  useGroupModal,
-} from '../app/hooks'
+import { useAppDispatch, useGroupModal, useGroupsState } from '../app/hooks'
 import { deleteGroup, editGroup } from '../slices/GroupsSlice'
 
 type EditGroupModalProps = {
   groupId: string
   groupName: string
+  roleIds: number[]
 }
-const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
+const EditGroupModal = ({
+  groupId,
+  groupName,
+  roleIds,
+}: EditGroupModalProps) => {
   const [
     { isOpen, isConfirm, isOver, newGroupName },
 
@@ -31,7 +32,7 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   ] = useGroupModal(groupName)
   const dispatch = useAppDispatch()
   const history = useHistory()
-  const defaultGroupPath = useDefaultGroupPath()
+  const { defaultPath } = useGroupsState()
 
   useEffect(() => {
     setNewGroupName(groupName)
@@ -43,14 +44,26 @@ const EditGroupModal = ({ groupId, groupName }: EditGroupModalProps) => {
   const editGroupHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (newGroupName !== undefined && isOver === false) {
-      dispatch(editGroup({ groupId: groupId, groupName: newGroupName }))
+      dispatch(
+        editGroup({
+          groupId: groupId,
+          groupName: newGroupName,
+          roleIds: roleIds,
+        })
+      )
       closeModal()
     }
   }
 
   const deleteGroupHandler = () => {
-    dispatch(deleteGroup({ groupId: groupId, closeModal: closeModal }))
-    history.push(defaultGroupPath)
+    dispatch(
+      deleteGroup({
+        groupId: groupId,
+        roleIds: roleIds,
+      })
+    )
+    closeModal()
+    history.push(defaultPath)
   }
 
   return (

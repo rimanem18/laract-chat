@@ -17,19 +17,16 @@ jest.mock('../../app/hooks', () => ({
     (...args: any[]) =>
       mockUseAppSelector(...args),
   useGroupModal: () => useGroupModalMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
+  useGroupsState: () => useGroupsStateMock(),
 }))
 
-const group = mockState.groupsSlice
+const groupsState = mockState.groupsSlice
 
 let useGroupModalMock = jest.fn()
-const useDefaultGroupPathMock = jest.fn().mockReturnValue(`/groups/1`)
+const useGroupsStateMock = jest.fn().mockReturnValue(groupsState)
 
 const Component = (
-  <EditGroupModal
-    groupId={group.entities.group1.id.toString()}
-    groupName={group.entities.group1.name}
-  />
+  <EditGroupModal groupId={'1'} groupName={'Hello Group'} roleIds={[1, 2]} />
 )
 
 const setup = () => {
@@ -45,7 +42,7 @@ describe('EditGroupModal', () => {
       {
         isOpen: true,
         isConfirm: false,
-        newGroupName: group.entities.group1.name,
+        newGroupName: 'Hello Group',
       },
       {
         openModal: jest.fn(),
@@ -59,16 +56,16 @@ describe('EditGroupModal', () => {
     const modalTitle = screen.getByTestId('modal-title')
     const editName = screen.getByTestId('edit-group-name') as HTMLInputElement
     it('props で渡された値が反映されている', () => {
-      expect(modalTitle.textContent).toBe(group.entities.group1.name)
-      expect(editName.value).toBe(group.entities.group1.name)
+      expect(modalTitle.textContent).toBe('Hello Group')
+      expect(editName.value).toBe('Hello Group')
     })
     it('グループが編集されると文字も変わる', () => {
       fireEvent.change(editName, {
         target: {
-          value: 'Hello Group!',
+          value: 'Hello',
         },
       })
-      expect(editName.value).toBe('Hello Group!')
+      expect(editName.value).toBe('Hello')
     })
   })
 })

@@ -1,94 +1,91 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { PromiseState } from '../app/type'
-
-export type Group = {
-  id: number
-  name: string
-}
+import { WritableDraft } from 'immer/dist/internal'
+import {
+  Groups,
+  GroupsPayload,
+  PromiseState,
+  Role,
+  RoleGroup,
+  RoleGroupPayload,
+} from '../app/type'
 
 // 型定義
 export interface GroupsState {
-  ids: string[]
-  entities: Record<string, Group>
-  promise: PromiseState
+  groups: Groups
+  roleGroup: {
+    byId: Record<string, RoleGroup>
+    allIds: string[]
+  }
   oldestId: number
+  promise: PromiseState
 }
 
 // 初期値
 const initialState: GroupsState = {
-  ids: [],
-  entities: {
-    group0: {
-      id: 0,
-      name: '',
-    },
+  groups: {
+    byId: {},
+    allIds: [],
   },
-  promise: 'idle',
+  roleGroup: {
+    byId: {},
+    allIds: [],
+  },
   oldestId: 1,
+  promise: 'idle',
 }
 
 export const fetchGroups = createAsyncThunk(
   'groups/fetchGroups',
-  async (_, thunkApi) => {
-    const response = await axios.get('/api/chat_groups/')
-    return response.data.chat_groups
-  }
-)
-
-export const updateGroups = createAsyncThunk(
-  'groups/updateGroups',
-  async (_, thunkApi) => {
-    const response = await axios.get('/api/chat_groups/')
-    return response.data.chat_groups
+  async ({ roleIds }: { roleIds: number[] }) => {
+    const response = getResponse(roleIds)
+    return response
   }
 )
 
 export const addGroup = createAsyncThunk(
   'groups/addGroup',
-  async ({ groupName }: { groupName: string }, thunkApi) => {
-    const response = await axios
-      .post('/api/chat_groups/create', {
-        groupName: groupName,
-      })
-      .then((res) => {
-        return axios.get('/api/chat_groups/')
-      })
-    return response.data.chat_groups
+  async ({ roleIds, groupName }: { roleIds: number[]; groupName: string }) => {
+    const postUrl = '/api/chat_groups/create'
+    const postData = {
+      groupName: groupName,
+    }
+    const response = getResponse(roleIds, postUrl, postData)
+    return response
   }
 )
 
+type EditGroupProps = {
+  groupId: string
+  groupName: string
+  roleIds: number[]
+}
 export const editGroup = createAsyncThunk(
   'groups/editGroup',
-  async ({ groupId, groupName }: { groupId: string; groupName: string }) => {
-    const response = await axios
-      .post('/api/chat_groups/edit', {
-        groupId: groupId,
-        groupName: groupName,
-      })
-      .then((res) => {
-        return axios.get('/api/chat_groups/')
-      })
-    return response.data.chat_groups
+  async ({ groupId, groupName, roleIds }: EditGroupProps) => {
+    const postUrl = '/api/chat_groups/edit'
+    const postData = {
+      groupId: groupId,
+      groupName: groupName,
+    }
+    const response = getResponse(roleIds, postUrl, postData)
+    return response
   }
 )
 
 type deleteGroupProps = {
   groupId: string
-  closeModal: () => void
+  roleIds: number[]
 }
 export const deleteGroup = createAsyncThunk(
   'groups/deleteGroup',
-  async ({ groupId, closeModal }: deleteGroupProps) => {
-    const response = await axios
-      .post('/api/chat_groups/delete', {
-        groupId: groupId,
-      })
-      .then((res) => {
-        closeModal()
-        return axios.get('/api/chat_groups/')
-      })
-    return response.data.chat_groups
+  async ({ groupId, roleIds }: deleteGroupProps) => {
+    const postUrl = '/api/chat_groups/delete'
+    const postData = {
+      groupId: groupId,
+    }
+    const response = getResponse(roleIds, postUrl, postData)
+    return response
   }
 )
 
@@ -101,16 +98,14 @@ export const groupsSlice = createSlice({
       // fetch
       .addCase(
         fetchGroups.fulfilled,
-        (state, action: PayloadAction<Group[]>) => {
-          const groups = action.payload
-          const ids = groups.map((group) => `group${group.id.toString()}`)
-          state.ids = ids
-          state.oldestId = Number(ids[0].replace('group', ''))
-          state.promise = 'idle'
-
-          groups.forEach((group) => {
-            state.entities[`group${group.id}`] = group
-          })
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+          }>
+        ) => {
+          fetch(state, action)
         }
       )
       .addCase(fetchGroups.pending, (state) => {
@@ -119,49 +114,19 @@ export const groupsSlice = createSlice({
       .addCase(fetchGroups.rejected, (state) => {
         state.promise = 'rejected'
       })
-      // updateGroups
+      // addGroup
       .addCase(
-        updateGroups.fulfilled,
-        (state, action: PayloadAction<Group[]>) => {
-          const groups = action.payload
-          state.promise = 'idle'
-
-          // 差がなければそのまま帰る
-          const diff = groups.length - state.ids.length
-
-          if (diff === 0) {
-            return
-          }
-
-          const lastGroup = groups.slice(-diff)[0]
-          state.ids.push(`group${lastGroup.id.toString()}`)
-
-          state.entities[`group${lastGroup.id.toString()}`] = lastGroup
+        addGroup.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+          }>
+        ) => {
+          fetch(state, action)
         }
       )
-      .addCase(updateGroups.pending, (state) => {
-        state.promise = 'loading'
-      })
-      .addCase(updateGroups.rejected, (state) => {
-        state.promise = 'rejected'
-      })
-      // addGroup
-      .addCase(addGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
-        const groups = action.payload
-        state.promise = 'idle'
-
-        // 差がなければそのまま帰る
-        const diff = groups.length - state.ids.length
-
-        if (diff === 0) {
-          return
-        }
-
-        const lastGroup = groups.slice(-diff)[0]
-        state.ids.push(`group${lastGroup.id.toString()}`)
-
-        state.entities[`group${lastGroup.id.toString()}`] = lastGroup
-      })
       .addCase(addGroup.pending, (state) => {
         state.promise = 'loading'
       })
@@ -169,15 +134,18 @@ export const groupsSlice = createSlice({
         state.promise = 'rejected'
       })
       // edit
-      .addCase(editGroup.fulfilled, (state, action: PayloadAction<Group[]>) => {
-        const groups = action.payload
-        state.promise = 'idle'
-        state.ids = groups.map((group) => `group${group.id.toString()}`)
-
-        groups.forEach((group) => {
-          state.entities[`group${group.id}`] = group
-        })
-      })
+      .addCase(
+        editGroup.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+          }>
+        ) => {
+          fetch(state, action)
+        }
+      )
       .addCase(editGroup.pending, (state) => {
         state.promise = 'loading'
       })
@@ -187,14 +155,14 @@ export const groupsSlice = createSlice({
       // delete
       .addCase(
         deleteGroup.fulfilled,
-        (state, action: PayloadAction<Group[]>) => {
-          const groups = action.payload
-          state.promise = 'idle'
-          state.ids = groups.map((group) => `group${group.id.toString()}`)
-
-          groups.forEach((group) => {
-            state.entities[`group${group.id}`] = group
-          })
+        (
+          state,
+          action: PayloadAction<{
+            groups: GroupsPayload
+            roleGroup: RoleGroupPayload
+          }>
+        ) => {
+          fetch(state, action)
         }
       )
       .addCase(deleteGroup.pending, (state) => {
@@ -205,6 +173,71 @@ export const groupsSlice = createSlice({
       })
   },
 })
+
+const fetch = (
+  state: WritableDraft<GroupsState>,
+  action: PayloadAction<{
+    groups: GroupsPayload
+    roleGroup: RoleGroupPayload
+  }>
+) => {
+  const private_groups = action.payload.groups.private_groups
+  const public_groups = action.payload.groups.public_groups
+  const roleGroup = action.payload.roleGroup.role_group
+  state.promise = 'idle'
+
+  const groups = public_groups.concat(private_groups)
+
+  // Group
+  state.groups.allIds = groups.map((group) => `group${group.id.toString()}`)
+
+  groups.forEach((group) => {
+    const roleIds = roleGroup.filter((item) => item.group_id === group.id)
+    const roles = roleIds.map((role) => `role${role.role_id}`)
+
+    const byId = {
+      id: group.id,
+      name: group.name,
+      roles: roles,
+    }
+    state.groups.byId[`group${group.id}`] = byId
+  })
+  state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
+}
+
+type PostData = {
+  groupId?: string
+  groupName?: string
+}
+const getResponse = async (
+  roleIds: number[],
+  postUrl?: string,
+  postData?: PostData
+) => {
+  let groups
+  if (postUrl !== undefined) {
+    groups = await axios.post(postUrl, postData).then((res) => {
+      return axios.post('/api/chat_groups/by_role_ids', {
+        roleIds: roleIds,
+      })
+    })
+  } else {
+    groups = await axios.post('/api/chat_groups/by_role_ids', {
+      roleIds: roleIds,
+    })
+  }
+
+  const roleGroup = await axios.get('/api/role_group')
+
+  const response: {
+    groups: GroupsPayload
+    roleGroup: RoleGroupPayload
+  } = {
+    groups: groups.data,
+    roleGroup: roleGroup.data,
+  }
+  return response
+}
 
 export const {} = groupsSlice.actions
 

@@ -19,22 +19,17 @@ jest.mock('../../app/hooks', () => ({
       mockUseAppSelector(...args),
   useUserState: () => useUserStateMock(),
   useAuthState: () => useAuthStateMock(),
-  useDefaultGroupPath: () => useDefaultGroupPathMock(),
+  useGroupsState: () => useGroupsStateMock(),
 }))
 
 // State の Mock
 const user = mockState.userSlice
-const group = mockState.groupsSlice
+const groupsState = mockState.groupsSlice
 
 // Hooks の Mock
 let useUserStateMock = jest.fn()
 const useAuthStateMock = jest.fn().mockReturnValue({ authPromise: 'idle' })
-
-const useGropsPromiseMock = jest.fn().mockReturnValue(group.promise)
-const useGroupsOldestIdMock = jest.fn().mockReturnValue(group.oldestId)
-const useDefaultGroupPathMock = jest
-  .fn()
-  .mockReturnValue(`/groups/${group.oldestId.toString()}`)
+const useGroupsStateMock = jest.fn().mockReturnValue(groupsState)
 
 const Component = (
   <BrowserRouter>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { useAppDispatch, useAuthState } from './app/hooks'
+import { useAppDispatch, useAuthState, useUserState } from './app/hooks'
 import { fetchUser } from './slices/UserSlice'
 
 import Top from './pages/Top'
@@ -11,17 +11,16 @@ import Register from './pages/Register'
 import AuthRedirect from './components/AuthRedirect'
 
 const App = () => {
-  const { authPromise } = useAuthState()
+  const authState = useAuthState()
+  const userState = useUserState()
   const dispatch = useAppDispatch()
-
-  console.log('App')
 
   // レンダリング時にログインしているか判定
   useEffect(() => {
-    if (authPromise !== 'loading') {
-      dispatch(fetchUser())
+    if (authState.promise !== 'loading') {
+      dispatch(fetchUser({ userId: userState.id }))
     }
-  }, [authPromise])
+  }, [authState.promise, userState.id])
 
   return (
     <BrowserRouter>

@@ -10,7 +10,7 @@ import { toggleMenuOpen } from '../slices/MenuSlice'
 
 const Top = () => {
   const dispatch = useAppDispatch()
-  const { userId } = useUserState()
+  const userState = useUserState()
   const [width, setWidth] = useState<number | null>(null)
   const isOpen = useMenuIsOpen()
 
@@ -47,7 +47,7 @@ const Top = () => {
 
   return (
     <>
-      {userId === 0 ? (
+      {userState.id === 0 ? (
         <Redirect to="/login" />
       ) : (
         <>
