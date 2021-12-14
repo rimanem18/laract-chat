@@ -77,7 +77,7 @@ jobs:
 
       - name: Install Composer packages
         working-directory: ./backend
-        run: php -v && composer install
+        run: php -v && composer update && composer install
 
       - name: Vendor deploy
         working-directory: ./backend
