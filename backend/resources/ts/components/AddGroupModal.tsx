@@ -1,5 +1,11 @@
 import React, { useCallback } from 'react'
-import { TextField, Button, Dialog, DialogTitle } from '@mui/material'
+import {
+  TextField,
+  Button,
+  Dialog,
+  DialogTitle,
+  IconButton,
+} from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
@@ -42,9 +48,17 @@ const AddGroupModal = ({ roleIds }: AddGroupModalProps) => {
           <DialogTitle className="modal__title" data-testid="modal-title">
             追加するグループの名前
           </DialogTitle>
-          <button className="icon-btn--close" onClick={closeModal}>
+          <IconButton
+            sx={{
+              color: '#f2f2f2',
+              position: 'absolute',
+              top: '0.5em',
+              right: '0.5em',
+            }}
+            onClick={closeModal}
+          >
             <CancelIcon />
-          </button>
+          </IconButton>
           <div className="modal__content">
             <form onSubmit={addGroupHandler} className="form">
               <TextField
