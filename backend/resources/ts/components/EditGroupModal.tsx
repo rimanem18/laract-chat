@@ -74,9 +74,17 @@ const EditGroupModal = ({
           <DialogTitle className="modal__title" data-testid="modal-title">
             {groupName}
           </DialogTitle>
-          <button className="icon-btn--close" onClick={closeModal}>
+          <IconButton
+            sx={{
+              color: '#f2f2f2',
+              position: 'absolute',
+              top: '0.5em',
+              right: '0.5em',
+            }}
+            onClick={closeModal}
+          >
             <CancelIcon />
-          </button>
+          </IconButton>
           <div className="modal__content">
             {isConfirm ? (
               <>
