@@ -80,8 +80,6 @@ export type MessagePayload = {
   name: string
 }
 export type RoleUserPayload = {
-  role_user: {
-    user_id: number
-    role_id: number
-  }[]
+  user_id: number
+  role_id: number
 }

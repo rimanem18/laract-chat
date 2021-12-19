@@ -6,11 +6,41 @@ use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\RoleUser;
+use Illuminate\Http\JsonResponse;
 
 class ChatMessageController extends Controller
 {
+    public function getMessagesByGroupIds(Request $request): JsonResponse
+    {
+        $group_ids = $request->groupIds;
+
+        $chat_messages =
+      ChatMessage::from('chat_messages AS messages')
+      ->join('users', 'messages.user_id', '=', 'users.id')
+      ->whereIn('messages.group_id', $group_ids)
+      ->select(
+          'messages.id',
+          'messages.user_id',
+          'messages.group_id',
+          'messages.content',
+          'messages.created_at',
+          'users.id AS user_id',
+          'users.name'
+      )
+      ->orderBy('id')
+      ->get();
+
+        $role_user = RoleUser::select(
+            'role_user.user_id',
+            "role_user.role_id"
+        )
+    ->get();
+
+
+
+        return Response()->json(['chat_messages'=>$chat_messages,'role_user'=>$role_user], Response::HTTP_OK);
+    }
 
     /**
      * リクエストパラメーターをもとにメッセージ一覧を返す

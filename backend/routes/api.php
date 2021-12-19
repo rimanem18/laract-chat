@@ -46,7 +46,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 // メッセージ取得、投稿
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
-Route::middleware('auth:sanctum')->post('/chat_messages/by_group_ids', [ChatMessageController::class, 'selectChatMessagesByGroupIds']);
+Route::middleware('auth:sanctum')->post('/chat_messages/by_group_ids', [ChatMessageController::class, 'getMessagesByGroupIds']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
 
 // グループ取得、追加、編集、削除
