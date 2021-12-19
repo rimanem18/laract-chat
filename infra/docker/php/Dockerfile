@@ -2,6 +2,9 @@ FROM php:8.0-fpm-buster
 LABEL maintainer="ucan-lab <yes@u-can.pro>"
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
+# コンテナ内に作成したいユーザーのID
+ARG UID=1000
+
 # timezone environment
 ENV TZ=Asia/Tokyo \
   LANG=ja_JP.UTF-8 \
@@ -14,14 +17,17 @@ RUN apt-get update && \
   apt-get -y install git libicu-dev libonig-dev libzip-dev unzip locales && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
- locale-gen ja_JP.UTF-8 && \
+  locale-gen ja_JP.UTF-8 && \
   localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 && \
   mkdir /var/run/php-fpm && \
   docker-php-ext-install intl pdo_mysql zip bcmath && \
   composer config -g process-timeout 3600 && \
-  composer config -g repos.packagist composer https://packagist.org
+  composer config -g repos.packagist composer https://packagist.org && \
+  useradd -m -u ${UID} docker
+
 
 COPY ./infra/docker/php/php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 COPY ./infra/docker/php/php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /work/backend
+

@@ -5,7 +5,6 @@ import {
   Groups,
   GroupsPayload,
   PromiseState,
-  Role,
   RoleGroup,
   RoleGroupPayload,
 } from '../app/type'
@@ -102,7 +101,6 @@ export const groupsSlice = createSlice({
           state,
           action: PayloadAction<{
             groups: GroupsPayload
-            roleGroup: RoleGroupPayload
           }>
         ) => {
           fetch(state, action)
@@ -121,7 +119,6 @@ export const groupsSlice = createSlice({
           state,
           action: PayloadAction<{
             groups: GroupsPayload
-            roleGroup: RoleGroupPayload
           }>
         ) => {
           fetch(state, action)
@@ -140,7 +137,6 @@ export const groupsSlice = createSlice({
           state,
           action: PayloadAction<{
             groups: GroupsPayload
-            roleGroup: RoleGroupPayload
           }>
         ) => {
           fetch(state, action)
@@ -159,7 +155,6 @@ export const groupsSlice = createSlice({
           state,
           action: PayloadAction<{
             groups: GroupsPayload
-            roleGroup: RoleGroupPayload
           }>
         ) => {
           fetch(state, action)
@@ -178,12 +173,11 @@ const fetch = (
   state: WritableDraft<GroupsState>,
   action: PayloadAction<{
     groups: GroupsPayload
-    roleGroup: RoleGroupPayload
   }>
 ) => {
   const private_groups = action.payload.groups.private_groups
   const public_groups = action.payload.groups.public_groups
-  const roleGroup = action.payload.roleGroup.role_group
+  const roleGroup = action.payload.groups.role_group
   state.promise = 'idle'
 
   const groups = public_groups.concat(private_groups)
@@ -214,28 +208,29 @@ const getResponse = async (
   postUrl?: string,
   postData?: PostData
 ) => {
-  let groups
+  let res
   if (postUrl !== undefined) {
-    groups = await axios.post(postUrl, postData).then((res) => {
+    res = await axios.post(postUrl, postData).then((res) => {
       return axios.post('/api/chat_groups/by_role_ids', {
         roleIds: roleIds,
       })
     })
   } else {
-    groups = await axios.post('/api/chat_groups/by_role_ids', {
+    res = await axios.post('/api/chat_groups/by_role_ids', {
       roleIds: roleIds,
     })
   }
 
-  const roleGroup = await axios.get('/api/role_group')
-
   const response: {
     groups: GroupsPayload
-    roleGroup: RoleGroupPayload
   } = {
-    groups: groups.data,
-    roleGroup: roleGroup.data,
+    groups: {
+      public_groups: res.data.public_groups,
+      private_groups: res.data.private_groups,
+      role_group: res.data.role_group,
+    },
   }
+  console.log(response)
   return response
 }
 

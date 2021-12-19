@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChatGroup;
+use App\Models\RoleGroup;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class ChatGroupController extends Controller
      * @param Request $request->roleIds array
      * @return void
      */
-    public function selectChatGroupsByRoleIds(Request $request)
+    public function getGroupsByRoleIds(Request $request)
     {
         $role_ids = $request->roleIds;
         // $role_ids = [3];
@@ -53,9 +54,17 @@ class ChatGroupController extends Controller
         ->distinct('groups.id')
         ->get();
 
+        // ロールとグループの関連付けを取得する
+        $role_group = RoleGroup::select(
+            'role_group.group_id',
+            "role_group.role_id"
+        )
+        ->get();
+
         return Response()->json([
           'public_groups'=>$public_groups,
-          'private_groups'=>$private_groups
+          'private_groups'=>$private_groups,
+          'role_group'=>$role_group,
         ], Response::HTTP_OK);
     }
 

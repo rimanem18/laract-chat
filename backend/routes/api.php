@@ -46,7 +46,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 // メッセージ取得、投稿
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
-Route::middleware('auth:sanctum')->post('/chat_messages/by_group_ids', [ChatMessageController::class, 'selectChatMessagesByGroupIds']);
+Route::middleware('auth:sanctum')->post('/chat_messages/by_group_ids', [ChatMessageController::class, 'getMessagesByGroupIds']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
 
 // グループ取得、追加、編集、削除
@@ -54,6 +54,7 @@ Route::get('/chat_groups', [ChatGroupController::class, 'selectChatGroups']);
 Route::middleware('auth:sanctum')->post('/chat_groups/create', [ChatGroupController::class, 'insertChatGroup']);
 Route::middleware('auth:sanctum')->post('/chat_groups/edit', [ChatGroupController::class, 'updateChatGroup']);
 Route::middleware('auth:sanctum')->post('/chat_groups/delete', [ChatGroupController::class, 'deleteChatGroup']);
+Route::middleware('auth:sanctum')->post('/chat_groups/by_role_ids', [ChatGroupController::class, 'getGroupsByRoleIds']);
 
 // ロールの取得
 Route::get('/roles', [RoleController::class, 'selectRoles']);
@@ -62,5 +63,3 @@ Route::middleware('auth:sanctum')->post('/roles/by_id', [RoleController::class, 
 // ロールの関連を取得
 Route::get('/role_user', [RoleUserController::class, 'selectRoleUser']);
 Route::get('/role_group', [RoleGroupController::class, 'selectRoleGroup']);
-
-Route::middleware('auth:sanctum')->post('/chat_groups/by_role_ids', [ChatGroupController::class, 'selectChatGroupsByRoleIds']);

@@ -57,6 +57,10 @@ export type GroupsPayload = {
     id: number
     name: string
   }[]
+  role_group: {
+    role_id: number
+    group_id: number
+  }[]
 }
 export type RoleGroupPayload = {
   role_group: {
@@ -80,8 +84,6 @@ export type MessagePayload = {
   name: string
 }
 export type RoleUserPayload = {
-  role_user: {
-    user_id: number
-    role_id: number
-  }[]
+  user_id: number
+  role_id: number
 }

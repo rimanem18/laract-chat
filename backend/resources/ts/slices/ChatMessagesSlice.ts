@@ -36,17 +36,18 @@ const initialState: ChatMessagesState = {
 export const fetchMessages = createAsyncThunk(
   'chatMessages/fetchMessages',
   async ({ groupIds }: { groupIds: number[] }) => {
-    const messages = await axios.post('/api/chat_messages/by_group_ids', {
+    const res = await axios.post('/api/chat_messages/by_group_ids', {
       groupIds: groupIds,
     })
-    const roleUser = await axios.get('/api/role_user')
+
     const response: {
       messages: MessagePayload[]
-      roleUser: RoleUserPayload
+      roleUser: RoleUserPayload[]
     } = {
-      messages: messages.data,
-      roleUser: roleUser.data,
+      messages: res.data.chat_messages,
+      roleUser: res.data.role_user,
     }
+    console.log(response.roleUser)
 
     return response
   }
@@ -63,12 +64,12 @@ export const chatMessagesSlice = createSlice({
           state,
           action: PayloadAction<{
             messages: MessagePayload[]
-            roleUser: RoleUserPayload
+            roleUser: RoleUserPayload[]
           }>
         ) => {
           const messages = action.payload.messages
 
-          const roleUser = action.payload.roleUser.role_user
+          const roleUser = action.payload.roleUser
           state.promise = 'idle'
 
           state.messages.allIds = messages.map(
