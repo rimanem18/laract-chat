@@ -3,12 +3,10 @@ name: Build and Deploy
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
-  git_pull_by_server:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,21 +29,10 @@ jobs:
             git checkout main
             git pull
 
-  build_frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
-
-      - name: SSH key generate
-        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install NPM packages
         working-directory: ./backend
@@ -63,17 +50,6 @@ jobs:
         env:
           KEY: /home/runner/work/laract-chat/laract-chat/laract-chat_rsa
           REMOTE: ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}:${{secrets.SERVER_DEPLOY_DIR}}public/
-
-  build_backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: SSH key generate
-        run: echo "$SSH_PRIVATE_KEY" > laract-chat_rsa && chmod 600 laract-chat_rsa
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install Composer packages
         working-directory: ./backend
