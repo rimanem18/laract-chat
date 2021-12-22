@@ -11,6 +11,7 @@ import {
   fetchMessages,
 } from '../../slices/ChatMessagesSlice'
 
+// 型定義
 type ChatMessagesState = {
   messages: {
     byId: Record<string, Message>
@@ -23,6 +24,7 @@ type ChatMessagesState = {
   promise: PromiseState
 }
 
+// 初期値
 const initialState: ChatMessagesState = {
   messages: {
     byId: {},
@@ -35,6 +37,7 @@ const initialState: ChatMessagesState = {
   promise: 'idle',
 }
 
+// モックの定義
 const messagePayloadMock: MessagePayload[] = [
   {
     id: 1,
@@ -53,14 +56,18 @@ const messagePayloadMock: MessagePayload[] = [
     user_id: 2,
   },
 ]
-const roleUserPayloadMock: RoleUserPayload = {
-  role_user: [{ user_id: 1, role_id: 1 }],
-}
+const roleUserPayloadMock: RoleUserPayload[] = [
+  {
+    user_id: 1,
+    role_id: 1,
+  },
+]
 const payloadMock = {
   messages: messagePayloadMock,
-  role_user: roleUserPayloadMock,
+  roleUser: roleUserPayloadMock,
 }
 
+// テストの実行
 describe('ChatMessages', () => {
   describe('fetchMessages', () => {
     it('fetch pending', () => {
@@ -76,7 +83,27 @@ describe('ChatMessages', () => {
         payload: payloadMock,
       }
       const state = chatMessagesSlice.reducer(initialState, action)
-      expect(state.messages.allIds)
+      expect(state.messages.allIds).toEqual(['message1', 'message2'])
+      expect(state.messages.byId).toEqual({
+        message1: {
+          id: 1,
+          name: 'hoge',
+          group_id: 1,
+          content: 'Hello World!',
+          created_at: '1900-01-01',
+          user_id: 1,
+          roles: ['role1'],
+        },
+        message2: {
+          id: 2,
+          name: 'fuga',
+          group_id: 2,
+          content: 'Hello Docker',
+          created_at: '1900-01-01',
+          user_id: 2,
+          roles: [],
+        },
+      })
       expect(state.promise).toBe('idle')
     })
     it('fetchMessages rejected', () => {
