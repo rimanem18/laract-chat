@@ -31,7 +31,7 @@ export const fetchUser = createAsyncThunk(
 
     const response = {
       user: user.data,
-      roleUser: roleUser.data,
+      roleUser: roleUser.data.role_user,
     }
     return response
   }
@@ -50,11 +50,11 @@ export const userSlice = createSlice({
           state,
           action: PayloadAction<{
             user: UserState
-            roleUser: RoleUserPayload
+            roleUser: RoleUserPayload[]
           }>
         ) => {
           const user = action.payload.user
-          const roleUser = action.payload.roleUser.role_user
+          const roleUser = action.payload.roleUser
           state.promise = 'idle'
 
           if (user !== undefined) {
