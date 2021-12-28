@@ -15,7 +15,6 @@ import {
 import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
-import { fetchRoles } from '../slices/RolesSlice'
 
 const Message = () => {
   const groupId = useParamGroupId()
@@ -32,12 +31,6 @@ const Message = () => {
 
   const groupState = useGroupsState()
   const groupIds = groupState.groups.allNumberIds
-
-  useEffect(() => {
-    if (rolesState.promise !== 'loading') {
-      dispatch(fetchRoles())
-    }
-  }, [])
 
   // 初回のみ一括でメッセージをフェッチ
   useEffect(() => {

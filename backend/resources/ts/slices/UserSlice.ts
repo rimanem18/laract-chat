@@ -26,12 +26,36 @@ const initialState: UserState = {
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
   async ({ userId }: { userId: number }, _thunkApi) => {
-    const user = await axios.get('/api/user')
-    const roleUser = await axios.get('/api/role_user')
+    let userData: UserState
+    let roleUserData: RoleUserPayload[]
 
-    const response = {
-      user: user.data,
-      roleUser: roleUser.data.role_user,
+    if (userId !== 0) {
+      const res = await axios.post('/api/user/by_user_id', {
+        userId: userId,
+      })
+      userData = res.data.user
+      roleUserData = res.data.role_user
+      console.log({
+        number: 1,
+        user: userData,
+        roleUser: roleUserData,
+        res: res,
+      })
+    } else {
+      const user = await axios.get('/api/user')
+      const roleUser = await axios.get('/api/role_user')
+      userData = user.data
+      roleUserData = roleUser.data.role_user
+      console.log({ number: 2, user: userData, roleUser: roleUserData })
+    }
+
+    const response: {
+      user: UserState
+      roleUser: RoleUserPayload[]
+    } = {
+      user: userData,
+      roleUser: roleUserData,
+
     }
     return response
   }
@@ -40,7 +64,14 @@ export const fetchUser = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    initUserState: (state) => {
+      state.id = initialState.id
+      state.email = initialState.email
+      state.name = initialState.name
+      state.roles = initialState.roles
+    },
+  },
   extraReducers: (builder) => {
     builder
       // fetchUser
@@ -86,6 +117,6 @@ export const userSlice = createSlice({
 })
 
 // 外部からセットできるように
-export const {} = userSlice.actions
+export const { initUserState } = userSlice.actions
 
 export default userSlice.reducer
