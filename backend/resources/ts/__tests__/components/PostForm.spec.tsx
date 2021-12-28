@@ -49,21 +49,15 @@ describe('PostForm', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('入力値と postSlice content の文字列が同じ', () => {
-    const { textarea } = setup()
-
-    expect(textarea.value).toBe(postState.content)
-  })
-
   it('onChange が発火すると文字列が反映される', () => {
     const { textarea } = setup()
 
-    expect(textarea.value).toBe('fugafuga')
+    expect(textarea.value).toBe('')
     fireEvent.change(textarea, {
       target: {
         value: 'Hello World!',
       },
     })
-    expect(textarea.value).toBe('Hello World')
+    expect(textarea.value).toBe('Hello World!')
   })
 })
