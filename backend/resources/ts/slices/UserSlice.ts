@@ -55,6 +55,7 @@ export const fetchUser = createAsyncThunk(
     } = {
       user: userData,
       roleUser: roleUserData,
+
     }
     return response
   }

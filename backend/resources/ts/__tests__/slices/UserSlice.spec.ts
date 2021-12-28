@@ -12,7 +12,7 @@ const initialState: UserState = {
 
 const payloadMock: {
   user: UserState
-  roleUser: RoleUserPayload
+  roleUser: RoleUserPayload[]
 } = {
   user: {
     id: 1,
@@ -21,14 +21,12 @@ const payloadMock: {
     roles: ['role1'],
     promise: 'idle',
   },
-  roleUser: {
-    role_user: [
-      {
-        role_id: 1,
-        user_id: 1,
-      },
-    ],
-  },
+  roleUser: [
+    {
+      user_id: 1,
+      role_id: 1,
+    },
+  ],
 }
 
 describe('userSlice', () => {
@@ -43,7 +41,7 @@ describe('userSlice', () => {
     it('fetchUser fulfilled', () => {
       const action: PayloadAction<{
         user: UserState
-        roleUser: RoleUserPayload
+        roleUser: RoleUserPayload[]
       }> = {
         type: fetchUser.fulfilled.type,
         payload: payloadMock,
