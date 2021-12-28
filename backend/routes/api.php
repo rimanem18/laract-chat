@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatGroupController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\RoleGroupController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,9 @@ Route::post('/tokens/create', function (Request $request) {
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
+
+// User 情報取得
+Route::post('/user/by_user_id', [UserController::class, 'getUserById']);
 
 // メッセージ取得、投稿
 Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);

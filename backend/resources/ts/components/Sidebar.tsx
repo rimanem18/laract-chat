@@ -1,16 +1,19 @@
 import React from 'react'
 import { Button, Grid } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useAppDispatch } from '../app/hooks'
+import { useAppDispatch, useUserState } from '../app/hooks'
 import { logout } from '../slices/AuthSlice'
 import Group from './Group'
 import UserInfo from './UserInfo'
 import { useHistory } from 'react-router'
+import { initUserState } from '../slices/UserSlice'
 
 const Sidebar = () => {
+  const userState = useUserState()
   const dispatch = useAppDispatch()
 
   const logoutHandler = () => {
+    dispatch(initUserState())
     dispatch(logout())
   }
 

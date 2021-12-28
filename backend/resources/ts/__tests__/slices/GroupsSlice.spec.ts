@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { GroupsPayload, RoleGroupPayload, RolesPayload } from '../../app/type'
+import { GroupsPayload } from '../../app/type'
 import {
   addGroup,
   editGroup,
@@ -23,9 +23,9 @@ const initialState: GroupsState = {
   promise: 'idle',
 }
 
+// モックの定義
 const payloadMock: {
   groups: GroupsPayload
-  roleGroup: RoleGroupPayload
 } = {
   groups: {
     public_groups: [
@@ -48,8 +48,6 @@ const payloadMock: {
         name: 'fuga group',
       },
     ],
-  },
-  roleGroup: {
     role_group: [
       {
         group_id: 3,
@@ -63,6 +61,7 @@ const payloadMock: {
   },
 }
 
+// テストの実行
 describe('ChatMessages', () => {
   describe('fetchGroups', () => {
     it('fetch pending', () => {
@@ -75,7 +74,6 @@ describe('ChatMessages', () => {
     it('fetchGroups fulfilled', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
-        roleGroup: RoleGroupPayload
       }> = {
         type: fetchGroups.fulfilled.type,
         payload: payloadMock,
@@ -132,7 +130,6 @@ describe('ChatMessages', () => {
     it('addGroup fulfilled', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
-        roleGroup: RoleGroupPayload
       }> = {
         type: addGroup.fulfilled.type,
         payload: payloadMock,
@@ -160,7 +157,6 @@ describe('ChatMessages', () => {
     it('editGroup fulfilled', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
-        roleGroup: RoleGroupPayload
       }> = {
         type: editGroup.fulfilled.type,
         payload: payloadMock,
@@ -188,7 +184,6 @@ describe('ChatMessages', () => {
     it('deleteGroup fulfilled', () => {
       const action: PayloadAction<{
         groups: GroupsPayload
-        roleGroup: RoleGroupPayload
       }> = {
         type: deleteGroup.fulfilled.type,
         payload: payloadMock,
