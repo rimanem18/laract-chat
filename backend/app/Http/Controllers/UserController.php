@@ -39,7 +39,7 @@ class UserController extends Controller
       ->get();
 
         return Response()->json([
-        'user'=>$user,
+        'user'=>$user[0],
         'role_user'=> $role_user
       ], Response::HTTP_OK);
     }
