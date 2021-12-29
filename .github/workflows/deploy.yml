@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Composer packages
         working-directory: ./backend
-        run: php -v && composer update && composer install
+        run: php -v && composer install
 
       # Deployment
       - name: Frontend deploy
