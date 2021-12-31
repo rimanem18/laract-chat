@@ -72,8 +72,17 @@ export const messageGroupIdSelector = createSelector(
   chatMessagesSelector,
   (chatMessagesSlice) => (id: string) => {
     const message = chatMessagesSlice.messages.byId[id]
-    if (!message) return 0
+    if (!message) return ''
 
     return message.group_id
+  }
+)
+export const messageRolesSelector = createSelector(
+  chatMessagesSelector,
+  (chatMessagesSlice) => (id: string) => {
+    const message = chatMessagesSlice.messages.byId[id]
+    if (!message) return ''
+
+    return message.roles
   }
 )

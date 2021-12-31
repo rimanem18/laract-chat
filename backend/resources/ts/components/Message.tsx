@@ -21,6 +21,7 @@ import {
   messageDatetimeSelector,
   messageGroupIdSelector,
   messageNameSelector,
+  messageRolesSelector,
 } from '../selectors/ChatMessagesSelector'
 
 const Message = () => {
@@ -176,17 +177,20 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
 })
 
 type MessageBlockProps = {
+  id: string
   name: string
   content: string
   datetime: string
+  roleColor: string
 }
 const MessageBlock = React.memo(
-  ({ name, content, datetime }: MessageBlockProps) => {
+  ({ id, name, content, datetime, roleColor }: MessageBlockProps) => {
     return (
       <ul>
         <li>{name}</li>
         <li>{content}</li>
         <li>{datetime}</li>
+        <li>{roleColor}</li>
       </ul>
     )
   }
@@ -226,6 +230,24 @@ const MessageBlockContainer = ({
     return datetimeFactory(id)
   }, [datetimeFactory, id])
 
+  const rolesState = useRolesState()
+  const rolesFactory = useAppSelector(messageRolesSelector)
+  const roleColor = useMemo(() => {
+    const roleIds = rolesFactory(id)
+    let role = rolesState.roles.byId[roleIds[0]]
+
+    if (role === undefined) {
+      // ロールを持っていない場合は無難なデータを作って渡す
+      role = {
+        id: 0,
+        name: '',
+        color: '#333333',
+      }
+    }
+
+    return role.color
+  }, [rolesFactory, id])
+
   const groupIdFactory = useAppSelector(messageGroupIdSelector)
   const groupId = useMemo(() => {
     return groupIdFactory(id)
@@ -233,7 +255,15 @@ const MessageBlockContainer = ({
 
   // グループIDが一致しない場合は null
   if (Number(paramGroupId) !== groupId) return null
-  return <MessageBlock name={name} content={content} datetime={datetime} />
+  return (
+    <MessageBlock
+      id={id}
+      name={name}
+      content={content}
+      datetime={datetime}
+      roleColor={roleColor}
+    />
+  )
 }
 
 const MessageListContainer = () => {
@@ -285,7 +315,7 @@ const MessageListContainer = () => {
     <MessageBlockList
       messageIds={messageIds}
       renderMessageBlock={(id) => (
-        <MessageBlockContainer id={id} paramGroupId={paramGroupId} />
+        <MessageBlockContainer key={id} id={id} paramGroupId={paramGroupId} />
       )}
     />
   )
