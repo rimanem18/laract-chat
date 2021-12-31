@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
@@ -11,52 +11,20 @@ import {
   useScrollToBottom,
   useUserState,
   useRolesState,
+  useAppSelector,
 } from '../app/hooks'
 import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
 import EditGroupModal from './EditGroupModal'
+import {
+  messageContentSelector,
+  messageDatetimeSelector,
+  messageGroupIdSelector,
+  messageNameSelector,
+} from '../selectors/ChatMessagesSelector'
 
 const Message = () => {
-  const groupId = useParamGroupId()
-  if (groupId === undefined) {
-    return null
-  }
-
-  const { roleNumberIds: roleIds } = useUserState()
-  const rolesState = useRolesState()
-  const chatMessagesState = useChatMessagesState()
-  const postState = usePostState()
-  const messageList = useRef<HTMLDivElement | null>(null)
-  const dispatch = useAppDispatch()
-
-  const groupState = useGroupsState()
-  const groupIds = groupState.groups.allNumberIds
-
-  // 初回のみ一括でメッセージをフェッチ
-  useEffect(() => {
-    if (groupIds.length !== 0) {
-      dispatch(fetchMessages({ groupIds: groupIds }))
-    }
-  }, [groupIds.length])
-
-  // メッセージが更新されたらフェッチ
-  useEffect(() => {
-    if (
-      [chatMessagesState.promise, postState.promise].every((v) => v === 'idle')
-    ) {
-      dispatch(fetchMessages({ groupIds: groupIds }))
-    }
-  }, [postState.promise, chatMessagesState.messages.allIds.length])
-
-  useEffect(() => {
-    useScrollToBottom(messageList)
-  }, [messageList.current?.scrollHeight])
-
-  const groupName =
-    groupState.groups.byId !== undefined &&
-    groupState.groups.byId[`group${groupId}`] !== undefined
-      ? groupState.groups.byId[`group${groupId}`].name
-      : ''
+  return <MessageListContainer />
 
   return (
     <>
@@ -206,3 +174,119 @@ const ScrollButton = React.memo(({ refObject }: ScrollButtonProps) => {
     </div>
   )
 })
+
+type MessageBlockProps = {
+  name: string
+  content: string
+  datetime: string
+}
+const MessageBlock = React.memo(
+  ({ name, content, datetime }: MessageBlockProps) => {
+    return (
+      <ul>
+        <li>{name}</li>
+        <li>{content}</li>
+        <li>{datetime}</li>
+      </ul>
+    )
+  }
+)
+
+type MessageBlockListProps = {
+  messageIds: string[]
+  renderMessageBlock: (id: string) => React.ReactElement
+}
+const MessageBlockList = ({
+  messageIds,
+  renderMessageBlock,
+}: MessageBlockListProps) => {
+  return <div>{messageIds.map(renderMessageBlock)}</div>
+}
+
+type MessageBlockContainerProps = {
+  id: string
+  paramGroupId: string
+}
+const MessageBlockContainer = ({
+  id,
+  paramGroupId,
+}: MessageBlockContainerProps) => {
+  const nameFactory = useAppSelector(messageNameSelector)
+  const name = useMemo(() => {
+    return nameFactory(id)
+  }, [nameFactory, id])
+
+  const contentFactory = useAppSelector(messageContentSelector)
+  const content = useMemo(() => {
+    return contentFactory(id)
+  }, [contentFactory, id])
+
+  const datetimeFactory = useAppSelector(messageDatetimeSelector)
+  const datetime = useMemo(() => {
+    return datetimeFactory(id)
+  }, [datetimeFactory, id])
+
+  const groupIdFactory = useAppSelector(messageGroupIdSelector)
+  const groupId = useMemo(() => {
+    return groupIdFactory(id)
+  }, [groupIdFactory, id])
+
+  // グループIDが一致しない場合は null
+  if (Number(paramGroupId) !== groupId) return null
+  return <MessageBlock name={name} content={content} datetime={datetime} />
+}
+
+const MessageListContainer = () => {
+  const paramGroupId = useParamGroupId()
+  if (paramGroupId === undefined) {
+    return null
+  }
+
+  const { roleNumberIds: roleIds } = useUserState()
+  const rolesState = useRolesState()
+  const chatMessagesState = useChatMessagesState()
+  const postState = usePostState()
+  const messageList = useRef<HTMLDivElement | null>(null)
+  const dispatch = useAppDispatch()
+
+  const groupState = useGroupsState()
+  const groupIds = groupState.groups.allNumberIds
+
+  // 初回のみ一括でメッセージをフェッチ
+  useEffect(() => {
+    if (groupIds.length !== 0) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
+    }
+  }, [groupIds.length])
+
+  // メッセージが更新されたらフェッチ
+  useEffect(() => {
+    if (
+      [chatMessagesState.promise, postState.promise].every((v) => v === 'idle')
+    ) {
+      dispatch(fetchMessages({ groupIds: groupIds }))
+    }
+  }, [postState.promise, chatMessagesState.messages.allIds.length])
+
+  useEffect(() => {
+    useScrollToBottom(messageList)
+  }, [messageList.current?.scrollHeight])
+
+  const groupName =
+    groupState.groups.byId !== undefined &&
+    groupState.groups.byId[`group${paramGroupId}`] !== undefined
+      ? groupState.groups.byId[`group${paramGroupId}`].name
+      : ''
+
+  const messageState = useChatMessagesState()
+  const messageIds = messageState.messages.allIds
+
+  return (
+    <MessageBlockList
+      messageIds={messageIds}
+      renderMessageBlock={(id) => (
+        <MessageBlockContainer id={id} paramGroupId={paramGroupId} />
+      )}
+    />
+  )
+}

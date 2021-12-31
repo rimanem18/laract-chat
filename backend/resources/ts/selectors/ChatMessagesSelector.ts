@@ -28,3 +28,52 @@ export const chatMessagesPromiseSelector = createSelector(
     return chatMessagesSlice.promise
   }
 )
+
+export const messageNameSelector = createSelector(
+  chatMessagesSelector,
+  (chatMessagesSlice) => (id: string) => {
+    const message = chatMessagesSlice.messages.byId[id]
+    if (!message) return ''
+    return message.name
+  }
+)
+export const messageContentSelector = createSelector(
+  chatMessagesSelector,
+  (chatMessagesSlice) => (id: string) => {
+    const message = chatMessagesSlice.messages.byId[id]
+    if (!message) return ''
+    return message.content
+  }
+)
+export const messageDatetimeSelector = createSelector(
+  chatMessagesSelector,
+  (chatMessagesSlice) => (id: string) => {
+    const message = chatMessagesSlice.messages.byId[id]
+    if (!message) return ''
+
+    // ゼロ埋め
+    const zeroPadding = (num: number, len: number) => {
+      return (Array(len).join('0') + num).slice(-len)
+    }
+
+    // 日付フォーマット
+    const date = new Date(message.created_at)
+    const year = date.getFullYear()
+    const month = zeroPadding(date.getMonth() + 1, 2)
+    const day = zeroPadding(date.getDate(), 2)
+    const hour = zeroPadding(date.getHours(), 2)
+    const min = zeroPadding(date.getMinutes(), 2)
+    const datetime = `${year}/${month}/${day} ${hour}:${min}`
+
+    return datetime
+  }
+)
+export const messageGroupIdSelector = createSelector(
+  chatMessagesSelector,
+  (chatMessagesSlice) => (id: string) => {
+    const message = chatMessagesSlice.messages.byId[id]
+    if (!message) return 0
+
+    return message.group_id
+  }
+)
