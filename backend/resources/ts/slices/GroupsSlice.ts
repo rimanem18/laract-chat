@@ -230,7 +230,7 @@ const getResponse = async (
       role_group: res.data.role_group,
     },
   }
-  console.log(response)
+
   return response
 }
 

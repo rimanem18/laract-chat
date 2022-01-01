@@ -35,18 +35,11 @@ export const fetchUser = createAsyncThunk(
       })
       userData = res.data.user
       roleUserData = res.data.role_user
-      console.log({
-        number: 1,
-        user: userData,
-        roleUser: roleUserData,
-        res: res,
-      })
     } else {
       const user = await axios.get('/api/user')
       const roleUser = await axios.get('/api/role_user')
       userData = user.data
       roleUserData = roleUser.data.role_user
-      console.log({ number: 2, user: userData, roleUser: roleUserData })
     }
 
     const response: {
@@ -55,7 +48,6 @@ export const fetchUser = createAsyncThunk(
     } = {
       user: userData,
       roleUser: roleUserData,
-
     }
     return response
   }
