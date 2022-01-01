@@ -4,6 +4,9 @@ import {
   Message,
   MessagePayload,
   PromiseState,
+  Role,
+  Roles,
+  RolesPayload,
   RoleUser,
   RoleUserPayload,
 } from '../app/type'
@@ -12,6 +15,10 @@ import {
 type ChatMessagesState = {
   messages: {
     byId: Record<string, Message>
+    allIds: string[]
+  }
+  roles: {
+    byId: Record<string, Role>
     allIds: string[]
   }
   roleUser: {
@@ -23,6 +30,10 @@ type ChatMessagesState = {
 
 const initialState: ChatMessagesState = {
   messages: {
+    byId: {},
+    allIds: [],
+  },
+  roles: {
     byId: {},
     allIds: [],
   },
@@ -42,12 +53,13 @@ export const fetchMessages = createAsyncThunk(
 
     const response: {
       messages: MessagePayload[]
+      roles: RolesPayload[]
       roleUser: RoleUserPayload[]
     } = {
       messages: res.data.chat_messages,
+      roles: res.data.roles,
       roleUser: res.data.role_user,
     }
-    console.log(response.roleUser)
 
     return response
   }
@@ -64,14 +76,16 @@ export const chatMessagesSlice = createSlice({
           state,
           action: PayloadAction<{
             messages: MessagePayload[]
+            roles: RolesPayload[]
             roleUser: RoleUserPayload[]
           }>
         ) => {
           const messages = action.payload.messages
-
+          const roles = action.payload.roles
           const roleUser = action.payload.roleUser
           state.promise = 'idle'
 
+          // messages
           state.messages.allIds = messages.map(
             (message) => `message${message.id.toString()}`
           )
@@ -94,6 +108,20 @@ export const chatMessagesSlice = createSlice({
             }
 
             state.messages.byId[`message${message.id}`] = byId
+
+            // roles
+            state.roles.allIds = roles.map(
+              (role) => `role${role.id.toString()}`
+            )
+
+            roles.forEach((role) => {
+              const byId = {
+                id: role.id,
+                name: role.name,
+                color: role.color,
+              }
+              state.roles.byId[`role${role.id.toString()}`] = byId
+            })
           })
         }
       )
