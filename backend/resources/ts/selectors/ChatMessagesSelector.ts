@@ -81,12 +81,26 @@ export const messageGroupIdSelector = createSelector(
     return message.group_id
   }
 )
-export const messageRolesSelector = createSelector(
+
+export const messageRoleColorSelector = createSelector(
   chatMessagesSelector,
   (chatMessagesSlice) => (id: string) => {
     const message = chatMessagesSlice.messages.byId[id]
     if (!message) return ''
 
-    return message.roles
+    let role = chatMessagesSlice.roles.byId[message.roles[0]]
+    if (!role) return ''
+
+    if (role === undefined) {
+      // ロールを持っていない場合は無難なデータを作って渡す
+      role = {
+        id: 0,
+        name: '',
+        color: '#333333',
+      }
+    }
+    const roleColor = role.color
+
+    return roleColor
   }
 )

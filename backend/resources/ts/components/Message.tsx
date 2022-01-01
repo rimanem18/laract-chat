@@ -21,7 +21,7 @@ import {
   messageDatetimeSelector,
   messageGroupIdSelector,
   messageNameSelector,
-  messageRolesSelector,
+  messageRoleColorSelector,
 } from '../selectors/ChatMessagesSelector'
 
 const Message = () => {
@@ -262,6 +262,7 @@ const MessageBlockList = ({
       >
         <p className="message__note">ここが「{groupName}」の先頭です。</p>
         {messageIds.map(renderMessageBlock)}
+        <ScrollButton refObject={messageList} />
       </Box>
     </>
   )
@@ -291,22 +292,10 @@ const MessageBlockContainer = ({
   }, [datetimeFactory, id])
 
   const rolesState = useRolesState()
-  const rolesFactory = useAppSelector(messageRolesSelector)
+  const roleColorFactory = useAppSelector(messageRoleColorSelector)
   const roleColor = useMemo(() => {
-    const roleIds = rolesFactory(id)
-    let role = rolesState.roles.byId[roleIds[0]]
-
-    if (role === undefined) {
-      // ロールを持っていない場合は無難なデータを作って渡す
-      role = {
-        id: 0,
-        name: '',
-        color: '#333333',
-      }
-    }
-
-    return role.color
-  }, [rolesFactory, id])
+    return roleColorFactory(id)
+  }, [roleColorFactory, id])
 
   const groupIdFactory = useAppSelector(messageGroupIdSelector)
   const groupId = useMemo(() => {
