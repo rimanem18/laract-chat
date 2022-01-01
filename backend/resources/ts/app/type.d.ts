@@ -69,11 +69,9 @@ export type RoleGroupPayload = {
   }[]
 }
 export type RolesPayload = {
-  roles: {
-    id: number
-    name: string
-    color: string
-  }[]
+  id: number
+  name: string
+  color: string
 }
 export type MessagePayload = {
   id: number

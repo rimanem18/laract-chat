@@ -20,9 +20,9 @@ const initialState: RolesState = {
 export const fetchRoles = createAsyncThunk('roles/fetchRoles', async () => {
   const roles = await axios.get('/api/roles')
   const response: {
-    roles: RolesPayload
+    roles: RolesPayload[]
   } = {
-    roles: roles.data,
+    roles: roles.data.roles,
   }
   return response
 })
@@ -39,10 +39,10 @@ export const rolesSlice = createSlice({
         (
           state,
           action: PayloadAction<{
-            roles: RolesPayload
+            roles: RolesPayload[]
           }>
         ) => {
-          const roles = action.payload.roles.roles
+          const roles = action.payload.roles
           state.promise = 'idle'
 
           state.roles.allIds = roles.map((role) => `role${role.id.toString()}`)
