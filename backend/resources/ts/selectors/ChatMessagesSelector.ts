@@ -42,7 +42,11 @@ export const messageContentSelector = createSelector(
   (chatMessagesSlice) => (id: string) => {
     const message = chatMessagesSlice.messages.byId[id]
     if (!message) return ''
-    return message.content
+
+    // 2個以上の改行を2個改行におさめる
+    const content = message.content.replace(/\n{2,}/g, '\n\n')
+
+    return content
   }
 )
 export const messageDatetimeSelector = createSelector(

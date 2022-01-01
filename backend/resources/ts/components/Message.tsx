@@ -186,25 +186,85 @@ type MessageBlockProps = {
 const MessageBlock = React.memo(
   ({ id, name, content, datetime, roleColor }: MessageBlockProps) => {
     return (
-      <ul>
-        <li>{name}</li>
-        <li>{content}</li>
-        <li>{datetime}</li>
-        <li>{roleColor}</li>
-      </ul>
+      <div className="message__item">
+        <Grid container>
+          <StringAvatar name={name}></StringAvatar>
+          <Box sx={{ m: 1 }}>
+            <Box
+              sx={{
+                color: roleColor,
+                fontWeight: 'bold',
+                display: 'block',
+                fontSize: '80%',
+              }}
+            >
+              {name}
+            </Box>
+            <Box sx={{ display: 'block', fontSize: '80%' }}>{datetime}</Box>
+          </Box>
+        </Grid>
+        <p>
+          {content.split('\n').map((str, index) => (
+            <React.Fragment key={index}>
+              {str}
+              <br />
+            </React.Fragment>
+          ))}
+        </p>
+      </div>
     )
   }
 )
 
 type MessageBlockListProps = {
   messageIds: string[]
+  groupId: string
+  groupName: string
+  roleIds: number[]
+  messageList: React.MutableRefObject<HTMLDivElement | null>
   renderMessageBlock: (id: string) => React.ReactElement
 }
 const MessageBlockList = ({
   messageIds,
+  messageList,
+  groupId,
+  groupName,
+  roleIds,
   renderMessageBlock,
 }: MessageBlockListProps) => {
-  return <div>{messageIds.map(renderMessageBlock)}</div>
+  return (
+    <>
+      <GroupName
+        id={groupId ? groupId : ''}
+        name={groupName}
+        roleIds={roleIds}
+      />
+
+      <Box
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: 2,
+            borderRadius: 5,
+          },
+          '&::-webkit-scrollbar-track': {
+            boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            outline: `1px solid rgba(0, 0, 0, 0.3)`,
+          },
+
+          height: '70vh',
+          overflowY: 'scroll',
+          overflow: 'none',
+        }}
+        ref={messageList}
+      >
+        <p className="message__note">ここが「{groupName}」の先頭です。</p>
+        {messageIds.map(renderMessageBlock)}
+      </Box>
+    </>
+  )
 }
 
 type MessageBlockContainerProps = {
@@ -314,6 +374,10 @@ const MessageListContainer = () => {
   return (
     <MessageBlockList
       messageIds={messageIds}
+      messageList={messageList}
+      groupId={paramGroupId}
+      groupName={groupName}
+      roleIds={roleIds}
       renderMessageBlock={(id) => (
         <MessageBlockContainer key={id} id={id} paramGroupId={paramGroupId} />
       )}
