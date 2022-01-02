@@ -1,16 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Box, Grid, IconButton } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {
   useAppDispatch,
   useChatMessagesState,
-  useFormatDate,
   usePostState,
   useGroupsState,
   useParamGroupId,
   useScrollToBottom,
   useUserState,
-  useRolesState,
   useAppSelector,
 } from '../app/hooks'
 import { fetchMessages } from '../slices/ChatMessagesSlice'
@@ -184,7 +182,6 @@ const MessageBlockContainer = ({
     return datetimeFactory(id)
   }, [datetimeFactory, id])
 
-  const rolesState = useRolesState()
   const roleColorFactory = useAppSelector(messageRoleColorSelector)
   const roleColor = useMemo(() => {
     return roleColorFactory(id)
@@ -215,7 +212,6 @@ const MessageListContainer = () => {
   }
 
   const { roleNumberIds: roleIds } = useUserState()
-  const rolesState = useRolesState()
   const chatMessagesState = useChatMessagesState()
   const postState = usePostState()
   const messageList = useRef<HTMLDivElement | null>(null)
