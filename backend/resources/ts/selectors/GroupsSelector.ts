@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../app/rootReducer'
+import { groupsSlice } from '../slices/GroupsSlice'
 
 export const groupsSelector = (state: RootState) => state.groupsSlice
 
@@ -56,6 +57,27 @@ export const groupsDefaultPathSelector = createSelector(
   groupsSelector,
   (groupsSlice) => {
     const path = `/groups/${groupsSlice.oldestId.toString()}`
+    return path
+  }
+)
+
+export const groupNameSelector = createSelector(
+  groupsSelector,
+  (groupsSlice) => (id: string) => {
+    const group = groupsSlice.groups.byId[id]
+    if (!group) return ''
+
+    return group.name
+  }
+)
+
+export const groupPathSelector = createSelector(
+  groupsSelector,
+  (groupsSlice) => (id: string) => {
+    const group = groupsSlice.groups.byId[id]
+    if (!group) return ''
+    const path = `/groups/${group.id.toString()}`
+
     return path
   }
 )
