@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { RoleUserPayload } from '../../app/type'
-import { fetchUser, userSlice, UserState } from '../../slices/UserSlice'
+import { RoleUserPayload, UserState } from '../../app/type'
+import { fetchUser, userSlice } from '../../slices/UserSlice'
 
 const initialState: UserState = {
   id: 0,

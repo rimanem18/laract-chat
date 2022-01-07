@@ -1,4 +1,5 @@
-import { menuSlice, MenuState, toggleMenuOpen } from '../../slices/MenuSlice'
+import { MenuState } from '../../app/type'
+import { menuSlice, toggleMenuOpen } from '../../slices/MenuSlice'
 
 const initialState: MenuState = {
   isOpen: false,

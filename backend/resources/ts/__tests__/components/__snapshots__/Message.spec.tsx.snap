@@ -66,18 +66,22 @@ Array [
           className="MuiBox-root css-1ynyhby"
         >
           <div
-            className="MuiBox-root css-gfpg3d"
+            className="MuiBox-root css-1k69r4z"
+            data-testid="message1-name"
           >
             hoge
           </div>
           <div
             className="MuiBox-root css-1lxptm7"
+            data-testid="message1-datetime"
           >
             1900-01-01
           </div>
         </div>
       </div>
-      <p>
+      <p
+        data-testid="message1-content"
+      >
         fugafuga
         <br />
       </p>

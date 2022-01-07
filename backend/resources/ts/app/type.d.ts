@@ -69,11 +69,9 @@ export type RoleGroupPayload = {
   }[]
 }
 export type RolesPayload = {
-  roles: {
-    id: number
-    name: string
-    color: string
-  }[]
+  id: number
+  name: string
+  color: string
 }
 export type MessagePayload = {
   id: number
@@ -86,4 +84,56 @@ export type MessagePayload = {
 export type RoleUserPayload = {
   user_id: number
   role_id: number
+}
+
+// Slice
+export type AuthState = {
+  name: string
+  email: string
+  password: string
+  promise: PromiseState
+  message: string
+}
+export type GroupsState = {
+  groups: Groups
+  roleGroup: {
+    byId: Record<string, RoleGroup>
+    allIds: string[]
+  }
+  oldestId: number
+  promise: PromiseState
+}
+export type MenuState = {
+  isOpen: boolean
+}
+export type PostState = {
+  userId: number
+  content: string
+  promise: PromiseState
+}
+export type RolesState = {
+  roles: Roles
+  promise: PromiseState
+}
+export type UserState = {
+  id: number
+  name: string
+  email: string
+  roles: string[]
+  promise: PromiseState
+}
+export type ChatMessagesState = {
+  messages: {
+    byId: Record<string, Message>
+    allIds: string[]
+  }
+  roles: {
+    byId: Record<string, Role>
+    allIds: string[]
+  }
+  roleUser: {
+    byId: Record<string, RoleUser>
+    allIds: string[]
+  }
+  promise: PromiseState
 }

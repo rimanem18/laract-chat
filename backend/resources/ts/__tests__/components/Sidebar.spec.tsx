@@ -12,6 +12,8 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppDispatch(...args),
+  useGroupName: (id: string) => useGroupNameMock(id),
+  useGroupPath: (id: string) => useGroupPathMock(id),
   useUserState: () => useUserStateMock(),
   useGroupsState: () => useGroupsStateMock(),
   useParamGroupId: () => useParamGroupIdMock(),
@@ -34,6 +36,16 @@ const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
 const useParamGroupIdMock = jest.fn().mockReturnValue(1)
 
 let useGroupModalMock = jest.fn()
+
+// 引数のある Hooks
+const useGroupNameMock = jest
+  .fn()
+  .mockImplementation((id: string) => groupState.groups.byId[id].name)
+const useGroupPathMock = jest
+  .fn()
+  .mockImplementation(
+    (id: string) => `/groups/${groupState.groups.byId[id].id.toString()}`
+  )
 
 const Component = (
   <Router>

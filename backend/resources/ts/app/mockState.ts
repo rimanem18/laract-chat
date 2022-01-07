@@ -51,6 +51,22 @@ type MockState = {
   postSlice: UsePostState
 }
 
+const roles = {
+  byId: {
+    role1: {
+      id: 1,
+      name: 'staff',
+      color: '#999999',
+    },
+    role2: {
+      id: 2,
+      name: 'admin',
+      color: '#cccccc',
+    },
+  },
+  allIds: ['role1', 'role2'],
+}
+
 export const mockState: RootState = {
   authSlice: {
     name: '太郎',
@@ -87,7 +103,7 @@ export const mockState: RootState = {
       byId: {},
       allIds: [],
     },
-
+    roles: roles,
     promise: 'idle',
   },
   groupsSlice: {
@@ -122,21 +138,7 @@ export const mockState: RootState = {
     promise: 'idle',
   },
   rolesSlice: {
-    roles: {
-      byId: {
-        role1: {
-          id: 1,
-          name: 'staff',
-          color: '#999999',
-        },
-        role2: {
-          id: 2,
-          name: 'admin',
-          color: '#cccccc',
-        },
-      },
-      allIds: ['role1', 'role2'],
-    },
+    roles: roles,
     promise: 'idle',
   },
   userSlice: {

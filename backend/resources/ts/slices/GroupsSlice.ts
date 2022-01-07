@@ -1,24 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { WritableDraft } from 'immer/dist/internal'
-import {
-  Groups,
-  GroupsPayload,
-  PromiseState,
-  RoleGroup,
-  RoleGroupPayload,
-} from '../app/type'
-
-// 型定義
-export interface GroupsState {
-  groups: Groups
-  roleGroup: {
-    byId: Record<string, RoleGroup>
-    allIds: string[]
-  }
-  oldestId: number
-  promise: PromiseState
-}
+import { GroupsPayload, GroupsState } from '../app/type'
 
 // 初期値
 const initialState: GroupsState = {
@@ -230,7 +213,7 @@ const getResponse = async (
       role_group: res.data.role_group,
     },
   }
-  console.log(response)
+
   return response
 }
 

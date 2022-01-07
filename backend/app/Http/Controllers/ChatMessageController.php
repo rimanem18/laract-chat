@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\RoleUser;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +39,8 @@ class ChatMessageController extends Controller
         ->orderBy('id')
         ->get();
 
+        $roles = Role::all();
+
         $role_user = RoleUser::select(
             'role_user.user_id',
             "role_user.role_id"
@@ -46,6 +49,7 @@ class ChatMessageController extends Controller
 
         return Response()->json([
           'chat_messages'=>$chat_messages,
+          'roles'=>$roles,
           'role_user'=>$role_user
         ], Response::HTTP_OK);
     }

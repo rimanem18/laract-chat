@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { RolesPayload } from '../../app/type'
-import { fetchRoles, rolesSlice, RolesState } from '../../slices/RolesSlice'
+import { RolesPayload, RolesState } from '../../app/type'
+import { fetchRoles, rolesSlice } from '../../slices/RolesSlice'
 
 // 初期値
 const initialState: RolesState = {
@@ -12,19 +12,17 @@ const initialState: RolesState = {
 }
 
 const payloadMock: {
-  roles: RolesPayload
+  roles: RolesPayload[]
 } = {
-  roles: {
-    roles: [
-      { id: 1, name: '特権管理者', color: '#c8336f' },
-      { id: 2, name: '管理者', color: '#e45c0b' },
-      {
-        id: 3,
-        name: 'スタッフ',
-        color: '#169824',
-      },
-    ],
-  },
+  roles: [
+    { id: 1, name: '特権管理者', color: '#c8336f' },
+    { id: 2, name: '管理者', color: '#e45c0b' },
+    {
+      id: 3,
+      name: 'スタッフ',
+      color: '#169824',
+    },
+  ],
 }
 
 describe('Roles', () => {
@@ -38,7 +36,7 @@ describe('Roles', () => {
     })
     it('fetchRoles fulfilled', () => {
       const action: PayloadAction<{
-        roles: RolesPayload
+        roles: RolesPayload[]
       }> = {
         type: fetchRoles.fulfilled.type,
         payload: payloadMock,

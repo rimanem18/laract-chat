@@ -1,5 +1,10 @@
 import {
   chatMessagesPromiseSelector,
+  messageContentSelector,
+  messageDatetimeSelector,
+  messageGroupIdSelector,
+  messageNameSelector,
+  messageRoleColorSelector,
   selectMessages,
 } from '../../selectors/ChatMessagesSelector'
 import { mockState } from '../../app/mockState'
@@ -11,6 +16,12 @@ describe('chatMessagesSelector', () => {
       byId: selectMessages.byId(mockState),
     }
     const promise = chatMessagesPromiseSelector(mockState)
+
+    const name = messageNameSelector(mockState)('message1')
+    const content = messageContentSelector(mockState)('message1')
+    const datetime = messageDatetimeSelector(mockState)('message1')
+    const groupId = messageGroupIdSelector(mockState)('message1')
+    const roleColor = messageRoleColorSelector(mockState)('message1')
 
     expect(messages.allIds).toEqual(['message1', 'message2'])
     expect(messages.byId).toEqual({
@@ -34,5 +45,10 @@ describe('chatMessagesSelector', () => {
       },
     })
     expect(promise).toBe('idle')
+    expect(name).toBe('hoge')
+    expect(content).toBe('fugafuga')
+    expect(datetime).toBe('1900/01/01 09:00')
+    expect(groupId).toBe(1)
+    expect(roleColor).toBe('#999999')
   })
 })

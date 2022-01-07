@@ -102,75 +102,71 @@ Array [
     </span>
     新しいグループを追加
   </button>,
-  <ul
-    className="MuiList-root MuiList-padding css-x9esj-MuiList-root"
+  <div
+    className="MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex={0}
   >
     <div
-      className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
-      data-testid="group1"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="button"
-      tabIndex={0}
+      className="MuiListItemText-root css-tlelie-MuiListItemText-root"
     >
-      <div
-        className="MuiListItemText-root css-tlelie-MuiListItemText-root"
+      <span
+        className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
       >
-        <span
-          className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        <div
+          className="MuiBox-root css-24ohs5"
+          data-testid="group1"
         >
-          <div
-            className="MuiBox-root css-24ohs5"
-          >
-            hello
-          </div>
-        </span>
-      </div>
+          hello
+        </div>
+      </span>
     </div>
+  </div>,
+  <div
+    className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    role="button"
+    tabIndex={0}
+  >
     <div
-      className="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
-      data-testid="group2"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="button"
-      tabIndex={0}
+      className="MuiListItemText-root css-tlelie-MuiListItemText-root"
     >
-      <div
-        className="MuiListItemText-root css-tlelie-MuiListItemText-root"
+      <span
+        className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
       >
-        <span
-          className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        <div
+          className="MuiBox-root css-24ohs5"
+          data-testid="group2"
         >
-          <div
-            className="MuiBox-root css-24ohs5"
-          >
-            world
-          </div>
-        </span>
-      </div>
+          world
+        </div>
+      </span>
     </div>
-  </ul>,
+  </div>,
 ]
 `;

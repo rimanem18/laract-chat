@@ -1,5 +1,7 @@
 import { mockState } from '../../app/mockState'
 import {
+  groupNameSelector,
+  groupPathSelector,
   groupsOldestIdSelector,
   groupsPromiseSelector,
   selectGroups,
@@ -26,6 +28,12 @@ describe('groupSelector', () => {
         roles: ['role1', 'role2'],
       },
     })
+
+    const name = groupNameSelector(mockState)('group1')
+    const path = groupPathSelector(mockState)('group1')
+
+    expect(name).toBe('hello')
+    expect(path).toBe('/groups/1')
   })
 
   it('Selector で roleGroup の値を取得できる', () => {

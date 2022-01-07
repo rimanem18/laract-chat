@@ -28,6 +28,14 @@ jest.mock('../../app/hooks', () => ({
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useMenuIsOpen: () => useMenuIsOpenMock(),
+  // 引数あり
+  useGroupName: (id: string) => useGroupNameMock(id),
+  useGroupPath: (id: string) => useGroupPathMock(id),
+  useMessageName: (id: string) => useMessageNameMock(id),
+  useMessageDatatime: (id: string) => useMessageDatetimeMock(id),
+  useMessageContent: (id: string) => useMessageContentMock(id),
+  useMessageRoleColor: (id: string) => useMessageRoleColorMock(id),
+  useMessageGroupId: (id: string) => useMessageGroupIdMock(id),
 }))
 
 // Hooks の Mock
@@ -72,6 +80,32 @@ const useScrollToBottomMock = jest.fn()
 let useGroupModalMock = jest.fn()
 
 const useMenuIsOpenMock = jest.fn().mockReturnValue(false)
+
+// 引数のある Hooks
+const useGroupNameMock = jest
+  .fn()
+  .mockImplementation((id: string) => groupState.groups.byId[id].name)
+const useGroupPathMock = jest
+  .fn()
+  .mockImplementation(
+    (id: string) => `/groups/${groupState.groups.byId[id].id.toString()}`
+  )
+const msgById = messagesState.messages.byId
+const useMessageNameMock = jest
+  .fn()
+  .mockImplementation((id: string) => msgById[id].name)
+const useMessageContentMock = jest
+  .fn()
+  .mockImplementation((id: string) => msgById[id].content)
+const useMessageDatetimeMock = jest
+  .fn()
+  .mockImplementation((id: string) => msgById[id].created_at)
+const useMessageRoleColorMock = jest
+  .fn()
+  .mockImplementation((id: string) => msgById[id].roles)
+const useMessageGroupIdMock = jest
+  .fn()
+  .mockImplementation((id) => msgById[id].group_id)
 
 const Component = (
   <Router>

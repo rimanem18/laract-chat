@@ -1,12 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { GroupsPayload } from '../../app/type'
+import { GroupsPayload, GroupsState } from '../../app/type'
 import {
   addGroup,
   editGroup,
   deleteGroup,
   fetchGroups,
   groupsSlice,
-  GroupsState,
 } from '../../slices/GroupsSlice'
 
 // 初期値

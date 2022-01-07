@@ -1,9 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import {
-  Message,
+  ChatMessagesState,
   MessagePayload,
-  PromiseState,
-  RoleUser,
+  RolesPayload,
   RoleUserPayload,
 } from '../../app/type'
 import {
@@ -11,22 +10,13 @@ import {
   fetchMessages,
 } from '../../slices/ChatMessagesSlice'
 
-// 型定義
-type ChatMessagesState = {
-  messages: {
-    byId: Record<string, Message>
-    allIds: string[]
-  }
-  roleUser: {
-    byId: Record<string, RoleUser>
-    allIds: string[]
-  }
-  promise: PromiseState
-}
-
 // 初期値
 const initialState: ChatMessagesState = {
   messages: {
+    byId: {},
+    allIds: [],
+  },
+  roles: {
     byId: {},
     allIds: [],
   },
@@ -56,6 +46,13 @@ const messagePayloadMock: MessagePayload[] = [
     user_id: 2,
   },
 ]
+const rolesPayloadMock: RolesPayload[] = [
+  {
+    id: 1,
+    name: 'admin',
+    color: '#999999',
+  },
+]
 const roleUserPayloadMock: RoleUserPayload[] = [
   {
     user_id: 1,
@@ -64,6 +61,7 @@ const roleUserPayloadMock: RoleUserPayload[] = [
 ]
 const payloadMock = {
   messages: messagePayloadMock,
+  roles: rolesPayloadMock,
   roleUser: roleUserPayloadMock,
 }
 
