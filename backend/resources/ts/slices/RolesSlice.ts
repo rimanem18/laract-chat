@@ -1,12 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { PromiseState, Roles, RolesPayload } from '../app/type'
-
-// 型定義
-export interface RolesState {
-  roles: Roles
-  promise: PromiseState
-}
+import { RolesPayload, RolesState } from '../app/type'
 
 // 初期値
 const initialState: RolesState = {

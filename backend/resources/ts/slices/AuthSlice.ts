@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '../app/store'
 import axios from 'axios'
-import { PromiseState } from '../app/type'
-
-// 型定義
-export interface AuthState {
-  name: string
-  email: string
-  password: string
-  promise: PromiseState
-  message: string
-}
+import { AuthState } from '../app/type'
 
 // 初期値
 const initialState: AuthState = {

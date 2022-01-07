@@ -1,18 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../app/store'
 import axios from 'axios'
-import { PromiseState, RoleUserPayload } from '../app/type'
-import { shallowEqual } from 'react-redux'
-import { useUserState } from '../app/hooks'
-
-// 型定義
-export interface UserState {
-  id: number
-  name: string
-  email: string
-  roles: string[]
-  promise: PromiseState
-}
+import { RoleUserPayload, UserState } from '../app/type'
 
 // 初期値
 const initialState: UserState = {

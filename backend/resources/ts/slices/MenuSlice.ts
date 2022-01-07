@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-// 型定義
-export interface MenuState {
-  isOpen: boolean
-}
+import { MenuState } from '../app/type'
 
 // 初期値
 const initialState: MenuState = {

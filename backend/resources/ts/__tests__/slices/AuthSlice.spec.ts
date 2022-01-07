@@ -1,10 +1,5 @@
-import {
-  authSlice,
-  AuthState,
-  login,
-  logout,
-  register,
-} from '../../slices/AuthSlice'
+import { AuthState } from '../../app/type'
+import { authSlice, login, logout, register } from '../../slices/AuthSlice'
 
 const initialState: AuthState = {
   name: '',

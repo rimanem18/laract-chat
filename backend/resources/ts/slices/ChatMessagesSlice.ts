@@ -1,32 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import {
+  ChatMessagesState,
   Message,
   MessagePayload,
-  PromiseState,
-  Role,
-  Roles,
   RolesPayload,
-  RoleUser,
   RoleUserPayload,
 } from '../app/type'
-
-// 型定義
-type ChatMessagesState = {
-  messages: {
-    byId: Record<string, Message>
-    allIds: string[]
-  }
-  roles: {
-    byId: Record<string, Role>
-    allIds: string[]
-  }
-  roleUser: {
-    byId: Record<string, RoleUser>
-    allIds: string[]
-  }
-  promise: PromiseState
-}
 
 const initialState: ChatMessagesState = {
   messages: {
