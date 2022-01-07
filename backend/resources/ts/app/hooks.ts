@@ -4,6 +4,11 @@ import type { RootState, AppDispatch } from './store'
 
 import {
   chatMessagesPromiseSelector,
+  messageContentSelector,
+  messageDatetimeSelector,
+  messageGroupIdSelector,
+  messageNameSelector,
+  messageRoleColorSelector,
   selectMessages,
 } from '../selectors/ChatMessagesSelector'
 import {
@@ -27,6 +32,8 @@ import {
   postUserIdSelector,
 } from '../selectors/PostSelector'
 import {
+  groupNameSelector,
+  groupPathSelector,
   groupsDefaultPathSelector,
   groupsOldestIdSelector,
   groupsPromiseSelector,
@@ -79,6 +86,7 @@ export const useUserState = () => {
   return userState
 }
 
+// Groups Slice
 export const useGroupsState = () => {
   const groups = {
     byId: useAppSelector(selectGroups.byId),
@@ -103,6 +111,23 @@ export const useGroupsState = () => {
   return groupState
 }
 
+export const useGroupName = (id: string) => {
+  const nameFactory = useAppSelector(groupNameSelector)
+  const name = useMemo(() => {
+    return nameFactory(id)
+  }, [nameFactory, id])
+
+  return name
+}
+export const useGroupPath = (id: string) => {
+  const pathFactory = useAppSelector(groupPathSelector)
+  const path = useMemo(() => {
+    return pathFactory(id)
+  }, [pathFactory, id])
+
+  return path
+}
+
 // Menu Selector
 export const useMenuIsOpen = () => {
   return useAppSelector(menuIsOpenSelector)
@@ -121,6 +146,48 @@ export const useChatMessagesState = () => {
     promise,
   }
   return chatMessagesState
+}
+
+export const useMessageName = (id: string) => {
+  const nameFactory = useAppSelector(messageNameSelector)
+  const name = useMemo(() => {
+    return nameFactory(id)
+  }, [nameFactory, id])
+
+  return name
+}
+export const useMessageContent = (id: string) => {
+  const contentFactory = useAppSelector(messageContentSelector)
+  const content = useMemo(() => {
+    return contentFactory(id)
+  }, [contentFactory, id])
+
+  return content
+}
+export const useMessageDatatime = (id: string) => {
+  const datetimeFactory = useAppSelector(messageDatetimeSelector)
+  const datetime = useMemo(() => {
+    return datetimeFactory(id)
+  }, [datetimeFactory, id])
+
+  return datetime
+}
+export const useMessageRoleColor = (id: string) => {
+  const roleColorFactory = useAppSelector(messageRoleColorSelector)
+  const roleColor = useMemo(() => {
+    return roleColorFactory(id)
+  }, [roleColorFactory, id])
+
+  return roleColor
+}
+
+export const useMessageGroupId = (id: string) => {
+  const groupIdFactory = useAppSelector(messageGroupIdSelector)
+  const groupId = useMemo(() => {
+    return groupIdFactory(id)
+  }, [groupIdFactory, id])
+
+  return groupId
 }
 
 export const usePostState = () => {

@@ -10,6 +10,11 @@ import {
   useScrollToBottom,
   useUserState,
   useAppSelector,
+  useMessageName,
+  useMessageContent,
+  useMessageDatatime,
+  useMessageGroupId,
+  useMessageRoleColor,
 } from '../app/hooks'
 import { fetchMessages } from '../slices/ChatMessagesSlice'
 import StringAvatar from './StringAvatar'
@@ -167,31 +172,12 @@ const MessageBlockContainer = ({
   id,
   paramGroupId,
 }: MessageBlockContainerProps) => {
-  const nameFactory = useAppSelector(messageNameSelector)
-  const name = useMemo(() => {
-    return nameFactory(id)
-  }, [nameFactory, id])
+  const name = useMessageName(id)
+  const content = useMessageContent(id)
+  const datetime = useMessageDatatime(id)
+  const roleColor = useMessageRoleColor(id)
 
-  const contentFactory = useAppSelector(messageContentSelector)
-  const content = useMemo(() => {
-    return contentFactory(id)
-  }, [contentFactory, id])
-
-  const datetimeFactory = useAppSelector(messageDatetimeSelector)
-  const datetime = useMemo(() => {
-    return datetimeFactory(id)
-  }, [datetimeFactory, id])
-
-  const roleColorFactory = useAppSelector(messageRoleColorSelector)
-  const roleColor = useMemo(() => {
-    return roleColorFactory(id)
-  }, [roleColorFactory, id])
-
-  const groupIdFactory = useAppSelector(messageGroupIdSelector)
-  const groupId = useMemo(() => {
-    return groupIdFactory(id)
-  }, [groupIdFactory, id])
-
+  const groupId = useMessageGroupId(id)
   // グループIDが一致しない場合は null
   if (Number(paramGroupId) !== groupId) return null
   return (

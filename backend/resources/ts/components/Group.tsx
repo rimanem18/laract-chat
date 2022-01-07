@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom'
 import {
   useAppDispatch,
   useAppSelector,
+  useGroupName,
+  useGroupPath,
   useGroupsState,
   useParamGroupId,
   useUserState,
@@ -36,11 +38,7 @@ const GroupBlock = React.memo(
   ({ id, name, isActive, goTo }: GroupBlockProps) => {
     return (
       <>
-        <ListItemButton
-          onClick={goTo}
-          selected={isActive}
-          data-testid={`group${id}`}
-        >
+        <ListItemButton onClick={goTo} selected={isActive}>
           <ListItemText>
             <Box
               sx={{
@@ -95,15 +93,8 @@ const GroupBlockContainer = ({
   const isActive = id === `group${paramGroupId}`
 
   // グループ名とpathを生成
-  const nameFactory = useAppSelector(groupNameSelector)
-  const name = useMemo(() => {
-    return nameFactory(id)
-  }, [nameFactory, id])
-
-  const pathFactory = useAppSelector(groupPathSelector)
-  const path = useMemo(() => {
-    return pathFactory(id)
-  }, [pathFactory, id])
+  const name = useGroupName(id)
+  const path = useGroupPath(id)
 
   // 遷移関数作成
   const goTo = useCallback(() => {
