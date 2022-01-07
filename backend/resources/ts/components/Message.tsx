@@ -83,6 +83,7 @@ const MessageBlock = React.memo(
           <StringAvatar name={name}></StringAvatar>
           <Box sx={{ m: 1 }}>
             <Box
+              data-testid={`${id}-name`}
               sx={{
                 color: roleColor,
                 fontWeight: 'bold',
@@ -92,10 +93,15 @@ const MessageBlock = React.memo(
             >
               {name}
             </Box>
-            <Box sx={{ display: 'block', fontSize: '80%' }}>{datetime}</Box>
+            <Box
+              data-testid={`${id}-datetime`}
+              sx={{ display: 'block', fontSize: '80%' }}
+            >
+              {datetime}
+            </Box>
           </Box>
         </Grid>
-        <p>
+        <p data-testid={`${id}-content`}>
           {content.split('\n').map((str, index) => (
             <React.Fragment key={index}>
               {str}

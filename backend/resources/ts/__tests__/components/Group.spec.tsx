@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import renderer from 'react-test-renderer'
 import { mockState } from '../../app/mockState'
 import Group from '../../components/Group'
+import { groupNameSelector } from '../../selectors/GroupsSelector'
 
 const mockUseAppDispatch = jest.fn()
 const mockUseAppSelector = jest.fn()
@@ -17,6 +18,8 @@ jest.mock('../../app/hooks', () => ({
     () =>
     (...args: any[]) =>
       mockUseAppSelector(...args),
+  useGroupName: (id: string) => useGroupNameMock(id),
+  useGroupPath: (id: string) => useGroupPathMock(id),
   useParamGroupId: () => useParamGroupIdMock(),
   useGroupModal: () => useGroupModalMock(),
   useUserState: () => useUserStateMock(),
@@ -31,6 +34,16 @@ const useUserStateMock = jest.fn().mockReturnValue(userState)
 const useGroupsStateMock = jest.fn().mockReturnValue(groupState)
 let useGroupModalMock = jest.fn()
 
+// 引数のある Hooks
+const useGroupNameMock = jest
+  .fn()
+  .mockImplementation((id: string) => groupState.groups.byId[id].name)
+const useGroupPathMock = jest
+  .fn()
+  .mockImplementation(
+    (id: string) => `/groups/${groupState.groups.byId[id].id.toString()}`
+  )
+
 const Component = (
   <Router>
     <Group />
@@ -41,8 +54,8 @@ const Component = (
 const setup = () => {
   const screen = render(Component)
   const groupNames = [
-    screen.getByTestId('group1'),
-    screen.getByTestId('group2'),
+    screen.getByTestId('group1') as HTMLElement,
+    screen.getByTestId('group2') as HTMLElement,
   ]
   return {
     groupNames,
@@ -73,7 +86,9 @@ describe('Group', () => {
 
   it('グループ名が表示される', () => {
     const { groupNames } = setup()
+
     const byId = groupState.groups.byId
+
     expect(groupNames[0].textContent).toBe(byId.group1.name)
     expect(groupNames[1].textContent).toBe(byId.group2.name)
   })

@@ -47,6 +47,7 @@ const GroupBlock = React.memo(
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
               }}
+              data-testid={`${id}`}
             >
               {name}
             </Box>
