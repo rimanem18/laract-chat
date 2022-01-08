@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .flex {
   display: block;
 
@@ -9,8 +11,8 @@
   $grid: 12;
   @for $i from 1 to $grid {
     &__item--#{$i} {
-      flex: 0 0 percentage($i / $grid);
-      min-width: percentage($i / $grid);
+      flex: 0 0 math.div($i, $grid);
+      min-width: math.div($i, $grid);
     }
   }
 }
