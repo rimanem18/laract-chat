@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Box, IconButton, SwipeableDrawer } from '@mui/material'
+import { Box, IconButton, SwipeableDrawer, useMediaQuery } from '@mui/material'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import { Redirect } from 'react-router-dom'
 import { useAppDispatch, useMenuIsOpen, useUserState } from '../app/hooks'
@@ -11,15 +11,8 @@ import { toggleMenuOpen } from '../slices/MenuSlice'
 const Top = () => {
   const dispatch = useAppDispatch()
   const userState = useUserState()
-  const [width, setWidth] = useState<number | null>(null)
   const isOpen = useMenuIsOpen()
-
-  const updateWidth = () => {
-    setWidth(window.innerWidth)
-  }
-  useEffect(() => {
-    updateWidth()
-  }, [null === width])
+  const maches = useMediaQuery('(min-width:768px)')
 
   const toggleDrawer = useCallback(
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -37,21 +30,13 @@ const Top = () => {
     []
   )
 
-  useEffect(() => {
-    window.addEventListener(`resize`, updateWidth, {
-      capture: false,
-      passive: true,
-    })
-    return () => window.removeEventListener(`resize`, updateWidth)
-  })
-
   return (
     <>
       {userState.id === 0 ? (
         <Redirect to="/login" />
       ) : (
         <>
-          {width === null || width >= 768 ? (
+          {maches ? (
             <PcView />
           ) : (
             <MobileView isOpen={isOpen} toggleDrawer={toggleDrawer} />
