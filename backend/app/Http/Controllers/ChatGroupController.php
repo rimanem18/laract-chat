@@ -2,64 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Group\UseCases\FindAction;
 use App\Models\ChatGroup;
-use App\Models\RoleGroup;
+use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
 class ChatGroupController extends Controller
 {
-    public function selectChatGroups(Request $request)
-    {
-        $chat_groups = ChatGroup::select(
-            'chat_groups.id',
-            "chat_groups.name"
-        )
-        ->get();
-
-        return Response()->json(['chat_groups'=>$chat_groups], Response::HTTP_OK);
-    }
-
     /**
      * 渡されたロール ID が紐ついているグループのみ取得
      *
      * @param Request $request->roleIds array
-     * @return void
+     * @return JsonResponse
      */
-    public function getGroupsByRoleIds(Request $request)
+    public function getGroupsByRoleIds(Request $request, FindAction $action): JsonResponse
     {
         $role_ids = $request->roleIds;
-        // $role_ids = [3];
 
-        // ロール中間テーブルに紐ついていないものを取得
-        $public_groups = ChatGroup::from('chat_groups AS groups')
-        ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
-        ->where('role_group.role_id', '=', null)
-        ->select(
-            'groups.id',
-            'groups.name',
-        )
-        ->distinct('groups.id')
-        ->get();
-
-        // ロール中間テーブルに紐ついているものを
-        // パラメータをもとに取得
-        $private_groups = ChatGroup::from('chat_groups AS groups')
-        ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
-        ->whereIn('role_group.role_id', $role_ids)
-        ->select(
-            'groups.id',
-            'groups.name',
-        )
-        ->distinct('groups.id')
-        ->get();
-
-        // ロールとグループの関連付けを取得する
-        $role_group = RoleGroup::select(
-            'role_group.group_id',
-            "role_group.role_id"
-        )
-        ->get();
+        $public_groups = $action->findPublicGroups();
+        $private_groups = $action->findPrivateGroupsByRoleIds($role_ids);
+        $role_group = $action->findRoleGroup();
 
         return Response()->json([
           'public_groups'=>$public_groups,

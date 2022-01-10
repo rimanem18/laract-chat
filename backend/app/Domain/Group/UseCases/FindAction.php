@@ -7,13 +7,18 @@ use App\Models\ChatGroup as Group;
 use App\Models\RoleGroup;
 use Illuminate\Support\Collection;
 
+/**
+ * Group に関する取得を担うクラス
+ */
 class FindAction
 {
     private Group $group_model_repository;
+    private RoleGroup $role_group_model_repository;
 
-    public function __construct(Group $group_model_repository)
+    public function __construct(Group $group_model_repository, RoleGroup $role_group_model_repository)
     {
         $this->group_model_repository = $group_model_repository;
+        $this->role_group_model_repository = $role_group_model_repository;
     }
 
     /**
@@ -39,7 +44,7 @@ class FindAction
      */
     public function findPublicGroups(): Collection
     {
-        $public_groups = Group::from('chat_groups AS groups')
+        $public_groups = $this->group_model_repository->from('chat_groups AS groups')
               ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
               ->where('role_group.role_id', '=', null)
               ->select(
@@ -61,7 +66,7 @@ class FindAction
      */
     public function findPrivateGroupsByRoleIds(array $role_ids): Collection
     {
-        $private_groups = Group::from('chat_groups AS groups')
+        $private_groups = $this->group_model_repository->from('chat_groups AS groups')
         ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
         ->whereIn('role_group.role_id', $role_ids)
         ->select(
@@ -81,11 +86,12 @@ class FindAction
      */
     public function findRoleGroup(): Collection
     {
-        $role_group = RoleGroup::select(
+        $role_group = $this->role_group_model_repository
+        ->select(
             'role_group.group_id',
             "role_group.role_id"
         )
-            ->get();
+        ->get();
 
         return $role_group;
     }
