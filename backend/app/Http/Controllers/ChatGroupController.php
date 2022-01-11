@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Group\UseCases\FindAction;
 use App\Domain\Group\UseCases\StoreAction;
 use App\Domain\Group\UseCases\UpdateAction;
-use App\Models\ChatGroup;
+use App\Domain\Group\UseCases\DeleteAction;
 use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
@@ -67,10 +67,9 @@ class ChatGroupController extends Controller
      * @param Request $request
      * @return void
      */
-    public function deleteChatGroup(Request $request)
+    public function deleteChatGroup(Request $request, DeleteAction $action)
     {
         $id = $request->groupId;
-
-        ChatGroup::where('id', $id)->delete();
+        $action->deleteGroupById($id);
     }
 }
