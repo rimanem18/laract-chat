@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Group\UseCases\FindAction;
 use App\Domain\Group\UseCases\StoreAction;
+use App\Domain\Group\UseCases\UpdateAction;
 use App\Models\ChatGroup;
 use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
@@ -48,17 +49,16 @@ class ChatGroupController extends Controller
     }
 
     /**
-     * グループ名を書き換える
+     * グループ情報を書き換える
      *
      * @param Request $request
      * @return void
      */
-    public function updateChatGroup(Request $request)
+    public function updateChatGroup(Request $request, UpdateAction $action): void
     {
         $id = $request->groupId;
         $name = $request->groupName;
-
-        ChatGroup::where('id', $id)->update(['name'=>$name]);
+        $action->updateGroupById($id, $name);
     }
 
     /**
