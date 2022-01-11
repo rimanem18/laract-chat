@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Group\UseCases\FindAction;
+use App\Domain\Group\UseCases\StoreAction;
 use App\Models\ChatGroup;
 use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
@@ -37,15 +38,13 @@ class ChatGroupController extends Controller
      * @param Request $request
      * @return jsonResponse
      */
-    public function insertChatGroup(Request $request)
+    public function insertChatGroup(Request $request, StoreAction $action): JsonResponse
     {
         $name = $request->groupName;
-
-        ChatGroup::create([
-            'name'=> $name
-        ]);
-
-        return response()->json(['message'=> 'グループを追加しました。'], Response::HTTP_OK);
+        $action->createGroupByName($name);
+        return response()->json([
+          'message'=> 'グループ「'.$name.'」を追加しました。'
+        ], Response::HTTP_OK);
     }
 
     /**
