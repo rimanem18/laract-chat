@@ -6,9 +6,11 @@ use App\Domain\Group\UseCases\FindAction;
 use App\Domain\Group\UseCases\StoreAction;
 use App\Domain\Group\UseCases\UpdateAction;
 use App\Domain\Group\UseCases\DeleteAction;
+use App\Http\Resources\GroupResource;
 use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
+use stdClass;
 
 class ChatGroupController extends Controller
 {
@@ -18,19 +20,16 @@ class ChatGroupController extends Controller
      * @param Request $request->roleIds array
      * @return JsonResponse
      */
-    public function getGroupsByRoleIds(Request $request, FindAction $action): JsonResponse
+    public function getGroupsByRoleIds(Request $request, FindAction $action): GroupResource
     {
         $role_ids = $request->roleIds;
 
-        $public_groups = $action->findPublicGroups();
-        $private_groups = $action->findPrivateGroupsByRoleIds($role_ids);
-        $role_group = $action->findRoleGroup();
+        $resource = new stdClass();
+        $resource->public_groups = $action->findPublicGroups();
+        $resource->private_groups = $action->findPrivateGroupsByRoleIds($role_ids);
+        $resource->role_group = $action->findRoleGroup();
 
-        return Response()->json([
-          'public_groups'=>$public_groups,
-          'private_groups'=>$private_groups,
-          'role_group'=>$role_group,
-        ], Response::HTTP_OK);
+        return new GroupResource($resource);
     }
 
     /**

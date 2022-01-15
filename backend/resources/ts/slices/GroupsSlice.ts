@@ -161,6 +161,7 @@ const fetch = (
   const private_groups = action.payload.groups.private_groups
   const public_groups = action.payload.groups.public_groups
   const roleGroup = action.payload.groups.role_group
+  state.oldestId = public_groups[0].id
   state.promise = 'idle'
 
   const groups = public_groups.concat(private_groups)
@@ -179,7 +180,6 @@ const fetch = (
     }
     state.groups.byId[`group${group.id}`] = byId
   })
-  state.oldestId = Number(state.groups.allIds[0].replace('group', ''))
 }
 
 type PostData = {
@@ -192,14 +192,15 @@ const getResponse = async (
   postData?: PostData
 ) => {
   let res
+  const byRoleIdsUrl = '/api/chat_groups/by_role_ids'
   if (postUrl !== undefined) {
     res = await axios.post(postUrl, postData).then((res) => {
-      return axios.post('/api/chat_groups/by_role_ids', {
+      return axios.post(byRoleIdsUrl, {
         roleIds: roleIds,
       })
     })
   } else {
-    res = await axios.post('/api/chat_groups/by_role_ids', {
+    res = await axios.post(byRoleIdsUrl, {
       roleIds: roleIds,
     })
   }
@@ -208,12 +209,11 @@ const getResponse = async (
     groups: GroupsPayload
   } = {
     groups: {
-      public_groups: res.data.public_groups,
-      private_groups: res.data.private_groups,
-      role_group: res.data.role_group,
+      public_groups: res.data.data.public_groups,
+      private_groups: res.data.data.private_groups,
+      role_group: res.data.data.role_group,
     },
   }
-
   return response
 }
 
