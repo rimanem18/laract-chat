@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Message\UseCases\FindAction;
+use App\Domain\Message\UseCases\StoreAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
@@ -79,20 +80,12 @@ class ChatMessageController extends Controller
      * リクエストパラメーターをもとにメッセージを挿入する
      *
      * @param Request $request
-     * @return jsonResponse
      */
-    public function insertChatMessage(Request $request)
+    public function insertChatMessage(Request $request, StoreAction $action)
     {
         $user_id = $request->userId;
         $group_id = $request->groupId;
         $content = $request->content;
-
-        ChatMessage::create([
-          'user_id'=> $user_id,
-          'group_id'=> $group_id,
-          'content'=>$content
-        ]);
-
-        return response()->json(['promise'=> ''], Response::HTTP_OK);
+        $action->createMessage($user_id, $group_id, $content);
     }
 }
