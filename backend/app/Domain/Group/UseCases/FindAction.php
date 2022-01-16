@@ -5,7 +5,7 @@ namespace App\Domain\Group\UseCases;
 use App\Domain\Group\GroupEntity;
 use App\Models\ChatGroup as Group;
 use App\Models\RoleGroup;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Group に関する取得を担うクラス
