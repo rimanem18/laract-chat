@@ -36,9 +36,9 @@ export const fetchMessages = createAsyncThunk(
       roles: RolesPayload[]
       roleUser: RoleUserPayload[]
     } = {
-      messages: res.data.chat_messages,
-      roles: res.data.roles,
-      roleUser: res.data.role_user,
+      messages: res.data.data.messages,
+      roles: res.data.data.roles,
+      roleUser: res.data.data.role_user,
     }
 
     return response

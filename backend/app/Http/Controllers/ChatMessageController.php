@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Domain\Message\UseCases\FindAction;
 use App\Domain\Message\UseCases\StoreAction;
+use App\Http\Resources\MessageResource;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use stdClass;
 
 class ChatMessageController extends Controller
 {
@@ -15,21 +17,18 @@ class ChatMessageController extends Controller
      * 渡されたグループ ID が紐ついているメッセージのみ取得
      *
      * @param Request $request->groupIds
-     * @return JsonResponse
+     * @return MessageResource
      */
-    public function getMessagesByGroupIds(Request $request, FindAction $action): JsonResponse
+    public function getMessagesByGroupIds(Request $request, FindAction $action): MessageResource
     {
         $group_ids = $request->groupIds;
 
-        $messages = $action->findMessageByGroupIds($group_ids);
-        $roles = $action->roleAll();
-        $role_user = $action->roleUserAll();
+        $resource = new stdClass();
+        $resource->messages = $action->findMessageByGroupIds($group_ids);
+        $resource->roles = $action->roleAll();
+        $resource->role_user = $action->roleUserAll();
 
-        return Response()->json([
-          'chat_messages'=>$messages,
-          'roles'=>$roles,
-          'role_user'=>$role_user
-        ], Response::HTTP_OK);
+        return new MessageResource($resource);
     }
 
     /**
