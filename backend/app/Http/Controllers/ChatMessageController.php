@@ -6,8 +6,6 @@ use App\Domain\Message\UseCases\FindAction;
 use App\Domain\Message\UseCases\StoreAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
-use App\Models\ChatMessage;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class ChatMessageController extends Controller
