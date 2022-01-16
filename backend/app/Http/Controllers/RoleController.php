@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Role\UseCases\FindAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Role;
 
 class RoleController extends Controller
 {
-    public function selectRoles(Request $request)
+    public function selectRoles(Request $request, FindAction $action)
     {
-        $roles = Role::all();
+        $roles = $action->roleAll();
         return response()->json(['roles'=>$roles], Response::HTTP_OK);
     }
 
@@ -21,24 +21,12 @@ class RoleController extends Controller
      * @param Request $request
      * @return jsonResponse
      */
-    public function selectRolesById(Request $request)
+    public function selectRolesById(Request $request, FindAction $action)
     {
         $user_id = $request->userId;
-        $user = User::find($user_id);
-        $res = array();
 
-        foreach ($user->roles as $role) {
-            array_push(
-                $res,
-                [
-                    'id'=>$role->id,
-                    'name'=>$role->name,
-                    'color'=>$role->color
-                ]
-            );
-        }
-
-        return response()->json($res, Response::HTTP_OK);
+        $roles = $action->findRoleByUserId($user_id);
+        return response()->json($roles, Response::HTTP_OK);
     }
 
     /**
