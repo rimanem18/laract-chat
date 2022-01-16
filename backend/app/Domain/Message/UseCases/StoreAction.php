@@ -5,7 +5,7 @@ namespace App\Domain\Message\UseCases;
 use App\Models\ChatMessage as Message;
 
 /**
- * Group に関する新規作成を担うクラス
+ * Message に関する新規作成を担うクラス
  */
 class StoreAction
 {
