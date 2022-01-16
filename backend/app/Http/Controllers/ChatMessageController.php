@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Message\UseCases\FindAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
-use App\Models\Role;
 use App\Models\User;
-use App\Models\RoleUser;
 use Illuminate\Http\JsonResponse;
 
 class ChatMessageController extends Controller
@@ -19,36 +18,16 @@ class ChatMessageController extends Controller
      * @param Request $request->groupIds
      * @return JsonResponse
      */
-    public function getMessagesByGroupIds(Request $request): JsonResponse
+    public function getMessagesByGroupIds(Request $request, FindAction $action): JsonResponse
     {
         $group_ids = $request->groupIds;
 
-        $chat_messages =
-        ChatMessage::from('chat_messages AS messages')
-        ->join('users', 'messages.user_id', '=', 'users.id')
-        ->whereIn('messages.group_id', $group_ids)
-        ->select(
-            'messages.id',
-            'messages.user_id',
-            'messages.group_id',
-            'messages.content',
-            'messages.created_at',
-            'users.id AS user_id',
-            'users.name'
-        )
-        ->orderBy('id')
-        ->get();
-
-        $roles = Role::all();
-
-        $role_user = RoleUser::select(
-            'role_user.user_id',
-            "role_user.role_id"
-        )
-      ->get();
+        $messages = $action->findMessageByGroupIds($group_ids);
+        $roles = $action->roleAll();
+        $role_user = $action->roleUserAll();
 
         return Response()->json([
-          'chat_messages'=>$chat_messages,
+          'chat_messages'=>$messages,
           'roles'=>$roles,
           'role_user'=>$role_user
         ], Response::HTTP_OK);
