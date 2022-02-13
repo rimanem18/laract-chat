@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Role\UseCases\FindAction;
 use App\Domain\Role\UseCases\StoreAction;
+use App\Domain\Role\UseCases\UpdateAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -50,17 +51,14 @@ class RoleController extends Controller
      * リクエストパラメーターをもとにロールを更新する
      *
      * @param Request $request
+     * @param UpdateAction $action
      * @return void
      */
-    public function updateRoleName(Request $request)
+    public function updateRoleName(Request $request, UpdateAction $action)
     {
         $id = $request->roleId;
         $name = $request->roleName;
         $color = $request->roleColor;
-
-        Role::where('id', $id)->update([
-          'name'=>$name,
-          'color'=>$color
-        ]);
+        $action->updateRoleById($id, $name, $color);
     }
 }
