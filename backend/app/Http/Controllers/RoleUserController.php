@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\RoleUser\UseCases\FindAction;
 use App\Models\RoleUser;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
 class RoleUserController extends Controller
 {
-    public function selectRoleUser(Request $request)
+    public function selectRoleUser(Request $request, FindAction $action)
     {
-        $role_user = RoleUser::select(
-            'role_user.user_id',
-            "role_user.role_id"
-        )
-        ->get();
-
+        $role_user = $action->roleUserAll();
         return Response()->json(['role_user'=>$role_user], Response::HTTP_OK);
     }
 
