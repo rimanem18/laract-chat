@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Role\UseCases\FindAction;
+use App\Domain\Role\UseCases\StoreAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use App\Models\Role;
@@ -34,23 +35,19 @@ class RoleController extends Controller
      * リクエストパラメーターをもとに新しいロールを追加する
      *
      * @param Request $request
+     * @param StoreAction $action
      * @return jsonResponse
      */
-    public function insertRole(Request $request)
+    public function insertRole(Request $request, StoreAction $action)
     {
         $name = $request->roleName;
         $color = $request->roleColor;
-
-        Role::create([
-            'name'=> $name,
-            'color'=>$color,
-        ]);
-
+        $action->createRole($name, $color);
         return response()->json(['message'=> 'ロール「'. $name .'」を追加しました。'], Response::HTTP_OK);
     }
 
     /**
-     * リクエストパラメーターをもとにロール名を更新する
+     * リクエストパラメーターをもとにロールを更新する
      *
      * @param Request $request
      * @return void
