@@ -65,4 +65,3 @@ Route::middleware('auth:sanctum')->post('/roles/by_id', [RoleController::class, 
 
 // ロールの関連を取得
 Route::get('/role_user', [RoleUserController::class, 'selectRoleUser']);
-Route::get('/role_group', [RoleGroupController::class, 'selectRoleGroup']);
