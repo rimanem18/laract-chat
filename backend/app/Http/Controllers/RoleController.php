@@ -19,6 +19,7 @@ class RoleController extends Controller
      * user idをもとに特定のユーザのロール一覧を取得する
      *
      * @param Request $request
+     * @param FindAction $action
      * @return jsonResponse
      */
     public function selectRolesById(Request $request, FindAction $action)
