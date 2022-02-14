@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\RoleUser\UseCases\FindAction;
+use App\Domain\RoleUser\UseCases\StoreAction;
 use App\Models\RoleUser;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
@@ -19,17 +20,14 @@ class RoleUserController extends Controller
      * リクエストパラメーターをもとにユーザーにロールを追加する
      *
      * @param Request $request
+     * @param StoreAction $action
      * @return jsonResponse
      */
-    public function insertRoleUser(Request $request)
+    public function insertRoleUser(Request $request, StoreAction $action)
     {
         $user_id = $request->userId;
         $role_id = $request->roleId;
-
-        RoleUser::create([
-            'user_id'=> $user_id,
-            'role_id'=>$role_id
-        ]);
+        $action->createRoleUser($user_id, $role_id);
 
         return response()->json(['message'=> 'グループにロールを追加しました。'], Response::HTTP_OK);
     }
