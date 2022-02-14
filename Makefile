@@ -131,3 +131,5 @@ ide-helper:
 	docker compose exec -u docker php artisan ide-helper:generate
 	docker compose exec -u docker php artisan ide-helper:meta
 	docker compose exec -u docker php artisan ide-helper:models --nowrite
+amend:
+	git commit --amend
