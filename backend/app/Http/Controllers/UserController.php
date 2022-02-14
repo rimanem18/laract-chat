@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * IDからユーザー情報を取得
      *
-     * @param Request $request->groupIds
+     * @param Request $request->userId
      * @return JsonResponse
      */
     public function getUserById(Request $request): JsonResponse

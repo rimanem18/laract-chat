@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class RoleUserController extends Controller
 {
+    /**
+     * すべてのユーザーとロールの関連付けを取得する
+     *
+     * @param Request $request
+     * @param FindAction $action
+     * @return void
+     */
     public function selectRoleUser(Request $request, FindAction $action)
     {
         $role_user = $action->roleUserAll();

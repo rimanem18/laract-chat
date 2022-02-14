@@ -7,10 +7,16 @@ use App\Domain\Role\UseCases\StoreAction;
 use App\Domain\Role\UseCases\UpdateAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
-use App\Models\Role;
 
 class RoleController extends Controller
 {
+    /**
+     * すべてのロール情報を取得する
+     *
+     * @param Request $request
+     * @param FindAction $action
+     * @return void
+     */
     public function selectRoles(Request $request, FindAction $action)
     {
         $roles = $action->roleAll();

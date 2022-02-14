@@ -18,6 +18,7 @@ class ChatGroupController extends Controller
      * 渡されたロール ID が紐ついているグループのみ取得
      *
      * @param Request $request->roleIds array
+     * @param FindAction $action
      * @return JsonResponse
      */
     public function getGroupsByRoleIds(Request $request, FindAction $action): GroupResource
@@ -36,6 +37,7 @@ class ChatGroupController extends Controller
      * リクエストパラメーターをもとにグループを追加する
      *
      * @param Request $request
+     * @param StoreAction $action
      * @return jsonResponse
      */
     public function insertChatGroup(Request $request, StoreAction $action): JsonResponse
@@ -51,6 +53,7 @@ class ChatGroupController extends Controller
      * グループ情報を書き換える
      *
      * @param Request $request
+     * @param UpdateAction $action
      * @return void
      */
     public function updateChatGroup(Request $request, UpdateAction $action): void
@@ -64,6 +67,7 @@ class ChatGroupController extends Controller
      * グループを削除
      *
      * @param Request $request
+     * @param DeleteAction $action
      * @return void
      */
     public function deleteChatGroup(Request $request, DeleteAction $action)
