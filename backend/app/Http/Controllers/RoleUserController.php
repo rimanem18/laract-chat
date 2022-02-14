@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\RoleUser\UseCases\DeleteAction;
 use App\Domain\RoleUser\UseCases\FindAction;
 use App\Domain\RoleUser\UseCases\StoreAction;
-use App\Models\RoleUser;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
@@ -36,17 +36,13 @@ class RoleUserController extends Controller
      * ロールの関連付けを削除
      *
      * @param Request $request
+     * @param DeleteAction $action
      * @return void
      */
-    public function deleteRoleUser(Request $request)
+    public function deleteRoleUser(Request $request, DeleteAction $action)
     {
         $user_id = $request->userId;
         $role_id = $request->roleId;
-
-        RoleUser::where([
-            ['user_id','=',$user_id],
-            ['role_id','=',$role_id],
-        ])
-        ->delete();
+        $action->deleteRoleUserById($user_id, $role_id);
     }
 }
