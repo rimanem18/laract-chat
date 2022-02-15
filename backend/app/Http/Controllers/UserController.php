@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\User\UseCases\FindAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Models\User;
-use App\Models\RoleUser;
 use \Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -13,30 +12,15 @@ class UserController extends Controller
     /**
      * IDからユーザー情報を取得
      *
-     * @param Request $request->groupIds
+     * @param Request $request->userId
+     * @param FindAction $action
      * @return JsonResponse
      */
-    public function getUserById(Request $request): JsonResponse
+    public function getUserById(Request $request, FindAction $action): JsonResponse
     {
         $user_id = $request->userId;
-
-        $user =
-       User::where('users.id', $user_id)
-      ->select(
-          'id',
-          'name',
-          'email',
-      )
-      ->get();
-
-        $role_user =
-      RoleUser::join('users', 'role_user.user_id', '=', 'users.id')
-      ->where('users.id', $user_id)
-      ->select(
-          'user_id',
-          "role_id"
-      )
-      ->get();
+        $user = $action->findUserById($user_id);
+        $role_user = $action->findRoleUserById($user_id);
 
         return Response()->json([
         'user'=>$user[0],

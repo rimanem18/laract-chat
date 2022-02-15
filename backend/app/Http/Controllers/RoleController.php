@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Role\UseCases\FindAction;
+use App\Domain\Role\UseCases\StoreAction;
+use App\Domain\Role\UseCases\UpdateAction;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Role;
 
 class RoleController extends Controller
 {
-    public function selectRoles(Request $request)
+    /**
+     * すべてのロール情報を取得する
+     *
+     * @param Request $request
+     * @param FindAction $action
+     * @return void
+     */
+    public function selectRoles(Request $request, FindAction $action)
     {
-        $roles = Role::all();
+        $roles = $action->roleAll();
         return response()->json(['roles'=>$roles], Response::HTTP_OK);
     }
 
@@ -19,62 +27,44 @@ class RoleController extends Controller
      * user idをもとに特定のユーザのロール一覧を取得する
      *
      * @param Request $request
+     * @param FindAction $action
      * @return jsonResponse
      */
-    public function selectRolesById(Request $request)
+    public function selectRolesById(Request $request, FindAction $action)
     {
         $user_id = $request->userId;
-        $user = User::find($user_id);
-        $res = array();
 
-        foreach ($user->roles as $role) {
-            array_push(
-                $res,
-                [
-                    'id'=>$role->id,
-                    'name'=>$role->name,
-                    'color'=>$role->color
-                ]
-            );
-        }
-
-        return response()->json($res, Response::HTTP_OK);
+        $roles = $action->findRoleByUserId($user_id);
+        return response()->json($roles, Response::HTTP_OK);
     }
 
     /**
      * リクエストパラメーターをもとに新しいロールを追加する
      *
      * @param Request $request
+     * @param StoreAction $action
      * @return jsonResponse
      */
-    public function insertRole(Request $request)
+    public function insertRole(Request $request, StoreAction $action)
     {
         $name = $request->roleName;
         $color = $request->roleColor;
-
-        Role::create([
-            'name'=> $name,
-            'color'=>$color,
-        ]);
-
+        $action->createRole($name, $color);
         return response()->json(['message'=> 'ロール「'. $name .'」を追加しました。'], Response::HTTP_OK);
     }
 
     /**
-     * リクエストパラメーターをもとにロール名を更新する
+     * リクエストパラメーターをもとにロールを更新する
      *
      * @param Request $request
+     * @param UpdateAction $action
      * @return void
      */
-    public function updateRoleName(Request $request)
+    public function updateRoleName(Request $request, UpdateAction $action)
     {
         $id = $request->roleId;
         $name = $request->roleName;
         $color = $request->roleColor;
-
-        Role::where('id', $id)->update([
-          'name'=>$name,
-          'color'=>$color
-        ]);
+        $action->updateRoleById($id, $name, $color);
     }
 }

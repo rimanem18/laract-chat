@@ -49,7 +49,6 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::post('/user/by_user_id', [UserController::class, 'getUserById']);
 
 // メッセージ取得、投稿
-Route::get('/chat_messages', [ChatMessageController::class, 'selectChatMessages']);
 Route::middleware('auth:sanctum')->post('/chat_messages/by_group_ids', [ChatMessageController::class, 'getMessagesByGroupIds']);
 Route::middleware('auth:sanctum')->post('/chat_messages/post', [ChatMessageController::class, 'insertChatMessage']);
 
@@ -66,4 +65,3 @@ Route::middleware('auth:sanctum')->post('/roles/by_id', [RoleController::class, 
 
 // ロールの関連を取得
 Route::get('/role_user', [RoleUserController::class, 'selectRoleUser']);
-Route::get('/role_group', [RoleGroupController::class, 'selectRoleGroup']);

@@ -66,6 +66,8 @@ web:
 	docker compose exec web ash
 app:
 	docker compose exec -u docker app bash
+app-root:
+	docker compose exec app bash
 migrate:
 	docker compose exec -u docker php artisan migrate
 fresh:
@@ -129,3 +131,5 @@ ide-helper:
 	docker compose exec -u docker php artisan ide-helper:generate
 	docker compose exec -u docker php artisan ide-helper:meta
 	docker compose exec -u docker php artisan ide-helper:models --nowrite
+amend:
+	git commit --amend

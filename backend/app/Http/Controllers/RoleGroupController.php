@@ -8,17 +8,6 @@ use Illuminate\Http\Request;
 
 class RoleGroupController extends Controller
 {
-    public function selectRoleGroup(Request $request)
-    {
-        $role_group = RoleGroup::select(
-            'role_group.group_id',
-            "role_group.role_id"
-        )
-        ->get();
-
-        return Response()->json(['role_group'=>$role_group], Response::HTTP_OK);
-    }
-
     /**
      * リクエストパラメーターをもとにグループにロールを追加する
      *

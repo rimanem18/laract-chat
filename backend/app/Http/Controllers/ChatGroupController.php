@@ -2,113 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ChatGroup;
-use App\Models\RoleGroup;
+use App\Domain\Group\UseCases\FindAction;
+use App\Domain\Group\UseCases\StoreAction;
+use App\Domain\Group\UseCases\UpdateAction;
+use App\Domain\Group\UseCases\DeleteAction;
+use App\Http\Resources\GroupResource;
+use Illuminate\Http\JsonResponse;
 use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
+use stdClass;
 
 class ChatGroupController extends Controller
 {
-    public function selectChatGroups(Request $request)
-    {
-        $chat_groups = ChatGroup::select(
-            'chat_groups.id',
-            "chat_groups.name"
-        )
-        ->get();
-
-        return Response()->json(['chat_groups'=>$chat_groups], Response::HTTP_OK);
-    }
-
     /**
      * 渡されたロール ID が紐ついているグループのみ取得
      *
      * @param Request $request->roleIds array
-     * @return void
+     * @param FindAction $action
+     * @return JsonResponse
      */
-    public function getGroupsByRoleIds(Request $request)
+    public function getGroupsByRoleIds(Request $request, FindAction $action): GroupResource
     {
         $role_ids = $request->roleIds;
-        // $role_ids = [3];
 
-        // ロール中間テーブルに紐ついていないものを取得
-        $public_groups = ChatGroup::from('chat_groups AS groups')
-        ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
-        ->where('role_group.role_id', '=', null)
-        ->select(
-            'groups.id',
-            'groups.name',
-        )
-        ->distinct('groups.id')
-        ->get();
+        $resource = new stdClass();
+        $resource->public_groups = $action->findPublicGroups();
+        $resource->private_groups = $action->findPrivateGroupsByRoleIds($role_ids);
+        $resource->role_group = $action->findRoleGroup();
 
-        // ロール中間テーブルに紐ついているものを
-        // パラメータをもとに取得
-        $private_groups = ChatGroup::from('chat_groups AS groups')
-        ->leftJoin('role_group', 'groups.id', '=', 'role_group.group_id')
-        ->whereIn('role_group.role_id', $role_ids)
-        ->select(
-            'groups.id',
-            'groups.name',
-        )
-        ->distinct('groups.id')
-        ->get();
-
-        // ロールとグループの関連付けを取得する
-        $role_group = RoleGroup::select(
-            'role_group.group_id',
-            "role_group.role_id"
-        )
-        ->get();
-
-        return Response()->json([
-          'public_groups'=>$public_groups,
-          'private_groups'=>$private_groups,
-          'role_group'=>$role_group,
-        ], Response::HTTP_OK);
+        return new GroupResource($resource);
     }
 
     /**
      * リクエストパラメーターをもとにグループを追加する
      *
      * @param Request $request
+     * @param StoreAction $action
      * @return jsonResponse
      */
-    public function insertChatGroup(Request $request)
+    public function insertChatGroup(Request $request, StoreAction $action): JsonResponse
     {
         $name = $request->groupName;
-
-        ChatGroup::create([
-            'name'=> $name
-        ]);
-
-        return response()->json(['message'=> 'グループを追加しました。'], Response::HTTP_OK);
+        $action->createGroupByName($name);
+        return response()->json([
+          'message'=> 'グループ「'.$name.'」を追加しました。'
+        ], Response::HTTP_OK);
     }
 
     /**
-     * グループ名を書き換える
+     * グループ情報を書き換える
      *
      * @param Request $request
+     * @param UpdateAction $action
      * @return void
      */
-    public function updateChatGroup(Request $request)
+    public function updateChatGroup(Request $request, UpdateAction $action): void
     {
         $id = $request->groupId;
         $name = $request->groupName;
-
-        ChatGroup::where('id', $id)->update(['name'=>$name]);
+        $action->updateGroupById($id, $name);
     }
 
     /**
      * グループを削除
      *
      * @param Request $request
+     * @param DeleteAction $action
      * @return void
      */
-    public function deleteChatGroup(Request $request)
+    public function deleteChatGroup(Request $request, DeleteAction $action)
     {
         $id = $request->groupId;
-
-        ChatGroup::where('id', $id)->delete();
+        $action->deleteGroupById($id);
     }
 }
