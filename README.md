@@ -2,6 +2,7 @@
 
 Laract Chat は Laravel と React で開発された Web チャットアプリです。  
 一応ポートフォリオ作品ということになってます。
+![image](https://github.com/user-attachments/assets/1ec25b77-3f37-4164-ba81-e1d9d1435b55)
 
 ## 開発するにあたって目的・目標としたこと
 
