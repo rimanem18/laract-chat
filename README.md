@@ -97,6 +97,8 @@ LiteSpeed は公式でいい感じのベースイメージが配布されてい�
 make up
 ```
 
+初回のみ make init が必要です。
+
 ```
 make init
 ```
@@ -113,3 +115,9 @@ http://localhost にアクセスすることで確認可能。
 - Mike
   - mike@example.com
   - mikePass
+
+以下でコンテナの終了ができます。
+
+```
+make down
+```
