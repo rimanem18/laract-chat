@@ -3,32 +3,32 @@ up:
 build:
 	docker compose build --no-cache --force-rm
 laravel-install:
-	docker compose exec -u docker composer create-project --prefer-dist laravel/laravel .
+	docker compose exec -u docker app composer create-project --prefer-dist laravel/laravel .
 create-project:
 	mkdir -p backend
 	@make build
 	@make up
 	@make laravel-install
-	docker compose exec -u docker php artisan key:generate
-	docker compose exec -u docker php artisan storage:link
-	docker compose exec -u docker chmod -R 777 storage bootstrap/cache
+	docker compose exec -u docker app php artisan key:generate
+	docker compose exec -u docker app php artisan storage:link
+	docker compose exec -u docker app chmod -R 777 storage bootstrap/cache
 	@make fresh
 install-recommend-packages:
-	docker compose exec -u docker composer require doctrine/dbal
-	docker compose exec -u docker composer require --dev ucan-lab/laravel-dacapo
-	docker compose exec -u docker composer require --dev barryvdh/laravel-ide-helper
-	docker compose exec -u docker composer require --dev beyondcode/laravel-dump-server
-	docker compose exec -u docker composer require --dev barryvdh/laravel-debugbar
-	docker compose exec -u docker composer require --dev roave/security-advisories:dev-master
-	docker compose exec -u docker php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
-	docker compose exec -u docker php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+	docker compose exec -u docker app composer require doctrine/dbal
+	docker compose exec -u docker app composer require --dev ucan-lab/laravel-dacapo
+	docker compose exec -u docker app composer require --dev barryvdh/laravel-ide-helper
+	docker compose exec -u docker app composer require --dev beyondcode/laravel-dump-server
+	docker compose exec -u docker app composer require --dev barryvdh/laravel-debugbar
+	docker compose exec -u docker app composer require --dev roave/security-advisories:dev-master
+	docker compose exec -u docker app php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
+	docker compose exec -u docker app php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 init:
 	docker compose up -d --build
-	docker compose exec -u docker composer install
-	docker compose exec -u docker cp .env.example .env
-	docker compose exec -u docker php artisan key:generate
-	docker compose exec -u docker php artisan storage:link
-	docker compose exec -u docker chmod -R 777 storage bootstrap/cache
+	docker compose exec -u docker app composer install
+	docker compose exec -u docker app cp .env.example .env
+	docker compose exec -u docker app php artisan key:generate
+	docker compose exec -u docker app php artisan storage:link
+	docker compose exec -u docker app chmod -R 777 storage bootstrap/cache
 	@make fresh
 remake:
 	@make destroy
@@ -69,33 +69,33 @@ app:
 app-root:
 	docker compose exec app bash
 migrate:
-	docker compose exec -u docker php artisan migrate
+	docker compose exec -u docker app php artisan migrate
 fresh:
-	docker compose exec -u docker php artisan migrate:fresh --seed
+	docker compose exec -u docker app php artisan migrate:fresh --seed
 seed:
-	docker compose exec -u docker php artisan db:seed
+	docker compose exec -u docker app php artisan db:seed
 dacapo:
-	docker compose exec -u docker php artisan dacapo
+	docker compose exec -u docker app php artisan dacapo
 rollback-test:
-	docker compose exec -u docker php artisan migrate:fresh
-	docker compose exec -u docker php artisan migrate:refresh
+	docker compose exec -u docker app php artisan migrate:fresh
+	docker compose exec -u docker app php artisan migrate:refresh
 tinker:
-	docker compose exec -u docker php artisan tinker
+	docker compose exec -u docker app php artisan tinker
 test:
-	docker compose exec -u docker php artisan test
+	docker compose exec -u docker app php artisan test
 optimize:
-	docker compose exec -u docker php artisan optimize
+	docker compose exec -u docker app php artisan optimize
 optimize-clear:
-	docker compose exec -u docker php artisan optimize:clear
+	docker compose exec -u docker app php artisan optimize:clear
 cache:
-	docker compose exec -u docker composer dump-autoload -o
+	docker compose exec -u docker app composer dump-autoload -o
 	@make optimize
-	docker compose exec -u docker php artisan event:cache
-	docker compose exec -u docker php artisan view:cache
+	docker compose exec -u docker app php artisan event:cache
+	docker compose exec -u docker app php artisan view:cache
 cache-clear:
-	docker compose exec -u docker composer clear-cache
+	docker compose exec -u docker app composer clear-cache
 	@make optimize-clear
-	docker compose exec -u docker php artisan event:clear
+	docker compose exec -u docker app php artisan event:clear
 npm:
 	@make npm-install
 npm-install:
@@ -127,9 +127,9 @@ sql:
 redis:
 	docker compose exec redis redis-cli
 ide-helper:
-	docker compose exec -u docker php artisan clear-compiled
-	docker compose exec -u docker php artisan ide-helper:generate
-	docker compose exec -u docker php artisan ide-helper:meta
-	docker compose exec -u docker php artisan ide-helper:models --nowrite
+	docker compose exec -u docker app php artisan clear-compiled
+	docker compose exec -u docker app php artisan ide-helper:generate
+	docker compose exec -u docker app php artisan ide-helper:meta
+	docker compose exec -u docker app php artisan ide-helper:models --nowrite
 amend:
 	git commit --amend
